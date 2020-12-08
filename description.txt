@@ -1,0 +1,19 @@
+A scattered dream that's like a far-off memory...
+A far-off memory that's like a scattered dream...
+I want to line the pieces up... yours, and mine.
+
+THIS IS A PRE-RELEASE, DO NOT DISTRIBUTE! 
+
+Keybrands+ Re:coded is, as the name would suggest, a full rewrite of my old Keybrands+ I made a very long time ago.
+
+Currently, this mod adds:
+13 unique keybrands with alternate attack modes and attached abilities, plus a rework of the original Keybrand
+12 crafting materials, used to make and upgrade keybrands, among other things
+1 friendly NPC, the Keybrand Master
+A new currency, Munny, used to purchase various goods from the Keybrand Master
+2 consumables, an Elixir that fully heals and a Panacea that cures all debuffs
+2 accessories, the Crown Charm (currently unobtainable) and the Aero Glider
+
+Planned features:
+Even more keybrands, including the elusive Ultima Weapon!
+Heartless and Nobodies will make their debut eventually!

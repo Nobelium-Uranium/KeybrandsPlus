@@ -1,0 +1,8 @@
+displayName = Keybrands+ Re:coded
+author = Chem
+version = 0.0.1
+
+hideCode = false
+hideResources = false
+
+homepage = https://discord.gg/MrGehVc
