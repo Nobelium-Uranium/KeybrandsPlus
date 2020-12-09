@@ -13,8 +13,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
         }
         public override void SetDefaults()
         {
-            item.width = 46;
-            item.height = 46;
+            item.Size = new Vector2(24);
             item.maxStack = 99;
             item.rare = ItemRarityID.Blue;
         }
@@ -28,8 +27,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
         }
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
+            item.Size = new Vector2(24);
             item.maxStack = 99;
             item.rare = ItemRarityID.LightRed;
         }
@@ -43,8 +41,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
         }
         public override void SetDefaults()
         {
-            item.width = 38;
-            item.height = 38;
+            item.Size = new Vector2(24);
             item.maxStack = 99;
             item.rare = ItemRarityID.Lime;
         }
@@ -58,8 +55,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
         }
         public override void SetDefaults()
         {
-            item.width = 70;
-            item.height = 74;
+            item.Size = new Vector2(30);
             item.maxStack = 99;
             item.rare = ItemRarityID.Cyan;
         }
