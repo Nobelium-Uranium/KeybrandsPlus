@@ -49,6 +49,9 @@ namespace KeybrandsPlus.Globals
         public bool SCCooldown;
         public bool Stop;
 
+        public bool Stimulated;
+        public bool Divinity;
+
         public float FireBoost;
         public float BlizzardBoost;
         public float ThunderBoost;
@@ -130,6 +133,9 @@ namespace KeybrandsPlus.Globals
             SecondChance = false;
             SCCooldown = false;
             Stop = false;
+
+            Stimulated = false;
+            Divinity = false;
 
             FireBoost = 0;
             BlizzardBoost = 0;
@@ -484,6 +490,25 @@ namespace KeybrandsPlus.Globals
                 Main.dust[dust].velocity *= 5f;
                 Main.dust[dust].noGravity = true;
                 player.noItems = true;
+            }
+            if (Stimulated)
+            {
+                KeybrandMelee += .25f;
+                KeybrandRanged += .25f;
+                KeybrandMagic -= .4f;
+                ChainResistFire -= .4f;
+                ChainResistBlizzard -= .4f;
+                ChainResistThunder -= .4f;
+                ChainResistAero -= .4f;
+                ChainResistWater -= .4f;
+                ChainResistDark -= .4f;
+            }
+            if (Divinity)
+            {
+                KeybrandMagic += .25f;
+                KeybrandMelee -= .4f;
+                KeybrandRanged -= .4f;
+                RibbonEndurance -= .4f;
             }
         }
 
