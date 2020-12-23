@@ -12,6 +12,7 @@ namespace KeybrandsPlus.Items.Weapons
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("+15 Light Alignment\n" +
+                "Inflicts up to 150% more damage to injured foes\n" +
                 "Alt Attack: Judgement\n" +
                 "Throws a ethereal keybrand that follows the cursor\n" +
                 "Ability: Damage Control\n" +
@@ -33,6 +34,13 @@ namespace KeybrandsPlus.Items.Weapons
             item.rare = 8;
             item.value = 138000;
             item.melee = true;
+        }
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (target.life > target.lifeMax / 10)
+                damage = damage * (1 + 5 / 3 * (1 - target.life / target.lifeMax));
+            else
+                damage = (int)(damage * 2.5f);
         }
         public override bool CanUseItem(Player player)
         {
@@ -69,7 +77,7 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<Globals.KeyPlayer>().LightAlignment += 15;
+            player.GetModPlayer<KeyPlayer>().LightAlignment += 15;
         }
         public override void AddRecipes()
         {

@@ -10,7 +10,12 @@ namespace KeybrandsPlus.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("+15 Dark Alignment\nAlt Attack: Strike Raid\nThrows a returning ethereal keybrand\nAbility: Defender+\n'A weapon from the dark realm'");
+            Tooltip.SetDefault("+15 Dark Alignment\n" +
+                "Inflicts up to 150% more damage to injured foes\n" +
+                "Alt Attack: Strike Raid\n" +
+                "Throws a returning ethereal keybrand\n" +
+                "Ability: Defender+\n" +
+                "'A weapon from the dark realm'");
         }
         public override void SetDefaults()
         {
@@ -28,6 +33,13 @@ namespace KeybrandsPlus.Items.Weapons
             item.autoReuse = true;
             item.shootSpeed = 50f;
             item.GetGlobalItem<KeyItem>().Dark = true;
+        }
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (target.life > target.lifeMax / 10)
+                damage = damage * (1 + 5 / 3 * (1 - target.life / target.lifeMax));
+            else
+                damage = (int)(damage * 2.5f);
         }
         public override bool CanUseItem(Player player)
         {

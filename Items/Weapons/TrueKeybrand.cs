@@ -12,6 +12,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             DisplayName.SetDefault("Kingdom Key");
             Tooltip.SetDefault("+30 Light Alignment\n" +
+                "Inflicts up to 150% more damage to injured foes\n" +
                 "Alt Attack: Judgement Triad\n" +
                 "Throws 3 ethereal keybrands that follow the cursor\n" +
                 "Abilities: Damage Control, Leaf Bracer\n" +
@@ -34,6 +35,13 @@ namespace KeybrandsPlus.Items.Weapons
             item.autoReuse = true;
             item.useTurn = true;
             item.shootSpeed = 25f;
+        }
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (target.life > target.lifeMax / 10)
+                damage = damage * (1 + 5 / 3 * (1 - target.life / target.lifeMax));
+            else
+                damage = (int)(damage * 2.5f);
         }
         public override bool CanUseItem(Player player)
         {
@@ -85,7 +93,7 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<Globals.KeyPlayer>().LightAlignment += 30;
+            player.GetModPlayer<KeyPlayer>().LightAlignment += 30;
         }
         public override void AddRecipes()
         {
