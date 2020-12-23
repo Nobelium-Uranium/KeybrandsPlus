@@ -12,7 +12,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             DisplayName.SetDefault("Kingdom Key");
             Tooltip.SetDefault("+30 Light Alignment\n" +
-                "Direct melee hits inflict up to 150% more damage to injured foes\n" +
+                "Direct melee hits inflict up to 200% more damage to injured foes\n" +
                 "Alt Attack: Judgement Triad\n" +
                 "Throws 3 ethereal keybrands that follow the cursor\n" +
                 "Abilities: Damage Control, Leaf Bracer\n" +
@@ -39,9 +39,9 @@ namespace KeybrandsPlus.Items.Weapons
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
             if (target.life > target.lifeMax / 10)
-                damage = damage * (1 + 5 / 3 * (1 - target.life / target.lifeMax));
+                damage = damage * (1 + 20 / 9 * (1 - target.life / target.lifeMax));
             else
-                damage = (int)(damage * 2.5f);
+                damage = damage * 3;
         }
         public override bool CanUseItem(Player player)
         {
