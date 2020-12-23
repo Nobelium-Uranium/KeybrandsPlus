@@ -23,6 +23,7 @@ namespace KeybrandsPlus.Globals
         #region Abilities
         public bool Defender;
         public bool DefenderPlus;
+        public int DefenderThreshold;
         public bool DamageControl;
         public bool DamageControlPlus;
         public bool LeafBracer;
@@ -108,6 +109,7 @@ namespace KeybrandsPlus.Globals
             #region Abilities
             Defender = false;
             DefenderPlus = false;
+            DefenderThreshold = 0;
             DamageControl = false;
             DamageControlPlus = false;
             LeafBracer = false;
@@ -421,7 +423,10 @@ namespace KeybrandsPlus.Globals
             }
             if (DefenderPlus && player.statLife <= player.statLifeMax2 / 2)
             {
-                player.statDefense += player.statDefense / 10;
+                DefenderThreshold = player.statDefense / 10;
+                if (DefenderThreshold < 4)
+                    DefenderThreshold = 4;
+                player.statDefense += DefenderThreshold;
             }
             else if (Defender && player.statLife <= player.statLifeMax2 / 5)
                 player.statDefense += 4;
