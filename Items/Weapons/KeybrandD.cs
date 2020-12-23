@@ -11,7 +11,7 @@ namespace KeybrandsPlus.Items.Weapons
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("+15 Dark Alignment\n" +
-                "Inflicts up to 150% more damage to injured foes\n" +
+                "Direct melee hits inflict up to 150% more damage to injured foes\n" +
                 "Alt Attack: Strike Raid\n" +
                 "Throws a returning ethereal keybrand\n" +
                 "Ability: Defender+\n" +

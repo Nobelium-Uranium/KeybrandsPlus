@@ -12,7 +12,7 @@ namespace KeybrandsPlus.Items.Weapons
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("+15 Light Alignment\n" +
-                "Inflicts up to 150% more damage to injured foes\n" +
+                "Direct melee hits inflict up to 150% more damage to injured foes\n" +
                 "Alt Attack: Judgement\n" +
                 "Throws a ethereal keybrand that follows the cursor\n" +
                 "Ability: Damage Control\n" +

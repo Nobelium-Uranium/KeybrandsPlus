@@ -13,7 +13,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             DisplayName.SetDefault("Kingdom Key D");
             Tooltip.SetDefault("+30 Dark Alignment\n" +
-                "Inflicts up to 150% more damage to injured foes\n" +
+                "Direct melee hits inflict up to 150% more damage to injured foes\n" +
                 "Alt Attack: Elemental Raid\n" +
                 "Throws a returning ethereal keybrand imbued with the elements\n" +
                 "Abilities: Defender+, Leaf Bracer\n" +

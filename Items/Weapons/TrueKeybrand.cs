@@ -12,7 +12,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             DisplayName.SetDefault("Kingdom Key");
             Tooltip.SetDefault("+30 Light Alignment\n" +
-                "Inflicts up to 150% more damage to injured foes\n" +
+                "Direct melee hits inflict up to 150% more damage to injured foes\n" +
                 "Alt Attack: Judgement Triad\n" +
                 "Throws 3 ethereal keybrands that follow the cursor\n" +
                 "Abilities: Damage Control, Leaf Bracer\n" +
