@@ -2,18 +2,22 @@ A scattered dream that's like a far-off memory...
 A far-off memory that's like a scattered dream...
 I want to line the pieces up... yours, and mine.
 
-THIS IS A PRE-RELEASE, DO NOT DISTRIBUTE! 
-
-Keybrands+ Re:coded is, as the name would suggest, a full rewrite of my old Keybrands+ I made a very long time ago.
+Keybrands+ Re:coded is, as the name suggests, a full rewrite of the original Keybrands+ mod that I made a very long time ago. It aims to add many keybrands with some being stronger or more versatile than others and also to expand the concepts of multi-class weaponry and equipment. Gather keybrands throughout the game to combat the Heartless threat and become the one true keybrand master!
 
 Currently, this mod adds:
 13 unique keybrands with alternate attack modes and attached abilities, plus a rework of the original Keybrand
+(Not all of them are obtainable at this point in time, keep an eye out for updates regarding these keybrands!)
 12 crafting materials, used to make and upgrade keybrands, among other things
 1 friendly NPC, the Keybrand Master
 A new currency, Munny, used to purchase various goods from the Keybrand Master
-2 consumables, an Elixir that fully heals and a Panacea that cures all debuffs
+5 consumables, an Elixir that fully heals, a Panacea that cures all debuffs, and a salty yet sweet bar of Sea-Salt Ice Cream, as well as 2 buff potions that increase physical strength at the cost of magical attributes and vice versa
 2 accessories, the Crown Charm (currently unobtainable) and the Aero Glider
 
+TODO actually update features thing
+
 Planned features:
-Even more keybrands, including the elusive Ultima Weapon!
-Heartless and Nobodies will make their debut eventually!
+
+
+Version History
+-1.0.0- "Awakening"
+Initial Release
