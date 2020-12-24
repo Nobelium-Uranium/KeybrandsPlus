@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using KeybrandsPlus.Globals;
 using KeybrandsPlus.Buffs;
 using Terraria.Utilities;
+using Terraria.ID;
 
 namespace KeybrandsPlus.Items.Accessories.Special
 {
@@ -11,16 +12,20 @@ namespace KeybrandsPlus.Items.Accessories.Special
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crown Charm");
-            Tooltip.SetDefault("+20 Light Alignment\n-10 Dark Alignment\nAllows you to survive any fatal blow with 1 life remaining\nThis also grants extended invulnerability and cures most debuffs\nOnly triggers when above 1 life\n10 second cooldown");
+            Tooltip.SetDefault("+20 Light Alignment\n" +
+                "-10 Dark Alignment\n" +
+                "Allows you to survive any fatal blow with 1 life remaining\n" +
+                "This also grants extended invulnerability and cures most debuffs\n" +
+                "Only triggers when above 1 life\n" +
+                "This effect has a 10 second cooldown which is doubled in Expert mode");
         }
         public override void SetDefaults()
         {
             item.width = 15;
             item.height = 12;
-            item.rare = 10;
+            item.rare = ItemRarityID.Green;
             item.maxStack = 1;
             item.accessory = true;
-            item.expert = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

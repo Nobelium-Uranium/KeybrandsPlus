@@ -284,7 +284,7 @@ namespace KeybrandsPlus.Globals
                 player.ClearBuff(BuffID.Frozen);
                 player.ClearBuff(BuffID.Stoned);
                 player.ClearBuff(BuffID.Webbed);
-                player.AddBuff(BuffType<SecondChanceCooldown>(), 600);
+                player.AddBuff(BuffType<SecondChanceCooldown>(), Main.expertMode ? 1200 : 600);
                 player.ClearBuff(BuffType<SecondChance>());
                 return false;
             }

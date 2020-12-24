@@ -9,7 +9,7 @@ namespace KeybrandsPlus
     public class KeybrandsPlus : Mod
     {
         public static int MunnyCost;
-
+        
         public override void Load()
         {
             if (!Main.dedServ)
