@@ -15,14 +15,15 @@ namespace KeybrandsPlus.Items.Other
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("MP Orb");
+            DisplayName.SetDefault("MP Prize");
             Tooltip.SetDefault("If you somehow got this in your inventory, it's a bug\nPlease let the mod developer know about this\n...Unless you got it via HERO's Mod, Cheat Sheet or the such, you cheater");
         }
 
         public override void SetDefaults()
         {
+            item.rare = ItemRarityID.Blue;
             item.Size = new Vector2(12);
-            TimeLeft = 600;
+            TimeLeft = 300;
             Scale = 1f;
             item.maxStack = 100;
         }
@@ -60,7 +61,10 @@ namespace KeybrandsPlus.Items.Other
         public override bool OnPickup(Player player)
         {
             Main.PlaySound(SoundID.Item30.WithVolume(0.1f), player.Center);
-            CombatText.NewText(player.getRect(), Color.Purple, item.stack);
+            player.statMana += item.stack;
+            if (player.statMana > player.statManaMax2)
+                player.statMana = player.statManaMax2;
+            CombatText.NewText(player.getRect(), CombatText.HealMana, item.stack, dot: true);
             return false;
         }
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)

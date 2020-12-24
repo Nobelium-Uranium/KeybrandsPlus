@@ -241,19 +241,40 @@ namespace KeybrandsPlus.Globals
                 {
                     if (Main.rand.NextBool(2))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 11));
+                    if (Main.rand.NextBool(3))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(10, 51));
+                    else if (Main.rand.NextBool(2))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
                 }
                 else if (NPC.downedPlantBoss)
                 {
                     if (Main.rand.NextBool(4))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 6));
+                    if (Main.rand.NextBool(6))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 26));
+                    else if (Main.rand.NextBool(4))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
                 }
                 else if (Main.hardMode)
                 {
                     if (Main.rand.NextBool(6))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 4));
+                    if (Main.rand.NextBool(9))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
+                    else if (Main.rand.NextBool(6))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 4));
                 }
-                else if (Main.rand.NextBool(8))
-                    Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
+                else
+                {
+                    if (Main.rand.NextBool(8))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
+                    if (Main.rand.NextBool(12))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
+                    else if (Main.rand.NextBool(8))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>());
+
+                }
+            
         }
     }
 }
