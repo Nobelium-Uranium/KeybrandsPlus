@@ -378,7 +378,7 @@ namespace KeybrandsPlus.Globals
                 else
                     PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.5f);
                 SuperBleedTimer++;
-                if (SuperBleedTimer >= 15)
+                if (SuperBleedTimer >= 30)
                 {
                     for (int i = 0; i < Main.rand.Next(1, 11); i++)
                     {
@@ -407,7 +407,8 @@ namespace KeybrandsPlus.Globals
                     SuperBleedTimer = 0;
                     if (!player.immune && player.immuneTime <= 0)
                     {
-                        player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), 10 + PlayerDefense, 0);
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Stab").WithVolume(0.5f).WithPitchVariance(0.1f), player.Center);
+                        player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), 15 + PlayerDefense, 0);
                         player.immuneTime = 0;
                     }
                 }
@@ -489,6 +490,8 @@ namespace KeybrandsPlus.Globals
 
         public override void PostUpdateBuffs()
         {
+            if (SCCooldown)
+                player.lifeSteal = 0;
             if (Stop)
             {
                 int dust = Dust.NewDust(player.Center, 0, 0, DustID.AncientLight, Scale: 2f);
@@ -521,7 +524,7 @@ namespace KeybrandsPlus.Globals
         {
             if (MunnyConverter)
                 for (int i = 0; i < 58; i++)
-                    if (player.inventory[i].type == ItemType<Items.Currency.Munny>() && player.inventory[i].stack > 0)
+                    if (player.inventory[i].type == ItemType<Munny>() && player.inventory[i].stack > 0)
                         player.inventory[i].SetDefaults(0, false);
         }
     }

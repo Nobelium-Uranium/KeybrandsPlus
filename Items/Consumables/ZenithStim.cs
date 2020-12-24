@@ -21,7 +21,7 @@ namespace KeybrandsPlus.Items.Consumables
             item.useTime = 17;
             item.useAnimation = 17;
             item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item3;
+            item.UseSound = SoundID.Item17;
             item.buffType = ModContent.BuffType<Buffs.Stimulated>();
             item.buffTime = 18000;
         }

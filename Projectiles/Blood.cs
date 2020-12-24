@@ -31,11 +31,7 @@ namespace KeybrandsPlus.Projectiles
         public override void AI()
         {
             if (projectile.wet)
-            {
-                if (projectile.velocity.Y > -1)
-                    projectile.velocity.Y -= 0.25f;
-                WasWet = true;
-            }
+                projectile.Kill();
             int blood = Dust.NewDust(projectile.Center, 0, 0, DustID.Blood);
             Main.dust[blood].velocity += projectile.velocity;
             Main.dust[blood].velocity /= 2;

@@ -9,7 +9,7 @@ namespace KeybrandsPlus.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Second Chance");
-            Description.SetDefault("You are filled with vim and vigor");
+            Description.SetDefault("You will survive a fatal blow");
             Main.debuff[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
             canBeCleared = false;

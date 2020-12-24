@@ -9,7 +9,7 @@ namespace KeybrandsPlus.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Last Chance");
-            Description.SetDefault("Your determination wavers... for now");
+            Description.SetDefault("Lifesteal is disabled");
             Main.debuff[Type] = true;
             canBeCleared = false;
         }

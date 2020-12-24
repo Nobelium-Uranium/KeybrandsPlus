@@ -16,8 +16,7 @@ namespace KeybrandsPlus.Items.Currency
         }
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
+            item.Size = new Vector2(12);
             item.rare = ItemRarityID.Quest;
             item.maxStack = 9999;
             item.value = 5000;

@@ -3,11 +3,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+
 namespace KeybrandsPlus.Items.Other
 {
     class Blood : ModItem
     {
-        bool WasWet;
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("If you somehow got this in your inventory, it's a bug\nPlease let the mod developer know about this\n...Unless you got it via HERO's Mod, Cheat Sheet or the such, you cheater");
@@ -27,17 +27,7 @@ namespace KeybrandsPlus.Items.Other
         public override void PostUpdate()
         {
             if (item.wet)
-            {
-                if (item.velocity.Y > -1)
-                    item.velocity.Y -= 0.25f;
-                WasWet = true;
-            }
-            else if (WasWet)
-            {
-                item.position.Y = item.oldPosition.Y + 1;
-                item.velocity.Y = 0;
-                WasWet = false;
-            }
+                item.active = false;
             int blood = Dust.NewDust(item.Center, 0, 0, DustID.Blood);
             Main.dust[blood].velocity += item.velocity;
             Main.dust[blood].velocity /= 2;
