@@ -20,7 +20,10 @@ namespace KeybrandsPlus.Globals
         private int LockOnFrame;
         private int LockOnFrameCounter;
         public bool PhysImmune;
+        public float PhysResist;
         public bool MagicImmune;
+        public float MagicResist;
+        public bool ChimeraImmune;
         public bool IsHeartless;
         public bool LockedOn;
         
@@ -44,6 +47,8 @@ namespace KeybrandsPlus.Globals
         public float WaterResist;
         public float DarkResist;
 
+        private float OldPhysRes;
+        private float OldMagicRes;
         private float OldFireRes;
         private float OldBlizzardRes;
         private float OldThunderRes;
@@ -77,6 +82,8 @@ namespace KeybrandsPlus.Globals
         }
         public override void ResetEffects(NPC npc)
         {
+            PhysResist = OldPhysRes;
+            MagicResist = OldMagicRes;
             FireResist = OldFireRes;
             BlizzardResist = OldBlizzardRes;
             ThunderResist = OldThunderRes;
@@ -92,6 +99,8 @@ namespace KeybrandsPlus.Globals
             if (!Init)
             {
                 Init = true;
+                OldPhysRes = PhysResist;
+                OldMagicRes = MagicResist;
                 OldFireRes = FireResist;
                 OldBlizzardRes = BlizzardResist;
                 OldThunderRes = ThunderResist;
@@ -133,7 +142,7 @@ namespace KeybrandsPlus.Globals
         }
         public override bool? CanBeHitByItem(NPC npc, Player player, Item item)
         {
-            if ((PhysImmune && (item.melee || item.ranged)) || (MagicImmune && (item.magic || item.summon)))
+            if (((PhysImmune || PhysResist >= 1f) && (item.melee || item.ranged)) || ((MagicImmune || MagicResist >= 1f) && (item.magic || item.summon)))
                 return false;
             if ((item.GetGlobalItem<KeyItem>().Fire && FireResist >= 1f) || (item.GetGlobalItem<KeyItem>().Blizzard && BlizzardResist >= 1f) || (item.GetGlobalItem<KeyItem>().Thunder && ThunderResist >= 1f) || (item.GetGlobalItem<KeyItem>().Aero && AeroResist >= 1f) || (item.GetGlobalItem<KeyItem>().Water && WaterResist >= 1f) || (item.GetGlobalItem<KeyItem>().Dark && DarkResist >= 1f))
                 return false;
@@ -141,7 +150,9 @@ namespace KeybrandsPlus.Globals
         }
         public override bool? CanBeHitByProjectile(NPC npc, Projectile projectile)
         {
-            if ((PhysImmune && (projectile.melee || projectile.ranged)) || (MagicImmune && (projectile.magic || projectile.minion || projectile.sentry) && projectile.type != ProjectileType<Projectiles.ChimeraBite>()))
+            if (projectile.type == ProjectileType<Projectiles.ChimeraBite>() && ChimeraImmune)
+                return false;
+            if (((PhysImmune || PhysResist >= 1f) && (projectile.melee || projectile.ranged)) || ((MagicImmune || MagicResist >= 1f) && (projectile.magic || projectile.minion || projectile.sentry) && projectile.type != ProjectileType<Projectiles.ChimeraBite>()))
                 return false;
             if ((projectile.GetGlobalProjectile<KeyProjectile>().Fire && FireResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Blizzard && BlizzardResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Thunder && ThunderResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Aero && AeroResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Water && WaterResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Dark && DarkResist >= 1f))
                 return false;
@@ -151,6 +162,10 @@ namespace KeybrandsPlus.Globals
         {
             if (IsHeartless && (!item.GetGlobalItem<KeyItem>().IsKeybrand || item.type == ItemType<Items.Weapons.WoodenKeybrand>()))
                 damage /= 10;
+            if (item.melee || item.ranged)
+                damage -= (int)(damage * PhysResist);
+            if (item.magic || item.summon)
+                damage -= (int)(damage * MagicResist);
             if (item.GetGlobalItem<KeyItem>().Fire)
                 damage -= (int)(damage * FireResist);
             if (item.GetGlobalItem<KeyItem>().Blizzard)
@@ -170,6 +185,10 @@ namespace KeybrandsPlus.Globals
                 damage /= 10;
             if (MagicImmune && projectile.type == ProjectileType<Projectiles.ChimeraBite>())
                 damage /= 2;
+            if (projectile.melee || projectile.ranged)
+                damage -= (int)(damage * PhysResist);
+            if (projectile.magic || projectile.minion || projectile.sentry)
+                damage -= (int)(damage * MagicResist);
             if (projectile.GetGlobalProjectile<KeyProjectile>().Fire)
                 damage -= (int)(damage * FireResist);
             if (projectile.GetGlobalProjectile<KeyProjectile>().Blizzard)
