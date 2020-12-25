@@ -26,7 +26,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             {
                 if (line2.mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(0, 255, 189);
+                    line2.overrideColor = Main.DiscoColor;
                 }
             }
         }
