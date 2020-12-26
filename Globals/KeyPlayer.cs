@@ -373,24 +373,42 @@ namespace KeybrandsPlus.Globals
             if (ChimeraBleed)
             {
                 int PlayerDefense;
+                bool Moving = false;
                 if (Main.expertMode)
                     PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.75f);
                 else
                     PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.5f);
                 SuperBleedTimer++;
-                if (SuperBleedTimer == 10 || SuperBleedTimer == 20 || SuperBleedTimer == 30)
-                    for (int i = 0; i < Main.rand.Next(3, 6); i++)
-                    {
-                        float RandX = Main.rand.NextFloat(0, 1.5f);
-                        if (Main.rand.NextBool())
-                            RandX *= -1;
-                        float RandY = Main.rand.NextFloat(0, 1.5f);
-                        if (Main.rand.NextBool())
-                            RandY *= -1;
-                        Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(MathHelper.ToRadians(5));
-                        Projectile.NewProjectile(player.Center, RandVelocity, ProjectileType<Projectiles.Blood>(), 0, 0);
-                    }
-                if (SuperBleedTimer >= 30)
+                if (player.mount.Type == MountID.Ufo && (player.controlUp || player.controlDown) || player.controlLeft || player.controlRight || (player.controlJump && player.velocity.Y < 0f))
+                    Moving = true;
+                if ((SuperBleedTimer == 5 || SuperBleedTimer == 15) && Main.rand.NextBool(15))
+                {
+                    if (Main.rand.NextBool(5))
+                        for (int i = 0; i < Main.rand.Next(5, 16); i++)
+                        {
+                            float RandX = Main.rand.NextFloat(0, 2f);
+                            if (Main.rand.NextBool())
+                                RandX *= -1;
+                            float RandY = Main.rand.NextFloat();
+                            if (Main.rand.NextBool())
+                                RandY *= -3;
+                            Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(MathHelper.ToRadians(5));
+                            Projectile.NewProjectile(player.Center, RandVelocity, ProjectileType<Projectiles.Blood>(), 0, 0);
+                        }
+                    else
+                        for (int i = 0; i < Main.rand.Next(3, 6); i++)
+                        {
+                            float RandX = Main.rand.NextFloat(0, 2f);
+                            if (Main.rand.NextBool())
+                                RandX *= -1;
+                            float RandY = Main.rand.NextFloat();
+                            if (Main.rand.NextBool())
+                                RandY *= -3;
+                            Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(MathHelper.ToRadians(10));
+                            Projectile.NewProjectile(player.Center, RandVelocity, ProjectileType<Projectiles.Blood>(), 0, 0);
+                        }
+                }
+                if ((SuperBleedTimer >= 20) || (SuperBleedTimer >= 10 && Moving))
                 {
                     string DeathText;
                     switch (Main.rand.Next(3))
@@ -406,16 +424,30 @@ namespace KeybrandsPlus.Globals
                             break;
                     }
                     SuperBleedTimer = 0;
-                    if (!player.immune && player.immuneTime <= 0 && LeafBracerTimer <= 0)
+                    if (LeafBracerTimer <= 0)
                     {
+                        int OldImmuneTime = player.immuneTime;
+                        for (int i = 0; i < Main.rand.Next(1, 4); i++)
+                        {
+                            float RandX = Main.rand.NextFloat();
+                            if (Main.rand.NextBool())
+                                RandX *= -1;
+                            float RandY = Main.rand.NextFloat();
+                            if (Main.rand.NextBool())
+                                RandY *= -1;
+                            Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(MathHelper.ToRadians(5));
+                            Projectile.NewProjectile(player.Center, RandVelocity, ProjectileType<Projectiles.Blood>(), 0, 0);
+                        }
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Stab").WithVolume(0.5f).WithPitchVariance(0.1f), player.Center);
-                        player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), 15 + PlayerDefense, 0);
                         player.immuneTime = 0;
+                        player.immune = false;
+                        player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), (int)(((player.bleed ? 5 : Moving ? 3 : 1) + PlayerDefense) * (1 + player.endurance)), 0);
+                        player.immuneTime = OldImmuneTime;
                     }
                 }
             }
             else
-                SuperBleedTimer = 15;
+                SuperBleedTimer = 10;
             if (ChimeraLifestealCD > 0)
                 ChimeraLifestealCD -= 1;
             if (LeafBracerTimer > 0)

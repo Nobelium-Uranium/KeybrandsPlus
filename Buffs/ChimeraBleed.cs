@@ -11,7 +11,7 @@ namespace KeybrandsPlus.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Chimera Fang");
-            Description.SetDefault("Extreme blood loss");
+            Description.SetDefault("Extreme blood loss, try not to move too much");
             Main.debuff[Type] = true;
             canBeCleared = false;
             longerExpertDebuff = true;
