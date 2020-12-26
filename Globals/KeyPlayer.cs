@@ -378,9 +378,8 @@ namespace KeybrandsPlus.Globals
                 else
                     PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.5f);
                 SuperBleedTimer++;
-                if (SuperBleedTimer >= 30)
-                {
-                    for (int i = 0; i < Main.rand.Next(1, 11); i++)
+                if (SuperBleedTimer == 10 || SuperBleedTimer == 20 || SuperBleedTimer == 30)
+                    for (int i = 0; i < Main.rand.Next(1, 6); i++)
                     {
                         float RandX = Main.rand.NextFloat(0, 1.5f);
                         if (Main.rand.NextBool())
@@ -391,6 +390,8 @@ namespace KeybrandsPlus.Globals
                         Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(MathHelper.ToRadians(5));
                         Projectile.NewProjectile(player.Center, RandVelocity, ProjectileType<Projectiles.Blood>(), 0, 0);
                     }
+                if (SuperBleedTimer >= 30)
+                {
                     string DeathText;
                     switch (Main.rand.Next(3))
                     {
@@ -405,7 +406,7 @@ namespace KeybrandsPlus.Globals
                             break;
                     }
                     SuperBleedTimer = 0;
-                    if (!player.immune && player.immuneTime <= 0)
+                    if (!player.immune && player.immuneTime <= 0 && LeafBracerTimer <= 0)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Stab").WithVolume(0.5f).WithPitchVariance(0.1f), player.Center);
                         player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), 15 + PlayerDefense, 0);
@@ -414,7 +415,7 @@ namespace KeybrandsPlus.Globals
                 }
             }
             else
-                SuperBleedTimer = 15;
+                SuperBleedTimer = 30;
             if (ChimeraLifestealCD > 0)
                 ChimeraLifestealCD -= 1;
             if (LeafBracerTimer > 0)
