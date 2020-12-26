@@ -1,8 +1,6 @@
 ﻿using KeybrandsPlus.Globals;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,7 +11,7 @@ namespace KeybrandsPlus.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Goner");
-            Description.SetDefault("Descend, Heartless Angel\n<right> to cancel");
+            Description.SetDefault("<right> to cancel");
         }
         public override void Update(Player player, ref int buffIndex)
         {
@@ -36,8 +34,8 @@ namespace KeybrandsPlus.Buffs
                 player.immuneTime = 0;
                 Main.PlaySound(SoundID.Item67, player.position);
                 Main.PlaySound(SoundID.Item119, player.position);
-                CombatText.NewText(player.getRect(), CombatText.HealLife, -player.statLife + 1);
-                player.statLife = 1;
+                CombatText.NewText(player.getRect(), CombatText.HealLife, -player.statLife + (Main.expertMode ? 1 : 20));
+                player.statLife = Main.expertMode ? 1 : 20;
                 player.lifeRegenTime = 0;
                 player.manaRegenDelay = 180;
                 player.manaRegenCount = 0;
@@ -55,13 +53,15 @@ namespace KeybrandsPlus.Buffs
                 player.ClearBuff(BuffID.NebulaUpMana1);
                 player.ClearBuff(BuffID.NebulaUpMana2);
                 player.ClearBuff(BuffID.NebulaUpMana3);
+                player.AddBuff(BuffID.Bleeding, Main.expertMode ? 900 : 1800);
                 if (Main.expertMode)
                 {
-                    player.AddBuff(ModContent.BuffType<SecondChanceCooldown>(), 600);
-                    player.AddBuff(BuffID.PotionSickness, 450);
-                    player.AddBuff(ModContent.BuffType<ElixirSickness>(), 450);
-                    player.AddBuff(ModContent.BuffType<PanaceaCD>(), 450);
+                    player.AddBuff(ModContent.BuffType<SecondChanceCooldown>(), 1800);
+                    player.AddBuff(BuffID.PotionSickness, 600);
+                    player.AddBuff(ModContent.BuffType<ElixirSickness>(), 600);
+                    player.AddBuff(ModContent.BuffType<PanaceaCD>(), 600);
                 }
+
             }
         }
         public override bool ReApply(Player player, int time, int buffIndex)
