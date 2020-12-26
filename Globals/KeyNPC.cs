@@ -24,7 +24,7 @@ namespace KeybrandsPlus.Globals
         public bool MagicImmune;
         public float MagicResist;
         public bool ChimeraImmune;
-        public bool IsHeartless;
+        public bool OnlyKeybrand;
         public bool LockedOn;
         
         public bool Fire;
@@ -60,7 +60,7 @@ namespace KeybrandsPlus.Globals
         {
             Init = false;
             if (npc.modNPC is Heartless)
-                IsHeartless = true;
+                OnlyKeybrand = true;
             foreach (int i in FireTypes)
                 if (npc.type == i)
                     Fire = true;
@@ -160,7 +160,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
         {
-            if (IsHeartless && (!item.GetGlobalItem<KeyItem>().IsKeybrand || item.type == ItemType<Items.Weapons.WoodenKeybrand>()))
+            if (OnlyKeybrand && (!item.GetGlobalItem<KeyItem>().IsKeybrand || item.type == ItemType<Items.Weapons.WoodenKeybrand>()))
                 damage /= 10;
             if (item.melee || item.ranged)
                 damage -= (int)(damage * PhysResist);
@@ -181,7 +181,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (IsHeartless && !projectile.GetGlobalProjectile<KeyProjectile>().IsKeybrandProj)
+            if (OnlyKeybrand && !projectile.GetGlobalProjectile<KeyProjectile>().IsKeybrandProj)
                 damage /= 10;
             if (MagicImmune && projectile.type == ProjectileType<Projectiles.ChimeraBite>())
                 damage /= 2;
