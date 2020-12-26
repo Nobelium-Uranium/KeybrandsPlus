@@ -379,7 +379,7 @@ namespace KeybrandsPlus.Globals
                     PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.5f);
                 SuperBleedTimer++;
                 if (SuperBleedTimer == 10 || SuperBleedTimer == 20 || SuperBleedTimer == 30)
-                    for (int i = 0; i < Main.rand.Next(1, 6); i++)
+                    for (int i = 0; i < Main.rand.Next(3, 6); i++)
                     {
                         float RandX = Main.rand.NextFloat(0, 1.5f);
                         if (Main.rand.NextBool())
@@ -415,7 +415,7 @@ namespace KeybrandsPlus.Globals
                 }
             }
             else
-                SuperBleedTimer = 30;
+                SuperBleedTimer = 15;
             if (ChimeraLifestealCD > 0)
                 ChimeraLifestealCD -= 1;
             if (LeafBracerTimer > 0)
