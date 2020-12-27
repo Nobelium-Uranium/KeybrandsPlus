@@ -2,6 +2,7 @@
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
+using KeybrandsPlus.Items;
 using KeybrandsPlus.Buffs;
 using KeybrandsPlus.Items.Currency;
 using System;
@@ -533,10 +534,16 @@ namespace KeybrandsPlus.Globals
                 Vector2 point = itemRectangle.Center.ToVector2();
                 Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
                 if (item.type == ItemType<Items.Weapons.Keybrand>() || item.type == ItemType<Items.Weapons.KeybrandD>() || item.type == ItemType<Items.Weapons.TrueKeybrand>() || item.type == ItemType<Items.Weapons.TrueKeybrandD>())
-                    for (int i = 0; i < Main.rand.Next(3, 8); i++)
+                    for (int i = 0; i < Main.rand.Next(2, 5); i++)
                     {
                         int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
-                        Main.dust[dust].velocity *= Main.rand.NextFloat(1.5f, 2f);
+                        Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.75f);
+                    }
+                else if (item.type == ItemType<Items.Weapons.Developer.Chimera>())
+                    for (int i = 0; i < Main.rand.Next(2, 5); i++)
+                    {
+                        int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.ChimeraHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
+                        Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.75f);
                     }
             }
         }

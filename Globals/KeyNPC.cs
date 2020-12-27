@@ -256,7 +256,7 @@ namespace KeybrandsPlus.Globals
             }
             if (npc.type == NPCID.Mothron && Main.rand.NextBool(2))
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.BrokenHeroKeybrand>());*/
-            if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax >= 50 && npc.damage != 0 && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail)
+            if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax >= 50 && npc.damage != 0 && npc.type != NPCID.TargetDummy && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail)
                 if (NPC.downedMoonlord)
                 {
                     if (Main.rand.NextBool(2))

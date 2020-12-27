@@ -385,11 +385,11 @@ namespace KeybrandsPlus.NPCs.TownNPC
                     Main.dust[dust].velocity *= 7.5f;
                     Main.dust[dust].noGravity = true;
                 }
-                player.AddBuff(BuffType<Buffs.Stop>(), 36000);
-                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 36000);
+                player.AddBuff(BuffType<Buffs.Stop>(), 180);
+                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), Main.expertMode ? 18000 : 36000);
                 Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
                 Main.PlaySound(SoundID.Item60, npc.Center);
-                int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 9999, 0);
+                int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);
                 Main.projectile[Bite].hostile = true;
                 Main.projectile[Bite].friendly = false;
                 Main.projectile[Bite].magic = false;
@@ -420,11 +420,11 @@ namespace KeybrandsPlus.NPCs.TownNPC
                     Main.dust[dust].velocity *= 7.5f;
                     Main.dust[dust].noGravity = true;
                 }
-                player.AddBuff(BuffType<Buffs.Stop>(), 36000);
-                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 36000);
+                player.AddBuff(BuffType<Buffs.Stop>(), 180);
+                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), Main.expertMode ? 18000 : 36000);
                 Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
                 Main.PlaySound(SoundID.Item60, npc.Center);
-                int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 9999, 0);
+                int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);
                 Main.projectile[Bite].hostile = true;
                 Main.projectile[Bite].friendly = false;
                 Main.projectile[Bite].magic = false;

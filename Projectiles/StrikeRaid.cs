@@ -158,15 +158,15 @@ namespace KeybrandsPlus.Projectiles
                 SpinTimer = 0;
             else if (DamageDealt < 750)
                 SpinTimer = 0;
-            if (!Returning && projectile.velocity.LengthSquared() > 3)
-                projectile.velocity = Vector2.Normalize(projectile.velocity) * 3;
+            if (!Returning && projectile.velocity.LengthSquared() > 2.5f)
+                projectile.velocity = Vector2.Normalize(projectile.velocity) * 2.5f;
             projectile.damage -= (int)(InitialDamage * 0.05f);
             Vector2 point = projectile.Center;
             Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
-            for (int i = 0; i < Main.rand.Next(3, 8); i++)
+            for (int i = 0; i < Main.rand.Next(2, 5); i++)
             {
                 int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
-                Main.dust[dust].velocity *= Main.rand.NextFloat(1.5f, 2f);
+                Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.75f);
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

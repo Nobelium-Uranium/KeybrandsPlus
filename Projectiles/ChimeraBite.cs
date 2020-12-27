@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static KeybrandsPlus.Helpers.KeyUtils;
 using static Terraria.ModLoader.ModContent;
 
 namespace KeybrandsPlus.Projectiles
@@ -113,6 +114,16 @@ namespace KeybrandsPlus.Projectiles
                 projectile.damage += 2;
             }
         }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Vector2 point = projectile.Center;
+            Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
+            for (int i = 0; i < Main.rand.Next(2, 5); i++)
+            {
+                int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.ChimeraHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
+                Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.75f);
+            }
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
@@ -145,7 +156,18 @@ namespace KeybrandsPlus.Projectiles
                     Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(MathHelper.ToRadians(5));
                     Projectile.NewProjectile(target.Center, RandVelocity, ProjectileType<Blood>(), 0, 0);
                 }
-                target.AddBuff(BuffType<Buffs.ChimeraBleed>(), 600);
+                target.AddBuff(BuffType<Buffs.ChimeraBleed>(), 300);
+                target.AddBuff(BuffID.Bleeding, 300);
+            }
+        }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            Vector2 point = projectile.Center;
+            Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
+            for (int i = 0; i < Main.rand.Next(3, 8); i++)
+            {
+                int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.ChimeraHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
+                Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.75f);
             }
         }
         public override void Kill(int timeLeft)

@@ -125,7 +125,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (IsKeybrand && player.lifeSteal > 0f)
+            if (IsKeybrand && player.lifeSteal > 0f && !target.boss && !target.friendly && !target.SpawnedFromStatue && target.lifeMax >= 50 && target.damage != 0 && target.type != NPCID.TargetDummy)
             {
                 if (damage >= target.life)
                     Item.NewItem(target.getRect(), ItemID.Heart);
