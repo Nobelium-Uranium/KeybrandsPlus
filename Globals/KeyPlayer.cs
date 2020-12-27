@@ -19,6 +19,8 @@ namespace KeybrandsPlus.Globals
         private int FixedDir;
 
         public bool LuckySevens;
+        
+        private bool NoHitsound;
 
         #region Abilities
         public bool Defender;
@@ -105,6 +107,8 @@ namespace KeybrandsPlus.Globals
             statOldLife = 0;
 
             LuckySevens = false;
+
+            NoHitsound = false;
 
             #region Abilities
             Defender = false;
@@ -228,6 +232,8 @@ namespace KeybrandsPlus.Globals
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            if (NoHitsound)
+                playSound = false;
             if (LeafBracerTimer > 0)
                 return false;
             if (LuckySevens)
@@ -438,10 +444,12 @@ namespace KeybrandsPlus.Globals
                             Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(MathHelper.ToRadians(5));
                             Projectile.NewProjectile(player.Center, RandVelocity, ProjectileType<Projectiles.Blood>(), 0, 0);
                         }
-                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Stab").WithVolume(0.5f).WithPitchVariance(0.1f), player.Center);
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Stab").WithVolume(0.3f).WithPitchVariance(0.15f), player.Center);
                         player.immuneTime = 0;
                         player.immune = false;
+                        NoHitsound = true;
                         player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), (int)(((player.bleed ? 5 : Moving ? 3 : 1) + PlayerDefense) * (1 + player.endurance)), 0);
+                        NoHitsound = false;
                         player.immuneTime = OldImmuneTime;
                     }
                 }
