@@ -15,6 +15,9 @@ namespace KeybrandsPlus.Globals
     {
         public int statOldLife;
 
+        public Item lastVisualizedSelectedItem;
+        public Rectangle itemRectangle;
+
         private bool FixedDirection;
         private int FixedDir;
 
@@ -511,11 +514,23 @@ namespace KeybrandsPlus.Globals
             TotalAlignment = LightAlignment + DarkAlignment;
         }
 
+        public override void PostItemCheck()
+        {
+            Item item = player.inventory[player.selectedItem];
+            Item item2 = (player.itemAnimation > 0) ? player.HeldItem : item;
+            if (player.itemAnimation > 0)
+            {
+                bool dontattack = default;
+                itemRectangle = default;
+                ItemCheck_GetMeleeHitbox(item2, item2.getRect(), out dontattack, out itemRectangle);
+            }
+        }
+
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
             if (item.GetGlobalItem<KeyItem>().IsKeybrand)
             {
-                Vector2 point = item.getRect().Center.ToVector2();
+                Vector2 point = itemRectangle.Center.ToVector2();
                 Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
                 if (item.type == ItemType<Items.Weapons.Keybrand>() || item.type == ItemType<Items.Weapons.KeybrandD>() || item.type == ItemType<Items.Weapons.TrueKeybrand>() || item.type == ItemType<Items.Weapons.TrueKeybrandD>())
                     for (int i = 0; i < Main.rand.Next(3, 8); i++)
@@ -523,6 +538,58 @@ namespace KeybrandsPlus.Globals
                         int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
                         Main.dust[dust].velocity *= Main.rand.NextFloat(1.5f, 2f);
                     }
+            }
+        }
+
+        private void ItemCheck_GetMeleeHitbox(Item sItem,Rectangle heldItemFrame, out bool dontAttack, out Rectangle itemRectangle)
+        {
+            dontAttack = false;
+            itemRectangle = new Rectangle((int)player.itemLocation.X, (int)player.itemLocation.Y, 32, 32);
+            if (!Main.dedServ)
+                itemRectangle = new Rectangle((int)player.itemLocation.X, (int)player.itemLocation.Y, heldItemFrame.Width, heldItemFrame.Height);
+            if (player.direction == -1)
+                itemRectangle.X -= itemRectangle.Width;
+            if (player.gravDir == 1f)
+                itemRectangle.Y -= itemRectangle.Height;
+            if (sItem.useStyle == 1)
+            {
+                if ((double)player.itemAnimation < (double)player.itemAnimationMax * 0.333)
+                {
+                    if (player.direction == -1)
+                    {
+                        itemRectangle.X -= (int)((double)itemRectangle.Width * 1.4 - (double)itemRectangle.Width);
+                    }
+                    itemRectangle.Width = (int)((double)itemRectangle.Width * 1.4);
+                    itemRectangle.Y += (int)((double)itemRectangle.Height * 0.5 * (double)player.gravDir);
+                    itemRectangle.Height = (int)((double)itemRectangle.Height * 1.1);
+                }
+                else if (!((double)player.itemAnimation < (double)player.itemAnimationMax * 0.666))
+                {
+                    if (player.direction == 1)
+                    {
+                        itemRectangle.X -= (int)((double)itemRectangle.Width * 1.2);
+                    }
+                    itemRectangle.Width *= 2;
+                    itemRectangle.Y -= (int)(((double)itemRectangle.Height * 1.4 - (double)itemRectangle.Height) * (double)player.gravDir);
+                    itemRectangle.Height = (int)((double)itemRectangle.Height * 1.4);
+                }
+            }
+            else if (sItem.useStyle == 3)
+            {
+                if ((double)player.itemAnimation > (double)player.itemAnimationMax * 0.666)
+                {
+                    dontAttack = true;
+                }
+                else
+                {
+                    if (player.direction == -1)
+                    {
+                        itemRectangle.X -= (int)((double)itemRectangle.Width * 1.4 - (double)itemRectangle.Width);
+                    }
+                    itemRectangle.Width = (int)((double)itemRectangle.Width * 1.4);
+                    itemRectangle.Y += (int)((double)itemRectangle.Height * 0.6);
+                    itemRectangle.Height = (int)((double)itemRectangle.Height * 0.6);
+                }
             }
         }
         
