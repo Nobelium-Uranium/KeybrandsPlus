@@ -33,8 +33,8 @@ namespace KeybrandsPlus.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
-            r.AddRecipeGroup("Wood", 20);
-            r.AddIngredient(ItemID.RopeCoil);
+            r.AddRecipeGroup("Wood", 30);
+            r.AddIngredient(ItemID.Rope, 5);
             r.AddTile(TileID.WorkBenches);
             r.SetResult(this);
             r.AddRecipe();
