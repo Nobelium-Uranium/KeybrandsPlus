@@ -14,7 +14,7 @@ namespace KeybrandsPlus.Items.Synthesis.Frost
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frigid Shard");
+            DisplayName.SetDefault("Frigid Stone");
             Tooltip.SetDefault("A stone filled with ice\nAssociated with frost");
         }
     }
@@ -22,7 +22,7 @@ namespace KeybrandsPlus.Items.Synthesis.Frost
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frigid Shard");
+            DisplayName.SetDefault("Frigid Gem");
             Tooltip.SetDefault("A gem filled with ice\nAssociated with frost");
         }
     }
@@ -30,7 +30,7 @@ namespace KeybrandsPlus.Items.Synthesis.Frost
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Frigid Shard");
+            DisplayName.SetDefault("Frigid Crystal");
             Tooltip.SetDefault("A mysterious crystal filled with ice\nAssociated with frost");
         }
     }
