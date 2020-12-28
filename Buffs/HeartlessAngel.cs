@@ -34,12 +34,16 @@ namespace KeybrandsPlus.Buffs
                 player.immuneTime = 0;
                 Main.PlaySound(SoundID.Item67, player.position);
                 Main.PlaySound(SoundID.Item119, player.position);
-                CombatText.NewText(player.getRect(), CombatText.HealLife, -player.statLife + (Main.expertMode ? 1 : 20));
-                player.statLife = Main.expertMode ? 1 : 20;
+                if (player.statLife > 1 && (Main.expertMode || player.statLife > 20))
+                {
+                    CombatText.NewText(player.getRect(), CombatText.HealLife, -player.statLife + (Main.expertMode ? 1 : 20));
+                    player.statLife = Main.expertMode ? 1 : 20;
+                }
                 player.lifeRegenTime = 0;
                 player.manaRegenDelay = 180;
                 player.manaRegenCount = 0;
-                CombatText.NewText(player.getRect(), CombatText.HealMana, -player.statMana);
+                if (player.statMana > 0)
+                    CombatText.NewText(player.getRect(), CombatText.HealMana, -player.statMana);
                 player.statMana = 0;
                 player.ClearBuff(BuffID.Regeneration);
                 player.ClearBuff(BuffID.ManaRegeneration);
@@ -53,14 +57,19 @@ namespace KeybrandsPlus.Buffs
                 player.ClearBuff(BuffID.NebulaUpMana1);
                 player.ClearBuff(BuffID.NebulaUpMana2);
                 player.ClearBuff(BuffID.NebulaUpMana3);
-                player.AddBuff(BuffID.Bleeding, Main.expertMode ? 900 : 1800);
+                player.AddBuff(BuffID.WitheredWeapon, Main.expertMode ? 1800 : 600);
+                player.AddBuff(BuffID.WitheredArmor, Main.expertMode ? 1800 : 600);
+                player.AddBuff(BuffID.Bleeding, Main.expertMode ? 900 : 600);
+                player.AddBuff(ModContent.BuffType<SecondChanceCooldown>(), Main.expertMode ? 1800 : 600);
+                player.AddBuff(BuffID.Confused, 300);
+                player.AddBuff(BuffID.Slow, 300);
                 if (Main.expertMode)
                 {
-                    player.AddBuff(ModContent.BuffType<SecondChanceCooldown>(), 1800);
-                    player.AddBuff(BuffID.PotionSickness, 600);
-                    player.AddBuff(ModContent.BuffType<ElixirSickness>(), 600);
-                    player.AddBuff(ModContent.BuffType<PanaceaCD>(), 600);
+                    player.AddBuff(BuffID.PotionSickness, 300);
+                    player.AddBuff(ModContent.BuffType<ElixirSickness>(), 300);
+                    player.AddBuff(ModContent.BuffType<PanaceaCD>(), 300);
                 }
+                player.AddBuff(BuffID.Obstructed, 60);
 
             }
         }
