@@ -11,7 +11,7 @@ namespace KeybrandsPlus.Items.Weapons
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("+15 Dark Alignment\n" +
-                "Direct melee hits inflict up to 150% more damage to injured foes\n" +
+                "Direct melee hits inflict up to 100% more damage to injured foes\n" +
                 "Alt Attack: Strike Raid\n" +
                 "Throws a returning ethereal keybrand\n" +
                 "Ability: Defender+\n" +
@@ -37,9 +37,9 @@ namespace KeybrandsPlus.Items.Weapons
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
             if (target.life > target.lifeMax / 10)
-                damage = damage * (1 + 5 / 3 * (1 - target.life / target.lifeMax));
+                damage = damage * (1 + 10 / 9 * (1 - target.life / target.lifeMax));
             else
-                damage = (int)(damage * 2.5f);
+                damage *= 2;
         }
         public override bool CanUseItem(Player player)
         {

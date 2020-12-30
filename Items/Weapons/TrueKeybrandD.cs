@@ -43,7 +43,7 @@ namespace KeybrandsPlus.Items.Weapons
             if (target.life > target.lifeMax / 10)
                 damage = damage * (1 + 20 / 9 * (1 - target.life / target.lifeMax));
             else
-                damage = damage * 3;
+                damage *= 3;
         }
         public override bool CanUseItem(Player player)
         {
