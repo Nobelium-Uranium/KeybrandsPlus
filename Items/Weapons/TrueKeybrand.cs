@@ -38,10 +38,10 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
-            if (target.life > target.lifeMax / 10)
-                damage = damage * (1 + 20 / 9 * (1 - target.life / target.lifeMax));
-            else
-                damage *= 3;
+            float t = target.life / target.lifeMax;
+            float lerpValue = Helpers.KeyUtils.GetLerpValue(1f, 0.1f, t, true);
+            float damageBoost = 2f * lerpValue;
+            damage = (int)(damage * (1 + damageBoost));
         }
         public override bool CanUseItem(Player player)
         {
