@@ -147,29 +147,12 @@ namespace KeybrandsPlus.Globals
                     mult += player.GetModPlayer<KeyPlayer>().KeybrandMagic;
             }
         }
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            string Affinity = "";
             if (IsKeybrand)
-            {
-                if (Fire)
-                    Affinity = "Fire";
-                else if (Blizzard)
-                    Affinity = "Blizzard";
-                else if (Thunder)
-                    Affinity = "Thunder";
-                else if (Aero)
-                    Affinity = "Aero";
-                else if (Water)
-                    Affinity = "Water";
-                else if (Dark)
-                    Affinity = "Dark";
-                if (Affinity != "")
-                {
-                    var line = new TooltipLine(mod, "AffinityDamage", "Attacks inflict " + Affinity + " damage");
-                    tooltips.Add(line);
-                }
-            }
+                if (player.GetModPlayer<KeyPlayer>().AliveAndKicking && player.statLife == player.statLifeMax2)
+                    damage = (int)(damage * 1.5f);
+            return base.Shoot(item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
     }
 }

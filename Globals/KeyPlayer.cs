@@ -27,6 +27,8 @@ namespace KeybrandsPlus.Globals
         private bool NoHitsound;
 
         #region Abilities
+        public bool VitalBlow;
+        public bool AliveAndKicking;
         public bool Defender;
         public bool DefenderPlus;
         public int DefenderThreshold;
@@ -115,6 +117,8 @@ namespace KeybrandsPlus.Globals
             NoHitsound = false;
 
             #region Abilities
+            VitalBlow = false;
+            AliveAndKicking = false;
             Defender = false;
             DefenderPlus = false;
             DefenderThreshold = 0;
@@ -525,6 +529,14 @@ namespace KeybrandsPlus.Globals
                 itemRectangle = default;
                 ItemCheck_GetMeleeHitbox(item2, item2.getRect(), out dontattack, out itemRectangle);
             }
+        }
+
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (VitalBlow && target.life >= target.lifeMax * .9f)
+                damage *= 2;
+            if (AliveAndKicking && player.statLife == player.statLifeMax2)
+                damage = (int)(damage * 1.5f);
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
