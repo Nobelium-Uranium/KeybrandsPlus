@@ -8,12 +8,14 @@ namespace KeybrandsPlus.Projectiles
 {
     class WaterProj : KeybrandProj
     {
+        int DropletTimer;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water");
         }
         public override void SetDefaults()
         {
+            DropletTimer = Main.rand.Next(5, 26);
             projectile.magic = true;
             projectile.friendly = true;
             projectile.width = 12;
@@ -26,6 +28,12 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void AI()
         {
+            if (DropletTimer++ >= 30)
+            {
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WaterDrop>(), projectile.damage, 0, projectile.owner);
+                DropletTimer = Main.rand.Next(0, 26);
+            }
+
             for (int k = 0; k < Main.rand.Next(3, 5); k++)
             {
                 int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 29, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -51,7 +59,8 @@ namespace KeybrandsPlus.Projectiles
                 if (projectile.velocity.Y >= 0)
                     RandY *= -1;
                 Vector2 RandVelocity = new Vector2(RandX, RandY);
-                Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<WaterDrop>(), (int)(projectile.damage * 0.35), projectile.knockBack / 2, projectile.owner);
+                int droplet = Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<WaterDrop>(), (int)(projectile.damage * 0.35), projectile.knockBack / 2, projectile.owner);
+                Main.projectile[droplet].timeLeft /= 2;
             }
         }
     }

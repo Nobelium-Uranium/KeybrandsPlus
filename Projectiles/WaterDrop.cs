@@ -20,7 +20,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.alpha = 255;
             projectile.aiStyle = 1;
             projectile.tileCollide = true;
-            projectile.timeLeft = Main.rand.Next(45, 75);
+            projectile.timeLeft = Main.rand.Next(90, 120);
             projectile.extraUpdates += 1;
             projectile.GetGlobalProjectile<Globals.KeyProjectile>().Water = true;
         }
@@ -40,7 +40,6 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item10, projectile.position);
             int num4;
             for (int num582 = 0; num582 < 20; num582 = num4 + 1)
             {
