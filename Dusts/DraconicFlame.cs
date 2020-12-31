@@ -8,6 +8,7 @@ namespace KeybrandsPlus.Dusts
     {
         public override void OnSpawn(Dust dust)
         {
+            dust.frame = new Rectangle(0, Main.rand.Next(3) * 6, 6, 6);
             dust.color = default;
             dust.scale = 2f;
             dust.noGravity = true;
