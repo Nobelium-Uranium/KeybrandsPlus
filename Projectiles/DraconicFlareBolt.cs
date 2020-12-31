@@ -29,6 +29,7 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void AI()
         {
+            Player Owner = Main.player[projectile.owner];
             if (projectile.timeLeft > 750)
             {
                 int Flame = Dust.NewDust(projectile.Center + projectile.velocity, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
@@ -44,6 +45,18 @@ namespace KeybrandsPlus.Projectiles
                         projectile.Kill();
                 }
             }
+            if (Owner.hostile)
+                for (int i = 0; i < 200; i++)
+                {
+                    Player p = Main.player[i];
+                    if (p.active && !p.immune && p.immuneTime <= 0 && p != Owner && p.hostile && (p.team != Owner.team || p.team == 0))
+                    {
+                        Vector2 vectorTo = p.Center - projectile.Center;
+                        float distanceTo = (float)Math.Sqrt(vectorTo.X * vectorTo.X + vectorTo.Y * vectorTo.Y);
+                        if (Collision.CanHit(projectile.Center, 0, 0, p.Center, 0, 0) && distanceTo < 65f)
+                            projectile.Kill();
+                    }
+                }
             if (++Circle >= 45)
                 Circle = 0;
             if (projectile.timeLeft <= 840)
