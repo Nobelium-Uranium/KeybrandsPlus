@@ -1,5 +1,6 @@
 ﻿using KeybrandsPlus.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,9 +17,8 @@ namespace KeybrandsPlus.Projectiles
         {
             projectile.magic = true;
             projectile.friendly = true;
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.alpha = 255;
+            projectile.width = 12;
+            projectile.height = 12;
             projectile.aiStyle = 1;
             projectile.timeLeft = 600;
             projectile.extraUpdates += 1;
@@ -27,41 +27,47 @@ namespace KeybrandsPlus.Projectiles
         public override void AI()
         {
             projectile.alpha -= 10;
-            if (projectile.alpha < 50)
-            {
-                projectile.alpha = 50;
-            }
             if (Main.rand.NextBool())
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.DraconicFlame>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                int Flame = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.DraconicFlame>(), projectile.velocity.X * .25f, projectile.velocity.Y * .25f);
+                Main.dust[Flame].scale *= .75f;
             }
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (projectile.velocity.X != oldVelocity.X && Math.Abs(oldVelocity.X) > 1f)
+            {
+                projectile.velocity.X = -oldVelocity.X / 2;
+                return false;
+            }
+            if (projectile.velocity.Y < 0)
+            {
+                projectile.velocity.Y = -oldVelocity.Y;
+                return false;
+            }
+            if (projectile.velocity.Y >= 0 && projectile.alpha > 50)
+            {
+                projectile.velocity.Y = -oldVelocity.Y;
+                return false;
+            }
+            return base.OnTileCollide(oldVelocity);
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return Color.White * ((255f - (float)projectile.alpha) / 255f);
+            return new Color(1f, 1f, 1f, .6f);
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            target.AddBuff(ModContent.BuffType<Buffs.DragonRot>(), Main.rand.Next(45, 90));
-        }
-        public override bool? CanHitNPC(NPC target)
-        {
-            return projectile.alpha <= 50 && !target.friendly;
+            target.AddBuff(ModContent.BuffType<Buffs.DragonRot>(), Main.rand.Next(120, 300));
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item89, projectile.position);
-            int num4;
-            for (int num582 = 0; num582 < 20; num582 = num4 + 1)
+            Main.PlaySound(SoundID.Item89.WithVolume(.5f), projectile.position);
+            for (int i = 0; i < 10; i++)
             {
-                int num583 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<Dusts.DraconicFlame>(), (0f - projectile.velocity.X) * 0.2f, (0f - projectile.velocity.Y) * 0.2f);
-                Main.dust[num583].noGravity = true;
-                Dust dust = Main.dust[num583];
-                dust.velocity *= 2f;
-                num583 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<Dusts.DraconicFlame>(), (0f - projectile.velocity.X) * 0.2f, (0f - projectile.velocity.Y) * 0.2f);
-                dust = Main.dust[num583];
-                dust.velocity *= 2f;
-                num4 = num582;
+                int Flame = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<Dusts.DraconicFlame>(), (0f - projectile.velocity.X) * 0.2f, (0f - projectile.velocity.Y) * 0.2f);
+                Main.dust[Flame].velocity += projectile.velocity / 5;
+                Main.dust[Flame].velocity *= 2.5f;
             }
         }
     }

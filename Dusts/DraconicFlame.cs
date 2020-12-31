@@ -23,8 +23,8 @@ namespace KeybrandsPlus.Dusts
             dust.scale *= 0.97f;                    
 			dust.velocity *= 0.90f;
             float light = 0.35f * dust.scale; //144, 15, 141
-            Lighting.AddLight(dust.position, 0.144f, 0.015f, 0.141f);
-            if (dust.scale < 0.5f)
+            Lighting.AddLight(dust.position, 0.144f * dust.scale, 0.015f * dust.scale, 0.141f * dust.scale);
+            if (dust.scale < 0.1f)
             {
 				if (Main.rand.Next(10) == 0)
                 {

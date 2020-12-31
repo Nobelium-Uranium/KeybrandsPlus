@@ -9,6 +9,7 @@ namespace KeybrandsPlus.Projectiles
 {
     class DraconicFlareBolt : KeybrandProj
     {
+        int Circle;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draconic Flare");
@@ -17,45 +18,77 @@ namespace KeybrandsPlus.Projectiles
         {
             projectile.magic = true;
             projectile.friendly = true;
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = 16;
+            projectile.height = 16;
             projectile.alpha = 255;
             projectile.aiStyle = 0;
             projectile.tileCollide = true;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 900;
             projectile.extraUpdates += 1;
             projectile.GetGlobalProjectile<Globals.KeyProjectile>().Dark = true;
         }
         public override void AI()
         {
-            for (int k = 0; k < Main.rand.Next(3, 7); k++)
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.DraconicFlame>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            if (projectile.timeLeft > 750)
+            {
+                int Flame = Dust.NewDust(projectile.Center + projectile.velocity, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
+                Main.dust[Flame].velocity /= 2;
+            }
             for (int k = 0; k < 200; k++)
             {
                 if (Main.npc[k].active && !Main.npc[k].dontTakeDamage && !Main.npc[k].friendly && Main.npc[k].lifeMax > 5)
                 {
                     Vector2 vectorTo = Main.npc[k].Center - projectile.Center;
                     float distanceTo = (float)Math.Sqrt(vectorTo.X * vectorTo.X + vectorTo.Y * vectorTo.Y);
-                    if (distanceTo < 65f)
+                    if (Collision.CanHit(projectile.Center, 0, 0, Main.npc[k].Center, 0, 0) && distanceTo < 65f)
                         projectile.Kill();
                 }
             }
+            if (++Circle >= 45)
+                Circle = 0;
+            if (projectile.timeLeft <= 840)
+            {
+                projectile.velocity = Vector2.Zero;
+                if (projectile.timeLeft == 750)
+                    Main.PlaySound(SoundID.MaxMana, projectile.Center);
+                for (int i = 0; i < 8; i++)
+                {
+                    if (Collision.CanHit(projectile.Center, 0, 0, projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver4 * i) + Circle * Math.PI / 180) * 65, 0, 0))
+                    {
+                        int Indicator = Dust.NewDust(projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver4 * i) + Circle * Math.PI / 180) * 65, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
+                        Main.dust[Indicator].velocity = Vector2.Zero;
+                        if (projectile.timeLeft <= 600)
+                            Main.dust[Indicator].scale *= .15f;
+                        else if (projectile.timeLeft <= 750)
+                            Main.dust[Indicator].scale *= .3f;
+                        else
+                            Main.dust[Indicator].scale *= .6f;
+                    }
+                }
+            }
+            else
+                projectile.velocity *= .95f;
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (projectile.velocity.X != oldVelocity.X && Math.Abs(oldVelocity.X) > 1f)
+            {
+                projectile.velocity.X = oldVelocity.X * -.5f;
+            }
+            if (projectile.velocity.Y != oldVelocity.Y && Math.Abs(oldVelocity.Y) > 1f)
+            {
+                projectile.velocity.Y = oldVelocity.Y * -.5f;
+            }
+            return false;
+        }
+        public override bool CanDamage()
+        {
+            return false;
         }
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item74, projectile.position);
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<DraconicFlareExplosion>(), (int)(projectile.damage * 0.6), projectile.knockBack, projectile.owner);
-            for (int k = 0; k < Main.rand.Next(5, 8); k++)
-            {
-                float RandX = Main.rand.NextFloat(3, 5);
-                if (Main.rand.NextBool())
-                    RandX *= -1;
-                float RandY = Main.rand.NextFloat(3, 5);
-                if (Main.rand.NextBool())
-                    RandY *= -1;
-                Vector2 RandVelocity = new Vector2(RandX, RandY);
-                Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<DraconicFireball>(), (int)(projectile.damage * 0.3), projectile.knockBack / 2, projectile.owner);
-            }
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<DraconicFlareExplosion>(), (int)(projectile.damage * 0.6), projectile.knockBack / 2, projectile.owner);
         }
     }
 }

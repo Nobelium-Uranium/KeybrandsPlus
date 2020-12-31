@@ -11,7 +11,8 @@ namespace KeybrandsPlus.Items.Weapons.Other
         {
             Tooltip.SetDefault("+50 Dark Alignment\n" +
                 "Alt Attack: Draconic Flare\n" +
-                "Fires a powerful flare bolt that explodes into debris\n" +
+                "Fires a lingering flare bolt that explodes into debris when enemies are near\n" +
+                "You can only have up to 3 flare bolts active at a time\n" +
                 "Abilities: Dark Affinity, MP Rage, Critical MP Hasteza\n" +
                 "Dark Affinity boosts mana regeneration when under the effects of a damaging debuff\n" +
                 "The rate of regeneration is dependant on your Dark Alignment\n" +
@@ -32,7 +33,7 @@ namespace KeybrandsPlus.Items.Weapons.Other
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.useTurn = true;
-            item.shootSpeed = 15f;
+            item.shootSpeed = 30f;
             item.value = 5000000;
             item.GetGlobalItem<KeyItem>().Dark = true;
         }
@@ -60,13 +61,14 @@ namespace KeybrandsPlus.Items.Weapons.Other
                 item.melee = false;
                 item.magic = true;
                 item.useTurn = false;
-                item.mana = 23;
+                item.mana = 36;
                 item.useTime = 45;
                 item.useAnimation = 45;
                 item.damage = 160;
                 item.shoot = ModContent.ProjectileType<Projectiles.DraconicFlareBolt>();
                 item.noMelee = true;
                 item.UseSound = SoundID.Item73;
+                return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DraconicFlareBolt>()] < 3;
             }
             return base.CanUseItem(player);
         }
