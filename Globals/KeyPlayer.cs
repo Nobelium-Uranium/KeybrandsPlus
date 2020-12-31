@@ -252,7 +252,7 @@ namespace KeybrandsPlus.Globals
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             if (MPRage)
-                if (damage / 3 <= 0)
+                if (damage / 3 < 1)
                 {
                     player.ManaEffect(1);
                     player.statMana += 1;

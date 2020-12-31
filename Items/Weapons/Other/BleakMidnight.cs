@@ -61,7 +61,7 @@ namespace KeybrandsPlus.Items.Weapons.Other
                 item.melee = false;
                 item.magic = true;
                 item.useTurn = false;
-                item.mana = 36;
+                item.mana = 25;
                 item.useTime = 45;
                 item.useAnimation = 45;
                 item.damage = 160;

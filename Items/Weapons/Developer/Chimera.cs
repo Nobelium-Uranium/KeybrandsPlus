@@ -69,7 +69,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 item.UseSound = SoundID.Item60;
                 item.knockBack = 0f;
             }
-            return NPC.downedMoonlord;
+            return NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure";
         }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
