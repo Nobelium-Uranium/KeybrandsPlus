@@ -101,7 +101,7 @@ namespace KeybrandsPlus.Projectiles
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item74, projectile.position);
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<DraconicFlareExplosion>(), (int)(projectile.damage * 0.6), projectile.knockBack / 2, projectile.owner);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<DraconicFlareExplosion>(), (int)(projectile.damage * 0.3), projectile.knockBack / 2, projectile.owner);
         }
     }
 }
