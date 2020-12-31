@@ -533,10 +533,8 @@ namespace KeybrandsPlus.Globals
 
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            if (VitalBlow && target.life >= target.lifeMax * .9f)
+            if (VitalBlow && target.life >= (float)target.lifeMax * .9f)
                 damage *= 2;
-            if (AliveAndKicking && player.statLife == player.statLifeMax2)
-                damage = (int)(damage * 1.5f);
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)

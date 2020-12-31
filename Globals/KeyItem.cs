@@ -146,13 +146,8 @@ namespace KeybrandsPlus.Globals
                 else if (item.magic)
                     mult += player.GetModPlayer<KeyPlayer>().KeybrandMagic;
             }
-        }
-        public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (IsKeybrand)
-                if (player.GetModPlayer<KeyPlayer>().AliveAndKicking && player.statLife == player.statLifeMax2)
-                    damage = (int)(damage * 1.5f);
-            return base.Shoot(item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
+            if (player.GetModPlayer<KeyPlayer>().AliveAndKicking && player.statLife == player.statLifeMax2)
+                mult += .5f;
         }
     }
 }
