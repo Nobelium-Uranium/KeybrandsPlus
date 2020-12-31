@@ -56,6 +56,12 @@ namespace KeybrandsPlus.Projectiles
         {
             target.immune[projectile.owner] = 2;
         }
+        public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
+        {
+            target.velocity = Vector2.Normalize(projectile.Center - target.position) * 3;
+            if (target.immuneTime > 30)
+                target.immuneTime = 30;
+        }
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item62, projectile.position);
