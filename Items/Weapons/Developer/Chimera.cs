@@ -4,6 +4,7 @@ using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
 using System;
 using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 
 namespace KeybrandsPlus.Items.Weapons.Developer
 {
@@ -27,8 +28,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.melee = false;
             item.crit = 13;
-            item.width = 40;
-            item.height = 50;
+            item.Size = new Vector2(30);
             item.damage = 75;
             item.useTime = 10;
             item.useAnimation = 10;
