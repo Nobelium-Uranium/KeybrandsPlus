@@ -35,13 +35,13 @@ namespace KeybrandsPlus.Projectiles
             float RandX = Main.rand.NextFloat(1.5f, 3.5f);
             if (Main.rand.NextBool())
                 RandX *= -1;
-            RandX *= Main.rand.NextFloat(.5f, 1);
+            RandX *= Main.rand.NextFloat(.5f, 1.5f);
             float RandY = Main.rand.NextFloat(1.5f, 3.5f);
             if (Main.rand.NextBool())
                 RandY *= -1;
-            RandY *= Main.rand.NextFloat(.5f, 1);
+            RandY *= Main.rand.NextFloat(.5f, 1.5f);
             Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(30);
-            if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(3))
                 Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 3, projectile.knockBack / 2, projectile.owner);
         }
         public override bool? CanHitNPC(NPC target)

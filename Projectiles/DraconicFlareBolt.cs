@@ -27,7 +27,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.timeLeft = 1200;
             projectile.extraUpdates += 1;
             projectile.GetGlobalProjectile<Globals.KeyProjectile>().Dark = true;
-            Circle = Main.rand.Next(0, 45);
+            Circle = 45;
         }
         public override void AI()
         {
@@ -67,8 +67,6 @@ namespace KeybrandsPlus.Projectiles
                             projectile.Kill();
                     }
                 }
-            if (++Circle >= 45)
-                Circle = 0;
             if (projectile.timeLeft <= 1140)
             {
                 projectile.velocity = Vector2.Zero;
@@ -77,11 +75,13 @@ namespace KeybrandsPlus.Projectiles
                     Main.PlaySound(SoundID.MaxMana, projectile.Center);
                     Primed = true;
                 }
-                for (int i = 0; i < 8; i++)
+                if (Circle++ >= 90)
+                    Circle = 0;
+                for (int i = 0; i < 4; i++)
                 {
-                    if (Collision.CanHit(projectile.Center, 0, 0, projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver4 * i) + Circle * Math.PI / 180) * 80f, 0, 0))
+                    if (Collision.CanHit(projectile.Center, 0, 0, projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver2 * i) + Circle * Math.PI / 180) * 80f, 0, 0))
                     {
-                        int Indicator = Dust.NewDust(projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver4 * i) + Circle * Math.PI / 180) * 80, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
+                        int Indicator = Dust.NewDust(projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver2 * i) + Circle * Math.PI / 180) * 80, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
                         Main.dust[Indicator].velocity = Vector2.Zero;
                         if (projectile.timeLeft <= 900)
                             Main.dust[Indicator].scale *= .15f;
