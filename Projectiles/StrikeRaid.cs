@@ -168,6 +168,7 @@ namespace KeybrandsPlus.Projectiles
                 int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
                 Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.75f);
             }
+            projectile.netUpdate = true;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
