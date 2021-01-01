@@ -16,8 +16,8 @@ namespace KeybrandsPlus.Projectiles
         {
             projectile.magic = true;
             projectile.friendly = true;
-            projectile.width = 150;
-            projectile.height = 150;
+            projectile.width = 225;
+            projectile.height = 225;
             projectile.aiStyle = 0;
             projectile.alpha = 255;
             projectile.tileCollide = false;
@@ -30,7 +30,7 @@ namespace KeybrandsPlus.Projectiles
             for (int k = 0; k < Main.rand.Next(5, 10); k++)
             {
                 int Flame = Dust.NewDust(projectile.Center, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
-                Main.dust[Flame].velocity *= 5f;
+                Main.dust[Flame].velocity *= 7.5f;
             }
             float RandX = Main.rand.NextFloat(1.5f, 3.5f);
             if (Main.rand.NextBool())
@@ -42,7 +42,7 @@ namespace KeybrandsPlus.Projectiles
             RandY *= Main.rand.NextFloat(.5f, 1);
             Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(30);
             if (Main.rand.NextBool(5))
-                Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<DraconicFireball>(), projectile.damage, projectile.knockBack / 2, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 3, projectile.knockBack / 2, projectile.owner);
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -54,15 +54,14 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (!target.boss)
-                target.velocity = Vector2.Normalize(projectile.Center - target.position) * 3 * target.knockBackResist;
-            target.immune[projectile.owner] = 2;
+            if (!target.boss && target.knockBackResist > 0)
+                target.velocity = Vector2.Normalize(projectile.Center - target.position) * 5 * target.knockBackResist;
+            target.immune[projectile.owner] /= 3;
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.velocity = Vector2.Normalize(projectile.Center - target.position) * 3;
-            if (target.immuneTime > 30)
-                target.immuneTime = 30;
+            target.velocity = Vector2.Normalize(projectile.Center - target.position) * 5;
+            target.immuneTime /=  3;
         }
         public override void Kill(int timeLeft)
         {
@@ -71,11 +70,11 @@ namespace KeybrandsPlus.Projectiles
             {
                 int Flame = Dust.NewDust(projectile.Center, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
                 Main.dust[Flame].velocity = new Vector2(0, 15).RotatedBy(7.2 * k);
-                Main.dust[Flame].scale *= 2.5f;
+                Main.dust[Flame].scale *= 3.75f;
             }
             for (int i = 0; i < 20; i++)
             {
-                int debris = Projectile.NewProjectile(projectile.Center, new Vector2(0, 5f).RotatedBy(18 * i).RotatedByRandom(0.5f) * Main.rand.NextFloat(.9f, 1.1f), ModContent.ProjectileType<DraconicFireball>(), projectile.damage * 2, projectile.knockBack, projectile.owner);
+                int debris = Projectile.NewProjectile(projectile.Center, new Vector2(0, 5f).RotatedBy(18 * i).RotatedByRandom(0.5f) * Main.rand.NextFloat(.9f, 1.1f), ModContent.ProjectileType<DraconicFireball>(), (int)(projectile.damage * 1.5f), projectile.knockBack, projectile.owner);
                 Main.projectile[debris].scale *= 1.25f;
                 Main.projectile[debris].Size *= 1.25f;
             }
