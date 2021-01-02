@@ -64,7 +64,10 @@ namespace KeybrandsPlus.Projectiles
                         Vector2 vectorTo = p.Center - projectile.Center;
                         float distanceTo = (float)Math.Sqrt(vectorTo.X * vectorTo.X + vectorTo.Y * vectorTo.Y);
                         if (Collision.CanHit(projectile.Center, 0, 0, p.Center, 0, 0) && distanceTo < 80f)
+                        {
                             projectile.Kill();
+                            projectile.netUpdate = true;
+                        }
                     }
                 }
             if (projectile.timeLeft <= 1140)
