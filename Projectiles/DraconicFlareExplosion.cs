@@ -46,7 +46,7 @@ namespace KeybrandsPlus.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            return Collision.CanHit(projectile.Center, 0, 0, target.Center, 0, 0) && Main.npc[k].active && !Main.npc[k].dontTakeDamage && !Main.npc[k].friendly && Main.npc[k].lifeMax > 5;
+            return Collision.CanHit(projectile.Center, 0, 0, target.Center, 0, 0) && target.active && !target.dontTakeDamage && !target.friendly && target.lifeMax > 5;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
