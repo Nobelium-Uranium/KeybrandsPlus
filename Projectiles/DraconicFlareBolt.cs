@@ -24,7 +24,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.alpha = 255;
             projectile.aiStyle = 0;
             projectile.tileCollide = true;
-            projectile.timeLeft = 1200;
+            projectile.timeLeft = 900;
             projectile.extraUpdates += 1;
             projectile.GetGlobalProjectile<Globals.KeyProjectile>().Dark = true;
             Circle = 45;
@@ -32,14 +32,14 @@ namespace KeybrandsPlus.Projectiles
         public override void AI()
         {
             Player Owner = Main.player[projectile.owner];
-            if (projectile.timeLeft > 900)
+            if (projectile.timeLeft > 750)
             {
                 int Flame = Dust.NewDust(projectile.Center + projectile.velocity, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
                 Main.dust[Flame].scale *= .75f;
                 if (Main.rand.NextBool())
                     Main.dust[Flame].velocity /= 2;
             }
-            if (projectile.timeLeft == 900)
+            if (projectile.timeLeft == 750)
                 for (int i = 0; i < 20; i++)
                 {
                     int Flame = Dust.NewDust(projectile.Center + projectile.velocity, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
@@ -70,10 +70,10 @@ namespace KeybrandsPlus.Projectiles
                         }
                     }
                 }
-            if (projectile.timeLeft <= 1140)
+            if (projectile.timeLeft <= 840)
             {
                 projectile.velocity = Vector2.Zero;
-                if (projectile.timeLeft == 900)
+                if (projectile.timeLeft == 750)
                 {
                     Main.PlaySound(SoundID.MaxMana, projectile.Center);
                     Primed = true;
@@ -86,27 +86,27 @@ namespace KeybrandsPlus.Projectiles
                     {
                         int Indicator = Dust.NewDust(projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver2 * i) + Circle * Math.PI / 180) * 80, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
                         Main.dust[Indicator].velocity = Vector2.Zero;
-                        if (projectile.timeLeft <= 900)
-                            Main.dust[Indicator].scale *= .15f;
+                        if (projectile.timeLeft <= 750)
+                            Main.dust[Indicator].scale *= .25f;
                         else
                             Main.dust[Indicator].scale *= .5f;
                     }
                 }
             }
             else
-                projectile.velocity *= .95f;
+                projectile.velocity *= .96f;
             if (projectile.timeLeft == 1)
-                projectile.damage = (int)(projectile.damage * 1.5f);
+                projectile.damage = (int)(projectile.damage * 1.25f);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.velocity.X != oldVelocity.X && Math.Abs(oldVelocity.X) > 1f)
             {
-                projectile.velocity.X = oldVelocity.X * -.5f;
+                projectile.velocity.X = oldVelocity.X * -.25f;
             }
             if (projectile.velocity.Y != oldVelocity.Y && Math.Abs(oldVelocity.Y) > 1f)
             {
-                projectile.velocity.Y = oldVelocity.Y * -.5f;
+                projectile.velocity.Y = oldVelocity.Y * -.25f;
             }
             return false;
         }

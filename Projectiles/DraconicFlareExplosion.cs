@@ -22,27 +22,49 @@ namespace KeybrandsPlus.Projectiles
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 70;
             projectile.GetGlobalProjectile<Globals.KeyProjectile>().Dark = true;
         }
         public override void AI()
         {
-            for (int k = 0; k < Main.rand.Next(5, 10); k++)
+            if (projectile.timeLeft == 10)
             {
-                int Flame = Dust.NewDust(projectile.Center, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
-                Main.dust[Flame].velocity *= 7.5f;
+                projectile.damage = (int)(projectile.damage * 1.5f);
+                Main.PlaySound(SoundID.Item62, projectile.position);
+                projectile.Size = new Vector2(300);
+                projectile.position -= new Vector2(37.5f);
+                for (int i = 0; i < 30; i++)
+                {
+                    int debris = Projectile.NewProjectile(projectile.Center, new Vector2(0, 6.5f).RotatedBy(MathHelper.ToRadians(12) * i).RotatedByRandom(MathHelper.ToRadians(2.5f)) * Main.rand.NextFloat(.95f, 1.05f), ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    Main.projectile[debris].scale *= 1.25f;
+                    Main.projectile[debris].Size *= 1.25f;
+                }
+                for (int k = 0; k < 50; k++)
+                {
+                    int Flame = Dust.NewDust(projectile.Center, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
+                    Main.dust[Flame].velocity = new Vector2(0, 20).RotatedBy(MathHelper.ToRadians(7.2f) * k);
+                    Main.dust[Flame].scale *= 3.75f;
+                }
             }
-            float RandX = Main.rand.NextFloat(1.5f, 3.5f);
-            if (Main.rand.NextBool())
-                RandX *= -1;
-            RandX *= Main.rand.NextFloat(.5f, 1.5f);
-            float RandY = Main.rand.NextFloat(1.5f, 3.5f);
-            if (Main.rand.NextBool())
-                RandY *= -1;
-            RandY *= Main.rand.NextFloat(.5f, 1.5f);
-            Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(30);
-            if (Main.rand.NextBool(3))
-                Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 3, projectile.knockBack / 2, projectile.owner);
+            else if (projectile.timeLeft > 10)
+            {
+                for (int k = 0; k < Main.rand.Next(5, 10); k++)
+                {
+                    int Flame = Dust.NewDust(projectile.Center, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
+                    Main.dust[Flame].velocity *= 7.5f;
+                }
+                float RandX = Main.rand.NextFloat(1.5f, 3.5f);
+                if (Main.rand.NextBool())
+                    RandX *= -1;
+                RandX *= Main.rand.NextFloat(.5f, 1.5f);
+                float RandY = Main.rand.NextFloat(1.5f, 3.5f);
+                if (Main.rand.NextBool())
+                    RandY *= -1;
+                RandY *= Main.rand.NextFloat(.5f, 1.5f);
+                Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(30);
+                if (Main.rand.NextBool(3))
+                    Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 3, projectile.knockBack / 2, projectile.owner);
+            }
         }
         public override bool? CanHitNPC(NPC target)
         {
@@ -56,28 +78,18 @@ namespace KeybrandsPlus.Projectiles
         {
             if (!target.boss && target.knockBackResist > 0)
                 target.velocity = Vector2.Normalize(projectile.Center - target.position) * 5 * target.knockBackResist;
-            target.immune[projectile.owner] /= 3;
+            if (projectile.timeLeft <= 10)
+                target.immune[projectile.owner] = 0;
+            else
+                target.immune[projectile.owner] /= 3;
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.velocity = Vector2.Normalize(projectile.Center - target.position) * 5;
-            target.immuneTime /=  3;
-        }
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(SoundID.Item62, projectile.position);
-            for (int k = 0; k < 50; k++)
-            {
-                int Flame = Dust.NewDust(projectile.Center, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
-                Main.dust[Flame].velocity = new Vector2(0, 15).RotatedBy(7.2 * k);
-                Main.dust[Flame].scale *= 3.75f;
-            }
-            for (int i = 0; i < 20; i++)
-            {
-                int debris = Projectile.NewProjectile(projectile.Center, new Vector2(0, 5f).RotatedBy(18 * i).RotatedByRandom(0.5f) * Main.rand.NextFloat(.9f, 1.1f), ModContent.ProjectileType<DraconicFireball>(), (int)(projectile.damage * 1.5f), projectile.knockBack, projectile.owner);
-                Main.projectile[debris].scale *= 1.25f;
-                Main.projectile[debris].Size *= 1.25f;
-            }
+            if (projectile.timeLeft <= 10)
+                target.immuneTime = 0;
+            else
+                target.immuneTime /=  3;
         }
     }
 }
