@@ -12,7 +12,6 @@ namespace KeybrandsPlus.Dusts
             dust.color = default;
             dust.scale = 2f;
             dust.noGravity = true;
-            dust.noLight = true;
 			dust.alpha = 50;
         }
 
@@ -24,7 +23,7 @@ namespace KeybrandsPlus.Dusts
 			dust.velocity *= 0.90f;
             float light = 0.35f * dust.scale; //144, 15, 141
             Lighting.AddLight(dust.position, 0.144f * dust.scale, 0.015f * dust.scale, 0.141f * dust.scale);
-            if (dust.scale < 0.1f)
+            if (dust.noLight ? dust.scale < 0.1f : dust.scale < 0.5f)
             {
 				if (Main.rand.Next(10) == 0)
                 {

@@ -24,7 +24,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.alpha = 255;
             projectile.aiStyle = 0;
             projectile.tileCollide = true;
-            projectile.timeLeft = 900;
+            projectile.timeLeft = 960;
             projectile.extraUpdates += 1;
             projectile.GetGlobalProjectile<Globals.KeyProjectile>().Dark = true;
             Circle = 45;
@@ -32,14 +32,14 @@ namespace KeybrandsPlus.Projectiles
         public override void AI()
         {
             Player Owner = Main.player[projectile.owner];
-            if (projectile.timeLeft > 750)
+            if (projectile.timeLeft > 810)
             {
                 int Flame = Dust.NewDust(projectile.Center + projectile.velocity, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
                 Main.dust[Flame].scale *= .75f;
                 if (Main.rand.NextBool())
                     Main.dust[Flame].velocity /= 2;
             }
-            if (projectile.timeLeft == 750)
+            if (projectile.timeLeft == 810)
                 for (int i = 0; i < 20; i++)
                 {
                     int Flame = Dust.NewDust(projectile.Center + projectile.velocity, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
@@ -70,10 +70,10 @@ namespace KeybrandsPlus.Projectiles
                         }
                     }
                 }
-            if (projectile.timeLeft <= 840)
+            if (projectile.timeLeft <= 900)
             {
                 projectile.velocity = Vector2.Zero;
-                if (projectile.timeLeft == 750)
+                if (projectile.timeLeft == 810)
                 {
                     Main.PlaySound(SoundID.MaxMana, projectile.Center);
                     Primed = true;
@@ -85,6 +85,7 @@ namespace KeybrandsPlus.Projectiles
                     if (Collision.CanHit(projectile.Center, 0, 0, projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver2 * i) + Circle * Math.PI / 180) * 80f, 0, 0))
                     {
                         int Indicator = Dust.NewDust(projectile.Center + Vector2.UnitY.RotatedBy((MathHelper.PiOver2 * i) + Circle * Math.PI / 180) * 80, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
+                        Main.dust[Indicator].noLight = true;
                         Main.dust[Indicator].velocity = Vector2.Zero;
                         if (projectile.timeLeft <= 750)
                             Main.dust[Indicator].scale *= .25f;
