@@ -15,7 +15,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chem's Modified Aero Glider");
-            Tooltip.SetDefault("Grants enhanced gliding capabilities, increasing horizontal mobility and negates fall damage\n" +
+            Tooltip.SetDefault("Grants enhanced gliding capabilities, increasing horizontal mobility, and negates fall damage\n" +
                 "Cannot benefit from accessories or other items that increase flight duration\n" +
                 "'A portable device worn on the back that can create wings of hard light, meant for gliding'\n" +
                 "'The design was originally of the Avali, but it was modified to boast increased performance'");
