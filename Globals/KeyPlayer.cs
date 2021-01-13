@@ -666,6 +666,12 @@ namespace KeybrandsPlus.Globals
             }
         }
 
+        public override void UpdateBadLifeRegen()
+        {
+            if (LeafBracerTimer > 0 && player.lifeRegen < 0)
+                player.lifeRegen = 0;
+        }
+
         public override void UpdateDead()
         {
             if (MunnyConverter)
