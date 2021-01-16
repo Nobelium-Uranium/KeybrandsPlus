@@ -27,7 +27,7 @@ namespace KeybrandsPlus.Items.Other
             Scale = 1f;
             item.maxStack = 100;
         }
-        public override Color? GetAlpha(Color lightColor) => Color.White * 0.75f;
+        public override Color? GetAlpha(Color lightColor) => Color.White * .75f * Main.essScale;
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             if (TimeLeft > 0)
@@ -73,7 +73,7 @@ namespace KeybrandsPlus.Items.Other
             Rectangle sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
             Vector2 origin = sourceRectangle.Size() / 2f;
             Color drawColor = item.GetAlpha(lightColor);
-            Main.spriteBatch.Draw(texture, item.Center - Main.screenPosition, sourceRectangle, drawColor, rotation, origin, Scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, item.Center - Main.screenPosition, sourceRectangle, drawColor, rotation, origin, Scale * Main.essScale, SpriteEffects.None, 0f);
             return false;
         }
     }

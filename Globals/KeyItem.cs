@@ -108,7 +108,7 @@ namespace KeybrandsPlus.Globals
                 Rectangle sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
                 Vector2 origin = sourceRectangle.Size() / 2f;
                 Color drawColor = item.GetAlpha(lightColor);
-                Main.spriteBatch.Draw(texture, item.Center - Main.screenPosition, sourceRectangle, drawColor, rotation, origin, Scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture, item.Center - Main.screenPosition, sourceRectangle, drawColor * Main.essScale, rotation, origin, Scale, SpriteEffects.None, 0f);
                 return false;
             }
             return base.PreDrawInWorld(item, spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
