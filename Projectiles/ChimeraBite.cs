@@ -19,7 +19,6 @@ namespace KeybrandsPlus.Projectiles
             DisplayName.SetDefault("Chimera's Bite");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 250;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-            ProjectileID.Sets.Homing[projectile.type] = true;
         }
         public override void SetDefaults()
         {
