@@ -457,13 +457,15 @@ namespace KeybrandsPlus.Globals
                         player.immuneTime = 0;
                         player.immune = false;
                         NoHitsound = true;
-                        player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), (int)((1 * ChimeraMultiplier + PlayerDefense) * (1 + player.endurance)), 0);
+                        player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), (int)(1 * ChimeraMultiplier), 0);
                         NoHitsound = false;
                         player.immuneTime = OldImmuneTime;
                         if (player.bleed)
                             ChimeraMultiplier *= 2;
                         else
                             ChimeraMultiplier *= 1.5f;
+                        if (ChimeraMultiplier > 5000)
+                            ChimeraMultiplier = 5000;
                     }
                 }
             }
