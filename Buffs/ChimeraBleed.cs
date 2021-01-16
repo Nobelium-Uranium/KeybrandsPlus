@@ -14,7 +14,6 @@ namespace KeybrandsPlus.Buffs
             Description.SetDefault("Your blood refuses to stay in your body");
             Main.debuff[Type] = true;
             canBeCleared = false;
-            longerExpertDebuff = true;
         }
         public override void Update(NPC npc, ref int buffIndex)
         {

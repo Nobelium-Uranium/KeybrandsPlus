@@ -451,7 +451,7 @@ namespace KeybrandsPlus.Globals
                         player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), (int)(1 * ChimeraMultiplier) + (PlayerDefense / 2), 0);
                         NoHitsound = false;
                         player.immuneTime = OldImmuneTime;
-                        if (player.bleed)
+                        if (Main.expertMode || player.bleed)
                             ChimeraMultiplier *= 2;
                         else
                             ChimeraMultiplier *= 1.5f;
