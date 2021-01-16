@@ -23,7 +23,8 @@ namespace KeybrandsPlus.Globals
         private int FixedDir;
 
         public bool LuckySevens;
-        
+
+        public bool Moving;
         private bool NoHitsound;
 
         #region Abilities
@@ -115,8 +116,10 @@ namespace KeybrandsPlus.Globals
 
             LuckySevens = false;
 
-            NoHitsound = false;
+            Moving = false;
 
+            NoHitsound = false;
+            
             #region Abilities
             VitalBlow = false;
             AliveAndKicking = false;
@@ -388,7 +391,6 @@ namespace KeybrandsPlus.Globals
             if (ChimeraBleed)
             {
                 int PlayerDefense;
-                bool Moving = false;
                 if (Main.expertMode)
                     PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.75f);
                 else
@@ -396,9 +398,9 @@ namespace KeybrandsPlus.Globals
                 SuperBleedTimer++;
                 if (player.mount.Type == MountID.Ufo && (player.controlUp || player.controlDown) || player.controlLeft || player.controlRight || (player.controlJump && player.velocity.Y < 0f))
                     Moving = true;
-                if ((SuperBleedTimer == 22 || SuperBleedTimer == 67) && Main.rand.NextBool(7))
+                if ((SuperBleedTimer == 15 || SuperBleedTimer == 30 || SuperBleedTimer == 45 || SuperBleedTimer == 60) && Main.rand.NextBool(10))
                 {
-                    if (Main.rand.NextBool(3))
+                    if (Main.rand.NextBool(5))
                         for (int i = 0; i < Main.rand.Next(9, 21); i++)
                         {
                             float RandX = Main.rand.NextFloat(0, 2f);
@@ -423,7 +425,7 @@ namespace KeybrandsPlus.Globals
                             Projectile.NewProjectile(player.Center, RandVelocity, ProjectileType<Projectiles.Blood>(), 0, 0);
                         }
                 }
-                if ((SuperBleedTimer >= 90) || (SuperBleedTimer >= 45 && Moving))
+                if (SuperBleedTimer >= 60)
                 {
                     string DeathText;
                     switch (Main.rand.Next(3))
@@ -442,17 +444,6 @@ namespace KeybrandsPlus.Globals
                     if (LeafBracerTimer <= 0)
                     {
                         int OldImmuneTime = player.immuneTime;
-                        for (int i = 0; i < Main.rand.Next(3, 10); i++)
-                        {
-                            float RandX = Main.rand.NextFloat();
-                            if (Main.rand.NextBool())
-                                RandX *= -1;
-                            float RandY = Main.rand.NextFloat();
-                            if (Main.rand.NextBool())
-                                RandY *= -1;
-                            Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(MathHelper.ToRadians(5));
-                            Projectile.NewProjectile(player.Center, RandVelocity, ProjectileType<Projectiles.Blood>(), 0, 0);
-                        }
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Stab").WithVolume(0.5f).WithPitchVariance(0.15f), player.Center);
                         player.immuneTime = 0;
                         player.immune = false;
