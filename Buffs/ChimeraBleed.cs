@@ -25,8 +25,8 @@ namespace KeybrandsPlus.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            if (player.buffTime[buffIndex] > (Main.expertMode ? 1800 : 900))
-                player.buffTime[buffIndex] = Main.expertMode ? 1800 : 900;
+            if (player.buffTime[buffIndex] > (Main.expertMode ? 900 : 450))
+                player.buffTime[buffIndex] = Main.expertMode ? 900 : 450;
             player.GetModPlayer<KeyPlayer>().ChimeraBleed = true;
             int Blood = Dust.NewDust(player.position, player.width, player.height, DustID.Blood);
             Main.dust[Blood].position -= new Vector2(4, 4);
@@ -35,8 +35,8 @@ namespace KeybrandsPlus.Buffs
         public override bool ReApply(Player player, int time, int buffIndex)
         {
             player.buffTime[buffIndex] += time > (Main.expertMode ? 600 : 300) ? (Main.expertMode ? 600 : 300) : time;
-            if (player.buffTime[buffIndex] > (Main.expertMode ? 1800 : 900))
-                player.buffTime[buffIndex] = Main.expertMode ? 1800 : 900;
+            if (player.buffTime[buffIndex] > (Main.expertMode ? 900 : 450))
+                player.buffTime[buffIndex] = Main.expertMode ? 900 : 450;
             return false;
         }
     }

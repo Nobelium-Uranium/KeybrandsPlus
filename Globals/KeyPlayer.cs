@@ -15,6 +15,7 @@ namespace KeybrandsPlus.Globals
     class KeyPlayer : ModPlayer
     {
         public int statOldLife;
+        public int PlayerDefense;
 
         public Item lastVisualizedSelectedItem;
         public Rectangle itemRectangle;
@@ -386,15 +387,14 @@ namespace KeybrandsPlus.Globals
 
         public override void PostUpdate()
         {
+            if (Main.expertMode)
+                PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.75f);
+            else
+                PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.5f);
             if (GliderInactive)
                 player.wingsLogic = 0;
             if (ChimeraBleed)
             {
-                int PlayerDefense;
-                if (Main.expertMode)
-                    PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.75f);
-                else
-                    PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.5f);
                 SuperBleedTimer++;
                 if (player.mount.Type == MountID.Ufo && (player.controlUp || player.controlDown) || player.controlLeft || player.controlRight || (player.controlJump && player.velocity.Y < 0f))
                     Moving = true;
@@ -448,7 +448,7 @@ namespace KeybrandsPlus.Globals
                         player.immuneTime = 0;
                         player.immune = false;
                         NoHitsound = true;
-                        player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), (int)(1 * ChimeraMultiplier), 0);
+                        player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), (int)(1 * ChimeraMultiplier) + (PlayerDefense / 2), 0);
                         NoHitsound = false;
                         player.immuneTime = OldImmuneTime;
                         if (player.bleed)

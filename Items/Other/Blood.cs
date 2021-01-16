@@ -21,7 +21,7 @@ namespace KeybrandsPlus.Items.Other
             item.useTurn = true;
             item.UseSound = SoundID.Item3;
             item.buffType = BuffType<Buffs.ChimeraBleed>();
-            item.buffTime = 900;
+            item.buffTime = 450;
         }
 
         public override void PostUpdate()
