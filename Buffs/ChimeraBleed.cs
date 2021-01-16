@@ -34,7 +34,7 @@ namespace KeybrandsPlus.Buffs
         }
         public override bool ReApply(Player player, int time, int buffIndex)
         {
-            player.buffTime[buffIndex] += time > 300 ? 300 : time;
+            player.buffTime[buffIndex] += time > (Main.expertMode ? 600 : 300) ? (Main.expertMode ? 600 : 300) : time;
             if (player.buffTime[buffIndex] > (Main.expertMode ? 3600 : 1800))
                 player.buffTime[buffIndex] = Main.expertMode ? 3600 : 1800;
             return false;
