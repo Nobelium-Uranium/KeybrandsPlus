@@ -312,6 +312,8 @@ namespace KeybrandsPlus.Globals
 
         public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
         {
+            if (player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure")
+                Item.NewItem(player.getRect(), ItemType<Items.Consumables.IceCream>());
             if (ChimeraBleed)
                 for (int i = 0; i < player.statLifeMax2 / 20; i++)
                 {
