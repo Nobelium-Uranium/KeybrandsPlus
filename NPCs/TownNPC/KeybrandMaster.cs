@@ -386,7 +386,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                     Main.dust[dust].noGravity = true;
                 }
                 player.AddBuff(BuffType<Buffs.Stop>(), 180);
-                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 450);
+                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 900);
                 Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
                 Main.PlaySound(SoundID.Item60, npc.Center);
                 int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);

@@ -391,13 +391,13 @@ namespace KeybrandsPlus.Globals
                 PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.75f);
             else
                 PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.5f);
+            if (player.mount.Type == MountID.Ufo && (player.controlUp || player.controlDown) || player.controlLeft || player.controlRight || (player.controlJump && player.velocity.Y < 0f))
+                Moving = true;
             if (GliderInactive)
                 player.wingsLogic = 0;
             if (ChimeraBleed)
             {
                 SuperBleedTimer++;
-                if (player.mount.Type == MountID.Ufo && (player.controlUp || player.controlDown) || player.controlLeft || player.controlRight || (player.controlJump && player.velocity.Y < 0f))
-                    Moving = true;
                 if ((SuperBleedTimer == 15 || SuperBleedTimer == 30 || SuperBleedTimer == 45 || SuperBleedTimer == 60) && Main.rand.NextBool(10))
                 {
                     if (Main.rand.NextBool(5))
@@ -428,7 +428,9 @@ namespace KeybrandsPlus.Globals
                 if (SuperBleedTimer >= 60)
                 {
                     string DeathText;
-                    switch (Main.rand.Next(3))
+                    if (Main.rand.NextBool(100))
+                        DeathText = player.name + " withered away.";
+                    else switch (Main.rand.Next(3))
                     {
                         case 1:
                             DeathText = player.name + " was completely drained of blood.";
@@ -448,6 +450,7 @@ namespace KeybrandsPlus.Globals
                         player.immuneTime = 0;
                         player.immune = false;
                         NoHitsound = true;
+                        SecondChance = false;
                         player.Hurt(PlayerDeathReason.ByCustomReason(DeathText), (int)(1 * ChimeraMultiplier) + (PlayerDefense / 2), 0);
                         NoHitsound = false;
                         player.immuneTime = OldImmuneTime;
@@ -664,6 +667,11 @@ namespace KeybrandsPlus.Globals
                 KeybrandMelee -= .4f;
                 KeybrandRanged -= .4f;
                 RibbonEndurance -= .4f;
+            }
+            if (ChimeraBleed && !player.buffImmune[BuffID.Bleeding])
+            {
+                player.meleeDamageMult *= Main.expertMode ? .5f : .75f;
+                player.rangedDamageMult *= Main.expertMode ? .5f : .75f;
             }
         }
 
