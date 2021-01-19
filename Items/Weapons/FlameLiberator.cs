@@ -18,7 +18,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "Alt Attack: Eternal Flames\n" +
                 "Throws up to two flaming chakrams straight ahead\n" +
                 "The chakrams inflict a stacking fire debuff\n" +
-                "No Abilities\n" +
+                "Ability: Vital Blow\n" +
                 "'Got it memorized?'");
         }
         public override void SetDefaults()
@@ -69,6 +69,11 @@ namespace KeybrandsPlus.Items.Weapons
                 item.UseSound = SoundID.Item116;
             }
             return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1;
+        }
+
+        public override void HoldItem(Player player)
+        {
+            player.GetModPlayer<KeyPlayer>().VitalBlow = true;
         }
 
         public override void UpdateInventory(Player player)

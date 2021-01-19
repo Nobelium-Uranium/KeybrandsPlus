@@ -30,7 +30,6 @@ namespace KeybrandsPlus.Globals
 
         #region Abilities
         public bool VitalBlow;
-        public bool AliveAndKicking;
         public bool Defender;
         public bool DefenderPlus;
         public int DefenderThreshold;
@@ -123,7 +122,6 @@ namespace KeybrandsPlus.Globals
             
             #region Abilities
             VitalBlow = false;
-            AliveAndKicking = false;
             Defender = false;
             DefenderPlus = false;
             DefenderThreshold = 0;

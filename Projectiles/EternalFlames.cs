@@ -63,7 +63,6 @@ namespace KeybrandsPlus.Projectiles
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
             Main.PlaySound(SoundID.Dig, projectile.Center);
-            Main.PlaySound(SoundID.NPCHit4, projectile.Center);
             projectile.velocity = -projectile.oldVelocity;
             GlobalTimer = 0;
             return false;

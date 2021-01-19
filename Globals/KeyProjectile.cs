@@ -1,5 +1,8 @@
 ﻿using KeybrandsPlus.Helpers;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Globals

@@ -14,6 +14,8 @@ namespace KeybrandsPlus.Globals
         public override bool InstancePerEntity { get { return true; } }
         public override bool CloneNewInstances { get { return true; } }
         public bool IsKeybrand;
+        public bool AliveNKicking;
+
         public int TimeLeft;
         public float Scale;
 
@@ -146,8 +148,13 @@ namespace KeybrandsPlus.Globals
                 else if (item.magic)
                     mult += player.GetModPlayer<KeyPlayer>().KeybrandMagic;
             }
-            if (player.GetModPlayer<KeyPlayer>().AliveAndKicking && player.statLife == player.statLifeMax2)
-                mult += .5f;
+            if (AliveNKicking)
+            {
+                if (player.statLife >= (float)player.statLifeMax2 * .75f)
+                    mult += .5f;
+                else if (player.statLife <= (float)player.statLifeMax2 * .5f)
+                    mult -= .5f;
+            }
         }
     }
 }
