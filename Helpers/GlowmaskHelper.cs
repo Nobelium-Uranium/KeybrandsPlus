@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Helpers
@@ -10,6 +11,7 @@ namespace KeybrandsPlus.Helpers
     internal class GlowmaskHelper : GlobalItem
     {
         public Texture2D glowTexture = null;
+        public Color glowColor = Color.White;
         public int glowOffsetY = 0;
         public int glowOffsetX = 0;
 
@@ -17,7 +19,7 @@ namespace KeybrandsPlus.Helpers
 
         public override bool CloneNewInstances => true;
     }
-
+    
     internal class GlowmaskHelperPlayer : ModPlayer
     {
         public static readonly PlayerLayer Glowmask = new PlayerLayer("KeybrandsPlus", "Glowmask", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo)
@@ -32,6 +34,7 @@ namespace KeybrandsPlus.Helpers
             {
                 Item item = drawPlayer.HeldItem;
                 Texture2D texture = item.GetGlobalItem<GlowmaskHelper>().glowTexture;
+                Color glowColor = item.GetGlobalItem<GlowmaskHelper>().glowColor;
                 Vector2 vecZero = Vector2.Zero;
 
                 if (drawPlayer.itemAnimation <= 0 || texture == null)
@@ -39,22 +42,20 @@ namespace KeybrandsPlus.Helpers
 
                 Vector2 position = drawInfo.itemLocation;
 
-                if (item.useStyle == 5)
+                if (item.useStyle == ItemUseStyleID.HoldingOut)
                 {
                     bool staff = Item.staff[item.type];
                     if (staff)
                     {
-                        float num104 = drawPlayer.itemRotation + 0.785f * drawPlayer.direction; //TODO rename
-                        int textureWidth = 0; //TODO rename
-                        int num = 0; //TODO rename
-                        Vector2 zero3 = new Vector2(0f, Main.itemTexture[item.type].Height); //TODO rename
+                        float num104 = drawPlayer.itemRotation + 0.785f * drawPlayer.direction;
+                        int textureWidth = 0;
+                        Vector2 zero3 = new Vector2(0f, Main.itemTexture[item.type].Height);
 
                         if (drawPlayer.gravDir == -1f)
                         {
-                            //TODO explain this
                             if (drawPlayer.direction == -1)
                             {
-                                num104 += 1.57f; //TODO comment meaning
+                                num104 += 1.57f;
                                 zero3 = new Vector2(Main.itemTexture[item.type].Width, 0f);
                                 textureWidth -= Main.itemTexture[item.type].Width;
                             }
@@ -64,7 +65,7 @@ namespace KeybrandsPlus.Helpers
                                 zero3 = Vector2.Zero;
                             }
                         }
-                        //TODO explain
+
                         else if (drawPlayer.direction == -1)
                         {
                             zero3 = new Vector2(Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height);
@@ -74,9 +75,9 @@ namespace KeybrandsPlus.Helpers
                         DrawData value = new DrawData
                         (
                             texture,
-                            new Vector2((int)(position.X - Main.screenPosition.X + zero3.X + textureWidth), (int)(position.Y - Main.screenPosition.Y + num)),
+                            position - Main.screenPosition + new Vector2(zero3.X + textureWidth, 0),
                             new Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-                            Color.White,
+                            glowColor,
                             num104,
                             zero3,
                             item.scale,
@@ -88,13 +89,12 @@ namespace KeybrandsPlus.Helpers
                     }
                     else
                     {
-                        Vector2 halfTexture = new Vector2(Main.itemTexture[item.type].Width / 2, Main.itemTexture[item.type].Height / 2); //TODO rename
+                        Vector2 halfTexture = new Vector2(Main.itemTexture[item.type].Width / 2, Main.itemTexture[item.type].Height / 2);
 
-                        Vector2 vector11 = new Vector2(10, texture.Height / 2); //TODO rename
+                        Vector2 vector11 = new Vector2(10, texture.Height / 2);
 
                         GlowmaskHelper glowmaskHelper = item.GetGlobalItem<GlowmaskHelper>();
 
-                        //TODO explain below
                         if (glowmaskHelper.glowOffsetX != 0)
                             vector11.X = glowmaskHelper.glowOffsetX;
 
@@ -106,7 +106,7 @@ namespace KeybrandsPlus.Helpers
                         if (drawPlayer.direction == -1)
                             origin5 = new Vector2(Main.itemTexture[item.type].Width + num107, Main.itemTexture[item.type].Height / 2);
 
-                        DrawData value = new DrawData(texture, new Vector2((int)(position.X - Main.screenPosition.X + halfTexture.X), (int)(position.Y - Main.screenPosition.Y + halfTexture.Y)), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)), Color.White, drawPlayer.itemRotation, origin5, item.scale, drawInfo.spriteEffects, 0);
+                        DrawData value = new DrawData(texture, new Vector2((int)(position.X - Main.screenPosition.X + halfTexture.X), (int)(position.Y - Main.screenPosition.Y + halfTexture.Y)), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)), glowColor, drawPlayer.itemRotation, origin5, item.scale, drawInfo.spriteEffects, 0);
                         Main.playerDrawData.Add(value);
                     }
                 }
@@ -117,7 +117,7 @@ namespace KeybrandsPlus.Helpers
                         texture,
                         new Vector2((int)(position.X - Main.screenPosition.X),
                         (int)(position.Y - Main.screenPosition.Y)), new Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)),
-                        Color.White,
+                        glowColor,
                         drawPlayer.itemRotation,
                          new Vector2(texture.Width * 0.5f - texture.Width * 0.5f * drawPlayer.direction, drawPlayer.gravDir == -1 ? 0f : texture.Height),
                         item.scale,

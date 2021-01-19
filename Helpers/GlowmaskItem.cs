@@ -8,15 +8,24 @@ namespace KeybrandsPlus.Helpers
 {
     public abstract class GlowmaskItem : ModItem
     {
+        public virtual Texture2D GlowmaskTexture => null;
+
+        public virtual Color GlowColor => Color.White;
+
+        public virtual Color[] ItemNameCycleColors => null;
+
         public override void SetDefaults()
         {
             if (!Main.dedServ && GlowmaskTexture != null)
                 item.GetGlobalItem<GlowmaskHelper>().glowTexture = GlowmaskTexture;
         }
 
-        public virtual Texture2D GlowmaskTexture => null;
-
-        public virtual Color[] ItemNameCycleColors => null;
+        public override bool UseItem(Player player)
+        {
+            if (GlowColor != null)
+                item.GetGlobalItem<GlowmaskHelper>().glowColor = GlowColor;
+            return base.UseItem(player);
+        }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
@@ -31,7 +40,7 @@ namespace KeybrandsPlus.Helpers
                         item.position.Y - Main.screenPosition.Y + item.height - GlowmaskTexture.Height * 0.5f + 2f
                     ),
                     new Rectangle(0, 0, GlowmaskTexture.Width, GlowmaskTexture.Height),
-                    Color.White,
+                    GlowColor,
                     rotation,
                     GlowmaskTexture.Size() * 0.5f,
                     scale,
@@ -53,8 +62,8 @@ namespace KeybrandsPlus.Helpers
                     if (line.mod == "Terraria" && line.Name == "ItemName")
                     {
                         float fade = Main.GameUpdateCount % 60 / 60f;
-                        int index = (int)(Main.GameUpdateCount / 60 % 2);
-                        line.overrideColor = Color.Lerp(ItemNameCycleColors[index], ItemNameCycleColors[(index + 1) % 2], fade);
+                        int index = (int)(Main.GameUpdateCount / 60 % ItemNameCycleColors.Length);
+                        line.overrideColor = Color.Lerp(ItemNameCycleColors[index], ItemNameCycleColors[(index + 1) % ItemNameCycleColors.Length], fade);
                     }
                 }
             }
