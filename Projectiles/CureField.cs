@@ -18,8 +18,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.friendly = true;
             projectile.damage = 0;
             projectile.ignoreWater = true;
-            Boost = 1 + projectile.ai[0];
-            CureLevel = (int)Math.Round(projectile.ai[1]);
+            CureLevel = (int)Math.Round(projectile.ai[0]);
             if (CureLevel < 0)
                 CureLevel = 0;
             else if (CureLevel > 3)
@@ -31,6 +30,8 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void AI()
         {
+            Player owner = Main.player[projectile.owner];
+            Boost = 1 + owner.GetModPlayer<Globals.KeyPlayer>().KeybrandMagic;
             projectile.velocity = Vector2.Zero;
             float distance;
             switch (CureLevel)
@@ -72,7 +73,7 @@ namespace KeybrandsPlus.Projectiles
                 for (int k = 0; k < 200; k++)
                 {
                     Player p = Main.player[k];
-                    if (p.active && !p.dead && projectile.Distance(p.Center) < distance && p.team == Main.player[projectile.owner].team)
+                    if (p.active && !p.dead && projectile.Distance(p.Center) < distance && p.team == owner.team)
                     {
                         for (int i = 0; i < 5; i++)
                         {

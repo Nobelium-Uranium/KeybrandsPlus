@@ -14,7 +14,7 @@ namespace KeybrandsPlus.Items.Weapons
             Tooltip.SetDefault("+10 Light Alignment\n" +
                 "Alt Action: Cure\n" +
                 "Creates a healing field at the cursor's postion\n" +
-                "The range and amount of life healed depends on your keybrand magic damage boost\n" +
+                "The range and heal rate depends on magic keybrand boosts\n" +
                 "This has a 30 second cooldown\n" +
                 "Ability: Alive 'n' Kicking\n" +
                 "'Hakuna Matata!'");
@@ -73,7 +73,7 @@ namespace KeybrandsPlus.Items.Weapons
                     player.manaRegenDelay = 600;
                 player.AddBuff(ModContent.BuffType<Buffs.CureCooldown>(), 1800);
                 position = Main.MouseWorld;
-                Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<Projectiles.CureField>(), 0, 0, player.whoAmI, player.GetModPlayer<KeyPlayer>().KeybrandMagic);
+                Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<Projectiles.CureField>(), 0, 0, player.whoAmI);
             }
             return false;
         }
