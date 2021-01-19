@@ -5,11 +5,14 @@ using Terraria.ModLoader;
 using System;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace KeybrandsPlus.Items.Weapons.Developer
 {
     class Chimera : Helpers.Keybrand
     {
+        public override Texture2D GlowmaskTexture => mod.GetTexture("Textures/Glowmasks/Chimera");
+
         private int LifestealCooldown;
         public override void SetStaticDefaults()
         {

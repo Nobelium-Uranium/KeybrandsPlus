@@ -18,9 +18,6 @@ namespace KeybrandsPlus.Buffs
         public override void Update(NPC npc, ref int buffIndex)
         {
             npc.GetGlobalNPC<KeyNPC>().ChimeraBleed = true;
-            int Blood = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood);
-            Main.dust[Blood].position -= new Vector2(4, 4);
-            Main.dust[Blood].velocity = Vector2.Zero;
         }
         public override void Update(Player player, ref int buffIndex)
         {

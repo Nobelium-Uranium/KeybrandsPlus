@@ -15,8 +15,10 @@ namespace KeybrandsPlus.Globals
         private bool Init;
 
         public bool ChimeraBleed;
-        public bool DragonRot;
         private int SuperbleedTimer;
+        public bool DragonRot;
+        public bool EternalBlaze;
+        public int BlazeStack;
         private int LockOnFrame;
         private int LockOnFrameCounter;
         public bool PhysImmune;
@@ -79,6 +81,7 @@ namespace KeybrandsPlus.Globals
             foreach (int i in DarkTypes)
                 if (npc.type == i)
                     Dark = true;
+            BlazeStack = 1;
         }
         public override void ResetEffects(NPC npc)
         {
@@ -92,6 +95,7 @@ namespace KeybrandsPlus.Globals
             DarkResist = OldDarkRes;
             ChimeraBleed = false;
             DragonRot = false;
+            EternalBlaze = false;
             LockedOn = false;
         }
         public override void AI(NPC npc)
@@ -107,6 +111,14 @@ namespace KeybrandsPlus.Globals
                 OldAeroRes = AeroResist;
                 OldWaterRes = WaterResist;
                 OldDarkRes = DarkResist;
+            }
+            if (npc.wet)
+            {
+                npc.buffImmune[BuffType<Buffs.EternalBlaze>()] = true;
+            }
+            else
+            {
+                npc.buffImmune[BuffType<Buffs.EternalBlaze>()] = false;
             }
             if (ChimeraBleed)
             {
@@ -131,9 +143,26 @@ namespace KeybrandsPlus.Globals
             }
             else
                 SuperbleedTimer = 15;
+            if (EternalBlaze)
+            {
+                if (BlazeStack > 10)
+                    BlazeStack = 10;
+                else if (BlazeStack < 1)
+                    BlazeStack = 1;
+            }
+            else
+            {
+                BlazeStack = 1;
+            }
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
+            if (EternalBlaze)
+            {
+                npc.lifeRegen -= 9 * BlazeStack;
+                if (damage < 3 * BlazeStack)
+                    damage = 3 * BlazeStack;
+            }
             if (DragonRot)
             {
                 npc.lifeRegen -= 150;
@@ -240,6 +269,42 @@ namespace KeybrandsPlus.Globals
                         break;
                 }
                 spriteBatch.Draw(t, drawPos, null, Color.White, 0, drawOrigin, 1f, SpriteEffects.None, 0);
+            }
+        }
+        public override void DrawEffects(NPC npc, ref Color drawColor)
+        {
+            if (ChimeraBleed)
+            {
+                int Blood = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood);
+                Main.dust[Blood].position -= new Vector2(4, 4);
+                Main.dust[Blood].velocity = Vector2.Zero;
+            }
+            if (DragonRot)
+            {
+                drawColor = new Color(144, 15, 141);
+                if (!Main.rand.NextBool(4))
+                {
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, DustType<Dusts.DraconicFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y -= 0.5f;
+                    Main.dust[dust].velocity *= 0.5f;
+                }
+            }
+            if (EternalBlaze)
+            {
+                drawColor = Color.White;
+                int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 235, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, Scale: 1f);
+                Main.dust[dustIndex].noGravity = true;
+                Main.dust[dustIndex].velocity *= 1.8f;
+                Main.dust[dustIndex].velocity.Y -= 0.5f;
+                Main.dust[dustIndex].velocity *= 0.5f;
+                int dustIndex2 = Dust.NewDust(npc.position, npc.width, npc.height, 127, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, Scale: 3f);
+                Main.dust[dustIndex].position -= new Vector2(4);
+                Main.dust[dustIndex2].noGravity = true;
+                Main.dust[dustIndex2].velocity *= 1.8f;
+                Main.dust[dustIndex2].velocity.Y -= 0.5f;
+                Main.dust[dustIndex2].velocity *= 0.5f;
             }
         }
         public override void NPCLoot(NPC npc)

@@ -21,7 +21,7 @@ namespace KeybrandsPlus.Projectiles
         {
             DisplayName.SetDefault("Judgement");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 13;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
             ProjectileID.Sets.Homing[projectile.type] = true;
         }
         public override void SetDefaults()
