@@ -29,7 +29,6 @@ namespace KeybrandsPlus
                 editor.DeleteIngredient(ItemID.Keybrand);
                 editor.AddIngredient(ModContent.ItemType<Items.Weapons.Keybrand>());
             }
-
             finder = new RecipeFinder();
             finder.SetResult(ItemID.Keybrand);
             foreach (Recipe recipe in finder.SearchRecipes())
@@ -37,6 +36,11 @@ namespace KeybrandsPlus
                 RecipeEditor editor = new RecipeEditor(recipe);
                 editor.SetResult(ModContent.ItemType<Items.Materials.RustedKeybrand>());
             }
+            ModRecipe r = new ModRecipe(this);
+            r.AddIngredient(ItemID.HellstoneBar, 15);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.Flamarang);
+            r.AddRecipe();
         }
         public override void AddRecipeGroups()
         {
@@ -76,6 +80,18 @@ namespace KeybrandsPlus
                     ItemID.PlatinumBar,
                 });
             RecipeGroup.RegisterGroup("K+:T4Bar", g);
+            g = new RecipeGroup(() => "Demonite/Crimtane Bar", new int[]
+                {
+                    ItemID.DemoniteBar,
+                    ItemID.CrimtaneBar,
+                });
+            RecipeGroup.RegisterGroup("K+:EvilBar", g);
+            g = new RecipeGroup(() => "Shadow Scale/Tissue Sample", new int[]
+                {
+                    ItemID.ShadowScale,
+                    ItemID.TissueSample,
+                });
+            RecipeGroup.RegisterGroup("K+:EvilSample", g);
             g = new RecipeGroup(() => "Cobalt/Palladium Bar", new int[]
                 {
                     ItemID.CobaltBar,

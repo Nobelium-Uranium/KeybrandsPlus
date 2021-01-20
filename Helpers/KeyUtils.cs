@@ -1,9 +1,38 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Linq;
+using Terraria;
 
 namespace KeybrandsPlus.Helpers
 {
     public static class KeyUtils
     {
+        public static int GetItemSlot(Player player, Item item)
+        {
+            Item i = null;
+            for (int num = 0; num < player.inventory.Length; num++)
+            {
+                if (!player.inventory[num].IsAir)
+                    i = player.inventory[num];
+                if (item == i)
+                    return num;
+            }
+            return -1;
+        }
+
+        public static bool InHotbar(Player player, Item item)
+        {
+            Item i = null;
+            bool condition = false;
+            for (int num = 0; num < 10; num++)
+            {
+                if (!player.inventory[num].IsAir)
+                    i = player.inventory[num];
+                if (item == i)
+                    condition = true;
+            }
+            return condition;
+        }
+
         public static Vector2 ClosestPointInRect(Rectangle r, Vector2 point)
         {
             Vector2 vector = point;

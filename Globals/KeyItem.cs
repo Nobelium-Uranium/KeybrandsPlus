@@ -13,7 +13,12 @@ namespace KeybrandsPlus.Globals
     {
         public override bool InstancePerEntity { get { return true; } }
         public override bool CloneNewInstances { get { return true; } }
+        private bool InHotbar;
         public bool IsKeybrand;
+        public int LimitPenalty;
+        public bool ExemptFromLimit;
+        private bool KeybrandLimitReached;
+
         public bool AliveNKicking;
 
         public int TimeLeft;
@@ -64,8 +69,12 @@ namespace KeybrandsPlus.Globals
         }
         public override void UpdateInventory(Item item, Player player)
         {
+            InHotbar = KeyUtils.InHotbar(player, item);
+            KeybrandLimitReached = player.GetModPlayer<KeyPlayer>().KeybrandLimitReached;
             if (item.type == ItemID.Keybrand)
                 item.SetDefaults(ItemType<Items.Materials.RustedKeybrand>());
+            if (IsKeybrand && !ExemptFromLimit && InHotbar)
+                player.GetModPlayer<KeyPlayer>().HeldKeybrands += 1 + LimitPenalty;
         }
         public override void Update(Item item, ref float gravity, ref float maxFallSpeed)
         {
@@ -115,6 +124,12 @@ namespace KeybrandsPlus.Globals
             }
             return base.PreDrawInWorld(item, spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
         }
+        public override bool CanUseItem(Item item, Player player)
+        {
+            if (IsKeybrand && !ExemptFromLimit && KeybrandLimitReached)
+                return false;
+            return base.CanUseItem(item, player);
+        }
         public override bool UseItem(Item item, Player player)
         {
             if (player.GetModPlayer<KeyPlayer>().LeafBracer && item.healLife > 0)
@@ -154,6 +169,16 @@ namespace KeybrandsPlus.Globals
                     mult += .5f;
                 else if (player.statLife <= (float)player.statLifeMax2 * .5f)
                     mult -= .5f;
+            }
+        }
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (IsKeybrand && !ExemptFromLimit)
+            {
+                TooltipLine line;
+                line = new TooltipLine(mod, "HeldKeybrandsWarning", "Warning: You have reached the maximum allotted keybrands in the hotbar") { overrideColor = Color.Red };
+                if (KeybrandLimitReached && InHotbar)
+                    tooltips.Add(line);
             }
         }
     }

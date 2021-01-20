@@ -41,6 +41,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.autoReuse = true;
             item.useTurn = true;
             item.shootSpeed = 1f;
+            item.GetGlobalItem<KeyItem>().LimitPenalty = 2;
         }
         public override bool NewPreReforge()
         {
@@ -91,7 +92,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
         }
         public override void HoldItem(Player player)
         {
-            if (NPC.downedMoonlord)
+            if (NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure")
             {
                 player.GetModPlayer<KeyPlayer>().MPHasteza = true;
                 player.GetModPlayer<KeyPlayer>().DamageControl = true;
@@ -102,7 +103,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
         }
         public override void UpdateInventory(Player player)
         {
-            if (NPC.downedMoonlord)
+            if (NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure")
             {
                 player.GetModPlayer<KeyPlayer>().LightAlignment -= 10;
                 player.GetModPlayer<KeyPlayer>().DarkAlignment -= 10;

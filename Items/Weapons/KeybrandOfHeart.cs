@@ -42,5 +42,24 @@ namespace KeybrandsPlus.Items.Weapons
         {
             player.GetModPlayer<KeyPlayer>().DarkAlignment += 10;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<Materials.KeybrandMold>());
+            r.AddIngredient(ItemID.DemoniteBar, 18);
+            r.AddIngredient(ItemID.ShadowScale, 12);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(this);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<Materials.KeybrandMold>());
+            r.AddIngredient(ItemID.CrimtaneBar, 18);
+            r.AddIngredient(ItemID.TissueSample, 12);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(this);
+            r.AddRecipe();
+        }
     }
 }

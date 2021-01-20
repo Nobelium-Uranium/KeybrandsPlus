@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using KeybrandsPlus.Globals;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,6 +26,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
+            item.GetGlobalItem<KeyItem>().ExemptFromLimit = true;
         }
         public override bool AltFunctionUse(Player player)
         {

@@ -17,6 +17,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "Ability: Defender+\n" +
                 "'A weapon from the dark realm'");
         }
+
         public override void SetDefaults()
         {
             item.damage = 55;
@@ -34,6 +35,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.shootSpeed = 50f;
             item.GetGlobalItem<KeyItem>().Dark = true;
         }
+
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
             float t = (float)target.life / (float)target.lifeMax;
@@ -41,6 +43,7 @@ namespace KeybrandsPlus.Items.Weapons
             float damageBoost = 1f * lerpValue;
             damage = (int)(damage * (1 + damageBoost));
         }
+
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse != 2)
@@ -69,13 +72,28 @@ namespace KeybrandsPlus.Items.Weapons
             }
             return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
         }
+
         public override void HoldItem(Player player)
         {
             player.GetModPlayer<KeyPlayer>().DefenderPlus = true;
         }
+
         public override void UpdateInventory(Player player)
         {
             player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment += 15;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<KeybrandOfHeart>());
+            r.AddIngredient(ModContent.ItemType<AbyssalTide>());
+            r.AddIngredient(ModContent.ItemType<CircleOfLife>());
+            r.AddIngredient(ModContent.ItemType<FlameLiberator>());
+            r.AddTile(TileID.DemonAltar);
+            r.SetResult(this);
+            r.AddRecipe();
+        }
+
     }
 }

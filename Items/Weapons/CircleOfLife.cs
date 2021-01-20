@@ -50,6 +50,7 @@ namespace KeybrandsPlus.Items.Weapons
                 item.UseSound = SoundID.Item1;
                 item.shoot = 0;
             }
+
             else
             {
                 item.damage = 0;
@@ -64,6 +65,7 @@ namespace KeybrandsPlus.Items.Weapons
             }
             return base.CanUseItem(player);
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
@@ -77,9 +79,22 @@ namespace KeybrandsPlus.Items.Weapons
             }
             return false;
         }
+
         public override void UpdateInventory(Player player)
         {
             player.GetModPlayer<KeyPlayer>().LightAlignment += 10;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<Materials.KeybrandMold>());
+            r.AddIngredient(ItemID.LifeCrystal, 3);
+            r.AddIngredient(ItemID.JungleSpores, 14);
+            r.AddIngredient(ItemID.Stinger, 18);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(this);
+            r.AddRecipe();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.rare = ItemRarityID.Orange;
             item.melee = true;
-            item.shootSpeed = 15f;
+            item.shootSpeed = 30f;
             item.GetGlobalItem<KeyItem>().Fire = true;
         }
         public override bool CanUseItem(Player player)
@@ -48,9 +48,8 @@ namespace KeybrandsPlus.Items.Weapons
                 item.ranged = false;
                 item.noMelee = false;
                 item.noUseGraphic = false;
-                item.useTurn = true;
-                item.useTime = 20;
-                item.useAnimation = 20;
+                item.useTime = 33;
+                item.useAnimation = 33;
                 item.shoot = 0;
                 item.UseSound = SoundID.Item1;
             }
@@ -60,7 +59,6 @@ namespace KeybrandsPlus.Items.Weapons
                 item.knockBack = 2.4f;
                 item.melee = false;
                 item.ranged = true;
-                item.useTurn = false;
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.shoot = ModContent.ProjectileType<Projectiles.EternalFlames>();
@@ -84,7 +82,7 @@ namespace KeybrandsPlus.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (Main.rand.NextBool(10))
+            if (Main.rand.NextBool(3))
                 target.AddBuff(ModContent.BuffType<Buffs.EternalBlaze>(), 180);
         }
 
@@ -95,9 +93,19 @@ namespace KeybrandsPlus.Items.Weapons
                 int dustIndex = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 235);
                 Main.dust[dustIndex].noGravity = true;
                 int dustIndex2 = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 127, Scale: 2f);
-                Main.dust[dustIndex2].position -= new Vector2(4);
                 Main.dust[dustIndex2].noGravity = true;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<Materials.KeybrandMold>());
+            r.AddIngredient(ItemID.HellstoneBar, 14);
+            r.AddIngredient(ItemID.Flamarang, 2);
+            r.AddTile(TileID.Anvils);
+            r.SetResult(this);
+            r.AddRecipe();
         }
     }
 }

@@ -29,6 +29,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shootSpeed = 10f;
+            item.GetGlobalItem<KeyItem>().ExemptFromLimit = true;
         }
         public override bool CanUseItem(Player player)
         {

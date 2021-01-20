@@ -2,7 +2,6 @@
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
-using KeybrandsPlus.Items;
 using KeybrandsPlus.Buffs;
 using KeybrandsPlus.Items.Currency;
 using System;
@@ -22,6 +21,9 @@ namespace KeybrandsPlus.Globals
 
         private bool FixedDirection;
         private int FixedDir;
+
+        public int HeldKeybrands;
+        public bool KeybrandLimitReached;
 
         public bool LuckySevens;
 
@@ -114,6 +116,8 @@ namespace KeybrandsPlus.Globals
         {
             statOldLife = 0;
 
+            HeldKeybrands = 0;
+
             LuckySevens = false;
 
             Moving = false;
@@ -190,6 +194,11 @@ namespace KeybrandsPlus.Globals
             LightAlignment = 0;
             DarkAlignment = 0;
             TotalAlignment = 0;
+        }
+
+        public override void PostUpdateEquips()
+        {
+            KeybrandLimitReached = HeldKeybrands > 5;
         }
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)

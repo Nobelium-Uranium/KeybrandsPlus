@@ -19,8 +19,8 @@ namespace KeybrandsPlus.Projectiles
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
         public override void SetDefaults()
@@ -30,9 +30,8 @@ namespace KeybrandsPlus.Projectiles
             projectile.ranged = true;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
-            GlobalTimer = 30;
-            projectile.extraUpdates++;
-            projectile.timeLeft = 300;
+            GlobalTimer = 10;
+            projectile.timeLeft = 180;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.GetGlobalProjectile<Globals.KeyProjectile>().Fire = true;
@@ -80,7 +79,6 @@ namespace KeybrandsPlus.Projectiles
             int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235);
             Main.dust[dustIndex].noGravity = true;
             int dustIndex2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, Scale: 2f);
-            Main.dust[dustIndex2].position -= new Vector2(4);
             Main.dust[dustIndex2].noGravity = true;
             if (!owner.active || owner.dead)
                 projectile.Kill();
@@ -106,11 +104,11 @@ namespace KeybrandsPlus.Projectiles
                         }
                         if (target)
                         {
-                            AdjustMagnitude(ref move, 15f);
+                            AdjustMagnitude(ref move, 30f);
                             projectile.velocity = (10 * projectile.velocity + move) / 11f;
-                            AdjustMagnitude(ref projectile.velocity, 15f);
+                            AdjustMagnitude(ref projectile.velocity, 30f);
                         }
-                        if (distanceTo < 25f)
+                        if (distanceTo <= 30f)
                             projectile.Kill();
                     }
                 }
@@ -144,6 +142,13 @@ namespace KeybrandsPlus.Projectiles
             Main.spriteBatch.Draw(texture,
                 projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY),
                 sourceRectangle, drawColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+            
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + origin / 2 + new Vector2(0f, projectile.gfxOffY);
+                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            }
             return false;
         }
     }

@@ -18,6 +18,7 @@ namespace KeybrandsPlus.Globals
         private int SuperbleedTimer;
         public bool DragonRot;
         public bool EternalBlaze;
+        public bool EternalBlazeImmune;
         public int BlazeStack;
         private int LockOnFrame;
         private int LockOnFrameCounter;
@@ -28,7 +29,11 @@ namespace KeybrandsPlus.Globals
         public bool ChimeraImmune;
         public bool OnlyKeybrand;
         public bool LockedOn;
-        
+
+        #region Debuff Immunities
+        public int[] EternalBlazeImmuneList = { 35, 36, 39, 40, 41, 59, 60, 62, 66, 68, 113, 114, 151, 156, 245, 246, 247, 248, 249, 277, 278, 279, 280, 285, 286, 412, 413, 414, 415, 416, 417, 418, 419, 517, 518 };
+        #endregion  
+
         public bool Fire;
         public bool Blizzard;
         public bool Thunder;
@@ -63,6 +68,9 @@ namespace KeybrandsPlus.Globals
             Init = false;
             if (npc.modNPC is Heartless)
                 OnlyKeybrand = true;
+            foreach (int i in EternalBlazeImmuneList)
+                if (npc.type == i)
+                    EternalBlazeImmune = true;
             foreach (int i in FireTypes)
                 if (npc.type == i)
                     Fire = true;
@@ -112,14 +120,10 @@ namespace KeybrandsPlus.Globals
                 OldWaterRes = WaterResist;
                 OldDarkRes = DarkResist;
             }
-            if (npc.wet)
-            {
+            if (npc.wet || EternalBlazeImmune)
                 npc.buffImmune[BuffType<Buffs.EternalBlaze>()] = true;
-            }
             else
-            {
                 npc.buffImmune[BuffType<Buffs.EternalBlaze>()] = false;
-            }
             if (ChimeraBleed)
             {
                 if (!npc.dontTakeDamage)
@@ -296,14 +300,13 @@ namespace KeybrandsPlus.Globals
                 drawColor = Color.White;
                 int dustIndex = Dust.NewDust(npc.position, npc.width, npc.height, 235, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, Scale: 1f);
                 Main.dust[dustIndex].noGravity = true;
-                Main.dust[dustIndex].velocity *= 1.8f;
-                Main.dust[dustIndex].velocity.Y -= 0.5f;
+                Main.dust[dustIndex].velocity *= 3.6f;
+                Main.dust[dustIndex].velocity.Y -= 1f;
                 Main.dust[dustIndex].velocity *= 0.5f;
                 int dustIndex2 = Dust.NewDust(npc.position, npc.width, npc.height, 127, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, Scale: 3f);
-                Main.dust[dustIndex].position -= new Vector2(4);
                 Main.dust[dustIndex2].noGravity = true;
-                Main.dust[dustIndex2].velocity *= 1.8f;
-                Main.dust[dustIndex2].velocity.Y -= 0.5f;
+                Main.dust[dustIndex2].velocity *= 3.6f;
+                Main.dust[dustIndex2].velocity.Y -= 1f;
                 Main.dust[dustIndex2].velocity *= 0.5f;
             }
         }
