@@ -19,7 +19,7 @@ namespace KeybrandsPlus.Projectiles
 
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
@@ -75,7 +75,7 @@ namespace KeybrandsPlus.Projectiles
                 InitDir = projectile.direction;
                 FirstTick = true;
             }
-            projectile.rotation += .75f * InitDir;
+            projectile.rotation += 2 * InitDir;
             int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 235);
             Main.dust[dustIndex].noGravity = true;
             int dustIndex2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, Scale: 2f);
@@ -147,7 +147,8 @@ namespace KeybrandsPlus.Projectiles
             {
                 Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + origin / 2 + new Vector2(0f, projectile.gfxOffY);
                 Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+                if (k == 2 || k == 4 || k == 6 || k == 8)
+                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
