@@ -88,8 +88,9 @@ namespace KeybrandsPlus.Projectiles
             bool target = false;
             if (GlobalTimer <= 0 || Hit >= 3)
             {
+                if (GlobalTimer == -5)
+                    projectile.tileCollide = false;
                 Returning = true;
-                projectile.tileCollide = false;
                 if (Main.myPlayer == projectile.owner)
                 {
                     if (owner.active && !owner.dead)
