@@ -36,6 +36,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.useTurn = true;
             item.shootSpeed = 50f;
             item.value = 500000000;
+            item.GetGlobalItem<KeyItem>().LimitPenalty = 4;
         }
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         { //Thanks, Joost

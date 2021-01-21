@@ -27,6 +27,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.GetGlobalItem<KeyItem>().ExemptFromLimit = true;
+            item.GetGlobalItem<KeyItem>().NoWarning = true;
         }
         public override bool AltFunctionUse(Player player)
         {

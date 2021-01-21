@@ -31,6 +31,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.autoReuse = true;
             item.shootSpeed = 7.5f;
             item.GetGlobalItem<KeyItem>().ExemptFromLimit = true;
+            item.GetGlobalItem<KeyItem>().NoWarning = true;
         }
         public override bool CanUseItem(Player player)
         {
