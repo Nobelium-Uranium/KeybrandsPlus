@@ -37,6 +37,9 @@ namespace KeybrandsPlus.Items.Weapons.Other
             item.value = 5000000;
             item.GetGlobalItem<KeyItem>().Dark = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 1;
+            item.GetGlobalItem<KeyRarity>().ContributorRarity = true;
+            item.GetGlobalItem<KeyRarity>().ContributorName = "Dan Yami";
+            item.GetGlobalItem<KeyRarity>().Midnight = true;
         }
         public override bool CanUseItem(Player player)
         {

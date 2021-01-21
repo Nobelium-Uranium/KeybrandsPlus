@@ -23,6 +23,7 @@ namespace KeybrandsPlus.Items.Materials
             item.height = 10;
             item.rare = ItemRarityID.Red;
             item.maxStack = 99;
+            item.GetGlobalItem<Globals.KeyRarity>().ProudRarity = true;
         }
         public override Color? GetAlpha(Color lightColor)
         {

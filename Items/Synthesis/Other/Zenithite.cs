@@ -19,6 +19,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             item.height = 16;
             item.rare = ItemRarityID.Cyan;
             item.maxStack = 999;
+            item.GetGlobalItem<Globals.KeyRarity>().ZenithRarity = true;
         }
         public override void ModifyTooltips(List<TooltipLine> list)
         {
@@ -29,10 +30,6 @@ namespace KeybrandsPlus.Items.Synthesis.Other
                     line2.overrideColor = new Color(0, 255, 189);
                 }
             }
-        }
-        public override void PostUpdate()
-        {
-            Lighting.AddLight(item.Center, Color.MediumSpringGreen.ToVector3() * 0.5f);
         }
     }
 }
