@@ -6,8 +6,11 @@ using Terraria.ID;
 
 namespace KeybrandsPlus.Items.Synthesis.Other
 {
-    class ZenithitePlus : ModItem
+    class ZenithitePlus : Helpers.GlowmaskItem
     {
+        public override Color[] ItemNameCycleColors => new Color[] { new Color(0, 250, 190), Color.White, new Color(0, 250, 190), new Color(0, 125, 95) };
+        public override int ItemNameCycleRate => 30;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zenithite+");
@@ -19,7 +22,6 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             item.height = 50;
             item.rare = ItemRarityID.Purple;
             item.maxStack = 99;
-            item.GetGlobalItem<Globals.KeyRarity>().ZenithRarity = true;
         }
         public override void PostUpdate()
         {

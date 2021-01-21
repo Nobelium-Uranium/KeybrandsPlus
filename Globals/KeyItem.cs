@@ -174,26 +174,32 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (IsKeybrand && !NoWarning)
+            int index;
+            if (IsKeybrand)
             {
-                TooltipLine line1 = new TooltipLine(mod, "ImmenselyPowerful", "This keybrand is immensely powerful, this is the only keybrand you can have in your hotbar") { overrideColor = Color.Goldenrod };
-                TooltipLine line2 = new TooltipLine(mod, "VeryPowerful", "This keybrand is very powerful, limiting the amount of keybrands you can have in the hotbar by 3") { overrideColor = Color.Goldenrod };
-                TooltipLine line3 = new TooltipLine(mod, "Powerful", "This keybrand is powerful, limiting the amount of keybrands you can have in the hotbar by 2") { overrideColor = Color.Goldenrod };
-                TooltipLine line4 = new TooltipLine(mod, "HeldKeybrandsWarning", "Warning: You have exceeded the maximum allotted keybrands in the hotbar") { overrideColor = Color.Red };
-                TooltipLine line5 = new TooltipLine(mod, "Limit", "You may only have up to 5 total keybrands in the hotbar") { overrideColor = Color.Goldenrod };
-                TooltipLine line6 = new TooltipLine(mod, "NoPenalty", "However, this keybrand is exempt from this limit") { overrideColor = Color.Goldenrod };
-                if (LimitPenalty == 4)
-                    tooltips.Add(line1);
-                if (LimitPenalty >= 2)
-                    tooltips.Add(line2);
-                else if (LimitPenalty == 1)
-                    tooltips.Add(line3);
-                if (KeybrandLimitReached && InHotbar && !ExemptFromLimit)
-                    tooltips.Add(line4);
-                else if (LimitPenalty < 4)
-                    tooltips.Add(line5);
-                if (ExemptFromLimit)
-                    tooltips.Add(line6);
+                index = tooltips.FindIndex(tt => tt.mod.Equals("Terraria") && tt.Name.Equals("ItemName"));
+                if (index != -1)
+                {
+                    if (!NoWarning)
+                        tooltips.Insert(index + 1, new TooltipLine(mod, "KeybrandType", "-Keybrand-") { overrideColor = Color.Goldenrod });
+                    else
+                        tooltips.Insert(index + 1, new TooltipLine(mod, "LockbladeType", "-Lockblade-") { overrideColor = Color.Goldenrod });
+                }
+                if (!NoWarning)
+                {
+                    if (LimitPenalty == 4)
+                        tooltips.Add(new TooltipLine(mod, "ImmenselyPowerful", "This keybrand is immensely powerful, this can only be the sole keybrand you can have in your hotbar") { overrideColor = Color.Goldenrod });
+                    else if (LimitPenalty >= 2)
+                        tooltips.Add(new TooltipLine(mod, "VeryPowerful", "This keybrand is very powerful, limiting the amount of keybrands you can have in the hotbar by 3") { overrideColor = Color.Goldenrod });
+                    else if (LimitPenalty == 1)
+                        tooltips.Add(new TooltipLine(mod, "Powerful", "This keybrand is powerful, limiting the amount of keybrands you can have in the hotbar by 2") { overrideColor = Color.Goldenrod });
+                    if (KeybrandLimitReached && InHotbar && !ExemptFromLimit)
+                        tooltips.Add(new TooltipLine(mod, "HeldKeybrandsWarning", "Warning: You have exceeded the maximum allotted keybrands in the hotbar") { overrideColor = Color.Red });
+                    else if (LimitPenalty < 4)
+                        tooltips.Add(new TooltipLine(mod, "Limit", "You may only have up to 5 total keybrands in the hotbar") { overrideColor = Color.Goldenrod });
+                    if (ExemptFromLimit)
+                        tooltips.Add(new TooltipLine(mod, "NoPenalty", "However, this keybrand is exempt from this limit") { overrideColor = Color.Goldenrod });
+                }
             }
         }
     }

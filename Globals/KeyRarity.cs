@@ -22,8 +22,6 @@ namespace KeybrandsPlus.Globals
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            TooltipLine Contributor = new TooltipLine(mod, "ContributorTooltip", "Contributor: " + ContributorName) { overrideColor = new Color(102, 255, 102) };
-            TooltipLine Proud = new TooltipLine(mod, "ProudTooltip", "Proud");
             if (ContributorRarity)
             {
                 for (int tooltip = 0; tooltip < tooltips.Count; tooltip++)
@@ -37,7 +35,7 @@ namespace KeybrandsPlus.Globals
                             line.overrideColor = new Color(102, 255, 102);
                     }
                 }
-                tooltips.Add(Contributor);
+                tooltips.Add(new TooltipLine(mod, "ContributorTooltip", "Contributor: " + ContributorName) { overrideColor = new Color(102, 255, 102) });
             }
             else if (ProudRarity)
             {
@@ -50,7 +48,7 @@ namespace KeybrandsPlus.Globals
                         line.overrideColor = Color.Lerp(Color.Red, Color.MediumVioletRed, fade);
                     }
                 }
-                tooltips.Add(Proud);
+                tooltips.Add(new TooltipLine(mod, "ProudTooltip", "Proud"));
             }
             else if (ZenithRarity)
             {
@@ -59,7 +57,7 @@ namespace KeybrandsPlus.Globals
                     TooltipLine line = tooltips[tooltip];
                     if (line.mod == "Terraria" && line.Name == "ItemName")
                     {
-                        line.overrideColor = new Color(0, 255, 189);
+                        line.overrideColor = new Color(0, 250, 190);
                     }
                 }
             }

@@ -12,7 +12,12 @@ namespace KeybrandsPlus.Helpers
 
         public virtual Color GlowColor => Color.White;
 
+        /// <summary>
+        /// Syntax: ItemNameCycleColors => new Color[] { Color1, Color2, ... }
+        /// </summary>
         public virtual Color[] ItemNameCycleColors => null;
+
+        public virtual int ItemNameCycleRate => 60;
 
         public override void SetDefaults()
         {
@@ -61,8 +66,8 @@ namespace KeybrandsPlus.Helpers
 
                     if (line.mod == "Terraria" && line.Name == "ItemName")
                     {
-                        float fade = Main.GameUpdateCount % 60 / 60f;
-                        int index = (int)(Main.GameUpdateCount / 60 % ItemNameCycleColors.Length);
+                        float fade = Main.GameUpdateCount % ItemNameCycleRate / (float)ItemNameCycleRate;
+                        int index = (int)(Main.GameUpdateCount / ItemNameCycleRate % ItemNameCycleColors.Length);
                         line.overrideColor = Color.Lerp(ItemNameCycleColors[index], ItemNameCycleColors[(index + 1) % ItemNameCycleColors.Length], fade);
                     }
                 }
