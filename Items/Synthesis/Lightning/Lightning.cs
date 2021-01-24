@@ -6,6 +6,7 @@ namespace KeybrandsPlus.Items.Synthesis.Lightning
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Surge Shard");
             Tooltip.SetDefault("A gem fragment filled with lightning\nAssociated with electricity");
         }
     }
@@ -13,6 +14,7 @@ namespace KeybrandsPlus.Items.Synthesis.Lightning
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Surge Stone");
             Tooltip.SetDefault("A stone filled with lightning\nAssociated with electricity");
         }
     }
@@ -20,6 +22,7 @@ namespace KeybrandsPlus.Items.Synthesis.Lightning
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Surge Gem");
             Tooltip.SetDefault("A gem filled with lightning\nAssociated with electricity");
         }
     }
@@ -27,6 +30,7 @@ namespace KeybrandsPlus.Items.Synthesis.Lightning
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Surge Crystal");
             Tooltip.SetDefault("A mysterious crystal filled with lightning\nAssociated with electricity");
         }
     }
