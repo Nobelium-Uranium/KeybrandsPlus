@@ -8,15 +8,23 @@ namespace KeybrandsPlus
 {
     public class KeybrandsPlus : Mod
     {
+        public static Mod SacredTools;
+
+        public static bool SoALoaded;
+
         public static int MunnyCost;
         
         public override void Load()
         {
+            SacredTools = ModLoader.GetMod("SacredTools");
+            SoALoaded = SacredTools != null;
             if (!Main.dedServ)
                 MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Items.Currency.Munny>(), 9999L));
         }
         public override void Unload()
         {
+            SacredTools = null;
+            SoALoaded = false;
             MunnyCost = 0;
         }
         public override void AddRecipes()

@@ -32,6 +32,13 @@ namespace KeybrandsPlus.Helpers
             }
             return condition;
         }
+        
+        public static bool RandPercent(float percent)
+        {
+            if (Main.rand.NextFloat(1f) <= percent)
+                return true;
+            return false;
+        }
 
         public static Vector2 ClosestPointInRect(Rectangle r, Vector2 point)
         {

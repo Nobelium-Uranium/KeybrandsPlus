@@ -36,7 +36,7 @@ namespace KeybrandsPlus.Items.Weapons.Other
             item.shootSpeed = 30f;
             item.value = 5000000;
             item.GetGlobalItem<KeyItem>().Dark = true;
-            item.GetGlobalItem<KeyItem>().LimitPenalty = 1;
+            item.GetGlobalItem<KeyItem>().LimitPenalty = 2;
             item.GetGlobalItem<KeyRarity>().ContributorRarity = true;
             item.GetGlobalItem<KeyRarity>().ContributorName = "Dan Yami";
             item.GetGlobalItem<KeyRarity>().Midnight = true;

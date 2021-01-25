@@ -187,9 +187,11 @@ namespace KeybrandsPlus.Globals
                 }
                 if (!NoWarning)
                 {
-                    if (LimitPenalty == 4)
-                        tooltips.Add(new TooltipLine(mod, "ImmenselyPowerful", "This keybrand is immensely powerful, this can only be the sole keybrand you can have in your hotbar") { overrideColor = Color.Goldenrod });
-                    else if (LimitPenalty >= 2)
+                    if (LimitPenalty >= 4)
+                        tooltips.Add(new TooltipLine(mod, "ImmenselyPowerful", "This keybrand is immensely powerful, preventing you from using any other keybrand in the hotbar") { overrideColor = Color.Goldenrod });
+                    else if (LimitPenalty == 3)
+                        tooltips.Add(new TooltipLine(mod, "ExtremelyPowerful", "This keybrand is extremely powerful, limiting the amount of keybrands you can have in the hotbar by 4") { overrideColor = Color.Goldenrod });
+                    else if (LimitPenalty == 2)
                         tooltips.Add(new TooltipLine(mod, "VeryPowerful", "This keybrand is very powerful, limiting the amount of keybrands you can have in the hotbar by 3") { overrideColor = Color.Goldenrod });
                     else if (LimitPenalty == 1)
                         tooltips.Add(new TooltipLine(mod, "Powerful", "This keybrand is powerful, limiting the amount of keybrands you can have in the hotbar by 2") { overrideColor = Color.Goldenrod });

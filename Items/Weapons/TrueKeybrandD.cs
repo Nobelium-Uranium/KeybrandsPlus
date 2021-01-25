@@ -37,6 +37,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.useTurn = true;
             item.shootSpeed = 75f;
             item.GetGlobalItem<KeyItem>().Dark = true;
+            item.GetGlobalItem<KeyItem>().LimitPenalty = 1;
         }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
@@ -92,10 +93,9 @@ namespace KeybrandsPlus.Items.Weapons
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<KeybrandD>());
-            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 25);
-            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 25);
-            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 25);
-            r.AddRecipeGroup("K+:BossSoul", 10);
+            r.AddIngredient(ItemID.SoulofFright, 10);
+            r.AddIngredient(ItemID.SoulofMight, 10);
+            r.AddIngredient(ItemID.SoulofSight, 10);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(this);
             r.AddRecipe();

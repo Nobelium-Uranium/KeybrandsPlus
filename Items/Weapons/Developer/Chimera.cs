@@ -41,7 +41,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.autoReuse = true;
             item.useTurn = true;
             item.shootSpeed = 1f;
-            item.GetGlobalItem<KeyItem>().LimitPenalty = 2;
+            item.GetGlobalItem<KeyItem>().LimitPenalty = 3;
         }
         public override bool NewPreReforge()
         {

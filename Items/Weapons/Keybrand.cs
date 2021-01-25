@@ -84,11 +84,10 @@ namespace KeybrandsPlus.Items.Weapons
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<LockbladeT3>());
             r.AddIngredient(ModContent.ItemType<Materials.RustedKeybrand>());
-            //r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 5);
-            //r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 5);
-            //r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 5);
-            r.AddIngredient(ItemID.Ectoplasm, 5);
-            r.AddTile(TileID.CrystalBall);
+            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 5);
+            r.AddTile(TileID.MythrilAnvil);
             r.SetResult(this);
             r.AddRecipe();
         }

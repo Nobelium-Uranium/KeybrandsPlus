@@ -2,7 +2,9 @@ displayName = Keybrands+ Re:coded
 author = Chem
 version = 0.0.1
 
-hideCode = false
-hideResources = false
+hideCode = true
+hideResources = true
+
+weakReferences = CalamityMod, SacredTools, Redemption
 
 homepage = https://discord.gg/MrGehVc

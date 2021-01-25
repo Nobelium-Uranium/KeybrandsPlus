@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using KeybrandsPlus.Helpers;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -9,16 +10,16 @@ namespace KeybrandsPlus.Globals
     {
         public override void NPCLoot(NPC npc)
         { // npc.type == NPCID.
-            /*
             if (!npc.boss && Main.hardMode)
             {
-                if (NPC.downedMoonlord && Main.rand.NextBool(25))
+                if (NPC.downedMoonlord && KeyUtils.RandPercent(.05f))
                     Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                else if (NPC.downedPlantBoss && Main.rand.NextBool(50))
+                else if (NPC.downedPlantBoss && KeyUtils.RandPercent(.01f))
                     Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                else if (Main.rand.NextBool(75))
+                else if (KeyUtils.RandPercent(.00125f))
                     Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
             }
+            /*
             #region Blazing
             if (npc.type == NPCID.Hellbat || npc.type == NPCID.LavaSlime)
             {

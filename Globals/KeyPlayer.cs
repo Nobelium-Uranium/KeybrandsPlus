@@ -8,6 +8,7 @@ using System;
 using Microsoft.Xna.Framework;
 using static KeybrandsPlus.Helpers.KeyUtils;
 using static Terraria.ModLoader.ModContent;
+using System.Collections.Generic;
 
 namespace KeybrandsPlus.Globals
 {
@@ -194,6 +195,16 @@ namespace KeybrandsPlus.Globals
             LightAlignment = 0;
             DarkAlignment = 0;
             TotalAlignment = 0;
+        }
+
+        public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
+        {
+            if (!mediumcoreDeath)
+            {
+                Item item = new Item();
+                item.SetDefaults(ItemType<Items.Weapons.WoodenKeybrand>());
+                items.Add(item);
+            }
         }
 
         public override void PostUpdateEquips()

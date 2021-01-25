@@ -19,7 +19,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
             Main.npcFrameCount[npc.type] = 23;
             NPCID.Sets.ExtraFramesCount[npc.type] = 9;
             NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 700;
+            NPCID.Sets.DangerDetectRange[npc.type] = 100;
             NPCID.Sets.AttackType[npc.type] = 3;
             NPCID.Sets.AttackTime[npc.type] = 20;
             NPCID.Sets.AttackAverageChance[npc.type] = 10;
@@ -44,12 +44,14 @@ namespace KeybrandsPlus.NPCs.TownNPC
 
         public override void AI()
         {
+            #region no
             if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
             {
                 npc.buffImmune[BuffID.Wet] = false;
                 npc.AddBuff(BuffID.Wet, 2);
                 npc.buffImmune[BuffID.Wet] = true;
             }
+            #endregion
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -140,6 +142,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 chat.Add("Have you tried eter... eta... etr... masomode?", 0.075);
                 chat.Add("Have you tried eter... eta... etr... sempiternity mode?", 0.1);
                 chat.Add("Your meme, it's useful, I'll take it.", 0.05);
+                #region no
                 if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
                 {
                     chat.Add("Ugh, is it hot in here or is it just me...?", 1.5);
@@ -150,7 +153,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 }
                 else
                     chat.Add("Orchid mantises are cool.", 0.01);
-
+                #endregion
             }
             else if (!npc.homeless)
                 chat.Add("No.");
@@ -298,33 +301,40 @@ namespace KeybrandsPlus.NPCs.TownNPC
             /*
             if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
             {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Materials.BrokenHeroKeybrand>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.BrokenHeroKeybrand>());
                 shop.item[nextSlot].shopCustomPrice = new int?(50);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
-            }
+            }*/
             if (NPC.downedPlantBoss)
             {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Materials.WarriorFragment>());
+                if (KeybrandsPlus.SoALoaded)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Other.BleakMidnight>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(2000);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                }
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.WarriorFragment>());
                 shop.item[nextSlot].shopCustomPrice = new int?(10);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Materials.GuardianFragment>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.GuardianFragment>());
                 shop.item[nextSlot].shopCustomPrice = new int?(10);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Materials.MysticFragment>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.MysticFragment>());
                 shop.item[nextSlot].shopCustomPrice = new int?(10);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
-            }*/
+            }
             if (NPC.downedMoonlord)
-            {/*
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Materials.ZenithFragment>());
+            {
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.ZenithFragment>());
                 shop.item[nextSlot].shopCustomPrice = new int?(120);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.Materials.UltimaBlueprint>());
+                nextSlot++;/*
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.UltimaBlueprint>());
                 shop.item[nextSlot].shopCustomPrice = new int?(1000);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;*/
