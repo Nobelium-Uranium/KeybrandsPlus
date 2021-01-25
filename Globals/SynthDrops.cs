@@ -10,16 +10,17 @@ namespace KeybrandsPlus.Globals
     {
         public override void NPCLoot(NPC npc)
         { // npc.type == NPCID.
-            if (!npc.boss && Main.hardMode)
+            if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax > 5 && npc.type != NPCID.TargetDummy && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail)
             {
-                if (NPC.downedMoonlord && KeyUtils.RandPercent(.05f))
-                    Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                else if (NPC.downedPlantBoss && KeyUtils.RandPercent(.01f))
-                    Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                else if (KeyUtils.RandPercent(.00125f))
-                    Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-            }
-            /*
+                if (Main.hardMode)
+                {
+                    if (NPC.downedMoonlord && KeyUtils.RandPercent(.05f))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
+                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(.01f))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
+                    else if (KeyUtils.RandPercent(.00125f))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
+                }/*
             #region Blazing
             if (npc.type == NPCID.Hellbat || npc.type == NPCID.LavaSlime)
             {
@@ -144,6 +145,7 @@ namespace KeybrandsPlus.Globals
 
             #endregion
             */
+            }
         }
     }
 }
