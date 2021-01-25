@@ -118,7 +118,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 if (Angler >= 0)
                 {
                     chat.Add("I heard from " + Main.npc[Angler].GivenName + " that the shells bear secrets... not sure what that means...");
-                    chat.Add(Main.npc[Angler].GivenName + " comes off as a bit of a prick, I trust that you'll shut him up, tell him it's nothing personal though.");
+                    chat.Add(Main.npc[Angler].GivenName + " may come off as a bit of a prick, but honestly I think he's just misunderstood.");
                 }
                 if (player.name == "Sora" || player.name == "Riku" || player.name == "Kairi" || player.name == "Roxas" || player.name == "Axel" || player.name == "Xion" || player.name == "Ventus" || player.name == "Aqua" || player.name == "Terra")
                     chat.Add("Your name, it sounds familiar, but I can't think of why...");
