@@ -75,6 +75,7 @@ namespace KeybrandsPlus.Globals
         #endregion
 
         #region Equips
+        public bool BlossomWings;
         public bool GliderInactive;
         public bool CrownCharm;
         public bool MasterTreasureMagnet;
@@ -168,6 +169,7 @@ namespace KeybrandsPlus.Globals
             #endregion
 
             #region Equips
+            BlossomWings = false;
             GliderInactive = false;
             CrownCharm = false;
             MasterTreasureMagnet = false;
@@ -274,6 +276,8 @@ namespace KeybrandsPlus.Globals
 
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
+            if (BlossomWings)
+                player.wingTime = 0;
             if (MPRage)
                 if (damage / 3 < 1)
                 {
