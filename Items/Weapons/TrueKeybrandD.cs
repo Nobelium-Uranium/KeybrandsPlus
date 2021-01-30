@@ -93,6 +93,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<KeybrandD>());
+            r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
             r.AddIngredient(ItemID.SoulofFright, 10);
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofSight, 10);

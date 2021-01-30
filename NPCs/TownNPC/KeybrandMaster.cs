@@ -73,7 +73,6 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MasterLeg"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MasterBody"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MasterHead"), 1f);
-                Projectile.NewProjectileDirect(npc.position, npc.velocity, mod.ProjectileType("MasterExplosion"), 9999999, 15f, 0);
             }
         }
 
@@ -298,14 +297,13 @@ namespace KeybrandsPlus.NPCs.TownNPC
             shop.item[nextSlot].shopCustomPrice = new int?(15);
             shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
             nextSlot++;
-            /*
             if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.BrokenHeroKeybrand>());
-                shop.item[nextSlot].shopCustomPrice = new int?(50);
+                shop.item[nextSlot].shopCustomPrice = new int?(175);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
-            }*/
+            }
             if (NPC.downedPlantBoss)
             {
                 if (KeybrandsPlus.SoALoaded)
