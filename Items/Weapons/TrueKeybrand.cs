@@ -104,8 +104,8 @@ namespace KeybrandsPlus.Items.Weapons
             r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 50);
             r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 50);
             r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 50);
-            r.AddIngredient(ModContent.ItemType<Synthesis.Other.Zenithite>(), 7);
             r.AddRecipeGroup("K+:BossSoul", 25);
+            r.AddIngredient(ModContent.ItemType<Synthesis.Other.Zenithite>());
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(this);
             r.AddRecipe();
