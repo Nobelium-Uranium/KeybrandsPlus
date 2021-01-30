@@ -30,11 +30,11 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising,
             ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.75f;
-            ascentWhenRising = 0.15f;
+            ascentWhenFalling = .75f;
+            ascentWhenRising = .15f;
             maxCanAscendMultiplier = 1f;
             maxAscentMultiplier = 2.5f;
-            constantAscend = 0.125f;
+            constantAscend = .125f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
