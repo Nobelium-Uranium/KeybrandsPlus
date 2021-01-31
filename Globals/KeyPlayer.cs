@@ -113,6 +113,14 @@ namespace KeybrandsPlus.Globals
         public int LeafBracerTimer;
         public int ChimeraLifestealCD;
 
+        public bool showMP = true;
+        public bool rechargeMP = false;
+        public int maxMP = 100;
+        public int currentMP = 0;
+
+        public int rechargeMPTimer;
+        public int rechargeMPToastTimer;
+
         public override void ResetEffects()
         {
             statOldLife = 0;
@@ -403,6 +411,34 @@ namespace KeybrandsPlus.Globals
         {
             if (GliderInactive)
                 player.wingsLogic = 0;
+
+            if(!rechargeMP)
+            {
+                if(currentMP <= 0)
+                {
+                    currentMP = maxMP;
+                    rechargeMPTimer = 1800; //replace this with a public var that is determined by equipment
+                    rechargeMP = true;
+                }
+            }
+            else
+            {
+                rechargeMPTimer--;
+                currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / 1800f);
+
+                if(rechargeMPTimer <= 0)
+                {
+                    rechargeMPTimer = 0;
+                    currentMP = maxMP;
+                    rechargeMP = false;
+                    rechargeMPToastTimer = 40;
+                }
+            }
+
+            if(rechargeMPToastTimer > 0)
+            {
+                rechargeMPToastTimer--;
+            }
         }
 
         public override void PostUpdate()
