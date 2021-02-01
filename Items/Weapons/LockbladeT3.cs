@@ -11,7 +11,11 @@ namespace KeybrandsPlus.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Refined Lockblade");
-            Tooltip.SetDefault("Alt Attack: Lesser Flame\nFires a weak spark, faster than Reinforced Lockblade\nAbility: Defender\n'Sturdy and reliable'");
+            Tooltip.SetDefault("Alt Attack: Lesser Flame\n" +
+                "MP Cost: 3\n" +
+                "Fires a weak spark, faster than Reinforced Lockblade\n" +
+                "Ability: Defender\n" +
+                "'Sturdy and reliable'");
             Item.staff[item.type] = true;
         }
         public override void SetDefaults()
@@ -39,7 +43,6 @@ namespace KeybrandsPlus.Items.Weapons
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.melee = true;
                 item.magic = false;
-                item.mana = 0;
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.damage = 20;
@@ -52,13 +55,14 @@ namespace KeybrandsPlus.Items.Weapons
                 item.useStyle = ItemUseStyleID.HoldingOut;
                 item.melee = false;
                 item.magic = true;
-                item.mana = 12;
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.damage = 18;
                 item.shoot = ProjectileID.Spark;
                 item.noMelee = true;
                 item.UseSound = SoundID.Item20;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP -= 3;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
             return base.CanUseItem(player);
         }

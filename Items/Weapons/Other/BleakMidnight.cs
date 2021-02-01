@@ -11,12 +11,12 @@ namespace KeybrandsPlus.Items.Weapons.Other
         {
             Tooltip.SetDefault("+50 Dark Alignment\n" +
                 "Alt Attack: Draconic Flare\n" +
+                "MP Cost: 36\n" +
                 "Fires a lingering flare bolt that explodes into debris when enemies are near\n" +
                 "You can only have up to 3 flare bolts active at a time\n" +
-                "Each flare costs 40 MP\n" +
                 "Abilities: Dark Affinity, MP Rage, Critical MP Hasteza\n" +
-                "Dark Affinity boosts mana regeneration when under the effects of a damaging debuff\n" +
-                "The rate of regeneration is dependant on your Dark Alignment\n" +
+                "Dark Affinity boosts MP recharge speed when under the effects of a damaging debuff\n" +
+                "The rate is dependant on your Dark Alignment\n" +
                 "'A replica of the keybrand once wielded by a legendary death seraph'");
             Item.staff[item.type] = true;
         }
@@ -51,7 +51,6 @@ namespace KeybrandsPlus.Items.Weapons.Other
                 item.melee = true;
                 item.magic = false;
                 item.useTurn = true;
-                item.mana = 0;
                 item.useTime = 15;
                 item.useAnimation = 15;
                 item.damage = 75;
@@ -66,16 +65,14 @@ namespace KeybrandsPlus.Items.Weapons.Other
                 item.melee = false;
                 item.magic = true;
                 item.useTurn = false;
-                //item.mana = 25;
                 item.useTime = 45;
                 item.useAnimation = 45;
                 item.damage = 160;
                 item.shoot = ModContent.ProjectileType<Projectiles.DraconicFlareBolt>();
                 item.noMelee = true;
                 item.UseSound = SoundID.Item73;
-                if(!player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP -= 40;
-
-                return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DraconicFlareBolt>()] < 3 && !player.GetModPlayer<KeyPlayer>().rechargeMP;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DraconicFlareBolt>()] < 3) player.GetModPlayer<KeyPlayer>().currentMP -= 36;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DraconicFlareBolt>()] < 3;
             }
             return base.CanUseItem(player);
         }

@@ -56,6 +56,8 @@ namespace KeybrandsPlus.Globals
         public bool HeartlessAngel;
         public bool ChimeraBleed;
         public float ChimeraMultiplier = 1;
+        public bool EtherSickness;
+        public bool TurboExhaustion;
         public bool ElixirSickness;
         public bool ElixirGuard;
         public bool PanaceaSickness;
@@ -114,12 +116,13 @@ namespace KeybrandsPlus.Globals
         public int ChimeraLifestealCD;
 
         public bool showMP = true;
-        public bool rechargeMP = false;
+        public bool rechargeMP = true;
         public int maxMP = 100;
-        public int currentMP = 0;
-
-        public int rechargeMPTimer;
-        public int rechargeMPToastTimer;
+        public int currentMP = 100;
+        
+        public float maxRechargeMPTimer = 900;
+        public int rechargeMPTimer = 900;
+        public float rechargeMPToastTimer;
 
         public override void ResetEffects()
         {
@@ -157,6 +160,8 @@ namespace KeybrandsPlus.Globals
             CureCooldown = false;
             HeartlessAngel = false;
             ChimeraBleed = false;
+            EtherSickness = false;
+            TurboExhaustion = false;
             ElixirSickness = false;
             ElixirGuard = false;
             PanaceaSickness = false;
@@ -282,17 +287,21 @@ namespace KeybrandsPlus.Globals
 
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
-            if (MPRage)
+            if (MPRage && !rechargeMP)
+            {
                 if (damage / 3 < 1)
                 {
-                    player.ManaEffect(1);
-                    player.statMana += 1;
+                    CombatText.NewText(player.getRect(), Color.DodgerBlue, 1);
+                    currentMP++;
                 }
                 else
                 {
-                    player.ManaEffect((int)(damage / 3));
-                    player.statMana += (int)(damage / 3);
+                    CombatText.NewText(player.getRect(), Color.DodgerBlue, (int)(damage / 3));
+                    currentMP += (int)(damage / 3);
                 }
+                if (currentMP > maxMP)
+                    currentMP = maxMP;
+            }
             statOldLife = player.statLife;
         }
 
@@ -412,32 +421,88 @@ namespace KeybrandsPlus.Globals
             if (GliderInactive)
                 player.wingsLogic = 0;
 
-            if(!rechargeMP)
+            if (LightAlignment < 0)
+                LightAlignment = 0;
+            if (DarkAlignment < 0)
+                DarkAlignment = 0;
+            TotalAlignment = LightAlignment + DarkAlignment;
+            
+            if (DefenderPlus && player.statLife <= player.statLifeMax2 / 2)
             {
+                DefenderThreshold = player.statDefense / 10;
+                if (DefenderThreshold < 4)
+                    DefenderThreshold = 4;
+                player.statDefense += DefenderThreshold;
+            }
+            else if (Defender && player.statLife <= player.statLifeMax2 / 5)
+                player.statDefense += 4;
+
+            if (!rechargeMP)
+            {
+                if (currentMP > maxMP)
+                    currentMP = maxMP;
                 if(currentMP <= 0)
                 {
                     currentMP = maxMP;
-                    rechargeMPTimer = 1800; //replace this with a public var that is determined by equipment
+                    rechargeMPTimer = 1800;
+                    if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
+                    {
+                        rechargeMPTimer = (int)(rechargeMPTimer * .3f);
+                    }
+                    else if (CritMPHastega && player.statLife <= player.statLifeMax2 / 5)
+                    {
+                        rechargeMPTimer = (int)(rechargeMPTimer * .5f);
+                    }
+                    else if (MPHasteza)
+                    {
+                        rechargeMPTimer = (int)(rechargeMPTimer * .3f);
+                    }
+                    else if (MPHastega)
+                    {
+                        rechargeMPTimer = (int)(rechargeMPTimer * .5f);
+                    }
+                    else if (MPHastera)
+                    {
+                        rechargeMPTimer = (int)(rechargeMPTimer * .7f);
+                    }
+                    else if (MPHaste)
+                    {
+                        rechargeMPTimer = (int)(rechargeMPTimer * .9f);
+                    }
+                    if (DarkAffinity && player.lifeRegen < 0)
+                    {
+                        float AlignmentFactor = DarkAlignment - LightAlignment;
+                        if (AlignmentFactor < 50)
+                            AlignmentFactor = 50;
+                        AlignmentFactor /= 100;
+
+                        rechargeMPTimer = (int)(rechargeMPTimer * (1f - AlignmentFactor));
+                    }
+                    if (rechargeMPTimer < 600)
+                        rechargeMPTimer = 600;
+                    maxRechargeMPTimer = rechargeMPTimer;
                     rechargeMP = true;
                 }
             }
             else
             {
                 rechargeMPTimer--;
-                currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / 1800f);
+                currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / maxRechargeMPTimer);
 
                 if(rechargeMPTimer <= 0)
                 {
                     rechargeMPTimer = 0;
                     currentMP = maxMP;
                     rechargeMP = false;
-                    rechargeMPToastTimer = 40;
+                    rechargeMPToastTimer = 60;
                 }
             }
 
-            if(rechargeMPToastTimer > 0)
+            if (rechargeMPToastTimer > 0)
             {
-                rechargeMPToastTimer--;
+                rechargeMPToastTimer *= .925f;
+                if (rechargeMPToastTimer < .1f)
+                    rechargeMPToastTimer = 0;
             }
         }
 
@@ -531,52 +596,6 @@ namespace KeybrandsPlus.Globals
                 player.immune = true;
                 LeafBracerTimer -= 1;
             }
-            if (DefenderPlus && player.statLife <= player.statLifeMax2 / 2)
-            {
-                DefenderThreshold = player.statDefense / 10;
-                if (DefenderThreshold < 4)
-                    DefenderThreshold = 4;
-                player.statDefense += DefenderThreshold;
-            }
-            else if (Defender && player.statLife <= player.statLifeMax2 / 5)
-                player.statDefense += 4;
-            if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
-            {
-                player.manaRegenCount += (int)(player.manaRegen * 0.75f);
-            }
-            else if (CritMPHastega && player.statLife <= player.statLifeMax2 / 5)
-            {
-                player.manaRegenCount += (int)(player.manaRegen * 0.5f);
-            }
-            else if (MPHasteza)
-            {
-                player.manaRegenCount += (int)(player.manaRegen * 0.75f);
-            }
-            else if (MPHastega)
-            {
-                player.manaRegenCount += (int)(player.manaRegen * 0.5f);
-            }
-            else if (MPHastera)
-            {
-                player.manaRegenCount += (int)(player.manaRegen * 0.3f);
-            }
-            else if (MPHaste)
-            {
-                player.manaRegenCount += (int)(player.manaRegen * 0.1f);
-            }
-            if (DarkAffinity && player.lifeRegen < 0)
-            {
-                float AlignmentFactor = DarkAlignment - LightAlignment;
-                if (AlignmentFactor < 50)
-                    AlignmentFactor = 50;
-                AlignmentFactor /= 100;
-                player.manaRegenCount += (int)(player.manaRegen * AlignmentFactor);
-            }
-            if (LightAlignment < 0)
-                LightAlignment = 0;
-            if (DarkAlignment < 0)
-                DarkAlignment = 0;
-            TotalAlignment = LightAlignment + DarkAlignment;
         }
 
         public override void PostItemCheck()

@@ -15,6 +15,7 @@ namespace KeybrandsPlus.Items.Weapons
             Tooltip.SetDefault("+30 Dark Alignment\n" +
                 "Direct melee hits inflict up to 200% more damage to injured foes\n" +
                 "Alt Attack: Elemental Raid\n" +
+                "MP Cost: 24\n" +
                 "Throws a returning ethereal keybrand imbued with the elements\n" +
                 "Abilities: Defender+, Leaf Bracer\n" +
                 "'Imbued with the forces of darkness'");
@@ -71,6 +72,8 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item71;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 24;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
             }
             return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
         }

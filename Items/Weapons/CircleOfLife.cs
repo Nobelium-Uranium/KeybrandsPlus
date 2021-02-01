@@ -13,6 +13,7 @@ namespace KeybrandsPlus.Items.Weapons
             DisplayName.SetDefault("Circle of Life");
             Tooltip.SetDefault("+10 Light Alignment\n" +
                 "Alt Action: Cure\n" +
+                "MP Cost: All\n" +
                 "Creates a healing field at the cursor's postion\n" +
                 "The range and heal rate depends on magic keybrand boosts\n" +
                 "This has a 30 second cooldown\n" +
@@ -61,7 +62,10 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.UseSound = SoundID.Item29;
                 item.shoot = 10;
-                return !player.GetModPlayer<KeyPlayer>().CureCooldown && player.statMana > 0;
+                if (player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+                    return false;
+                if (!player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP = 0;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
             return base.CanUseItem(player);
         }
@@ -70,10 +74,6 @@ namespace KeybrandsPlus.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                player.statMana = 0;
-                if (player.manaRegenDelay < 600)
-                    player.manaRegenDelay = 600;
-                player.AddBuff(ModContent.BuffType<Buffs.CureCooldown>(), 1800);
                 position = Main.MouseWorld;
                 Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<Projectiles.CureField>(), 0, 0, player.whoAmI);
             }

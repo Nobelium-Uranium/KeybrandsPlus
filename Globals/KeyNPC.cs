@@ -312,7 +312,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void NPCLoot(NPC npc)
         {
-            if (Main.hardMode && NPC.downedPlantBoss && Main.rand.NextBool(5))
+            if (Main.hardMode && NPC.downedPlantBoss && Main.rand.NextBool(3))
             {
                 if (npc.type == NPCID.GoblinWarrior || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.CursedHammer || npc.type == NPCID.EnchantedSword || npc.type == NPCID.CrimsonAxe || npc.type == NPCID.Werewolf || npc.type == NPCID.PossessedArmor || npc.type == NPCID.UndeadViking || npc.type == NPCID.ArmoredViking || npc.type == NPCID.PirateCorsair || npc.type == NPCID.RustyArmoredBonesAxe || npc.type == NPCID.RustyArmoredBonesFlail || npc.type == NPCID.RustyArmoredBonesSword || npc.type == NPCID.RustyArmoredBonesSwordNoArmor || npc.type == NPCID.BlueArmoredBones || npc.type == NPCID.BlueArmoredBonesMace || npc.type == NPCID.BlueArmoredBonesNoPants || npc.type == NPCID.BlueArmoredBonesSword || npc.type == NPCID.HellArmoredBones || npc.type == NPCID.HellArmoredBonesMace || npc.type == NPCID.HellArmoredBonesSpikeShield || npc.type == NPCID.HellArmoredBonesSword || npc.type == NPCID.GigaZapper || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarDrakomireRider || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarSroller || npc.type == NPCID.SolarCorite || npc.type == NPCID.SolarSolenian || npc.type == NPCID.GreekSkeleton || npc.type == NPCID.DesertBeast)
                     Item.NewItem(npc.getRect(), ItemType<Items.Materials.WarriorFragment>(), Main.rand.Next(1, 4));
@@ -327,38 +327,38 @@ namespace KeybrandsPlus.Globals
             if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax >= 50 && npc.damage != 0 && npc.type != NPCID.TargetDummy && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail)
                 if (NPC.downedMoonlord)
                 {
-                    if (KeyUtils.RandPercent(.5f))
+                    if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 11));
-                    if (KeyUtils.RandPercent(.33f))
+                    if (Main.rand.NextBool(5))
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(10, 51));
-                    else if (KeyUtils.RandPercent(.5f))
+                    else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
                 }
                 else if (NPC.downedPlantBoss)
                 {
-                    if (KeyUtils.RandPercent(.25f))
+                    if (Main.rand.NextBool(4))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 6));
-                    if (KeyUtils.RandPercent(.25f))
+                    if (Main.rand.NextBool(5))
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 26));
-                    else if (KeyUtils.RandPercent(.125f))
+                    else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
                 }
                 else if (Main.hardMode)
                 {
-                    if (KeyUtils.RandPercent(.125f))
+                    if (Main.rand.NextBool(8))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 4));
-                    if (KeyUtils.RandPercent(.0625f))
+                    if (Main.rand.NextBool(5))
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
-                    else if (KeyUtils.RandPercent(.125f))
+                    else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 4));
                 }
                 else
                 {
-                    if (KeyUtils.RandPercent(.0625f))
+                    if (Main.rand.NextBool(16))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
-                    if (KeyUtils.RandPercent(.03125f))
+                    if (Main.rand.NextBool(5))
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
-                    else if (KeyUtils.RandPercent(.0625f))
+                    else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>());
 
                 }

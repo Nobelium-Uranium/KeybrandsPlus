@@ -179,7 +179,7 @@ namespace KeybrandsPlus
                 midFrame = 1;
                 fillFrame = 1;
 
-                if (rechargeTimer % 30 <= 15) fillFrame = 2;
+                if (rechargeTimer % 60 <= 30) fillFrame = 2;
             }
 
             Rectangle midRect = new Rectangle(0, (int)(gaugeMid.Height / 2 * midFrame), gaugeMid.Width, gaugeMid.Height / 2);

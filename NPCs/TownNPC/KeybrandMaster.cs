@@ -259,6 +259,28 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
+            shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.Ether>());
+            shop.item[nextSlot].shopCustomPrice = new int?(15);
+            shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+            nextSlot++;
+            if (Main.hardMode)
+            {
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.HiEther>());
+                shop.item[nextSlot].shopCustomPrice = new int?(35);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
+            }
+            if (NPC.downedPlantBoss)
+            {
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.MegaEther>());
+                shop.item[nextSlot].shopCustomPrice = new int?(90);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.TurboEther>());
+                shop.item[nextSlot].shopCustomPrice = new int?(125);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
+            }
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.Elixir>());
