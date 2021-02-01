@@ -5,7 +5,7 @@ using Terraria.Utilities;
 
 namespace KeybrandsPlus.Helpers
 {
-    public abstract class Keybrand : GlowmaskItem
+    public abstract class Keybrand : ModItem
     {
         public override void SetDefaults()
         {

@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Items.Armor.Developer
@@ -20,6 +21,10 @@ namespace KeybrandsPlus.Items.Armor.Developer
         public override bool DrawLegs()
         {
             return false;
+        }
+        public override void UpdateVanity(Player player, EquipType type)
+        {
+            player.GetModPlayer<Globals.KeyPlayer>().AvaliPants = true;
         }
     }
 }

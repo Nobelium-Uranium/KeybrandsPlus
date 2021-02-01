@@ -9,8 +9,6 @@ namespace KeybrandsPlus.Items.Weapons
 {
     class FlameLiberator : Helpers.Keybrand
     {
-        public override Texture2D GlowmaskTexture => mod.GetTexture("Textures/Glowmasks/FlameLiberator");
-
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("+5 Light Alignment\n" +

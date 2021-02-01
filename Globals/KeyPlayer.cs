@@ -9,11 +9,18 @@ using Microsoft.Xna.Framework;
 using static KeybrandsPlus.Helpers.KeyUtils;
 using static Terraria.ModLoader.ModContent;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace KeybrandsPlus.Globals
 {
     class KeyPlayer : ModPlayer
     {
+        #region Glowmasks
+        public bool AvaliHelmet;
+        public bool AvaliShirt;
+        public bool AvaliPants;
+        #endregion
+
         public int statOldLife;
         public int PlayerDefense;
 
@@ -104,7 +111,7 @@ namespace KeybrandsPlus.Globals
         #endregion
 
         private int SuperBleedTimer;
-        
+
         public float KeybrandMelee;
         public float KeybrandRanged;
         public float KeybrandMagic;
@@ -120,13 +127,19 @@ namespace KeybrandsPlus.Globals
         public bool rechargeMP = false;
         public int maxMP = 100;
         public int currentMP = 100;
-        
+
         public int maxRechargeMPTimer;
         public int rechargeMPTimer;
         public float rechargeMPToastTimer = 60;
 
         public override void ResetEffects()
         {
+            #region Glowmasks
+            AvaliHelmet = false;
+            AvaliShirt = false;
+            AvaliPants = false;
+            #endregion  
+
             statOldLife = 0;
 
             HeldKeybrands = 0;
@@ -136,7 +149,7 @@ namespace KeybrandsPlus.Globals
             Moving = false;
 
             NoHitsound = false;
-            
+
             #region Abilities
             VitalBlow = false;
             Defender = false;
@@ -433,7 +446,7 @@ namespace KeybrandsPlus.Globals
             if (DarkAlignment < 0)
                 DarkAlignment = 0;
             TotalAlignment = LightAlignment + DarkAlignment;
-            
+
             if (DefenderPlus && player.statLife <= player.statLifeMax2 / 2)
             {
                 DefenderThreshold = player.statDefense / 10;
@@ -508,7 +521,7 @@ namespace KeybrandsPlus.Globals
                 rechargeMPTimer--;
                 currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / (float)maxRechargeMPTimer);
 
-                if(rechargeMPTimer <= 0)
+                if (rechargeMPTimer <= 0)
                 {
                     rechargeMPTimer = 0;
                     currentMP = maxMP;
@@ -571,17 +584,17 @@ namespace KeybrandsPlus.Globals
                     if (Main.rand.NextBool(100))
                         DeathText = player.name + " withered away.";
                     else switch (Main.rand.Next(3))
-                    {
-                        case 1:
-                            DeathText = player.name + " was completely drained of blood.";
-                            break;
-                        case 2:
-                            DeathText = player.name + "'s body became a mere husk.";
-                            break;
-                        default:
-                            DeathText = player.name + " couldn't find the IV bag.";
-                            break;
-                    }
+                        {
+                            case 1:
+                                DeathText = player.name + " was completely drained of blood.";
+                                break;
+                            case 2:
+                                DeathText = player.name + "'s body became a mere husk.";
+                                break;
+                            default:
+                                DeathText = player.name + " couldn't find the IV bag.";
+                                break;
+                        }
                     SuperBleedTimer = 0;
                     if (LeafBracerTimer <= 0)
                     {
@@ -662,7 +675,7 @@ namespace KeybrandsPlus.Globals
             }
         }
 
-        private void ItemCheck_GetMeleeHitbox(Item sItem,Rectangle heldItemFrame, out bool dontAttack, out Rectangle itemRectangle)
+        private void ItemCheck_GetMeleeHitbox(Item sItem, Rectangle heldItemFrame, out bool dontAttack, out Rectangle itemRectangle)
         {
             dontAttack = false;
             itemRectangle = new Rectangle((int)player.itemLocation.X, (int)player.itemLocation.Y, 32, 32);
@@ -713,7 +726,7 @@ namespace KeybrandsPlus.Globals
                 }
             }
         }
-        
+
         public override void PreUpdateMovement()
         {
             if (Stop)
@@ -782,5 +795,187 @@ namespace KeybrandsPlus.Globals
                     if (player.inventory[i].type == ItemType<Munny>() && player.inventory[i].stack > 0)
                         player.inventory[i].SetDefaults(0, false);
         }
+
+        #region Drawcode
+        public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        {
+            int index = layers.IndexOf(PlayerLayer.HeldItem);
+            if (index != -1)
+            {
+                layers.Insert(index + 1, WeaponGlow);
+            }
+            index = layers.IndexOf(PlayerLayer.Head);
+            if (index != -1)
+            {
+                layers.Insert(index + 1, HeadGlow);
+            }
+            index = layers.IndexOf(PlayerLayer.Body);
+            if (index != -1)
+            {
+                layers.Insert(index + 1, BodyGlow);
+            }
+            index = layers.IndexOf(PlayerLayer.Arms);
+            if (index != -1)
+            {
+                layers.Insert(index + 1, ArmsGlow);
+            }
+            index = layers.IndexOf(PlayerLayer.Legs);
+            if (index != -1)
+            {
+                layers.Insert(index + 1, LegsGlow);
+            }
+        }
+        #region PlayerLayer stuff
+        public static readonly PlayerLayer WeaponGlow = new PlayerLayer("KeybrandsPlus", "WeaponGlow", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+
+            if (drawInfo.shadow != 0f || drawPlayer.dead || drawPlayer.frozen || drawPlayer.itemAnimation <= 0)
+            {
+                return;
+            }
+
+            Mod mod = ModLoader.GetMod("KeybrandsPlus");
+
+            if (drawPlayer.HeldItem.type == ItemType<Items.Weapons.Developer.Chimera>())
+            {
+                Texture2D weaponGlow = mod.GetTexture("Textures/Glowmasks/Chimera");
+                Vector2 position = new Vector2((int)(drawInfo.itemLocation.X - Main.screenPosition.X), (int)(drawInfo.itemLocation.Y - Main.screenPosition.Y));
+                Vector2 origin = new Vector2(drawPlayer.direction == -1 ? weaponGlow.Width : 0, drawPlayer.gravDir == -1 ? 0 : weaponGlow.Height);
+                DrawData drawData = new DrawData(weaponGlow, position, null, new Color(255, 255, 255, 0) * 0.8f, drawPlayer.itemRotation, origin, drawPlayer.HeldItem.scale, drawInfo.spriteEffects, 0);
+                Main.playerDrawData.Add(drawData);
+            }
+
+            if (drawPlayer.HeldItem.type == ItemType<Items.Weapons.FlameLiberator>())
+            {
+                Texture2D weaponGlow = mod.GetTexture("Textures/Glowmasks/FlameLiberator");
+                Vector2 position = new Vector2((int)(drawInfo.itemLocation.X - Main.screenPosition.X), (int)(drawInfo.itemLocation.Y - Main.screenPosition.Y));
+                Vector2 origin = new Vector2(drawPlayer.direction == -1 ? weaponGlow.Width : 0, drawPlayer.gravDir == -1 ? 0 : weaponGlow.Height);
+                DrawData drawData = new DrawData(weaponGlow, position, null, new Color(255, 255, 255, 0) * 0.8f, drawPlayer.itemRotation, origin, drawPlayer.HeldItem.scale, drawInfo.spriteEffects, 0);
+                Main.playerDrawData.Add(drawData);
+            }
+        });
+        public static readonly PlayerLayer HeadGlow = new PlayerLayer("KeybrandsPlus", "HeadGlow", PlayerLayer.Head, delegate (PlayerDrawInfo drawInfo)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            KeyPlayer modPlayer = drawPlayer.GetModPlayer<KeyPlayer>();
+            Color color = drawPlayer.GetImmuneAlphaPure(Color.White, drawInfo.shadow);
+            Texture2D texture = null;
+
+            if (drawInfo.shadow != 0f || drawInfo.drawPlayer.invis)
+            {
+                return;
+            }
+            Mod mod = ModLoader.GetMod("KeybrandsPlus");
+
+            if (modPlayer.AvaliHelmet)
+            {
+                texture = mod.GetTexture("Textures/Glowmasks/AvaliHelmet");
+            }
+
+            if (texture == null)
+            {
+                return;
+            }
+
+            Vector2 drawPos = drawInfo.position - Main.screenPosition + new Vector2(drawPlayer.width / 2 - drawPlayer.bodyFrame.Width / 2, drawPlayer.height - drawPlayer.bodyFrame.Height + 4f) + drawPlayer.headPosition;
+            DrawData drawData = new DrawData(texture, drawPos.Floor() + drawInfo.headOrigin, drawPlayer.bodyFrame, color, drawPlayer.headRotation, drawInfo.headOrigin, 1f, drawInfo.spriteEffects, 0)
+            {
+                shader = drawInfo.headArmorShader
+            };
+            Main.playerDrawData.Add(drawData);
+        });
+        public static readonly PlayerLayer BodyGlow = new PlayerLayer("KeybrandsPlus", "BodyGlow", PlayerLayer.Body, delegate (PlayerDrawInfo drawInfo)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            KeyPlayer modPlayer = drawPlayer.GetModPlayer<KeyPlayer>();
+            Color color = drawPlayer.GetImmuneAlphaPure(Color.White, drawInfo.shadow);
+            Texture2D texture = null;
+
+            if (drawInfo.shadow != 0f || drawInfo.drawPlayer.invis)
+            {
+                return;
+            }
+            Mod mod = ModLoader.GetMod("KeybrandsPlus");
+
+            if (modPlayer.AvaliShirt)
+            {
+                texture = mod.GetTexture("Textures/Glowmasks/AvaliShirt");
+            }
+
+            if (texture == null)
+            {
+                return;
+            }
+
+            Vector2 drawPos = drawInfo.position - Main.screenPosition + new Vector2(drawPlayer.width / 2 - drawPlayer.bodyFrame.Width / 2, drawPlayer.height - drawPlayer.bodyFrame.Height + 4f) + drawPlayer.bodyPosition;
+            DrawData drawData = new DrawData(texture, drawPos.Floor() + drawPlayer.bodyFrame.Size() / 2, drawPlayer.bodyFrame, color, drawPlayer.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0)
+            {
+                shader = drawInfo.bodyArmorShader
+            };
+            Main.playerDrawData.Add(drawData);
+        });
+        public static readonly PlayerLayer ArmsGlow = new PlayerLayer("KeybrandsPlus", "ArmsGlow", PlayerLayer.Arms, delegate (PlayerDrawInfo drawInfo)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            KeyPlayer modPlayer = drawPlayer.GetModPlayer<KeyPlayer>();
+            Color color = drawPlayer.GetImmuneAlphaPure(Color.White, drawInfo.shadow);
+            Texture2D texture = null;
+
+            if (drawInfo.shadow != 0f || drawInfo.drawPlayer.invis)
+            {
+                return;
+            }
+            Mod mod = ModLoader.GetMod("KeybrandsPlus");
+
+            if (modPlayer.AvaliShirt)
+            {
+                texture = mod.GetTexture("Textures/Glowmasks/AvaliArms");
+            }
+
+            if (texture == null)
+            {
+                return;
+            }
+
+            Vector2 drawPos = drawInfo.position - Main.screenPosition + new Vector2(drawPlayer.width / 2 - drawPlayer.bodyFrame.Width / 2, drawPlayer.height - drawPlayer.bodyFrame.Height + 4f) + drawPlayer.bodyPosition;
+            DrawData drawData = new DrawData(texture, drawPos.Floor() + drawPlayer.bodyFrame.Size() / 2, drawPlayer.bodyFrame, color, drawPlayer.bodyRotation, drawInfo.bodyOrigin, 1f, drawInfo.spriteEffects, 0)
+            {
+                shader = drawInfo.bodyArmorShader
+            };
+            Main.playerDrawData.Add(drawData);
+        });
+        public static readonly PlayerLayer LegsGlow = new PlayerLayer("KeybrandsPlus", "LegsGlow", PlayerLayer.Legs, delegate (PlayerDrawInfo drawInfo)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            KeyPlayer modPlayer = drawPlayer.GetModPlayer<KeyPlayer>();
+            Color color = drawPlayer.GetImmuneAlphaPure(Color.White, drawInfo.shadow);
+            Texture2D texture = null;
+
+            if (drawInfo.shadow != 0f || drawInfo.drawPlayer.invis)
+            {
+                return;
+            }
+            Mod mod = ModLoader.GetMod("KeybrandsPlus");
+
+            if (modPlayer.AvaliPants)
+            {
+                texture = mod.GetTexture("Textures/Glowmasks/AvaliPants");
+            }
+
+            if (texture == null)
+            {
+                return;
+            }
+
+            Vector2 drawPos = drawInfo.position - Main.screenPosition + new Vector2(drawPlayer.width / 2 - drawPlayer.legFrame.Width / 2, drawPlayer.height - drawPlayer.legFrame.Height + 4f) + drawPlayer.legPosition;
+            DrawData drawData = new DrawData(texture, drawPos.Floor() + drawInfo.legOrigin, drawPlayer.legFrame, color, drawPlayer.legRotation, drawInfo.legOrigin, 1f, drawInfo.spriteEffects, 0)
+            {
+                shader = drawInfo.legArmorShader
+            };
+            Main.playerDrawData.Add(drawData);
+        });
+        #endregion
+        #endregion
     }
 }

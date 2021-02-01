@@ -22,5 +22,9 @@ namespace KeybrandsPlus.Items.Armor.Developer
         {
             return false;
         }
+        public override void UpdateVanity(Player player, EquipType type)
+        {
+            player.GetModPlayer<Globals.KeyPlayer>().AvaliHelmet = true;
+        }
     }
 }
