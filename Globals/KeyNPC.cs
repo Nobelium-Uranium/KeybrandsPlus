@@ -312,7 +312,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void NPCLoot(NPC npc)
         {
-            if (Main.hardMode && NPC.downedPlantBoss && Main.rand.NextBool(3))
+            if (Main.hardMode && Main.rand.NextBool(3))
             {
                 if (npc.type == NPCID.GoblinWarrior || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.CursedHammer || npc.type == NPCID.EnchantedSword || npc.type == NPCID.CrimsonAxe || npc.type == NPCID.Werewolf || npc.type == NPCID.PossessedArmor || npc.type == NPCID.UndeadViking || npc.type == NPCID.ArmoredViking || npc.type == NPCID.PirateCorsair || npc.type == NPCID.RustyArmoredBonesAxe || npc.type == NPCID.RustyArmoredBonesFlail || npc.type == NPCID.RustyArmoredBonesSword || npc.type == NPCID.RustyArmoredBonesSwordNoArmor || npc.type == NPCID.BlueArmoredBones || npc.type == NPCID.BlueArmoredBonesMace || npc.type == NPCID.BlueArmoredBonesNoPants || npc.type == NPCID.BlueArmoredBonesSword || npc.type == NPCID.HellArmoredBones || npc.type == NPCID.HellArmoredBonesMace || npc.type == NPCID.HellArmoredBonesSpikeShield || npc.type == NPCID.HellArmoredBonesSword || npc.type == NPCID.GigaZapper || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarDrakomireRider || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarSroller || npc.type == NPCID.SolarCorite || npc.type == NPCID.SolarSolenian || npc.type == NPCID.GreekSkeleton || npc.type == NPCID.DesertBeast)
                     Item.NewItem(npc.getRect(), ItemType<Items.Materials.WarriorFragment>(), Main.rand.Next(1, 4));
@@ -321,45 +321,44 @@ namespace KeybrandsPlus.Globals
                 else if (npc.type == NPCID.GoblinSorcerer || npc.type == NPCID.FireImp || npc.type == NPCID.DarkCaster || npc.type == NPCID.Tim || npc.type == NPCID.Demon || npc.type == NPCID.VoodooDemon || npc.type == NPCID.RedDevil || npc.type == NPCID.Pixie || npc.type == NPCID.RuneWizard || npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat || npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored || npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite || npc.type == NPCID.MartianEngineer || npc.type == NPCID.NebulaBrain || npc.type == NPCID.NebulaHeadcrab || npc.type == NPCID.NebulaBeast || npc.type == NPCID.NebulaSoldier || npc.type == NPCID.Medusa || npc.type == NPCID.DesertDjinn)
                     Item.NewItem(npc.getRect(), ItemType<Items.Materials.MysticFragment>(), Main.rand.Next(1, 4));
             }
-            /*
-            if (npc.type == NPCID.Mothron && Main.rand.NextBool(2))
-                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Materials.BrokenHeroKeybrand>());*/
+            if (npc.type == NPCID.Mothron && Main.rand.NextBool(3))
+                Item.NewItem(npc.getRect(), ItemType<Items.Materials.BrokenHeroKeybrand>());
             if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax >= 50 && npc.damage != 0 && npc.type != NPCID.TargetDummy && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail)
                 if (NPC.downedMoonlord)
                 {
                     if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 11));
                     if (Main.rand.NextBool(5))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(10, 51));
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(20, 76));
                     else if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 21));
                 }
                 else if (NPC.downedPlantBoss)
                 {
                     if (Main.rand.NextBool(4))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 6));
                     if (Main.rand.NextBool(5))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 26));
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(10, 51));
                     else if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
                 }
                 else if (Main.hardMode)
                 {
                     if (Main.rand.NextBool(8))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 4));
                     if (Main.rand.NextBool(5))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 26));
                     else if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 4));
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
                 }
                 else
                 {
                     if (Main.rand.NextBool(16))
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
                     if (Main.rand.NextBool(5))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
                     else if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>());
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 4));
 
                 }
             

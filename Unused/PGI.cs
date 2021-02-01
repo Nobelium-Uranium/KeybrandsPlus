@@ -18,6 +18,7 @@ namespace KeybrandsPlus.Unused
         }
         public override void SetDefaults()
         {
+            item.maxStack = 99;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.useTime = item.useAnimation = 20;
         }
@@ -30,15 +31,15 @@ namespace KeybrandsPlus.Unused
         public override bool CanRightClick() { return true; }
         public override void RightClick(Player player)
         {
-            if (player.GetModPlayer<KeyPlayer>().maxMP < 200)
+            if (player.GetModPlayer<KeyPlayer>().maxMP < 300)
             {
                 player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 Main.NewText("Max MP increased to " + player.GetModPlayer<KeyPlayer>().maxMP);
             }
             else
             {
-                player.GetModPlayer<KeyPlayer>().maxMP = 50;
-                Main.NewText("Max MP reduced to 50");
+                player.GetModPlayer<KeyPlayer>().maxMP = 100;
+                Main.NewText("Max MP reduced to 100");
             }
         }
     }
