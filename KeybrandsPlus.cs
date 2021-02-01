@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using ReLogic.Graphics;
 using System;
+using Terraria.Graphics.Shaders;
 
 namespace KeybrandsPlus
 {
@@ -26,6 +27,8 @@ namespace KeybrandsPlus
         public override void Load()
         {
             Instance = ModContent.GetInstance<KeybrandsPlus>();
+            
+            GameShaders.Armor.BindShader(ModContent.ItemType<Items.Other.FullbrightDye>(), new ArmorShaderData(new Ref<Effect>(GetEffect("Effects/Fullbright")), "FullbrightShader"));
 
             #region Mod Support
             SacredTools = ModLoader.GetMod("SacredTools");

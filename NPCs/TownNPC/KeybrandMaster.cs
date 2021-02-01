@@ -374,6 +374,10 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 shop.item[nextSlot].shopCustomPrice = new int?(3000);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Other.FullbrightDye>());
+                shop.item[nextSlot].shopCustomPrice = new int?(1000);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Developer.Chimera>());
                 shop.item[nextSlot].shopCustomPrice = new int?(5000);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
