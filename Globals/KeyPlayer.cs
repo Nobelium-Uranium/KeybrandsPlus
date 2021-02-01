@@ -463,7 +463,7 @@ namespace KeybrandsPlus.Globals
                 if (currentMP <= 0)
                 {
                     currentMP = maxMP;
-                    rechargeMPTimer = 1800;
+                    rechargeMPTimer = 1200;
                     if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
                     {
                         rechargeMPTimer = (int)(rechargeMPTimer * .3f);
@@ -497,8 +497,8 @@ namespace KeybrandsPlus.Globals
 
                         rechargeMPTimer = (int)(rechargeMPTimer * (1f - AlignmentFactor));
                     }
-                    if (rechargeMPTimer < 600)
-                        rechargeMPTimer = 600;
+                    if (rechargeMPTimer < 300)
+                        rechargeMPTimer = 300;
                     maxRechargeMPTimer = rechargeMPTimer;
                     rechargeMP = true;
                 }

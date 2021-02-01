@@ -31,6 +31,9 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History
+-1.0.4-
+MP Charge now only lasts for 20 seconds when depleted, down from 30
+
 -1.0.3-
 Your current/max MP is now visible when your cursor is over the bar
 You now start with 10 Ethers

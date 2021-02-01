@@ -22,6 +22,16 @@ namespace KeybrandsPlus.Unused
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.useTime = item.useAnimation = 20;
         }
+        public override bool UseItem(Player player)
+        {
+            if (player.GetModPlayer<KeyPlayer>().rechargeMP)
+            {
+                player.GetModPlayer<KeyPlayer>().rechargeMP = false;
+                player.GetModPlayer<KeyPlayer>().rechargeMPToastTimer = 60;
+            }
+            player.GetModPlayer<KeyPlayer>().currentMP = player.GetModPlayer<KeyPlayer>().maxMP;
+            return true;
+        }
         public override void UpdateInventory(Player player)
         {
             /*condition = KeyUtils.InHotbar(player, item);
