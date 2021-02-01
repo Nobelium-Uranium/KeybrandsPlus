@@ -45,6 +45,14 @@ namespace KeybrandsPlus.Buffs
                 if (player.statMana > 0)
                     CombatText.NewText(player.getRect(), CombatText.HealMana, -player.statMana);
                 player.statMana = 0;
+                if (!player.GetModPlayer<KeyPlayer>().rechargeMP)
+                {
+                    if (player.GetModPlayer<KeyPlayer>().currentMP > 0)
+                        CombatText.NewText(player.getRect(), Color.Crimson, -player.GetModPlayer<KeyPlayer>().currentMP);
+                    player.GetModPlayer<KeyPlayer>().currentMP = 0;
+                    if (player.GetModPlayer<KeyPlayer>().rechargeMPTimer < player.GetModPlayer<KeyPlayer>().maxRechargeMPTimer)
+                        player.GetModPlayer<KeyPlayer>().rechargeMPTimer = player.GetModPlayer<KeyPlayer>().maxRechargeMPTimer;
+                }
                 player.ClearBuff(BuffID.Regeneration);
                 player.ClearBuff(BuffID.ManaRegeneration);
                 player.ClearBuff(BuffID.RapidHealing);
@@ -68,6 +76,7 @@ namespace KeybrandsPlus.Buffs
                     player.AddBuff(BuffID.PotionSickness, 300);
                     player.AddBuff(ModContent.BuffType<ElixirSickness>(), 300);
                     player.AddBuff(ModContent.BuffType<PanaceaCD>(), 300);
+                    player.AddBuff(ModContent.BuffType<EtherSickness>(), 300);
                 }
                 player.AddBuff(BuffID.Obstructed, 60);
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KeybrandsPlus.Globals;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,34 +32,40 @@ namespace KeybrandsPlus.Items.Currency
         }
         public override void GrabRange(Player player, ref int grabRange)
         {
-            if (player.GetModPlayer<Globals.KeyPlayer>().MasterTreasureMagnet)
-                grabRange *= 30;
-            else if (player.GetModPlayer<Globals.KeyPlayer>().TreasureMagnetPlus)
-                grabRange *= 10;
-            else if (player.GetModPlayer<Globals.KeyPlayer>().TreasureMagnet)
-                grabRange *= 5;
+            if (!item.GetGlobalItem<KeyItem>().PlayerDropped)
+            {
+                if (player.GetModPlayer<KeyPlayer>().MasterTreasureMagnet)
+                    grabRange *= 30;
+                else if (player.GetModPlayer<KeyPlayer>().TreasureMagnetPlus)
+                    grabRange *= 10;
+                else if (player.GetModPlayer<KeyPlayer>().TreasureMagnet)
+                    grabRange *= 5;
+            }
         }
         public override bool GrabStyle(Player player)
         {
-            Vector2 vectorItemToPlayer = player.Center - item.Center;
-            Vector2 movement = vectorItemToPlayer.SafeNormalize(default);
-            if (player.GetModPlayer<Globals.KeyPlayer>().MasterTreasureMagnet)
+            if (!item.GetGlobalItem<KeyItem>().PlayerDropped)
             {
-                movement *= 40f;
-                item.velocity = movement;
-                return true;
-            }
-            else if (player.GetModPlayer<Globals.KeyPlayer>().TreasureMagnetPlus)
-            {
-                movement *= 20f;
-                item.velocity = movement;
-                return true;
-            }
-            else if (player.GetModPlayer<Globals.KeyPlayer>().TreasureMagnet)
-            {
-                movement *= 10f;
-                item.velocity = movement;
-                return true;
+                Vector2 vectorItemToPlayer = player.Center - item.Center;
+                Vector2 movement = vectorItemToPlayer.SafeNormalize(default);
+                if (player.GetModPlayer<KeyPlayer>().MasterTreasureMagnet)
+                {
+                    movement *= 40f;
+                    item.velocity = movement;
+                    return true;
+                }
+                else if (player.GetModPlayer<KeyPlayer>().TreasureMagnetPlus)
+                {
+                    movement *= 20f;
+                    item.velocity = movement;
+                    return true;
+                }
+                else if (player.GetModPlayer<KeyPlayer>().TreasureMagnet)
+                {
+                    movement *= 10f;
+                    item.velocity = movement;
+                    return true;
+                }
             }
             return base.GrabStyle(player);
         }

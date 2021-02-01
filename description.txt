@@ -31,6 +31,12 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History
+-1.0.3-
+Your current/max MP is now visible when your cursor is over the bar
+You now start with 10 Ethers
+MP is now fully restored on death
+Munny is no longer attracted by Treasure Magnet and its upgrades if it was dropped by a player
+
 -1.0.2-
 Added credits
 

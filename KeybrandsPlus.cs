@@ -8,25 +8,30 @@ using System.Collections.Generic;
 using KeybrandsPlus.Globals;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using ReLogic.Graphics;
+using System;
 
 namespace KeybrandsPlus
 {
     public class KeybrandsPlus : Mod
     {
+        internal static KeybrandsPlus Instance;
+        
         public static Mod SacredTools;
 
         public static bool SoALoaded;
 
         public static int MunnyCost;
-
-        internal static KeybrandsPlus Instance;
-
+        
         public override void Load()
         {
             Instance = ModContent.GetInstance<KeybrandsPlus>();
 
+            #region Mod Support
             SacredTools = ModLoader.GetMod("SacredTools");
             SoALoaded = SacredTools != null;
+            #endregion
+
             if (!Main.dedServ)
                 MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Items.Currency.Munny>(), 9999L));
         }
@@ -143,7 +148,7 @@ namespace KeybrandsPlus
             Player player = Main.LocalPlayer;
             KeyPlayer keyPlayer = player.GetModPlayer<KeyPlayer>();
 
-            if (keyPlayer.showMP && !Main.playerInventory)
+            if (keyPlayer.showMP && !player.dead && !Main.playerInventory)
             {
                 int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Ruler"));
                 LegacyGameInterfaceLayer mpBar = new LegacyGameInterfaceLayer("KeybrandsPlus: MP Gauge",
@@ -170,6 +175,7 @@ namespace KeybrandsPlus
             float currMP = keyPlayer.currentMP;
             float toastTimer = keyPlayer.rechargeMPToastTimer;
             float rechargeTimer = keyPlayer.rechargeMPTimer;
+            float maxRechargeTimer = keyPlayer.maxRechargeMPTimer;
 
             float midFrame = 0;
             float fillFrame = 0;
@@ -179,7 +185,7 @@ namespace KeybrandsPlus
                 midFrame = 1;
                 fillFrame = 1;
 
-                if (rechargeTimer % 60 <= 30) fillFrame = 2;
+                if (Main.GameUpdateCount % 60 <= 30) fillFrame = 2;
             }
 
             Rectangle midRect = new Rectangle(0, (int)(gaugeMid.Height / 2 * midFrame), gaugeMid.Width, gaugeMid.Height / 2);
@@ -193,6 +199,8 @@ namespace KeybrandsPlus
                 drawPos.X = MathHelper.Lerp(-200 - maxMP, 50, 1f - toastTimer / 40);
             }
 
+            Rectangle mpBar = new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(50 + maxMP), 22);
+            
             spriteBatch.Draw(gaugeLeft, drawPos, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             drawPos.X += gaugeLeft.Width;
 
@@ -209,6 +217,14 @@ namespace KeybrandsPlus
             }
 
             spriteBatch.Draw(gaugeRight, drawPos, rightRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+
+            if (mpBar.Contains(new Point(Main.mouseX, Main.mouseY)))
+            {
+                if (keyPlayer.rechargeMP)
+                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.Crimson);
+                else
+                    Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP, new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.DodgerBlue);
+            }
 
             //int timerProgress = (int)(gaugeFill.Width * (maxMP - keyPlayer.asthralBlockCooldown) / maxMP);
             //Vector2 drawPos = player.Center + new Vector2(0, -32) - Main.screenPosition;

@@ -117,13 +117,13 @@ namespace KeybrandsPlus.Globals
         public int ChimeraLifestealCD;
 
         public bool showMP = true;
-        public bool rechargeMP = true;
+        public bool rechargeMP = false;
         public int maxMP = 100;
         public int currentMP = 100;
         
-        public float maxRechargeMPTimer = 900;
-        public int rechargeMPTimer = 900;
-        public float rechargeMPToastTimer;
+        public int maxRechargeMPTimer;
+        public int rechargeMPTimer;
+        public float rechargeMPToastTimer = 60;
 
         public override void ResetEffects()
         {
@@ -218,6 +218,10 @@ namespace KeybrandsPlus.Globals
             {
                 Item item = new Item();
                 item.SetDefaults(ItemType<Items.Weapons.WoodenKeybrand>());
+                items.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemType<Items.Consumables.MP.Ether>());
+                item.stack = 10;
                 items.Add(item);
             }
         }
@@ -389,6 +393,7 @@ namespace KeybrandsPlus.Globals
                         CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped " + amount + " Munny", true);
                         Munny = Item.NewItem(player.getRect(), ItemType<Munny>(), amount);
                     }
+                    Main.item[Munny].GetGlobalItem<KeyItem>().PlayerDropped = true;
                     Main.item[Munny].GetGlobalItem<KeyItem>().TimeLeft = 3600;
                 }
                 for (int i = 0; i < 58 && amount > 0; i++)
@@ -438,6 +443,13 @@ namespace KeybrandsPlus.Globals
             }
             else if (Defender && player.statLife <= player.statLifeMax2 / 5)
                 player.statDefense += 4;
+
+            if (player.dead)
+            {
+                rechargeMP = false;
+                currentMP = maxMP;
+                rechargeMPToastTimer = 60;
+            }
             if (maxMP < 100)
                 maxMP = 100;
             else if (maxMP > 300)
@@ -446,7 +458,9 @@ namespace KeybrandsPlus.Globals
             {
                 if (currentMP > maxMP)
                     currentMP = maxMP;
-                if(currentMP <= 0)
+                if (maxRechargeMPTimer > 0)
+                    maxRechargeMPTimer = 0;
+                if (currentMP <= 0)
                 {
                     currentMP = maxMP;
                     rechargeMPTimer = 1800;
@@ -492,7 +506,7 @@ namespace KeybrandsPlus.Globals
             else
             {
                 rechargeMPTimer--;
-                currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / maxRechargeMPTimer);
+                currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / (float)maxRechargeMPTimer);
 
                 if(rechargeMPTimer <= 0)
                 {

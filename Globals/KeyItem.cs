@@ -22,6 +22,7 @@ namespace KeybrandsPlus.Globals
 
         public bool AliveNKicking;
 
+        public bool PlayerDropped;
         public int TimeLeft;
         public float Scale;
 
