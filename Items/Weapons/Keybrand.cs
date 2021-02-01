@@ -13,6 +13,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             Tooltip.SetDefault("+15 Light Alignment\n" +
                 "Direct melee hits inflict up to 150% more damage to injured foes\n" +
+                "MP Cost: 26\n" +
                 "Alt Attack: Judgement\n" +
                 "Throws a ethereal keybrand that follows the cursor\n" +
                 "Ability: Damage Control\n" +
@@ -68,6 +69,8 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item71;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 26;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
             }
             return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
         }

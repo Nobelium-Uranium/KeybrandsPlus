@@ -13,6 +13,7 @@ namespace KeybrandsPlus.Items.Weapons
             Tooltip.SetDefault("+15 Dark Alignment\n" +
                 "Direct melee hits inflict up to 100% more damage to injured foes\n" +
                 "Alt Attack: Strike Raid\n" +
+                "MP Cost: 12\n" +
                 "Throws a returning ethereal keybrand\n" +
                 "Ability: Defender+\n" +
                 "'A weapon from the dark realm'");
@@ -69,6 +70,8 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item71;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 12;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
             }
             return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
         }
@@ -80,7 +83,7 @@ namespace KeybrandsPlus.Items.Weapons
 
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment += 15;
+            player.GetModPlayer<KeyPlayer>().DarkAlignment += 15;
         }
 
         public override void AddRecipes()

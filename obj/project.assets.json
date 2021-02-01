@@ -31,19 +31,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alex\\.nuget\\packages\\": {}
+    "C:\\Users\\Dan Yami\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
+      "projectUniqueName": "C:\\Users\\Dan Yami\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
       "projectName": "KeybrandsPlus",
-      "projectPath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
-      "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\obj\\",
+      "projectPath": "C:\\Users\\Dan Yami\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
+      "packagesPath": "C:\\Users\\Dan Yami\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dan Yami\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dan Yami\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -55,18 +55,26 @@
       },
       "frameworks": {
         "net45": {
+          "targetAlias": "net45",
           "projectReferences": {}
         }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
       }
     },
     "frameworks": {
       "net45": {
+        "targetAlias": "net45",
         "dependencies": {
           "tModLoader.CodeAssist": {
             "target": "Package",
             "version": "[0.1.*, )"
           }
-        }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

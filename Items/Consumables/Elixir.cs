@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using KeybrandsPlus.Globals;
+using Microsoft.Xna.Framework;
 
 namespace KeybrandsPlus.Items.Consumables
 {
@@ -10,7 +11,7 @@ namespace KeybrandsPlus.Items.Consumables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elixir");
-            Tooltip.SetDefault("Must be used directly, does not trigger Leaf Bracer\nFully restores life and mana\nGrants brief immunity to most debuffs\nBoosts life and mana regen for a short duration\n3 minute cooldown");
+            Tooltip.SetDefault("Must be used directly, does not trigger Leaf Bracer\nFully restores life, mana, and MP\nGrants brief immunity to most debuffs\nBoosts life and mana regen for a short duration\n3 minute cooldown");
         }
         public override void SetDefaults()
         {
@@ -34,6 +35,15 @@ namespace KeybrandsPlus.Items.Consumables
             player.statLife = player.statLifeMax2;
             player.ManaEffect(player.statManaMax2 - player.statMana);
             player.statMana = player.statManaMax2;
+            if (player.GetModPlayer<KeyPlayer>().rechargeMP)
+            {
+                CombatText.NewText(player.getRect(), Color.DodgerBlue, player.GetModPlayer<KeyPlayer>().maxMP);
+                player.GetModPlayer<KeyPlayer>().rechargeMP = false;
+                player.GetModPlayer<KeyPlayer>().rechargeMPToastTimer = 60;
+            }
+            else
+                CombatText.NewText(player.getRect(), Color.DodgerBlue, player.GetModPlayer<KeyPlayer>().currentMP - player.GetModPlayer<KeyPlayer>().maxMP);
+            player.GetModPlayer<KeyPlayer>().currentMP = player.GetModPlayer<KeyPlayer>().maxMP;
             player.AddBuff(ModContent.BuffType<Buffs.ElixirSickness>(), 10800);
             if (!player.HasBuff(BuffID.NebulaUpLife2) && !player.HasBuff(BuffID.NebulaUpLife3))
                 player.AddBuff(BuffID.NebulaUpLife1, 600);

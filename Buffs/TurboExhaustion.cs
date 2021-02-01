@@ -1,22 +1,21 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using KeybrandsPlus.Globals;
 
 namespace KeybrandsPlus.Buffs
 {
-    class CureCooldown : ModBuff
+    class TurboExhaustion : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Healing Exhaustion");
-            Description.SetDefault("Cannot use Cure");
+            DisplayName.SetDefault("Turbo Exhaustion");
+            Description.SetDefault("Cannot use Turbo-Ethers");
             Main.debuff[Type] = true;
             canBeCleared = false;
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<KeyPlayer>().CureCooldown = true;
+            player.GetModPlayer<KeyPlayer>().TurboExhaustion = true;
         }
     }
 }

@@ -10,7 +10,13 @@ namespace KeybrandsPlus.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("-5 Light Alignment\n+5 Dark Alignment\nAlt Attack: Water\nShoots a stream of water that splashes on contact\nAbility: MP Haste\n'Icing on the cake'");
+            Tooltip.SetDefault("-5 Light Alignment\n" +
+                "+5 Dark Alignment\n" +
+                "Alt Attack: Water\n" +
+                "MP Cost: 7\n" +
+                "Shoots a stream of water that splashes on contact\n" +
+                "Ability: MP Haste\n" +
+                "'Icing on the cake'");
             Item.staff[item.type] = true;
         }
         public override void SetDefaults()
@@ -53,6 +59,8 @@ namespace KeybrandsPlus.Items.Weapons
                 item.shoot = ModContent.ProjectileType<Projectiles.WaterProj>();
                 item.noMelee = true;
                 item.UseSound = SoundID.Item21;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP -= 7;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
             return base.CanUseItem(player);
         }

@@ -60,11 +60,14 @@ namespace KeybrandsPlus.Items.Other
         }
         public override bool OnPickup(Player player)
         {
-            Main.PlaySound(SoundID.Item30.WithVolume(0.1f), player.Center);
-            player.statMana += item.stack;
-            if (player.statMana > player.statManaMax2)
-                player.statMana = player.statManaMax2;
-            CombatText.NewText(player.getRect(), CombatText.HealMana, item.stack, dot: true);
+            Main.PlaySound(SoundID.Item30.WithVolume(.25f), player.Center);
+            if (!player.GetModPlayer<Globals.KeyPlayer>().rechargeMP)
+                player.GetModPlayer<Globals.KeyPlayer>().currentMP += item.stack;
+            else
+                player.GetModPlayer<Globals.KeyPlayer>().rechargeMPTimer -= (int)(player.GetModPlayer<Globals.KeyPlayer>().rechargeMPTimer * (item.stack / 250f));
+            if (player.GetModPlayer<Globals.KeyPlayer>().currentMP > player.GetModPlayer<Globals.KeyPlayer>().maxMP)
+                player.GetModPlayer<Globals.KeyPlayer>().currentMP = player.GetModPlayer<Globals.KeyPlayer>().maxMP;
+            CombatText.NewText(player.getRect(), Color.DodgerBlue, item.stack, dot: true);
             return false;
         }
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)

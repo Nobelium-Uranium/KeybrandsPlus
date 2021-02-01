@@ -16,6 +16,7 @@ namespace KeybrandsPlus.Items.Weapons
             Tooltip.SetDefault("+5 Light Alignment\n" +
                 "-5 Dark Alignment\n" +
                 "Alt Attack: Eternal Flames\n" +
+                "MP Cost: 4\n" +
                 "Throws up to two flaming chakrams straight ahead\n" +
                 "The chakrams inflict a stacking fire debuff\n" +
                 "Ability: Vital Blow\n" +
@@ -65,6 +66,8 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item116;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1) player.GetModPlayer<KeyPlayer>().currentMP -= 7;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1;
             }
             return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1;
         }

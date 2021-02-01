@@ -19,10 +19,11 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             Tooltip.SetDefault("-10 Light Alignment\n" +
                 "-10 Dark Alignment\n" +
                 "Alt Attack: Chimera's Bite\n" +
+                "MP Cost: 5\n" +
                 "Creates a magic blade beam that make enemies bleed healing droplets\n" +
                 "The blade beam can hit most Heartless that are normally immune to magic\n" +
                 "Abilities: MP Hasteza, Damage Control, Leaf Bracer\n" +
-                "Restores mana on direct hits, also making the enemy bleed\n" +
+                "Direct melee hits cause the enemy to drop healing blood\n" +
                 "Can only be used after Moon Lord is defeated\n" +
                 "'Bound to the Stars'");
         }
@@ -55,7 +56,6 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 item.crit = 13;
                 item.magic = false;
                 item.useTurn = true;
-                item.mana = 0;
                 item.shoot = 0;
                 item.noMelee = false;
                 item.UseSound = SoundID.Item116;
@@ -67,11 +67,12 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 item.crit = 3;
                 item.magic = true;
                 item.useTurn = false;
-                item.mana = 5;
                 item.shoot = ProjectileType<Projectiles.ChimeraBite>();
                 item.noMelee = true;
                 item.UseSound = SoundID.Item60;
                 item.knockBack = 0f;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP -= 5;
+                return (NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure") && !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
             return NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure";
         }
@@ -79,8 +80,6 @@ namespace KeybrandsPlus.Items.Weapons.Developer
         {
             if (!target.friendly && target.type != NPCID.TargetDummy && target.lifeMax > 5 && LifestealCooldown <= 0)
             {
-                player.statMana += damage / 5;
-                CombatText.NewText(player.getRect(), CombatText.HealMana, damage / 5);
                 if (player.lifeSteal > 0f)
                     for (int i = 0; i < Main.rand.Next(5, 21); i++)
                     {
