@@ -23,7 +23,17 @@ Sub-armor, equipment that can be synthesized to increase certain stats
 The ability to increase your maximum MP
 And much more!
 
+Developers:
+ Chem - Creator of Keybrands+ and lead dev
+ Dan Yami - Lead dev
+
+Contributors:
+ Licflagg, Q, LuftRaptor - Ideas and support
+
 Version History
+-1.0.2-
+Added credits
+
 -1.0.1-
 Github integration, icon is now visible on the browser
 
