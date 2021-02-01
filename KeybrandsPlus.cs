@@ -224,9 +224,9 @@ namespace KeybrandsPlus
             if (mpBar.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
                 if (keyPlayer.rechargeMP)
-                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.Crimson);
+                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.DarkRed);
                 else
-                    Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP, new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.DodgerBlue);
+                    Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP, new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.DarkBlue);
             }
 
             //int timerProgress = (int)(gaugeFill.Width * (maxMP - keyPlayer.asthralBlockCooldown) / maxMP);

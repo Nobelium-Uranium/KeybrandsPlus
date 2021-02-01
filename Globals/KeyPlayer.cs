@@ -236,6 +236,9 @@ namespace KeybrandsPlus.Globals
                 item.SetDefaults(ItemType<Items.Consumables.MP.Ether>());
                 item.stack = 10;
                 items.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemType<Items.Other.DevNull>());
+                items.Add(item);
             }
         }
 
