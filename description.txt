@@ -24,5 +24,8 @@ The ability to increase your maximum MP
 And much more!
 
 Version History
+-1.0.1-
+Github integration, icon is now visible on the browser
+
 -1.0.0- "Awakening"
 Initial Release
