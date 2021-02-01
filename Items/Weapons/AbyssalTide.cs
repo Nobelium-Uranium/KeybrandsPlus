@@ -44,7 +44,6 @@ namespace KeybrandsPlus.Items.Weapons
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.melee = true;
                 item.magic = false;
-                item.mana = 0;
                 item.noMelee = false;
                 item.shoot = 0;
                 item.UseSound = SoundID.Item1;
@@ -55,7 +54,6 @@ namespace KeybrandsPlus.Items.Weapons
                 item.useStyle = ItemUseStyleID.HoldingOut;
                 item.melee = false;
                 item.magic = true;
-                item.mana = 7;
                 item.shoot = ModContent.ProjectileType<Projectiles.WaterProj>();
                 item.noMelee = true;
                 item.UseSound = SoundID.Item21;

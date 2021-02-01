@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using KeybrandsPlus.Helpers;
+using KeybrandsPlus.Globals;
 
 namespace KeybrandsPlus.Unused
 {
@@ -22,9 +23,23 @@ namespace KeybrandsPlus.Unused
         }
         public override void UpdateInventory(Player player)
         {
-            condition = KeyUtils.InHotbar(player, item);
+            /*condition = KeyUtils.InHotbar(player, item);
             slot = KeyUtils.GetItemSlot(player, item);
-            Main.NewText("This item is" + (!condition ? " not" : "") + " in the hotbar" + (slot != -1 ? " in position " + slot : "."));
+            Main.NewText("This item is" + (!condition ? " not" : "") + " in the hotbar" + (slot != -1 ? " in position " + slot : "."));*/
+        }
+        public override bool CanRightClick() { return true; }
+        public override void RightClick(Player player)
+        {
+            if (player.GetModPlayer<KeyPlayer>().maxMP < 200)
+            {
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
+                Main.NewText("Max MP increased to " + player.GetModPlayer<KeyPlayer>().maxMP);
+            }
+            else
+            {
+                player.GetModPlayer<KeyPlayer>().maxMP = 50;
+                Main.NewText("Max MP reduced to 50");
+            }
         }
     }
 }

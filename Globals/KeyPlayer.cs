@@ -438,7 +438,10 @@ namespace KeybrandsPlus.Globals
             }
             else if (Defender && player.statLife <= player.statLifeMax2 / 5)
                 player.statDefense += 4;
-
+            if (maxMP < 50)
+                maxMP = 50;
+            else if (maxMP > 200)
+                maxMP = 200;
             if (!rechargeMP)
             {
                 if (currentMP > maxMP)

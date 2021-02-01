@@ -62,9 +62,7 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.UseSound = SoundID.Item29;
                 item.shoot = 10;
-                if (player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
-                    return false;
-                if (!player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP = 0;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP = 0;
                 return !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
             return base.CanUseItem(player);
