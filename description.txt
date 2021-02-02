@@ -31,6 +31,9 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.8-
+Keybrands only make enemies drop hearts on death, it's also no longer guaranteed
+
 -1.0.7-
 Added Quick Ether hotkey (bound to F by default)
 

@@ -78,12 +78,11 @@ namespace KeybrandsPlus.Items.Weapons.Developer
         {
             if (!target.friendly && target.type != NPCID.TargetDummy && target.lifeMax > 5 && LifestealCooldown <= 0)
             {
-                if (player.lifeSteal > 0f)
-                    for (int i = 0; i < Main.rand.Next(5, 21); i++)
-                    {
-                        int blood = Item.NewItem(target.getRect(), ItemType<Items.Other.Blood>());
-                        Main.item[blood].velocity *= 1.5f;
-                    }
+                for (int i = 0; i < Main.rand.Next(5, 21); i++)
+                {
+                    int blood = Item.NewItem(target.getRect(), ItemType<Items.Other.Blood>());
+                    Main.item[blood].velocity *= 1.5f;
+                }
                 LifestealCooldown = 15;
             }
         }
