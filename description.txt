@@ -30,7 +30,10 @@ Developers:
 Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
-Version History
+Version History:
+-1.0.6-
+Fixed alignment not updating correctly
+
 -1.0.5-
 Enemies will always drop at least 1 MP prize if it fails to roll the higher drop amounts
 Fixed Flame Liberator's glowmask being visible when it shouldn't (right click attack)

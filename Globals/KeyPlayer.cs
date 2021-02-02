@@ -446,12 +446,6 @@ namespace KeybrandsPlus.Globals
             if (GliderInactive)
                 player.wingsLogic = 0;
 
-            if (LightAlignment < 0)
-                LightAlignment = 0;
-            if (DarkAlignment < 0)
-                DarkAlignment = 0;
-            TotalAlignment = LightAlignment + DarkAlignment;
-
             if (DefenderPlus && player.statLife <= player.statLifeMax2 / 2)
             {
                 DefenderThreshold = player.statDefense / 10;
@@ -545,6 +539,11 @@ namespace KeybrandsPlus.Globals
 
         public override void PostUpdate()
         {
+            if (LightAlignment < 0)
+                LightAlignment = 0;
+            if (DarkAlignment < 0)
+                DarkAlignment = 0;
+            TotalAlignment = LightAlignment + DarkAlignment;
             if (Main.expertMode)
                 PlayerDefense = (int)Math.Ceiling(player.statDefense * 0.75f);
             else
