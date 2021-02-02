@@ -17,6 +17,8 @@ namespace KeybrandsPlus
     public class KeybrandsPlus : Mod
     {
         internal static KeybrandsPlus Instance;
+
+        public static ModHotKey QuickEther;
         
         public static Mod SacredTools;
 
@@ -27,6 +29,8 @@ namespace KeybrandsPlus
         public override void Load()
         {
             Instance = ModContent.GetInstance<KeybrandsPlus>();
+
+            QuickEther = RegisterHotKey("Quick Ether", "F");
             
             GameShaders.Armor.BindShader(ModContent.ItemType<Items.Other.FullbrightDye>(), new ArmorShaderData(new Ref<Effect>(GetEffect("Effects/Fullbright")), "FullbrightShader"));
 
@@ -42,8 +46,11 @@ namespace KeybrandsPlus
         {
             Instance = null;
 
+            QuickEther = null;
+
             SacredTools = null;
             SoALoaded = false;
+
             MunnyCost = 0;
         }
         public override void AddRecipes()

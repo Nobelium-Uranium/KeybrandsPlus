@@ -10,6 +10,7 @@ using static KeybrandsPlus.Helpers.KeyUtils;
 using static Terraria.ModLoader.ModContent;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameInput;
 
 namespace KeybrandsPlus.Globals
 {
@@ -631,6 +632,92 @@ namespace KeybrandsPlus.Globals
             {
                 player.immune = true;
                 LeafBracerTimer -= 1;
+            }
+        }
+
+        public override void ProcessTriggers(TriggersSet triggersSet)
+        {
+            if (KeybrandsPlus.QuickEther.JustPressed && !EtherSickness && currentMP < maxMP)
+            {
+                if (player.HasItem(ItemType<Items.Consumables.MP.TurboEther>()) && rechargeMP && !TurboExhaustion)
+                {
+                    foreach (Item item in player.inventory)
+                        if (item.type == ItemType<Items.Consumables.MP.TurboEther>())
+                        {
+                            
+                            item.stack -= 1;
+                            if (item.stack <= 0)
+                                item.SetDefaults(0, false);
+                            Main.PlaySound(SoundID.Item84);
+                            CombatText.NewText(player.getRect(), Color.DodgerBlue, player.GetModPlayer<KeyPlayer>().maxMP);
+                            rechargeMP = false;
+                            rechargeMPToastTimer = 60;
+                            currentMP = maxMP;
+                            player.AddBuff(BuffType<TurboExhaustion>(), 1800);
+                            player.AddBuff(BuffType<EtherSickness>(), 300);
+                            break;
+                        }
+                }
+                else if (player.HasItem(ItemType<Items.Consumables.MP.MegaEther>()))
+                {
+                    foreach (Item item in player.inventory)
+                        if (item.type == ItemType<Items.Consumables.MP.MegaEther>())
+                        {
+                            item.stack -= 1;
+                            if (item.stack <= 0)
+                                item.SetDefaults(0, false);
+                            Main.PlaySound(SoundID.Item3);
+                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 150);
+                            if (rechargeMP)
+                                rechargeMPTimer = (int)(rechargeMPTimer * .25f);
+                            else
+                                currentMP += 150;
+                            if (currentMP > maxMP)
+                                currentMP = maxMP;
+                            player.AddBuff(BuffType<EtherSickness>(), 600);
+                            break;
+                        }
+                }
+                else if (player.HasItem(ItemType<Items.Consumables.MP.HiEther>()))
+                {
+                    foreach (Item item in player.inventory)
+                        if (item.type == ItemType<Items.Consumables.MP.HiEther>())
+                        {
+                            item.stack -= 1;
+                            if (item.stack <= 0)
+                                item.SetDefaults(0, false);
+                            Main.PlaySound(SoundID.Item3);
+                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 75);
+                            if (rechargeMP)
+                                rechargeMPTimer = (int)(rechargeMPTimer * .5f);
+                            else
+                                currentMP += 75;
+                            if (currentMP > maxMP)
+                                currentMP = maxMP;
+                            player.AddBuff(BuffType<EtherSickness>(), 600);
+                            break;
+                        }
+                }
+                else if (player.HasItem(ItemType<Items.Consumables.MP.Ether>()))
+                {
+                    foreach (Item item in player.inventory)
+                        if (item.type == ItemType<Items.Consumables.MP.Ether>())
+                        {
+                            item.stack -= 1;
+                            if (item.stack <= 0)
+                                item.SetDefaults(0, false);
+                            Main.PlaySound(SoundID.Item3);
+                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 25);
+                            if (rechargeMP)
+                                rechargeMPTimer = (int)(rechargeMPTimer * .75f);
+                            else
+                                currentMP += 25;
+                            if (currentMP > maxMP)
+                                currentMP = maxMP;
+                            player.AddBuff(BuffType<EtherSickness>(), 600);
+                            break;
+                        }
+                }
             }
         }
 
