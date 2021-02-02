@@ -31,6 +31,10 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History
+-1.0.5-
+Enemies will always drop at least 1 MP prize if it fails to roll the higher drop amounts
+Fixed Flame Liberator's glowmask being visible when it shouldn't (right click attack)
+
 -1.0.4-
 MP Charge now only lasts for 20 seconds when depleted, down from 30
 Added some proper glowmasks

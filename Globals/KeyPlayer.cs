@@ -16,6 +16,7 @@ namespace KeybrandsPlus.Globals
     class KeyPlayer : ModPlayer
     {
         #region Glowmasks
+        public bool HideGlowmask;
         public bool AvaliHelmet;
         public bool AvaliShirt;
         public bool AvaliPants;
@@ -135,6 +136,7 @@ namespace KeybrandsPlus.Globals
         public override void ResetEffects()
         {
             #region Glowmasks
+            HideGlowmask = false;
             AvaliHelmet = false;
             AvaliShirt = false;
             AvaliPants = false;
@@ -832,6 +834,7 @@ namespace KeybrandsPlus.Globals
         public static readonly PlayerLayer WeaponGlow = new PlayerLayer("KeybrandsPlus", "WeaponGlow", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
+            KeyPlayer modPlayer = drawPlayer.GetModPlayer<KeyPlayer>();
 
             if (drawInfo.shadow != 0f || drawPlayer.dead || drawPlayer.frozen || drawPlayer.itemAnimation <= 0)
             {
@@ -849,7 +852,7 @@ namespace KeybrandsPlus.Globals
                 Main.playerDrawData.Add(drawData);
             }
 
-            if (drawPlayer.HeldItem.type == ItemType<Items.Weapons.FlameLiberator>())
+            if (drawPlayer.HeldItem.type == ItemType<Items.Weapons.FlameLiberator>() && !modPlayer.HideGlowmask)
             {
                 Texture2D weaponGlow = mod.GetTexture("Textures/Glowmasks/FlameLiberator");
                 Vector2 position = new Vector2((int)(drawInfo.itemLocation.X - Main.screenPosition.X), (int)(drawInfo.itemLocation.Y - Main.screenPosition.Y));

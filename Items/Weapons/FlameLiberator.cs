@@ -72,6 +72,8 @@ namespace KeybrandsPlus.Items.Weapons
 
         public override void HoldItem(Player player)
         {
+            if (player.altFunctionUse == 2)
+                player.GetModPlayer<KeyPlayer>().HideGlowmask = true;
             player.GetModPlayer<KeyPlayer>().VitalBlow = true;
         }
 
@@ -89,7 +91,7 @@ namespace KeybrandsPlus.Items.Weapons
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if (Main.rand.NextBool(1))
+            if (Main.rand.NextBool())
             {
                 int dustIndex = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 235);
                 Main.dust[dustIndex].noGravity = true;
