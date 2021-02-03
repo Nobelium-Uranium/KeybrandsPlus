@@ -6,6 +6,30 @@ namespace KeybrandsPlus.Helpers
 {
     public static class KeyUtils
     {
+        /// <summary>
+        /// Creates the specified dust in a circular fashion.
+        /// </summary>
+        /// <param name="dustIndex">An output of the created dust's index, to be used with Main.dust[dustIndex]</param>
+        /// <param name="perfect">Determines if the velocity is set or semi-random</param>
+        /// <returns></returns>
+        public static Dust NewDustCircular(out int dustIndex, Vector2 position, Vector2 size, int type, float velocity, int alpha = 0, Color color = default, float scale = 1f, bool perfect = false)
+        {
+            int index = Dust.NewDust(position, (int)size.X, (int)size.Y, type, Alpha: alpha, newColor: color, Scale: scale);
+            if (perfect)
+                Main.dust[index].velocity = Vector2.Normalize(Main.dust[index].velocity).RotatedByRandom(MathHelper.ToRadians(360)) * velocity;
+            else
+                Main.dust[index].velocity += new Vector2(0, velocity).RotatedByRandom(MathHelper.ToRadians(360));
+            dustIndex = index;
+            return Main.dust[index];
+        }
+
+
+        /// <summary>
+        /// Gets the specified item's slot ID.
+        /// </summary>
+        /// <param name="player">The player whose inventory will be iterated through</param>
+        /// <param name="item">An item in the specified player's inventory</param>
+        /// <returns></returns>
         public static int GetItemSlot(Player player, Item item)
         {
             Item i = null;
@@ -19,6 +43,12 @@ namespace KeybrandsPlus.Helpers
             return -1;
         }
 
+        /// <summary>
+        /// Returns whether or not an item is in the specified player's hotbar. Similar to GetItemSlot but only returns a boolean value that is only true if in the hotbar.
+        /// </summary>
+        /// <param name="player">The player whose inventory will be iterated through</param>
+        /// <param name="item">An item in the specified player's inventory</param>
+        /// <returns></returns>
         public static bool InHotbar(Player player, Item item)
         {
             Item i = null;
@@ -33,6 +63,9 @@ namespace KeybrandsPlus.Helpers
             return condition;
         }
         
+        /// <summary>
+        /// I find this easier to use than Main.rand.nextFloat
+        /// </summary>
         public static bool RandPercent(float percent)
         {
             if (Main.rand.NextFloat(1f) <= percent)

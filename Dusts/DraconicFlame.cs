@@ -13,6 +13,7 @@ namespace KeybrandsPlus.Dusts
             dust.scale = 2f;
             dust.noGravity = true;
 			dust.alpha = 50;
+            dust.position -= new Vector2(3);
         }
 
         public override bool Update(Dust dust)

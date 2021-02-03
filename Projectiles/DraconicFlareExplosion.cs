@@ -41,8 +41,7 @@ namespace KeybrandsPlus.Projectiles
                 }
                 for (int k = 0; k < 50; k++)
                 {
-                    int Flame = Dust.NewDust(projectile.Center, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
-                    Main.dust[Flame].velocity = new Vector2(0, 20).RotatedBy(MathHelper.ToRadians(7.2f) * k);
+                    KeyUtils.NewDustCircular(out int Flame, projectile.Center, Vector2.Zero, ModContent.DustType<Dusts.DraconicFlame>(), 20, perfect: true);
                     Main.dust[Flame].scale *= 3.75f;
                 }
             }
@@ -50,8 +49,7 @@ namespace KeybrandsPlus.Projectiles
             {
                 for (int k = 0; k < Main.rand.Next(5, 10); k++)
                 {
-                    int Flame = Dust.NewDust(projectile.Center, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
-                    Main.dust[Flame].velocity *= 7.5f;
+                    KeyUtils.NewDustCircular(out int Flame, projectile.Center, Vector2.Zero, ModContent.DustType<Dusts.DraconicFlame>(), 15);
                 }
                 float RandX = Main.rand.NextFloat(1.5f, 3.5f);
                 if (Main.rand.NextBool())
