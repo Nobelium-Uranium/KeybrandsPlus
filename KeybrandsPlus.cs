@@ -209,7 +209,9 @@ namespace KeybrandsPlus
                 drawPos.X = MathHelper.Lerp(-200 - maxMP, 50, 1f - toastTimer / 40);
             }
 
-            Rectangle mpBar = new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(50 + maxMP), 22);
+            Rectangle mpBar = new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(50 + maxMP) + 16, 22 + 8);
+            mpBar.X -= 8;
+            mpBar.Y -= 4;
             
             spriteBatch.Draw(gaugeLeft, drawPos, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             drawPos.X += gaugeLeft.Width;
@@ -231,9 +233,9 @@ namespace KeybrandsPlus
             if (mpBar.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
                 if (keyPlayer.rechargeMP)
-                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.DarkRed);
+                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
                 else
-                    Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP, new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.DarkBlue);
+                    Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP, new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
             }
 
             //int timerProgress = (int)(gaugeFill.Width * (maxMP - keyPlayer.asthralBlockCooldown) / maxMP);
