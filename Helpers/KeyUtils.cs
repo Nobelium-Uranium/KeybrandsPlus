@@ -6,6 +6,16 @@ namespace KeybrandsPlus.Helpers
 {
     public static class KeyUtils
     {
+        public static Dust NewDustConverge(out int dustIndex, Vector2 center, Vector2 size, float offset, int type, int alpha = 0, Color color = default, float scale = 1f)
+        {
+            Vector2 offset2 = new Vector2(0, offset).RotatedByRandom(MathHelper.ToRadians(360));
+            Vector2 vectorToCenter = center - offset2;
+            int index = Dust.NewDust(offset2, (int)size.X, (int)size.Y, type, Alpha: alpha, newColor: color, Scale: scale);
+            Main.dust[index].velocity = vectorToCenter;
+            dustIndex = index;
+            return Main.dust[index];
+        }
+
         /// <summary>
         /// Creates the specified dust in a circular fashion.
         /// </summary>
