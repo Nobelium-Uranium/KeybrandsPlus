@@ -40,7 +40,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
                 Main.dust[center].scale *= .75f;
             if (Main.rand.NextBool(7))
             {
-                KeyUtils.NewDustCircular(out int dust, item.Center - new Vector2(4, 12), Vector2.Zero, 111, Main.rand.NextFloat(.5f, 1.25f));
+                KeyUtils.NewDustCircular(out int dust, item.Center - new Vector2(4, 12), Vector2.Zero, 111, Main.rand.NextFloat(.5f, 1.25f), perfect: true);
             }
             return base.PreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
         }
@@ -77,7 +77,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
                 Main.dust[center].scale *= .75f;
             if (Main.rand.NextBool(3))
             {
-                KeyUtils.NewDustCircular(out int dust, item.Center - new Vector2(4, 12), Vector2.Zero, 111, Main.rand.NextFloat(1f, 1.75f));
+                KeyUtils.NewDustCircular(out int dust, item.Center - new Vector2(4, 12), Vector2.Zero, 111, Main.rand.NextFloat(1f, 1.75f), perfect: true);
             }
             return base.PreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
         }
