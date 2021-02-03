@@ -328,13 +328,6 @@ namespace KeybrandsPlus.NPCs.TownNPC
             }
             if (NPC.downedPlantBoss)
             {
-                if (KeybrandsPlus.SoALoaded)
-                {
-                    shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Other.BleakMidnight>());
-                    shop.item[nextSlot].shopCustomPrice = new int?(2000);
-                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                    nextSlot++;
-                }
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.WarriorFragment>());
                 shop.item[nextSlot].shopCustomPrice = new int?(10);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
@@ -358,6 +351,13 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 shop.item[nextSlot].shopCustomPrice = new int?(1000);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;*/
+                if (KeybrandsPlus.SoALoaded)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Other.BleakMidnight>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(2000);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                }
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliHelmet>());
                 shop.item[nextSlot].shopCustomPrice = new int?(1500);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;

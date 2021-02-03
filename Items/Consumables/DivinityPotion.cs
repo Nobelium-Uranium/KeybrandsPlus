@@ -8,7 +8,7 @@ namespace KeybrandsPlus.Items.Consumables
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("25% increased magic keybrand damage\n" +
+            Tooltip.SetDefault("25% increased magic keybrand damage and Cure efficiency\n" +
                 "40% reduced physical keybrand damage and defense");
         }
         public override void SetDefaults()

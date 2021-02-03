@@ -26,7 +26,7 @@ namespace KeybrandsPlus.Items.Weapons.Other
             item.melee = true;
             item.width = 82;
             item.height = 86;
-            item.damage = 80;
+            item.damage = 120;
             item.useTime = 15;
             item.useAnimation = 15;
             item.knockBack = 7f;
@@ -46,7 +46,7 @@ namespace KeybrandsPlus.Items.Weapons.Other
         {
             if (player.altFunctionUse != 2)
             {
-                item.damage = 80;
+                item.damage = 120;
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.melee = true;
                 item.magic = false;
@@ -60,7 +60,7 @@ namespace KeybrandsPlus.Items.Weapons.Other
             }
             else
             {
-                item.damage = 160;
+                item.damage = 240;
                 item.useStyle = ItemUseStyleID.HoldingOut;
                 item.melee = false;
                 item.magic = true;

@@ -31,6 +31,14 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.10-
+Improved visuals for Cure
+Cure boost is its own stat and is used for increasing/decreasing efficiency of cure instead of magic Keybrand damage boosts
+Added Cure, Cura, and Curaga spellbooks, these are less efficient than the Cure spells attached to keybrands, but can be helpful in a pinch
+Buffed Chimera
+Buffed Bleak Midnight, tier shifted to post-ML
+Max MP is now saved with the player, methods of increasing max MP in normal gameplay are yet to be added
+
 -1.0.9-
 Improved dust visuals for Zenithite, Zenithite+, and Draconic Flare
 

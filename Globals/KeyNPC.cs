@@ -169,9 +169,9 @@ namespace KeybrandsPlus.Globals
             }
             if (DragonRot)
             {
-                npc.lifeRegen -= 150;
-                if (damage < 15)
-                    damage = 15;
+                npc.lifeRegen -= 300;
+                if (damage < 30)
+                    damage = 30;
             }
         }
         public override bool? CanBeHitByItem(NPC npc, Player player, Item item)

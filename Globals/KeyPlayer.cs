@@ -62,7 +62,6 @@ namespace KeybrandsPlus.Globals
         #endregion
 
         #region Buffs
-        public bool CureCooldown;
         public bool HeartlessAngel;
         public bool ChimeraBleed;
         public float ChimeraMultiplier = 1;
@@ -118,6 +117,8 @@ namespace KeybrandsPlus.Globals
         public float KeybrandMelee;
         public float KeybrandRanged;
         public float KeybrandMagic;
+
+        public float CureBoost;
 
         public int LightAlignment;
         public int DarkAlignment;
@@ -178,7 +179,6 @@ namespace KeybrandsPlus.Globals
             #endregion
 
             #region Buffs
-            CureCooldown = false;
             HeartlessAngel = false;
             ChimeraBleed = false;
             EtherSickness = false;
@@ -226,6 +226,8 @@ namespace KeybrandsPlus.Globals
             KeybrandMelee = 0;
             KeybrandRanged = 0;
             KeybrandMagic = 0;
+
+            CureBoost = 0;
 
             LightAlignment = 0;
             DarkAlignment = 0;
@@ -880,6 +882,7 @@ namespace KeybrandsPlus.Globals
             {
                 KeybrandMelee += .25f;
                 KeybrandRanged += .25f;
+                CureBoost -= .4f;
                 KeybrandMagic -= .4f;
                 ChainResistFire -= .4f;
                 ChainResistBlizzard -= .4f;
@@ -890,6 +893,7 @@ namespace KeybrandsPlus.Globals
             }
             if (Divinity)
             {
+                CureBoost += .25f;
                 KeybrandMagic += .25f;
                 KeybrandMelee -= .4f;
                 KeybrandRanged -= .4f;

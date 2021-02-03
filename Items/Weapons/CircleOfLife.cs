@@ -15,8 +15,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "Alt Action: Cure\n" +
                 "MP Cost: All\n" +
                 "Creates a healing field at the cursor's postion\n" +
-                "The range and heal rate depends on magic keybrand boosts\n" +
-                "This has a 30 second cooldown\n" +
+                "The range and heal rate depends on your Cure efficiency\n" +
                 "Ability: Alive 'n' Kicking\n" +
                 "'Hakuna Matata!'");
             Item.staff[item.type] = true;
@@ -56,8 +55,8 @@ namespace KeybrandsPlus.Items.Weapons
             {
                 item.damage = 0;
                 item.useStyle = ItemUseStyleID.HoldingOut;
-                item.useTime = 60;
-                item.useAnimation = 60;
+                item.useTime = 45;
+                item.useAnimation = 45;
                 item.melee = false;
                 item.noMelee = true;
                 item.UseSound = SoundID.Item29;

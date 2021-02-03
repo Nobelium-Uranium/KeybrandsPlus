@@ -78,7 +78,18 @@ namespace KeybrandsPlus
         }
         public override void AddRecipeGroups()
         {
-            RecipeGroup g = new RecipeGroup(() => Lang.misc[37] + " Shortsword", new int[]
+            RecipeGroup g = new RecipeGroup(() => Lang.misc[37] + " Gem", new int[]
+                {
+                    ItemID.Diamond,
+                    ItemID.Ruby,
+                    ItemID.Emerald,
+                    ItemID.Sapphire,
+                    ItemID.Topaz,
+                    ItemID.Amethyst,
+                    ItemID.Amber
+                });
+            RecipeGroup.RegisterGroup("K+:Gem", g);
+            g = new RecipeGroup(() => Lang.misc[37] + " Shortsword", new int[]
                 {
                     ItemID.CopperShortsword,
                     ItemID.TinShortsword,

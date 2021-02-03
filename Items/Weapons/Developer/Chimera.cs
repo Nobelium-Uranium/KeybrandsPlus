@@ -31,7 +31,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.melee = false;
             item.crit = 13;
             item.Size = new Vector2(30);
-            item.damage = 75;
+            item.damage = 225;
             item.useTime = 10;
             item.useAnimation = 10;
             item.knockBack = 5f;
@@ -50,7 +50,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
         {
             if (player.altFunctionUse != 2)
             {
-                item.damage = 75;
+                item.damage = 225;
                 item.crit = 13;
                 item.magic = false;
                 item.useTurn = true;
@@ -61,7 +61,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             }
             else
             {
-                item.damage = 145;
+                item.damage = 435;
                 item.crit = 3;
                 item.magic = true;
                 item.useTurn = false;

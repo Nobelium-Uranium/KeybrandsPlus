@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Linq;
 using Terraria;
 
@@ -6,14 +7,24 @@ namespace KeybrandsPlus.Helpers
 {
     public static class KeyUtils
     {
-        public static Dust NewDustConverge(out int dustIndex, Vector2 center, Vector2 size, float offset, int type, int alpha = 0, Color color = default, float scale = 1f)
+        public static Dust NewDustConverge(out int dustIndex, Vector2 center, Vector2 size, float distance, int type, int alpha = 0, Color color = default, float scale = 1f, bool fixedScale = true)
         {
-            Vector2 offset2 = new Vector2(0, offset).RotatedByRandom(MathHelper.ToRadians(360));
-            Vector2 vectorToCenter = center - offset2;
-            int index = Dust.NewDust(offset2, (int)size.X, (int)size.Y, type, Alpha: alpha, newColor: color, Scale: scale);
-            Main.dust[index].velocity = vectorToCenter;
+            int index = Dust.NewDust(center, (int)size.X, (int)size.Y, type, 0, 0, alpha, color, scale);
+            Dust dust = Main.dust[index];
+            dust.noGravity = true;
+            dust.fadeIn = scale * 1.25f;
+            if (fixedScale)
+                dust.scale = scale;
+            Vector2 positionOffset = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+            positionOffset.Normalize();
+            positionOffset *= Main.rand.NextFloat(2, 4);
+            positionOffset.Normalize();
+            positionOffset *= distance;
+            dust.position = center - positionOffset;
+            Vector2 newVelocity = center - dust.position;
+            dust.velocity = newVelocity * .1f;
             dustIndex = index;
-            return Main.dust[index];
+            return dust;
         }
 
         /// <summary>
@@ -24,7 +35,7 @@ namespace KeybrandsPlus.Helpers
         /// <returns></returns>
         public static Dust NewDustCircular(out int dustIndex, Vector2 position, Vector2 size, int type, float velocity, int alpha = 0, Color color = default, float scale = 1f, bool perfect = false)
         {
-            int index = Dust.NewDust(position, (int)size.X, (int)size.Y, type, Alpha: alpha, newColor: color, Scale: scale);
+            int index = Dust.NewDust(position, (int)size.X, (int)size.Y, type, 0, 0, alpha, color, scale);
             if (perfect)
                 Main.dust[index].velocity = Vector2.Normalize(Main.dust[index].velocity).RotatedByRandom(MathHelper.ToRadians(360)) * velocity;
             else
