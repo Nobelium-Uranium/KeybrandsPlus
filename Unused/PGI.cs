@@ -41,14 +41,14 @@ namespace KeybrandsPlus.Unused
         public override bool CanRightClick() { return true; }
         public override void RightClick(Player player)
         {
-            if (player.GetModPlayer<KeyPlayer>().maxMP < 300)
+            if (player.GetModPlayer<KeyPlayer>().MPCrystals < 8)
             {
-                player.GetModPlayer<KeyPlayer>().maxMP += 25;
-                Main.NewText("Max MP increased to " + player.GetModPlayer<KeyPlayer>().maxMP);
+                player.GetModPlayer<KeyPlayer>().MPCrystals++;
+                Main.NewText("Max MP increased to " + (100 + 25 * player.GetModPlayer<KeyPlayer>().MPCrystals));
             }
             else
             {
-                player.GetModPlayer<KeyPlayer>().maxMP = 100;
+                player.GetModPlayer<KeyPlayer>().MPCrystals = 0;
                 Main.NewText("Max MP reduced to 100");
             }
         }

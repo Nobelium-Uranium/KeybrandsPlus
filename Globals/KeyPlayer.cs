@@ -11,6 +11,7 @@ using static Terraria.ModLoader.ModContent;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameInput;
+using Terraria.ModLoader.IO;
 
 namespace KeybrandsPlus.Globals
 {
@@ -125,17 +126,20 @@ namespace KeybrandsPlus.Globals
         public int LeafBracerTimer;
         public int ChimeraLifestealCD;
 
+        public int MPCrystals;
         public bool showMP = true;
-        public bool rechargeMP = false;
+        public bool rechargeMP = true;
         public int maxMP = 100;
-        public int currentMP = 100;
+        public int currentMP;
 
-        public int maxRechargeMPTimer;
-        public int rechargeMPTimer;
+        public int maxRechargeMPTimer = 1;
+        public int rechargeMPTimer = 1;
         public float rechargeMPToastTimer = 60;
 
         public override void ResetEffects()
         {
+            maxMP = 100 + (25 * MPCrystals);
+
             #region Glowmasks
             HideGlowmask = false;
             AvaliHelmet = false;
@@ -226,6 +230,26 @@ namespace KeybrandsPlus.Globals
             LightAlignment = 0;
             DarkAlignment = 0;
             TotalAlignment = 0;
+        }
+
+        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        {
+            ModPacket packet = mod.GetPacket();
+            packet.Write(MPCrystals);
+            packet.Send(toWho, fromWho);
+        }
+
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                { "MPCrystals", MPCrystals },
+            };
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            MPCrystals = tag.GetInt("MPCrystals");
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
@@ -444,6 +468,11 @@ namespace KeybrandsPlus.Globals
 
         public override void PreUpdate()
         {
+            if (MPCrystals > 8)
+                MPCrystals = 8;
+            else if (MPCrystals < 0)
+                MPCrystals = 0;
+
             if (GliderInactive)
                 player.wingsLogic = 0;
 
