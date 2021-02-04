@@ -127,7 +127,7 @@ namespace KeybrandsPlus.Globals
         public int LeafBracerTimer;
         public int ChimeraLifestealCD;
 
-        public int MPCrystals;
+        public int ChargedCrystals;
         public bool showMP = true;
         public bool rechargeMP = true;
         public int maxMP = 100;
@@ -139,7 +139,7 @@ namespace KeybrandsPlus.Globals
 
         public override void ResetEffects()
         {
-            maxMP = 100 + (25 * MPCrystals);
+            maxMP = 100 + (25 * ChargedCrystals);
 
             #region Glowmasks
             HideGlowmask = false;
@@ -237,7 +237,7 @@ namespace KeybrandsPlus.Globals
         public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
         {
             ModPacket packet = mod.GetPacket();
-            packet.Write(MPCrystals);
+            packet.Write(ChargedCrystals);
             packet.Send(toWho, fromWho);
         }
 
@@ -245,13 +245,13 @@ namespace KeybrandsPlus.Globals
         {
             return new TagCompound
             {
-                { "MPCrystals", MPCrystals },
+                { "ChargedCrystals", ChargedCrystals },
             };
         }
 
         public override void Load(TagCompound tag)
         {
-            MPCrystals = tag.GetInt("MPCrystals");
+            ChargedCrystals = tag.GetInt("ChargedCrystals");
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
@@ -470,10 +470,10 @@ namespace KeybrandsPlus.Globals
 
         public override void PreUpdate()
         {
-            if (MPCrystals > 8)
-                MPCrystals = 8;
-            else if (MPCrystals < 0)
-                MPCrystals = 0;
+            if (ChargedCrystals > 8)
+                ChargedCrystals = 8;
+            else if (ChargedCrystals < 0)
+                ChargedCrystals = 0;
 
             if (GliderInactive)
                 player.wingsLogic = 0;

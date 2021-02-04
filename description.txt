@@ -20,7 +20,6 @@ Many more keybrands! It wouldn't be Keybrands+ without them!
 Several different Heartless and Nobody types to fight
 An item synthesis system with recipes that need to be deciphered
 Sub-armor, equipment that can be synthesized to increase certain stats
-The ability to increase your maximum MP
 And much more!
 
 Developers:
@@ -31,6 +30,10 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.11-
+Added a set of crystals that will increase your max MP when consumed, they are crafted using uncharged crystals bought from the Keybrand Master as well as various materials
+The recipes for these crystals are subject to change and will require key ingredients from certain bosses added by Keybrands+
+
 -1.0.10-
 Improved visuals for Cure
 Cure boost is its own stat and is used for increasing/decreasing efficiency of cure instead of magic Keybrand damage boosts
