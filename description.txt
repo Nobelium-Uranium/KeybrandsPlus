@@ -30,6 +30,13 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.12-
+Doing damage with Keybrands now fill a Delta bar located just below the MP gauge, which will restore a small amount of MP when full, similar to a mechanic present in the first Kingdom Hearts
+During MP Charge, when the Delta gauge is filled, it will reduce charge time by 1 second
+Direct melee hits will fill more delta than ranged and magic attacks
+During MP charge, if the maximum recharge time is longer than 10 seconds, and the current recharge time is over half the maximum, direct melee hits will inflict 25% more damage
+Fixed charged crystals not restoring MP when at previous full MP (poor wording I know)
+
 -1.0.11-
 Added a set of crystals that will increase your max MP when consumed, they are crafted using uncharged crystals bought from the Keybrand Master as well as various materials
 The recipes for these crystals are subject to change and will require key ingredients from certain bosses added by Keybrands+

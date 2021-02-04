@@ -193,9 +193,10 @@ namespace KeybrandsPlus
             Texture2D gaugeRight = Instance.GetTexture("UI/MPBarText");
             Texture2D gaugeMid = Instance.GetTexture("UI/MPBarSection");
             Texture2D gaugeFill = Instance.GetTexture("UI/MPBarFill");
-            Texture2D gaugeDelta = Instance.GetTexture("UI/MPBarDelta");
+            Texture2D gaugeDelta = Instance.GetTexture("UI/DeltaBarFill");
             float maxMP = keyPlayer.maxMP;
             float currMP = keyPlayer.currentMP;
+            float maxDelta = keyPlayer.maxDelta;
             float currDelta = keyPlayer.currentDelta;
             float toastTimer = keyPlayer.rechargeMPToastTimer;
             float rechargeTimer = keyPlayer.rechargeMPTimer;
@@ -223,7 +224,7 @@ namespace KeybrandsPlus
                 drawPos.X = MathHelper.Lerp(-200 - maxMP, 50, 1f - toastTimer / 40);
             }
 
-            Rectangle mpBar = new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(50 + maxMP) + 16, 22 + 8);
+            Rectangle mpBar = new Rectangle((int)drawPos.X, (int)drawPos.Y, (int)(50 + maxMP) + 16, 26 + 8);
             mpBar.X -= 8;
             mpBar.Y -= 4;
             
@@ -241,11 +242,10 @@ namespace KeybrandsPlus
             {
                 spriteBatch.Draw(gaugeFill, Offset + new Vector2(i, 4f), fillRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
-            Offset = new Vector2(drawPos.X - currDelta / 2.5f, drawPos.Y);
-            for (int i = 0; i < currDelta / 2.5f; i++)
+            Offset = new Vector2(drawPos.X - currDelta / 2, drawPos.Y);
+            for (int i = 0; i < currDelta / 2; i++)
             {
-                if (!keyPlayer.rechargeMP)
-                    spriteBatch.Draw(gaugeDelta, Offset + new Vector2(i, 16f), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(gaugeDelta, Offset + new Vector2(i, 20f), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
 
             spriteBatch.Draw(gaugeRight, drawPos, rightRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
@@ -253,9 +253,9 @@ namespace KeybrandsPlus
             if (mpBar.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
                 if (keyPlayer.rechargeMP)
-                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s (Delta: " + currDelta + "/" + maxDelta + ")", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
                 else
-                    Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP, new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP + " (Delta: " + currDelta + "/" + maxDelta + ")", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
             }
 
             //int timerProgress = (int)(gaugeFill.Width * (maxMP - keyPlayer.asthralBlockCooldown) / maxMP);
