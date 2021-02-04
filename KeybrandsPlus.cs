@@ -193,8 +193,10 @@ namespace KeybrandsPlus
             Texture2D gaugeRight = Instance.GetTexture("UI/MPBarText");
             Texture2D gaugeMid = Instance.GetTexture("UI/MPBarSection");
             Texture2D gaugeFill = Instance.GetTexture("UI/MPBarFill");
+            Texture2D gaugeDelta = Instance.GetTexture("UI/MPBarDelta");
             float maxMP = keyPlayer.maxMP;
             float currMP = keyPlayer.currentMP;
+            float currDelta = keyPlayer.currentDelta;
             float toastTimer = keyPlayer.rechargeMPToastTimer;
             float rechargeTimer = keyPlayer.rechargeMPTimer;
             float maxRechargeTimer = keyPlayer.maxRechargeMPTimer;
@@ -238,6 +240,12 @@ namespace KeybrandsPlus
             for (int i = 0; i < currMP; i++)
             {
                 spriteBatch.Draw(gaugeFill, Offset + new Vector2(i, 4f), fillRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            }
+            Offset = new Vector2(drawPos.X - currDelta / 2.5f, drawPos.Y);
+            for (int i = 0; i < currDelta / 2.5f; i++)
+            {
+                if (!keyPlayer.rechargeMP)
+                    spriteBatch.Draw(gaugeDelta, Offset + new Vector2(i, 16f), null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
 
             spriteBatch.Draw(gaugeRight, drawPos, rightRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);

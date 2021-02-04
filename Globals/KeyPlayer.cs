@@ -132,6 +132,10 @@ namespace KeybrandsPlus.Globals
         public bool rechargeMP = true;
         public int maxMP = 100;
         public int currentMP;
+        public float maxDelta = 500;
+        public int currentDelta;
+        public int deltaDecayDelay;
+        public int deltaDecayTimer;
 
         public int maxRechargeMPTimer = 1;
         public int rechargeMPTimer = 1;
@@ -140,6 +144,7 @@ namespace KeybrandsPlus.Globals
         public override void ResetEffects()
         {
             maxMP = 100 + (25 * ChargedCrystals);
+            maxDelta = 2.5f * maxMP;
 
             #region Glowmasks
             HideGlowmask = false;
@@ -498,8 +503,38 @@ namespace KeybrandsPlus.Globals
                 maxMP = 100;
             else if (maxMP > 300)
                 maxMP = 300;
+            if (currentDelta > 0)
+            {
+                if (deltaDecayDelay > 150)
+                {
+                    if (deltaDecayTimer >= 5)
+                    {
+                        deltaDecayTimer = 0;
+                        currentDelta--;
+                    }
+                    else
+                        deltaDecayTimer++;
+                }
+                else
+                    deltaDecayDelay++;
+            }
+            else
+            {
+                deltaDecayDelay = 0;
+                deltaDecayTimer = 0;
+            }
             if (!rechargeMP)
             {
+                if (currentDelta < 0)
+                    currentDelta = 0;
+                if (currentDelta >= maxDelta)
+                {
+                    int RestoreMP = Main.rand.Next(1, 6);
+                    if (Main.myPlayer == player.whoAmI)
+                        CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
+                    currentMP += RestoreMP;
+                    currentDelta = 0;
+                }
                 if (currentMP > maxMP)
                     currentMP = maxMP;
                 if (maxRechargeMPTimer > 0)
@@ -549,6 +584,8 @@ namespace KeybrandsPlus.Globals
             }
             else
             {
+                currentDelta = 0;
+
                 rechargeMPTimer--;
                 currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / (float)maxRechargeMPTimer);
 
@@ -675,7 +712,6 @@ namespace KeybrandsPlus.Globals
                     foreach (Item item in player.inventory)
                         if (item.type == ItemType<Items.Consumables.MP.TurboEther>())
                         {
-                            
                             item.stack -= 1;
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
@@ -774,6 +810,19 @@ namespace KeybrandsPlus.Globals
         {
             if (item.GetGlobalItem<KeyItem>().IsKeybrand)
             {
+                //TODO make Delta not increase with friendly and target dummies
+                currentDelta += damage;
+                deltaDecayDelay = 0;
+                if (currentDelta >= maxDelta)
+                {
+                    int RestoreMP = Main.rand.Next(1, 6);
+                    if (Main.myPlayer == player.whoAmI)
+                        CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
+                    currentMP += RestoreMP;
+                    if (currentMP > maxMP)
+                        currentMP = maxMP;
+                    currentDelta = 0;
+                }
                 Vector2 point = itemRectangle.Center.ToVector2();
                 Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
                 if (item.type == ItemType<Items.Weapons.Keybrand>() || item.type == ItemType<Items.Weapons.KeybrandD>() || item.type == ItemType<Items.Weapons.TrueKeybrand>() || item.type == ItemType<Items.Weapons.TrueKeybrandD>())
@@ -794,6 +843,25 @@ namespace KeybrandsPlus.Globals
                         int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.MidnightHit>(), Scale: Main.rand.NextFloat(.75f, 1.25f));
                         Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.5f);
                     }
+            }
+        }
+
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        {
+            if (proj.GetGlobalProjectile<KeyProjectile>().IsKeybrandProj)
+            {
+                currentDelta += damage / 3;
+                deltaDecayDelay = 0;
+                if (currentDelta >= maxDelta)
+                {
+                    int RestoreMP = Main.rand.Next(1, 6);
+                    if (Main.myPlayer == player.whoAmI)
+                        CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
+                    currentMP += RestoreMP;
+                    if (currentMP > maxMP)
+                        currentMP = maxMP;
+                    currentDelta = 0;
+                }
             }
         }
 

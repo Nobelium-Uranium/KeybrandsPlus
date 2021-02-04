@@ -46,6 +46,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
             if (player.itemAnimation > 0 && player.itemTime == 0 && player.GetModPlayer<KeyPlayer>().ChargedCrystals == 0)
             {
                 player.itemTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals += 1;
                 player.GetModPlayer<KeyPlayer>().currentMP += 25;
                 if (Main.myPlayer == player.whoAmI)
@@ -101,6 +102,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
             if (player.itemAnimation > 0 && player.itemTime == 0 && player.GetModPlayer<KeyPlayer>().ChargedCrystals == 1)
             {
                 player.itemTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals += 1;
                 player.GetModPlayer<KeyPlayer>().currentMP += 25;
                 if (Main.myPlayer == player.whoAmI)
@@ -155,6 +157,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
             if (player.itemAnimation > 0 && player.itemTime == 0 && player.GetModPlayer<KeyPlayer>().ChargedCrystals == 2)
             {
                 player.itemTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals += 1;
                 player.GetModPlayer<KeyPlayer>().currentMP += 25;
                 if (Main.myPlayer == player.whoAmI)
@@ -208,6 +211,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
             if (player.itemAnimation > 0 && player.itemTime == 0 && player.GetModPlayer<KeyPlayer>().ChargedCrystals == 3)
             {
                 player.itemTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals += 1;
                 player.GetModPlayer<KeyPlayer>().currentMP += 25;
                 if (Main.myPlayer == player.whoAmI)
@@ -262,6 +266,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
             if (player.itemAnimation > 0 && player.itemTime == 0 && player.GetModPlayer<KeyPlayer>().ChargedCrystals == 4)
             {
                 player.itemTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals += 1;
                 player.GetModPlayer<KeyPlayer>().currentMP += 25;
                 if (Main.myPlayer == player.whoAmI)
@@ -313,6 +318,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
             if (player.itemAnimation > 0 && player.itemTime == 0 && player.GetModPlayer<KeyPlayer>().ChargedCrystals == 5)
             {
                 player.itemTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals += 1;
                 player.GetModPlayer<KeyPlayer>().currentMP += 25;
                 if (Main.myPlayer == player.whoAmI)
@@ -367,6 +373,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
             if (player.itemAnimation > 0 && player.itemTime == 0 && player.GetModPlayer<KeyPlayer>().ChargedCrystals == 6)
             {
                 player.itemTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals += 1;
                 player.GetModPlayer<KeyPlayer>().currentMP += 25;
                 if (Main.myPlayer == player.whoAmI)
@@ -419,6 +426,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
             if (player.itemAnimation > 0 && player.itemTime == 0 && player.GetModPlayer<KeyPlayer>().ChargedCrystals == 7)
             {
                 player.itemTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+                player.GetModPlayer<KeyPlayer>().maxMP += 25;
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals += 1;
                 player.GetModPlayer<KeyPlayer>().currentMP += 25;
                 if (Main.myPlayer == player.whoAmI)

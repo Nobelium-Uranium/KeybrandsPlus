@@ -17,5 +17,9 @@ namespace KeybrandsPlus.Items.Materials
             item.rare = ItemRarityID.Blue;
             item.maxStack = 99;
         }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return lightColor * Main.essScale;
+        }
     }
 }
