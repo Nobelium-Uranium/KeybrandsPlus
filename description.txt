@@ -33,6 +33,7 @@ Version History:
 -1.0.11-
 Added a set of crystals that will increase your max MP when consumed, they are crafted using uncharged crystals bought from the Keybrand Master as well as various materials
 The recipes for these crystals are subject to change and will require key ingredients from certain bosses added by Keybrands+
+Fixed Fullbright shader breaking servers
 
 -1.0.10-
 Improved visuals for Cure

@@ -27,7 +27,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return Color.White;
+            return Color.White * Main.essScale;
         }
     }
     public class ChargedCrystalT1 : ChargedCrystal

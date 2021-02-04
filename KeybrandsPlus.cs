@@ -32,15 +32,16 @@ namespace KeybrandsPlus
 
             QuickEther = RegisterHotKey("Quick Ether", "F");
             
-            GameShaders.Armor.BindShader(ModContent.ItemType<Items.Other.FullbrightDye>(), new ArmorShaderData(new Ref<Effect>(GetEffect("Effects/Fullbright")), "FullbrightShader"));
-
             #region Mod Support
             SacredTools = ModLoader.GetMod("SacredTools");
             SoALoaded = SacredTools != null;
             #endregion
 
             if (!Main.dedServ)
+            {
+                GameShaders.Armor.BindShader(ModContent.ItemType<Items.Other.FullbrightDye>(), new ArmorShaderData(new Ref<Effect>(GetEffect("Effects/Fullbright")), "FullbrightShader"));
                 MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Items.Currency.Munny>(), 9999L));
+            }
         }
         public override void Unload()
         {
