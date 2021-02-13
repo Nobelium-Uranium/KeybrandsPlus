@@ -30,6 +30,11 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.13-
+Fixed a visual bug involving the Delta gauge
+A keybrand or lockblade other than the starting Wooden Keybrand is now required for the Keybrand Master to move in
+The Keybrand Master has upgraded his armor and now he's pretty much invincible to all forms of damage
+
 -1.0.12-
 Doing damage with Keybrands now fill a Delta bar located just below the MP gauge, which will restore a small amount of MP when full, similar to a mechanic present in the first Kingdom Hearts
 During MP Charge, when the Delta gauge is filled, it will reduce charge time by 1 second
