@@ -579,38 +579,41 @@ namespace KeybrandsPlus.Globals
                 }
 
                 rechargeMPRate = 1;
-                if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
-                {
-                    rechargeMPRate *= 1.7f;
-                }
-                else if (CritMPHastega && player.statLife <= player.statLifeMax2 / 5)
-                {
-                    rechargeMPRate *= 1.5f;
-                }
-                else if (MPHasteza)
-                {
-                    rechargeMPRate *= 1.7f;
-                }
-                else if (MPHastega)
-                {
-                    rechargeMPRate *= 1.5f;
-                }
-                else if (MPHastera)
-                {
-                    rechargeMPRate *= 1.3f;
-                }
-                else if (MPHaste)
-                {
-                    rechargeMPRate *= 1.1f;
-                }
-                if (DarkAffinity && player.lifeRegen < 0)
-                {
-                    float AlignmentFactor = DarkAlignment - LightAlignment;
-                    if (AlignmentFactor < 50)
-                        AlignmentFactor = 50;
-                    AlignmentFactor /= 100;
+                if (HeldKeybrands <= 5)
+                { 
+                    if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
+                    {
+                        rechargeMPRate *= 1.7f;
+                    }
+                    else if (CritMPHastega && player.statLife <= player.statLifeMax2 / 5)
+                    {
+                        rechargeMPRate *= 1.5f;
+                    }
+                    else if (MPHasteza)
+                    {
+                        rechargeMPRate *= 1.7f;
+                    }
+                    else if (MPHastega)
+                    {
+                        rechargeMPRate *= 1.5f;
+                    }
+                    else if (MPHastera)
+                    {
+                        rechargeMPRate *= 1.3f;
+                    }
+                    else if (MPHaste)
+                    {
+                        rechargeMPRate *= 1.1f;
+                    }
+                    if (DarkAffinity && player.lifeRegen < 0)
+                    {
+                        float AlignmentFactor = DarkAlignment - LightAlignment;
+                        if (AlignmentFactor < 50)
+                            AlignmentFactor = 50;
+                        AlignmentFactor /= 100;
 
-                    rechargeMPRate *= 1 + AlignmentFactor;
+                        rechargeMPRate *= 1 + AlignmentFactor;
+                    }
                 }
                 if (rechargeMPRate > 3)
                     rechargeMPRate = 3;

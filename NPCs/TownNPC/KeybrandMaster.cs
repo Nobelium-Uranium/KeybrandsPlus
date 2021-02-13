@@ -36,26 +36,24 @@ namespace KeybrandsPlus.NPCs.TownNPC
             npc.aiStyle = 7;
             npc.damage = 100;
             npc.defense = 50;
-            npc.lifeMax = 3000;
-            npc.HitSound = SoundID.NPCHit4;
+            npc.lifeMax = 25000;
             npc.DeathSound = SoundID.NPCDeath44;
             npc.knockBackResist = 0.1f;
             animationType = NPCID.Stylist;
             npc.buffImmune[BuffID.Wet] = true;
-            npc.lifeRegen = int.MaxValue;
         }
 
         public override bool PreAI()
         {
             if (npc.life < npc.lifeMax)
+                npc.life += 25;
+            if (npc.life > npc.lifeMax)
                 npc.life = npc.lifeMax;
             return base.PreAI();
         }
 
         public override void AI()
         {
-            if (npc.life < npc.lifeMax)
-                npc.life = npc.lifeMax;
             #region no
             if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
             {
@@ -69,7 +67,10 @@ namespace KeybrandsPlus.NPCs.TownNPC
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
             Main.PlaySound(SoundID.NPCHit4, npc.Center);
-            damage = 0;
+            if (damage < 5000)
+                damage = 0;
+            else
+                damage -= 5000;
             crit = false;
             return false;
         }
@@ -118,12 +119,28 @@ namespace KeybrandsPlus.NPCs.TownNPC
         public override string GetChat()
         { // chat.Add("");
             Player player = Main.LocalPlayer;
+            bool Broke = true;
+            foreach (Item i in player.inventory)
+            {
+                if (i.type == ItemType<Items.Currency.Munny>())
+                    Broke = false;
+            }
             WeightedRandom<string> chat = new WeightedRandom<string>();
             int Dryad = NPC.FindFirstNPC(NPCID.Dryad);
             int Cyborg = NPC.FindFirstNPC(NPCID.Cyborg);
             int Angler = NPC.FindFirstNPC(NPCID.Angler);
             if (!npc.homeless && player.name != "Cheems")
             {
+                if (Broke)
+                {
+                    chat.Add("My services aren't free, you know. If you want to buy from me, earn some Munny first. They can be dropped from pretty much any foe.");
+                    chat.Add("Sorry " + player.name + ", I can't give credit! Come back when you're a little, mmMMMmm... richer!", 0.25);
+                }
+                else
+                {
+                    chat.Add("If you are ever in need of materials for keybrands, I will gladly oblige, if you can afford it.");
+                    chat.Add("Keybrands, ethers, materials? You want it? It's yours my friend, as long as you have enough Munny!", 0.25);
+                }
                 if (Dryad >= 0 && !Main.bloodMoon)
                 {
                     chat.Add("Is there a practical reason " + Main.npc[Dryad].GivenName + " dresses so skimply? I get that she's one with nature and all, but that doesn't mean she should be so... revealing.");
@@ -153,8 +170,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                     chat.Add("There seems to be a new evil looming about... Make sure you've got the tools to deal with them.");
                 else if (!Main.hardMode)*/
                     chat.Add("Hmm, so darkness has already touched this world, but I see no signs of heartless... curious...");
-                chat.Add("If you are ever in need of materials for keybrands, I will happily oblige, as long as you have the Munny for it.");
-                chat.Add("Huh? What's that? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for a mortal like you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.");
+                chat.Add("Huh? What's that? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for a mortal like you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.", 0.5);
                 chat.Add("For the last time, it's not a scythe! Oh, sorry... did you need something?", 0.5);
                 chat.Add("Also try Shadows of Abaddon!", 0.25);
                 chat.Add("Also try Kingdom Terrahearts!", 0.25);

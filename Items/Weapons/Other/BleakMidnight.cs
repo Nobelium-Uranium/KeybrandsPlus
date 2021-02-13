@@ -2,6 +2,7 @@
 using Terraria.ID;
 using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons.Other
 {
@@ -38,8 +39,8 @@ namespace KeybrandsPlus.Items.Weapons.Other
             item.value = 5000000;
             item.GetGlobalItem<KeyItem>().Dark = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 2;
-            item.GetGlobalItem<KeyRarity>().ContributorRarity = true;
-            item.GetGlobalItem<KeyRarity>().ContributorName = "Dan Yami";
+            item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
+            item.GetGlobalItem<KeyRarity>().DeveloperName = "Dan Yami";
             item.GetGlobalItem<KeyRarity>().Midnight = true;
         }
         public override bool CanUseItem(Player player)
@@ -78,9 +79,12 @@ namespace KeybrandsPlus.Items.Weapons.Other
         }
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().DarkAffinity = true;
-            player.GetModPlayer<KeyPlayer>().MPRage = true;
-            player.GetModPlayer<KeyPlayer>().CritMPHasteza = true;
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+            {
+                player.GetModPlayer<KeyPlayer>().DarkAffinity = true;
+                player.GetModPlayer<KeyPlayer>().MPRage = true;
+                player.GetModPlayer<KeyPlayer>().CritMPHasteza = true;
+            }
         }
         public override void UpdateInventory(Player player)
         {

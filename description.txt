@@ -30,6 +30,12 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.15-
+Fixed some things, due to the changes to MP Haste
+Added a Developer rarity which is similar to the Contributor rarity but with a cyan-ish blue (not the same as vanilla's cyan rarity), and renamed a lot of items accordingly
+Renamed Fullbright Dye to Ultrabright Dye
+Added a reference to something to the Keybrand Master
+
 -1.0.14-
 MP Haste and similar attatched abilities are now dynamic, increasing recharge rate instead of lowering the maximum charge time
 The boosts are multiplicative, and the maximum recharge rate is hard-capped at 3x the normal speed

@@ -6,6 +6,7 @@ using System;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons.Developer
 {
@@ -41,6 +42,8 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.useTurn = true;
             item.shootSpeed = 1f;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 3;
+            item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
+            item.GetGlobalItem<KeyRarity>().DeveloperName = "ChemAtDark";
         }
         public override bool NewPreReforge()
         {
@@ -88,7 +91,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
         }
         public override void HoldItem(Player player)
         {
-            if (NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure")
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && (NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure"))
             {
                 player.GetModPlayer<KeyPlayer>().MPHasteza = true;
                 player.GetModPlayer<KeyPlayer>().DamageControl = true;

@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 
@@ -78,7 +79,8 @@ namespace KeybrandsPlus.Items.Weapons
 
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().DefenderPlus = true;
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+                player.GetModPlayer<KeyPlayer>().DefenderPlus = true;
         }
 
         public override void UpdateInventory(Player player)

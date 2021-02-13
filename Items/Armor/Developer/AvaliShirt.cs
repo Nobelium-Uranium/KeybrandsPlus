@@ -1,3 +1,4 @@
+using KeybrandsPlus.Globals;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,7 +9,7 @@ namespace KeybrandsPlus.Items.Armor.Developer
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chem's Avalispec Breastplate");
+            DisplayName.SetDefault("Avalispec Keybrand Chestplate");
             Tooltip.SetDefault("'Great for impersonating devs!'");
         }
         public override void SetDefaults()
@@ -17,6 +18,8 @@ namespace KeybrandsPlus.Items.Armor.Developer
             item.height = 13;
             item.rare = 9;
             item.vanity = true;
+            item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
+            item.GetGlobalItem<KeyRarity>().DeveloperName = "ChemAtDark";
         }
         public override bool DrawBody()
         {
@@ -24,7 +27,7 @@ namespace KeybrandsPlus.Items.Armor.Developer
         }
         public override void UpdateVanity(Player player, EquipType type)
         {
-            player.GetModPlayer<Globals.KeyPlayer>().AvaliShirt = true;
+            player.GetModPlayer<KeyPlayer>().AvaliShirt = true;
         }
     }
 }

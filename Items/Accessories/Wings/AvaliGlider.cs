@@ -1,3 +1,4 @@
+using KeybrandsPlus.Globals;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -14,7 +15,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         private int SlowfallTime;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chem's Modified Aero Glider");
+            DisplayName.SetDefault("Modified Aero Glider");
             Tooltip.SetDefault("Grants enhanced gliding capabilities, increasing horizontal mobility, and negates fall damage\n" +
                 "Cannot benefit from accessories or other items that increase flight duration\n" +
                 "'A portable device worn on the back that can create wings of hard light, meant for gliding'\n" +
@@ -27,6 +28,8 @@ namespace KeybrandsPlus.Items.Accessories.Wings
             item.rare = ItemRarityID.Cyan;
             item.accessory = true;
             SlowfallTime = 60;
+            item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
+            item.GetGlobalItem<KeyRarity>().DeveloperName = "ChemAtDark";
         }
         public override void UpdateEquip(Player player)
         {

@@ -15,6 +15,8 @@ namespace KeybrandsPlus.Globals
         public override bool CloneNewInstances { get { return true; } }
         
         public bool Midnight;
+        public bool DeveloperRarity;
+        public string DeveloperName = "Unknown";
         public bool ContributorRarity;
         public string ContributorName = "Unknown";
         public bool ProudRarity;
@@ -22,7 +24,7 @@ namespace KeybrandsPlus.Globals
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
-            if (ContributorRarity)
+            if (DeveloperRarity)
             {
                 for (int tooltip = 0; tooltip < tooltips.Count; tooltip++)
                 {
@@ -32,7 +34,19 @@ namespace KeybrandsPlus.Globals
                         if (Midnight)
                             line.overrideColor = new Color(185, 0, 67);
                         else
-                            line.overrideColor = new Color(102, 255, 102);
+                            line.overrideColor = Color.DodgerBlue;
+                    }
+                }
+                tooltips.Add(new TooltipLine(mod, "DeveloperTooltip", "Developer: " + DeveloperName) { overrideColor = Color.DodgerBlue });
+            }
+            if (ContributorRarity)
+            {
+                for (int tooltip = 0; tooltip < tooltips.Count; tooltip++)
+                {
+                    TooltipLine line = tooltips[tooltip];
+                    if (line.mod == "Terraria" && line.Name == "ItemName")
+                    {
+                        line.overrideColor = new Color(102, 255, 102);
                     }
                 }
                 tooltips.Add(new TooltipLine(mod, "ContributorTooltip", "Contributor: " + ContributorName) { overrideColor = new Color(102, 255, 102) });

@@ -4,6 +4,7 @@ using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 {
@@ -140,16 +141,19 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<Globals.KeyPlayer>().LightAlignment += 100;
-            player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment += 100;
-            if (munny == 7777)
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
             {
-                player.endurance *= 0;
-                player.statDefense *= 0;
-                player.GetModPlayer<KeyPlayer>().LuckySevens = true;
-                Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<Dusts.Seven>());
+                player.GetModPlayer<KeyPlayer>().LightAlignment += 100;
+                player.GetModPlayer<KeyPlayer>().DarkAlignment += 100;
+                if (munny == 7777)
+                {
+                    player.endurance *= 0;
+                    player.statDefense *= 0;
+                    player.GetModPlayer<KeyPlayer>().LuckySevens = true;
+                    Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<Dusts.Seven>());
+                }
+                player.GetModPlayer<KeyPlayer>().MunnyConverter = true;
             }
-            player.GetModPlayer<KeyPlayer>().MunnyConverter = true;
         }
     }
 }
