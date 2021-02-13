@@ -139,8 +139,9 @@ namespace KeybrandsPlus.Globals
         public int deltaDecayDelay;
         public float deltaDecayTimer;
 
-        public int maxRechargeMPTimer = 1;
-        public int rechargeMPTimer = 1;
+        public float maxRechargeMPTimer = 1;
+        public float rechargeMPTimer = 1;
+        public float rechargeMPRate;
         public float rechargeMPToastTimer = 60;
 
         public override void ResetEffects()
@@ -561,39 +562,6 @@ namespace KeybrandsPlus.Globals
                 {
                     currentMP = maxMP;
                     rechargeMPTimer = 1200;
-                    if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .3f);
-                    }
-                    else if (CritMPHastega && player.statLife <= player.statLifeMax2 / 5)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .5f);
-                    }
-                    else if (MPHasteza)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .3f);
-                    }
-                    else if (MPHastega)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .5f);
-                    }
-                    else if (MPHastera)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .7f);
-                    }
-                    else if (MPHaste)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .9f);
-                    }
-                    if (DarkAffinity && player.lifeRegen < 0)
-                    {
-                        float AlignmentFactor = DarkAlignment - LightAlignment;
-                        if (AlignmentFactor < 50)
-                            AlignmentFactor = 50;
-                        AlignmentFactor /= 100;
-
-                        rechargeMPTimer = (int)(rechargeMPTimer * (1f - AlignmentFactor));
-                    }
                     if (rechargeMPTimer < 300)
                         rechargeMPTimer = 300;
                     maxRechargeMPTimer = rechargeMPTimer;
@@ -610,7 +578,46 @@ namespace KeybrandsPlus.Globals
                     currentDelta = 0;
                 }
 
-                rechargeMPTimer--;
+                rechargeMPRate = 1;
+                if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
+                {
+                    rechargeMPRate *= 1.7f;
+                }
+                else if (CritMPHastega && player.statLife <= player.statLifeMax2 / 5)
+                {
+                    rechargeMPRate *= 1.5f;
+                }
+                else if (MPHasteza)
+                {
+                    rechargeMPRate *= 1.7f;
+                }
+                else if (MPHastega)
+                {
+                    rechargeMPRate *= 1.5f;
+                }
+                else if (MPHastera)
+                {
+                    rechargeMPRate *= 1.3f;
+                }
+                else if (MPHaste)
+                {
+                    rechargeMPRate *= 1.1f;
+                }
+                if (DarkAffinity && player.lifeRegen < 0)
+                {
+                    float AlignmentFactor = DarkAlignment - LightAlignment;
+                    if (AlignmentFactor < 50)
+                        AlignmentFactor = 50;
+                    AlignmentFactor /= 100;
+
+                    rechargeMPRate *= 1 + AlignmentFactor;
+                }
+                if (rechargeMPRate > 3)
+                    rechargeMPRate = 3;
+                else if (rechargeMPRate < 0)
+                    rechargeMPRate = 0;
+                rechargeMPTimer -= rechargeMPRate;
+
                 currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / (float)maxRechargeMPTimer);
 
                 if (rechargeMPTimer <= 0)
@@ -831,7 +838,7 @@ namespace KeybrandsPlus.Globals
         {
             if (VitalBlow && target.life >= (float)target.lifeMax * .9f)
                 damage *= 2;
-            if (rechargeMP && rechargeMPTimer > maxRechargeMPTimer / 2 && maxRechargeMPTimer > 600)
+            if (rechargeMP && rechargeMPTimer > maxRechargeMPTimer / 2 && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand)
                 damage = (int)(damage * 1.25f);
         }
 

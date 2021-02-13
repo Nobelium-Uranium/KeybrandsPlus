@@ -30,6 +30,11 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.14-
+MP Haste and similar attatched abilities are now dynamic, increasing recharge rate instead of lowering the maximum charge time
+The boosts are multiplicative, and the maximum recharge rate is hard-capped at 3x the normal speed
+As a result, the 25% direct melee damage boost during MP Charge is only active when at or above 50% of the maximum MP Charge time
+
 -1.0.13-
 Fixed a visual bug involving the Delta gauge
 A keybrand or lockblade other than the starting Wooden Keybrand is now required for the Keybrand Master to move in

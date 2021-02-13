@@ -201,6 +201,7 @@ namespace KeybrandsPlus
             float toastTimer = keyPlayer.rechargeMPToastTimer;
             float rechargeTimer = keyPlayer.rechargeMPTimer;
             float maxRechargeTimer = keyPlayer.maxRechargeMPTimer;
+            float rechargeRate = keyPlayer.rechargeMPRate;
 
             float midFrame = 0;
             float fillFrame = 0;
@@ -255,7 +256,7 @@ namespace KeybrandsPlus
             if (mpBar.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
                 if (keyPlayer.rechargeMP)
-                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s (Delta: " + currDelta + "/" + maxDelta + ")", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    Main.spriteBatch.DrawString(Main.fontMouseText, (rechargeRate > 0 ? "Recharging: " + Math.Ceiling(rechargeTimer / rechargeRate / 60f) + "s" : "No Recharge!") + " (Delta: " + currDelta + "/" + maxDelta + ")", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
                 else
                     Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP + " (Delta: " + currDelta + "/" + maxDelta + ")", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
             }
