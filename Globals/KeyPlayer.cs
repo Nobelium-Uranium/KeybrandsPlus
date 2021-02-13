@@ -155,6 +155,8 @@ namespace KeybrandsPlus.Globals
             AvaliPants = false;
             #endregion  
 
+            NeurotoxinTimer = 0;
+
             statOldLife = 0;
 
             HeldKeybrands = 0;
@@ -483,7 +485,14 @@ namespace KeybrandsPlus.Globals
                 ChargedCrystals = 0;
 
             if (NeurotoxinTimer == 1)
-                player.KillMe(PlayerDeathReason.ByCustomReason("Cosmic karma caught up to " + player.name + "."), Int32.MaxValue, 0);
+            {
+                player.immune = false;
+                player.immuneNoBlink = false;
+                player.immuneTime = 0;
+                player.statLifeMax2 = -1;
+                player.statLife = -1;
+                player.KillMe(PlayerDeathReason.ByCustomReason("Cosmic karma caught up to " + player.name + "."), 0, 0);
+            }
             if (NeurotoxinTimer > 0)
                 NeurotoxinTimer--;
             else if (NeurotoxinTimer < 0)

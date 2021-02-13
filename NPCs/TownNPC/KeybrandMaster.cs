@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -40,11 +41,21 @@ namespace KeybrandsPlus.NPCs.TownNPC
             npc.DeathSound = SoundID.NPCDeath44;
             npc.knockBackResist = 0.1f;
             animationType = NPCID.Stylist;
+            npc.dontTakeDamage = true;
             npc.buffImmune[BuffID.Wet] = true;
+        }
+
+        public override bool PreAI()
+        {
+            if (npc.life < npc.lifeMax)
+                npc.life = npc.lifeMax;
+            return base.PreAI();
         }
 
         public override void AI()
         {
+            if (npc.life < npc.lifeMax)
+                npc.life = npc.lifeMax;
             #region no
             if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
             {
@@ -53,6 +64,16 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 npc.buffImmune[BuffID.Wet] = true;
             }
             #endregion
+        }
+
+        public override bool? CanBeHitByItem(Player player, Item item)
+        {
+            return false;
+        }
+
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -408,7 +429,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
 
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
-            if (npc.lastInteraction != 255)
+            if (player != null)
             {
                 Main.PlaySound(SoundID.NPCDeath7, player.Center);
                 for (int i = 0; i < 10; i++)
@@ -420,7 +441,16 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 player.AddBuff(BuffType<Buffs.Stop>(), 180);
                 player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 900);
                 if (player.GetModPlayer<KeyPlayer>().NeurotoxinTimer <= 0)
-                    player.GetModPlayer<KeyPlayer>().NeurotoxinTimer = 900;
+                    player.GetModPlayer<KeyPlayer>().NeurotoxinTimer = Main.expertMode? 900 : 450;
+                if (player.immune || player.immuneNoBlink || player.immuneTime > 0)
+                {
+                    player.immune = false;
+                    player.immuneNoBlink = false;
+                    player.immuneTime = 0;
+                    player.statLifeMax2 = -1;
+                    player.statLife = -1;
+                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to cheat death."), 0, 0);
+                }
                 Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
                 Main.PlaySound(SoundID.Item60, npc.Center);
                 int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);
@@ -432,21 +462,9 @@ namespace KeybrandsPlus.NPCs.TownNPC
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-            if (projectile.friendly && npc.lastInteraction != 255)
+            Player player = Main.player[projectile.owner];
+            if (player != null)
             {
-                Player player = Main.player[npc.lastInteraction];
-                switch (Main.rand.Next(3))
-                {
-                    case 1:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "Cease at once!", true);
-                        break;
-                    case 2:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "That's not very nice!", true);
-                        break;
-                    default:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "You monster!", true);
-                        break;
-                }
                 Main.PlaySound(SoundID.NPCDeath7, player.Center);
                 for (int i = 0; i < 10; i++)
                 {
@@ -456,6 +474,17 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 }
                 player.AddBuff(BuffType<Buffs.Stop>(), 180);
                 player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 900);
+                if (player.GetModPlayer<KeyPlayer>().NeurotoxinTimer <= 0)
+                    player.GetModPlayer<KeyPlayer>().NeurotoxinTimer = Main.expertMode ? 900 : 450;
+                if (player.immune || player.immuneNoBlink || player.immuneTime > 0)
+                {
+                    player.immune = false;
+                    player.immuneNoBlink = false;
+                    player.immuneTime = 0;
+                    player.statLifeMax2 = -1;
+                    player.statLife = -1;
+                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to cheat death."), 0, 0);
+                }
                 Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
                 Main.PlaySound(SoundID.Item60, npc.Center);
                 int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);
