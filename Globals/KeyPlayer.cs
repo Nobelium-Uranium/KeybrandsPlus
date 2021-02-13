@@ -837,29 +837,6 @@ namespace KeybrandsPlus.Globals
                     else
                         currentDelta += damage;
                     deltaDecayDelay = 0;
-                    if (currentDelta >= maxDelta)
-                    {
-                        if (rechargeMP)
-                        {
-                            if (currentDelta >= maxDelta)
-                            {
-                                if (Main.myPlayer == player.whoAmI)
-                                    CombatText.NewText(player.getRect(), Color.DodgerBlue, "-1s");
-                                rechargeMPTimer -= 60;
-                                currentDelta = 0;
-                            }
-                        }
-                        else
-                        {
-                            int RestoreMP = Main.rand.Next(1, 6);
-                            if (Main.myPlayer == player.whoAmI)
-                                CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
-                            currentMP += RestoreMP;
-                            if (currentMP > maxMP)
-                                currentMP = maxMP;
-                        }
-                        currentDelta = 0;
-                    }
                 }
                 Vector2 point = itemRectangle.Center.ToVector2();
                 Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
@@ -893,28 +870,6 @@ namespace KeybrandsPlus.Globals
                 else
                     currentDelta += damage / 3;
                 deltaDecayDelay = 0;
-                if (currentDelta >= maxDelta)
-                {
-                    if (rechargeMP)
-                    {
-                        if (currentDelta >= maxDelta)
-                        {
-                            if (Main.myPlayer == player.whoAmI)
-                                CombatText.NewText(player.getRect(), Color.DodgerBlue, "-1s");
-                            rechargeMPTimer -= 60;
-                            currentDelta = 0;
-                        }
-                    }
-                    else
-                    {
-                        int RestoreMP = Main.rand.Next(1, 6);
-                        if (Main.myPlayer == player.whoAmI)
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
-                        currentMP += RestoreMP;
-                        if (currentMP > maxMP)
-                            currentMP = maxMP;
-                    }
-                }
             }
         }
 
