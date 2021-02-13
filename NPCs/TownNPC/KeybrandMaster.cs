@@ -41,8 +41,8 @@ namespace KeybrandsPlus.NPCs.TownNPC
             npc.DeathSound = SoundID.NPCDeath44;
             npc.knockBackResist = 0.1f;
             animationType = NPCID.Stylist;
-            npc.dontTakeDamage = true;
             npc.buffImmune[BuffID.Wet] = true;
+            npc.lifeRegen = int.MaxValue;
         }
 
         public override bool PreAI()
@@ -66,23 +66,16 @@ namespace KeybrandsPlus.NPCs.TownNPC
             #endregion
         }
 
-        public override bool? CanBeHitByItem(Player player, Item item)
+        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            return false;
-        }
-
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
+            Main.PlaySound(SoundID.NPCHit4, npc.Center);
+            damage = 0;
+            crit = false;
             return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            int num = npc.life > 0 ? 1 : 5;
-            for (int k = 0; k < num; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, 226);
-            }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
@@ -161,10 +154,10 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 else if (!Main.hardMode)*/
                     chat.Add("Hmm, so darkness has already touched this world, but I see no signs of heartless... curious...");
                 chat.Add("If you are ever in need of materials for keybrands, I will happily oblige, as long as you have the Munny for it.");
-                chat.Add("It is I... " + npc.GivenName + ", the seeker of light!");
+                chat.Add("Huh? What's that? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for a mortal like you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.");
                 chat.Add("For the last time, it's not a scythe! Oh, sorry... did you need something?", 0.5);
-                chat.Add("Shoutouts to Dan Yami, he's pretty cool. Hey, you should try Shadows of Abaddon sometime.", 0.25);
-                chat.Add("Shoutouts to Pronoespro, show him your support by checking out Terrahearts Kingdom. It may be small (and kinda buggy), but it reinvigorated my motivation.", 0.25);
+                chat.Add("Also try Shadows of Abaddon!", 0.25);
+                chat.Add("Also try Kingdom Terrahearts!", 0.25);
                 chat.Add("Have you tried eter... eta... etr... masomode?", 0.075);
                 chat.Add("Have you tried eter... eta... etr... sempiternity mode?", 0.1);
                 chat.Add("Your meme, it's useful, I'll take it.", 0.05);
@@ -415,18 +408,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 nextSlot++;
             }
         }
-
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
-        {
-            damage = 1;
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.friendly)
-                damage = 1;
-        }
-
+        /*
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
             if (player != null)
@@ -459,11 +441,10 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 Main.projectile[Bite].magic = false;
             }
         }
-
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
-            if (player != null)
+            if (player != null && projectile.owner != 255)
             {
                 Main.PlaySound(SoundID.NPCDeath7, player.Center);
                 for (int i = 0; i < 10; i++)
@@ -492,8 +473,8 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 Main.projectile[Bite].friendly = false;
                 Main.projectile[Bite].magic = false;
             }
-        }
-
+    }
+    */
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
             if (Main.hardMode)
