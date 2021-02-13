@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KeybrandsPlus.Globals;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
@@ -85,7 +86,12 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 {
                     continue;
                 }
-                return true;
+                foreach (Item i in player.inventory)
+                {
+                    if (i.GetGlobalItem<KeyItem>().IsKeybrand && !i.GetGlobalItem<KeyItem>().NoKeybrandMaster)
+                        return true;
+                }
+                return false;
             }
             return false;
         }
@@ -404,18 +410,6 @@ namespace KeybrandsPlus.NPCs.TownNPC
         {
             if (npc.lastInteraction != 255)
             {
-                switch (Main.rand.Next(3))
-                {
-                    case 1:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "Cease at once!", true);
-                        break;
-                    case 2:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "That's not very nice!", true);
-                        break;
-                    default:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "You monster!", true);
-                        break;
-                }
                 Main.PlaySound(SoundID.NPCDeath7, player.Center);
                 for (int i = 0; i < 10; i++)
                 {
@@ -425,6 +419,8 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 }
                 player.AddBuff(BuffType<Buffs.Stop>(), 180);
                 player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 900);
+                if (player.GetModPlayer<KeyPlayer>().NeurotoxinTimer <= 0)
+                    player.GetModPlayer<KeyPlayer>().NeurotoxinTimer = 900;
                 Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
                 Main.PlaySound(SoundID.Item60, npc.Center);
                 int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);

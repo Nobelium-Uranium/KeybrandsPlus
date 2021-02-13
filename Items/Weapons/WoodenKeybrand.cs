@@ -28,6 +28,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.autoReuse = true;
             item.GetGlobalItem<KeyItem>().ExemptFromLimit = true;
             item.GetGlobalItem<KeyItem>().NoWarning = true;
+            item.GetGlobalItem<KeyItem>().NoKeybrandMaster = true;
         }
         public override bool AltFunctionUse(Player player)
         {

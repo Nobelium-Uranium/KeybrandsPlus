@@ -24,6 +24,8 @@ namespace KeybrandsPlus.Globals
         public bool AvaliPants;
         #endregion
 
+        public int NeurotoxinTimer;
+
         public int statOldLife;
         public int PlayerDefense;
 
@@ -480,6 +482,13 @@ namespace KeybrandsPlus.Globals
             else if (ChargedCrystals < 0)
                 ChargedCrystals = 0;
 
+            if (NeurotoxinTimer == 1)
+                player.KillMe(PlayerDeathReason.ByCustomReason("Cosmic karma caught up to " + player.name + "."), Int32.MaxValue, 0);
+            if (NeurotoxinTimer > 0)
+                NeurotoxinTimer--;
+            else if (NeurotoxinTimer < 0)
+                NeurotoxinTimer = 0;
+
             if (GliderInactive)
                 player.wingsLogic = 0;
 
@@ -628,6 +637,8 @@ namespace KeybrandsPlus.Globals
                 Moving = true;
             if (GliderInactive)
                 player.wingsLogic = 0;
+            if (NeurotoxinTimer > 0)
+                ChimeraBleed = true;
             if (ChimeraBleed)
             {
                 SuperBleedTimer++;

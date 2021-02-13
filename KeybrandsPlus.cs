@@ -242,6 +242,8 @@ namespace KeybrandsPlus
             {
                 spriteBatch.Draw(gaugeFill, Offset + new Vector2(i, 4f), fillRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
+            if (currDelta > maxDelta)
+                currDelta = maxDelta;
             Offset = new Vector2(drawPos.X - currDelta / 2, drawPos.Y);
             for (int i = 0; i < currDelta / 2; i++)
             {

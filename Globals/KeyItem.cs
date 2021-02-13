@@ -19,6 +19,7 @@ namespace KeybrandsPlus.Globals
         public bool ExemptFromLimit;
         private bool KeybrandLimitReached;
         public bool NoWarning;
+        public bool NoKeybrandMaster;
 
         public bool AliveNKicking;
 
