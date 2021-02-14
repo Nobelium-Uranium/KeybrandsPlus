@@ -30,6 +30,12 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.16-
+Chimera's Bite has more initial velocity as it felt too difficult to aim at times
+Chimera and Bleak Midnight have higher stats when Shadows of Abaddon is enabled to be on par with Asthraltite weaponry
+Mirage Draconic Blaze (the debuff that Bleak Midnight's Draconic Flare inflicts) does more damage over time when Shadows of Abaddon is enabled
+The buff for Bleak Midnight is temporary until a planned upgrade for it is implemented
+
 -1.0.15-
 Fixed some things, due to the changes to MP Haste
 Added a Developer rarity which is similar to the Contributor rarity but with a cyan-ish blue (not the same as vanilla's cyan rarity), and renamed a lot of items accordingly

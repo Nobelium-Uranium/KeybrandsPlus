@@ -35,7 +35,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             projectile.ignoreWater = true;
-            ExtraUpdateCounter = 0;
+            ExtraUpdateCounter = 50;
         }
         public override Color? GetAlpha(Color lightColor)
         {

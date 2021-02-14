@@ -27,7 +27,10 @@ namespace KeybrandsPlus.Items.Weapons.Other
             item.melee = true;
             item.width = 82;
             item.height = 86;
-            item.damage = 120;
+            if (KeybrandsPlus.SoALoaded)
+                item.damage = 440;
+            else
+                item.damage = 120;
             item.useTime = 15;
             item.useAnimation = 15;
             item.knockBack = 7f;
@@ -47,28 +50,32 @@ namespace KeybrandsPlus.Items.Weapons.Other
         {
             if (player.altFunctionUse != 2)
             {
-                item.damage = 120;
+                if (KeybrandsPlus.SoALoaded)
+                    item.damage = 440;
+                else
+                    item.damage = 120;
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.melee = true;
                 item.magic = false;
                 item.useTurn = true;
                 item.useTime = 15;
                 item.useAnimation = 15;
-                item.damage = 75;
                 item.shoot = 0;
                 item.noMelee = false;
                 item.UseSound = SoundID.Item71;
             }
             else
             {
-                item.damage = 240;
+                if (KeybrandsPlus.SoALoaded)
+                    item.damage = 600;
+                else
+                    item.damage = 240;
                 item.useStyle = ItemUseStyleID.HoldingOut;
                 item.melee = false;
                 item.magic = true;
                 item.useTurn = false;
                 item.useTime = 45;
                 item.useAnimation = 45;
-                item.damage = 160;
                 item.shoot = ModContent.ProjectileType<Projectiles.DraconicFlareBolt>();
                 item.noMelee = true;
                 item.UseSound = SoundID.Item73;

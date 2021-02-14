@@ -133,11 +133,17 @@ namespace KeybrandsPlus.Globals
                 if (SuperbleedTimer >= 30)
                 {
                     SuperbleedTimer = 0;
-                    int Damage = (int)(60 * Main.rand.NextFloat(0.85f, 1.15f));
+                    int Damage = Main.DamageVar(50);
+                    if (KeybrandsPlus.SoALoaded)
+                        Damage = Main.DamageVar(250);
                     npc.StrikeNPC(Damage, 0, 0);
+                    if (KeybrandsPlus.SoALoaded)
+                        Damage /= 15;
+                    else
+                        Damage /= 3;
                     if (Main.player[npc.lastInteraction].lifeSteal > 0f && !npc.friendly && npc.lifeMax > 5 && npc.type != NPCID.TargetDummy)
                     {
-                        for (int i = 0; i < Main.rand.Next(Damage / 3); i++)
+                        for (int i = 0; i < Main.rand.Next(Damage); i++)
                         {
                             int blood = Item.NewItem(npc.getRect(), ItemType<Items.Other.Blood>());
                             Main.item[blood].velocity *= 1.25f;
@@ -169,9 +175,17 @@ namespace KeybrandsPlus.Globals
             }
             if (DragonRot)
             {
-                npc.lifeRegen -= 300;
+                if (KeybrandsPlus.SoALoaded)
+                    npc.lifeRegen -= 750;
+                else
+                    npc.lifeRegen -= 300;
                 if (damage < 30)
-                    damage = 30;
+                {
+                    if (KeybrandsPlus.SoALoaded)
+                        damage = 175;
+                    else
+                        damage = 50;
+                }
             }
         }
         public override bool? CanBeHitByItem(NPC npc, Player player, Item item)
