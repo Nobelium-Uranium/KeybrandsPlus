@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 using Terraria;
@@ -7,6 +8,17 @@ namespace KeybrandsPlus.Helpers
 {
     public static class KeyUtils
     {
+        public static void PremultiplyTexture(Texture2D texture)
+        {
+            Color[] buffer = new Color[texture.Width * texture.Height];
+            texture.GetData(buffer);
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
+            }
+            texture.SetData(buffer);
+        }
+
         public static Dust NewDustConverge(out int dustIndex, Vector2 center, Vector2 size, float distance, int type, int alpha = 0, Color color = default, float scale = 1f, bool fixedScale = true)
         {
             int index = Dust.NewDust(center, (int)size.X, (int)size.Y, type, 0, 0, alpha, color, scale);
