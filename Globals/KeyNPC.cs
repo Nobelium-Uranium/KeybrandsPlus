@@ -40,12 +40,14 @@ namespace KeybrandsPlus.Globals
         public bool Aero;
         public bool Water;
         public bool Dark;
+        public bool Nil;
         public int[] FireTypes = { 23, 24, 25, 59, 60, 72, 151, 277, 278, 279, 280, 285, 286 };
         public int[] BlizzardTypes = { 143, 144, 145, 147, 150, 154, 155, 161, 167, 169, 171, 184, 185, 197, 206, 243, 343, 344, 345, 352 };
         public int[] ThunderTypes = { 250, 387, 388, 389, 392, 393, 394, 395, 467, 482, 483, 520 };
         public int[] AeroTypes = { 48, 205, 222, 370, 477, 479, 491, 541, 546, 551 };
         public int[] WaterTypes = { 32, 33, 58, 63, 64, 65, 67, 103, 157, 223, 224, 225, 371, 372, 373, 461 };
         public int[] DarkTypes = { 6, 7, 8, 9, 13, 14, 15, 29, 30, 34, 35, 36, 47, 57, 62, 66, 79, 81, 82, 83, 85, 94, 98, 99, 100, 101, 112, 113, 114, 115, 116, 117, 118, 119, 121, 140, 156, 158, 159, 168, 170, 173, 174, 179, 180, 181, 182, 183, 196, 239, 240, 241, 242, 253, 266, 267, 268, 281, 282, 283, 284, 288, 289, 305, 306,307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 325, 326, 327, 328, 329, 330, 464, 465, 470, 371, 472, 473, 474, 523, 525, 526, 529, 533, 534 };
+        public int[] NilTypes = { };
 
         public float FireResist;
         public float BlizzardResist;
@@ -53,6 +55,7 @@ namespace KeybrandsPlus.Globals
         public float AeroResist;
         public float WaterResist;
         public float DarkResist;
+        public float NilResist;
 
         private float OldPhysRes;
         private float OldMagicRes;
@@ -62,6 +65,9 @@ namespace KeybrandsPlus.Globals
         private float OldAeroRes;
         private float OldWaterRes;
         private float OldDarkRes;
+        private float OldNilResist;
+
+        public bool NilHit;
         
         public override void SetDefaults(NPC npc)
         {
@@ -89,6 +95,9 @@ namespace KeybrandsPlus.Globals
             foreach (int i in DarkTypes)
                 if (npc.type == i)
                     Dark = true;
+            foreach (int i in NilTypes)
+                if (npc.type == i)
+                    Nil = true;
             BlazeStack = 1;
         }
         public override void ResetEffects(NPC npc)
@@ -101,6 +110,7 @@ namespace KeybrandsPlus.Globals
             AeroResist = OldAeroRes;
             WaterResist = OldWaterRes;
             DarkResist = OldDarkRes;
+            NilResist = OldNilResist;
             ChimeraBleed = false;
             DragonRot = false;
             EternalBlaze = false;
@@ -119,6 +129,7 @@ namespace KeybrandsPlus.Globals
                 OldAeroRes = AeroResist;
                 OldWaterRes = WaterResist;
                 OldDarkRes = DarkResist;
+                OldNilResist = NilResist;
             }
             if (npc.wet || EternalBlazeImmune)
                 npc.buffImmune[BuffType<Buffs.EternalBlaze>()] = true;
@@ -164,6 +175,20 @@ namespace KeybrandsPlus.Globals
             {
                 BlazeStack = 1;
             }
+        }
+        public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        {
+            if (NilHit && NilResist < 1)
+            {
+                NilHit = false;
+                if (defense > 0)
+                    defense = 0;
+                PhysResist = 0;
+                MagicResist = 0;
+                damage -= damage * NilResist;
+                return false;
+            }
+            return base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
@@ -250,7 +275,7 @@ namespace KeybrandsPlus.Globals
             if (projectile.GetGlobalProjectile<KeyProjectile>().Dark)
                 damage -= (int)(damage * DarkResist);
         }
-        public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
+        /*public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
         {
             LockOnFrameCounter += 1;
             if (LockOnFrameCounter >= 4)
@@ -288,7 +313,7 @@ namespace KeybrandsPlus.Globals
                 }
                 spriteBatch.Draw(t, drawPos, null, Color.White, 0, drawOrigin, 1f, SpriteEffects.None, 0);
             }
-        }
+        }*/
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
             if (ChimeraBleed)
@@ -296,18 +321,6 @@ namespace KeybrandsPlus.Globals
                 int Blood = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood);
                 Main.dust[Blood].position -= new Vector2(4, 4);
                 Main.dust[Blood].velocity = Vector2.Zero;
-            }
-            if (DragonRot)
-            {
-                drawColor = new Color(144, 15, 141);
-                if (!Main.rand.NextBool(4))
-                {
-                    int dust = Dust.NewDust(npc.position, npc.width + 4, npc.height + 4, DustType<Dusts.DraconicFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    Main.dust[dust].velocity *= 0.5f;
-                }
             }
             if (EternalBlaze)
             {
@@ -322,6 +335,18 @@ namespace KeybrandsPlus.Globals
                 Main.dust[dustIndex2].velocity *= 3.6f;
                 Main.dust[dustIndex2].velocity.Y -= 1f;
                 Main.dust[dustIndex2].velocity *= 0.5f;
+            }
+            if (DragonRot)
+            {
+                drawColor = new Color(144, 15, 141);
+                if (!Main.rand.NextBool(4))
+                {
+                    int dust = Dust.NewDust(npc.position, npc.width + 4, npc.height + 4, DustType<Dusts.DraconicFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 1.8f;
+                    Main.dust[dust].velocity.Y -= 0.5f;
+                    Main.dust[dust].velocity *= 0.5f;
+                }
             }
         }
         public override void NPCLoot(NPC npc)

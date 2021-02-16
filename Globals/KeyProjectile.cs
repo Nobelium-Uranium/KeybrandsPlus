@@ -9,6 +9,7 @@ namespace KeybrandsPlus.Globals
 {
     class KeyProjectile : GlobalProjectile
     {
+        // TODO: Nil for projectiles
         public override bool InstancePerEntity { get { return true; } }
         public override bool CloneNewInstances { get { return true; } }
         public bool IsKeybrandProj;

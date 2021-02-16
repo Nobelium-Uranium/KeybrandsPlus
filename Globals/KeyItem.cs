@@ -33,12 +33,14 @@ namespace KeybrandsPlus.Globals
         public bool Aero;
         public bool Water;
         public bool Dark;
+        public bool Nil;
         public int[] FireTypes = { 121, 1826, 3823, 3827 };
         public int[] BlizzardTypes = { 686, 724, 1306, 1928 };
         public int[] ThunderTypes = { 198, 199, 200, 201, 202, 203, 2880, 3764, 3765, 3766, 3767, 3768, 3769 };
         public int[] AeroTypes = { 190, 1827, 2608, 3258 };
         public int[] WaterTypes = { 155 };
         public int[] DarkTypes = { 46, 273, 675, 795, 1327 };
+        public int[] NilTypes = { };
 
         public override void SetDefaults(Item item)
         {
@@ -142,6 +144,11 @@ namespace KeybrandsPlus.Globals
                     player.GetModPlayer<KeyPlayer>().LeafBracerTimer += 90 - player.GetModPlayer<KeyPlayer>().LeafBracerTimer;
             }
             return base.UseItem(item, player);
+        }
+        public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (Nil)
+                target.GetGlobalNPC<KeyNPC>().NilHit = true;
         }
         public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
         {

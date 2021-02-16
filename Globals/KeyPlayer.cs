@@ -24,7 +24,7 @@ namespace KeybrandsPlus.Globals
         public bool AvaliPants;
         #endregion
 
-        public int NeurotoxinTimer;
+        public bool NilHit;
 
         public int statOldLife;
         public int PlayerDefense;
@@ -107,6 +107,7 @@ namespace KeybrandsPlus.Globals
         public float ChainResistAero;
         public float ChainResistWater;
         public float ChainResistDark;
+        public float ChainResistNil;
         //Ring
         public float RingAttackPhysical;
         public float RingAttackMagic;
@@ -155,8 +156,6 @@ namespace KeybrandsPlus.Globals
             AvaliShirt = false;
             AvaliPants = false;
             #endregion  
-
-            NeurotoxinTimer = 0;
 
             statOldLife = 0;
 
@@ -228,6 +227,7 @@ namespace KeybrandsPlus.Globals
             ChainResistAero = 0;
             ChainResistWater = 0;
             ChainResistDark = 0;
+            ChainResistNil = 0;
             RingAttackPhysical = 0;
             RingAttackMagic = 0;
             RibbonEndurance = 0;
@@ -294,7 +294,46 @@ namespace KeybrandsPlus.Globals
             KeybrandRanged += RingAttackPhysical;
             KeybrandMagic += RingAttackMagic;
         }
-
+        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        {
+            if (item.GetGlobalItem<KeyItem>().Fire)
+                damage -= (int)(damage * ChainResistFire);
+            if (item.GetGlobalItem<KeyItem>().Blizzard)
+                damage -= (int)(damage * ChainResistBlizzard);
+            if (item.GetGlobalItem<KeyItem>().Thunder)
+                damage -= (int)(damage * ChainResistThunder);
+            if (item.GetGlobalItem<KeyItem>().Aero)
+                damage -= (int)(damage * ChainResistAero);
+            if (item.GetGlobalItem<KeyItem>().Water)
+                damage -= (int)(damage * ChainResistWater);
+            if (item.GetGlobalItem<KeyItem>().Dark)
+                damage -= (int)(damage * ChainResistDark);
+            if (item.GetGlobalItem<KeyItem>().Nil)
+            {
+                damage = (int)(damage + PlayerDefense * (1 + player.endurance));
+                damage -= (int)(damage * ChainResistNil);
+            }
+        }
+        public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
+        {
+            if (proj.GetGlobalProjectile<KeyProjectile>().Fire)
+                damage -= (int)(damage * ChainResistFire);
+            if (proj.GetGlobalProjectile<KeyProjectile>().Blizzard)
+                damage -= (int)(damage * ChainResistBlizzard);
+            if (proj.GetGlobalProjectile<KeyProjectile>().Thunder)
+                damage -= (int)(damage * ChainResistThunder);
+            if (proj.GetGlobalProjectile<KeyProjectile>().Aero)
+                damage -= (int)(damage * ChainResistAero);
+            if (proj.GetGlobalProjectile<KeyProjectile>().Water)
+                damage -= (int)(damage * ChainResistWater);
+            if (proj.GetGlobalProjectile<KeyProjectile>().Dark)
+                damage -= (int)(damage * ChainResistDark);
+            if (NilHit)
+            {
+                damage = (int)(damage + PlayerDefense * (1 + player.endurance));
+                damage -= (int)(damage * ChainResistNil);
+            }
+        }
         public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
         {
             if (npc.GetGlobalNPC<KeyNPC>().Fire)
@@ -309,7 +348,12 @@ namespace KeybrandsPlus.Globals
                 damage -= (int)(damage * ChainResistWater);
             if (npc.GetGlobalNPC<KeyNPC>().Dark)
                 damage -= (int)(damage * ChainResistDark);
-            if (DamageControlPlus && player.statLife <= player.statLifeMax2 / 2)
+            if (NilHit)
+            {
+                damage = (int)(damage + PlayerDefense * (1 + player.endurance));
+                damage -= (int)(damage * ChainResistNil);
+            }
+            else if (DamageControlPlus && player.statLife <= player.statLifeMax2 / 2)
                 damage /= 2;
             else if (DamageControl && player.statLife <= player.statLifeMax2 / 5)
                 damage /= 2;
@@ -329,7 +373,12 @@ namespace KeybrandsPlus.Globals
                 damage -= (int)(damage * ChainResistWater);
             if (proj.GetGlobalProjectile<KeyProjectile>().Dark)
                 damage -= (int)(damage * ChainResistDark);
-            if (DamageControlPlus && player.statLife <= player.statLifeMax2 / 2)
+            if (NilHit)
+            {
+                damage = (int)(damage + PlayerDefense * (1 + player.endurance));
+                damage -= (int)(damage * ChainResistNil);
+            }
+            else if (DamageControlPlus && player.statLife <= player.statLifeMax2 / 2)
                 damage /= 2;
             else if (DamageControl && player.statLife <= player.statLifeMax2 / 5)
                 damage /= 2;
@@ -484,20 +533,6 @@ namespace KeybrandsPlus.Globals
                 ChargedCrystals = 8;
             else if (ChargedCrystals < 0)
                 ChargedCrystals = 0;
-
-            if (NeurotoxinTimer == 1)
-            {
-                player.immune = false;
-                player.immuneNoBlink = false;
-                player.immuneTime = 0;
-                player.statLifeMax2 = -1;
-                player.statLife = -1;
-                player.KillMe(PlayerDeathReason.ByCustomReason("Cosmic karma caught up to " + player.name + "."), 0, 0);
-            }
-            if (NeurotoxinTimer > 0)
-                NeurotoxinTimer--;
-            else if (NeurotoxinTimer < 0)
-                NeurotoxinTimer = 0;
 
             if (GliderInactive)
                 player.wingsLogic = 0;
@@ -656,8 +691,6 @@ namespace KeybrandsPlus.Globals
                 Moving = true;
             if (GliderInactive)
                 player.wingsLogic = 0;
-            if (NeurotoxinTimer > 0)
-                ChimeraBleed = true;
             if (ChimeraBleed)
             {
                 SuperBleedTimer++;
