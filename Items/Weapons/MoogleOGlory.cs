@@ -15,7 +15,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             Tooltip.SetDefault("+100 Light and Dark Alignment when held\n" +
                 "Alt Attack: Munny Toss\n" +
-                "Throws 100 Munny to do damage\n" +
+                "Consumes 100 Munny to throw a coin that can inflict massive damage\n" +
                 "Ability: Munny Converter\n" +
                 "Boosts damage by 7 for every 77 Munny you have in your inventory\n" +
                 "In addition, lose all Munny in inventory on death with no chance of getting it back when held\n" +
@@ -117,7 +117,8 @@ namespace KeybrandsPlus.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ProjectileID.GoldCoin, damage * 10, item.knockBack, player.whoAmI);
+                int coin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ProjectileID.GoldCoin, damage * 10, item.knockBack, player.whoAmI);
+                Main.projectile[coin].Name = "Munny Toss";
             }
             return false;
         }
