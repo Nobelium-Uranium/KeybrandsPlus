@@ -24,6 +24,8 @@ namespace KeybrandsPlus.Globals
         public bool AvaliPants;
         #endregion
 
+        public bool NoFlight;
+
         public bool NilHit;
 
         public int statOldLife;
@@ -283,11 +285,18 @@ namespace KeybrandsPlus.Globals
 
         public override void PostUpdateEquips()
         {
+            if (NoFlight)
+                player.mount.Dismount(player);
             KeybrandLimitReached = HeldKeybrands > 5;
         }
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
+            if (NoFlight)
+            {
+                player.wingTime *= 0;
+                player.wingTimeMax *= 0;
+            }
             player.statDefense += BeltDefense;
             player.statDefense = (int)(player.statDefense * (1 + RibbonEndurance));
             KeybrandMelee += RingAttackPhysical;
@@ -534,7 +543,7 @@ namespace KeybrandsPlus.Globals
             else if (ChargedCrystals < 0)
                 ChargedCrystals = 0;
 
-            if (GliderInactive)
+            if (NoFlight || GliderInactive)
                 player.wingsLogic = 0;
 
             if (DefenderPlus && player.statLife <= player.statLifeMax2 / 2)
