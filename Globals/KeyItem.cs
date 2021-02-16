@@ -147,8 +147,53 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
+            if (target.GetGlobalNPC<KeyNPC>().OnlyKeybrand && IsKeybrand)
+                damage /= 10;
             if (Nil)
                 target.GetGlobalNPC<KeyNPC>().NilHit = true;
+            if (!target.GetGlobalNPC<KeyNPC>().NilHit)
+            {
+                if (item.melee || item.ranged)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().PhysResist);
+                if (item.magic || item.summon)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().MagicResist);
+                if (Fire)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().FireResist);
+                if (Blizzard)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().BlizzardResist);
+                if (Thunder)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().ThunderResist);
+                if (Aero)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().AeroResist);
+                if (Water)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().WaterResist);
+                if (Dark)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().DarkResist);
+            }
+        }
+        public override void ModifyHitPvp(Item item, Player player, Player target, ref int damage, ref bool crit)
+        {
+            if (Fire)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistFire);
+            if (Blizzard)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistBlizzard);
+            if (Thunder)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistThunder);
+            if (Aero)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
+            if (Water)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+            if (Dark)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
+            if (Nil)
+            {
+                damage = (int)(damage + target.GetModPlayer<KeyPlayer>().PlayerDefense * (1 + target.endurance));
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistNil);
+            }
+            else if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
+                damage /= 2;
+            else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
+                damage /= 2;
         }
         public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
         {

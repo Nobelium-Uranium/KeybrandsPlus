@@ -178,7 +178,7 @@ namespace KeybrandsPlus.Globals
         }
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            if (NilHit && NilResist < 1)
+            if (NilHit)
             {
                 NilHit = false;
                 if (defense > 0)
@@ -215,7 +215,7 @@ namespace KeybrandsPlus.Globals
         }
         public override bool? CanBeHitByItem(NPC npc, Player player, Item item)
         {
-            if (((PhysImmune || PhysResist >= 1f) && (item.melee || item.ranged)) || ((MagicImmune || MagicResist >= 1f) && (item.magic || item.summon)))
+            if ((!item.GetGlobalItem<KeyItem>().Nil || NilResist >= 1f) && (((PhysImmune || PhysResist >= 1f) && (item.melee || item.ranged)) || ((MagicImmune || MagicResist >= 1f) && (item.magic || item.summon))))
                 return false;
             if ((item.GetGlobalItem<KeyItem>().Fire && FireResist >= 1f) || (item.GetGlobalItem<KeyItem>().Blizzard && BlizzardResist >= 1f) || (item.GetGlobalItem<KeyItem>().Thunder && ThunderResist >= 1f) || (item.GetGlobalItem<KeyItem>().Aero && AeroResist >= 1f) || (item.GetGlobalItem<KeyItem>().Water && WaterResist >= 1f) || (item.GetGlobalItem<KeyItem>().Dark && DarkResist >= 1f))
                 return false;
@@ -231,49 +231,29 @@ namespace KeybrandsPlus.Globals
                 return false;
             return base.CanBeHitByProjectile(npc, projectile);
         }
-        public override void ModifyHitByItem(NPC npc, Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+        public override void ModifyHitPlayer(NPC npc, Player target, ref int damage, ref bool crit)
         {
-            if (OnlyKeybrand && (!item.GetGlobalItem<KeyItem>().IsKeybrand || item.type == ItemType<Items.Weapons.WoodenKeybrand>()))
-                damage /= 10;
-            if (item.melee || item.ranged)
-                damage -= (int)(damage * PhysResist);
-            if (item.magic || item.summon)
-                damage -= (int)(damage * MagicResist);
-            if (item.GetGlobalItem<KeyItem>().Fire)
-                damage -= (int)(damage * FireResist);
-            if (item.GetGlobalItem<KeyItem>().Blizzard)
-                damage -= (int)(damage * BlizzardResist);
-            if (item.GetGlobalItem<KeyItem>().Thunder)
-                damage -= (int)(damage * ThunderResist);
-            if (item.GetGlobalItem<KeyItem>().Aero)
-                damage -= (int)(damage * AeroResist);
-            if (item.GetGlobalItem<KeyItem>().Water)
-                damage -= (int)(damage * WaterResist);
-            if (item.GetGlobalItem<KeyItem>().Dark)
-                damage -= (int)(damage * DarkResist);
-        }
-        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (OnlyKeybrand && !projectile.GetGlobalProjectile<KeyProjectile>().IsKeybrandProj)
-                damage /= 10;
-            if (MagicImmune && projectile.type == ProjectileType<Projectiles.ChimeraBite>())
+            if (Fire)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistFire);
+            if (Blizzard)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistBlizzard);
+            if (Thunder)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistThunder);
+            if (Aero)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
+            if (Water)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+            if (Dark)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
+            if (Nil)
+            {
+                damage = (int)(damage + target.GetModPlayer<KeyPlayer>().PlayerDefense * (1 + target.endurance));
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistNil);
+            }
+            else if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
                 damage /= 2;
-            if (projectile.melee || projectile.ranged)
-                damage -= (int)(damage * PhysResist);
-            if (projectile.magic || projectile.minion || projectile.sentry)
-                damage -= (int)(damage * MagicResist);
-            if (projectile.GetGlobalProjectile<KeyProjectile>().Fire)
-                damage -= (int)(damage * FireResist);
-            if (projectile.GetGlobalProjectile<KeyProjectile>().Blizzard)
-                damage -= (int)(damage * BlizzardResist);
-            if (projectile.GetGlobalProjectile<KeyProjectile>().Thunder)
-                damage -= (int)(damage * ThunderResist);
-            if (projectile.GetGlobalProjectile<KeyProjectile>().Aero)
-                damage -= (int)(damage * AeroResist);
-            if (projectile.GetGlobalProjectile<KeyProjectile>().Water)
-                damage -= (int)(damage * WaterResist);
-            if (projectile.GetGlobalProjectile<KeyProjectile>().Dark)
-                damage -= (int)(damage * DarkResist);
+            else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
+                damage /= 2;
         }
         /*public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
         {

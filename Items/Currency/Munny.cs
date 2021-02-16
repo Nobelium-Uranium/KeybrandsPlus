@@ -75,7 +75,8 @@ namespace KeybrandsPlus.Items.Currency
         }
         public override bool OnPickup(Player player)
         {
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MunnyPickup").WithVolume(0.8f), player.Center);
+            if (ItemSpace(player))
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MunnyPickup").WithVolume(0.8f), player.Center);
             return true;
         }
     }

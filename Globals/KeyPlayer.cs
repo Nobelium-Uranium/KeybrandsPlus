@@ -26,8 +26,6 @@ namespace KeybrandsPlus.Globals
 
         public bool NoFlight;
 
-        public bool NilHit;
-
         public int statOldLife;
         public int PlayerDefense;
 
@@ -302,95 +300,6 @@ namespace KeybrandsPlus.Globals
             KeybrandMelee += RingAttackPhysical;
             KeybrandRanged += RingAttackPhysical;
             KeybrandMagic += RingAttackMagic;
-        }
-        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
-        {
-            if (item.GetGlobalItem<KeyItem>().Fire)
-                damage -= (int)(damage * ChainResistFire);
-            if (item.GetGlobalItem<KeyItem>().Blizzard)
-                damage -= (int)(damage * ChainResistBlizzard);
-            if (item.GetGlobalItem<KeyItem>().Thunder)
-                damage -= (int)(damage * ChainResistThunder);
-            if (item.GetGlobalItem<KeyItem>().Aero)
-                damage -= (int)(damage * ChainResistAero);
-            if (item.GetGlobalItem<KeyItem>().Water)
-                damage -= (int)(damage * ChainResistWater);
-            if (item.GetGlobalItem<KeyItem>().Dark)
-                damage -= (int)(damage * ChainResistDark);
-            if (item.GetGlobalItem<KeyItem>().Nil)
-            {
-                damage = (int)(damage + PlayerDefense * (1 + player.endurance));
-                damage -= (int)(damage * ChainResistNil);
-            }
-        }
-        public override void ModifyHitPvpWithProj(Projectile proj, Player target, ref int damage, ref bool crit)
-        {
-            if (proj.GetGlobalProjectile<KeyProjectile>().Fire)
-                damage -= (int)(damage * ChainResistFire);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Blizzard)
-                damage -= (int)(damage * ChainResistBlizzard);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Thunder)
-                damage -= (int)(damage * ChainResistThunder);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Aero)
-                damage -= (int)(damage * ChainResistAero);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Water)
-                damage -= (int)(damage * ChainResistWater);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Dark)
-                damage -= (int)(damage * ChainResistDark);
-            if (NilHit)
-            {
-                damage = (int)(damage + PlayerDefense * (1 + player.endurance));
-                damage -= (int)(damage * ChainResistNil);
-            }
-        }
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
-        {
-            if (npc.GetGlobalNPC<KeyNPC>().Fire)
-                damage -= (int)(damage * ChainResistFire);
-            if (npc.GetGlobalNPC<KeyNPC>().Blizzard)
-                damage -= (int)(damage * ChainResistBlizzard);
-            if (npc.GetGlobalNPC<KeyNPC>().Thunder)
-                damage -= (int)(damage * ChainResistThunder);
-            if (npc.GetGlobalNPC<KeyNPC>().Aero)
-                damage -= (int)(damage * ChainResistAero);
-            if (npc.GetGlobalNPC<KeyNPC>().Water)
-                damage -= (int)(damage * ChainResistWater);
-            if (npc.GetGlobalNPC<KeyNPC>().Dark)
-                damage -= (int)(damage * ChainResistDark);
-            if (NilHit)
-            {
-                damage = (int)(damage + PlayerDefense * (1 + player.endurance));
-                damage -= (int)(damage * ChainResistNil);
-            }
-            else if (DamageControlPlus && player.statLife <= player.statLifeMax2 / 2)
-                damage /= 2;
-            else if (DamageControl && player.statLife <= player.statLifeMax2 / 5)
-                damage /= 2;
-        }
-
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
-        {
-            if (proj.GetGlobalProjectile<KeyProjectile>().Fire)
-                damage -= (int)(damage * ChainResistFire);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Blizzard)
-                damage -= (int)(damage * ChainResistBlizzard);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Thunder)
-                damage -= (int)(damage * ChainResistThunder);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Aero)
-                damage -= (int)(damage * ChainResistAero);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Water)
-                damage -= (int)(damage * ChainResistWater);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Dark)
-                damage -= (int)(damage * ChainResistDark);
-            if (NilHit)
-            {
-                damage = (int)(damage + PlayerDefense * (1 + player.endurance));
-                damage -= (int)(damage * ChainResistNil);
-            }
-            else if (DamageControlPlus && player.statLife <= player.statLifeMax2 / 2)
-                damage /= 2;
-            else if (DamageControl && player.statLife <= player.statLifeMax2 / 5)
-                damage /= 2;
         }
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
