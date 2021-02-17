@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KeybrandsPlus.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +28,7 @@ namespace KeybrandsPlus.Items.Other
             Scale = 1f;
             item.maxStack = 100;
         }
-        public override Color? GetAlpha(Color lightColor) => Color.White * .75f * Main.essScale;
+        public override Color? GetAlpha(Color lightColor) => Color.White * .75f;
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             if (TimeLeft > 0)
@@ -78,10 +79,18 @@ namespace KeybrandsPlus.Items.Other
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             Texture2D texture = Main.itemTexture[item.type];
+            KeyUtils.PremultiplyTexture(texture);
             Rectangle sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
             Vector2 origin = sourceRectangle.Size() / 2f;
             Color drawColor = item.GetAlpha(lightColor);
             Main.spriteBatch.Draw(texture, item.Center - Main.screenPosition, sourceRectangle, drawColor, rotation, origin, Scale * Main.essScale, SpriteEffects.None, 0f);
+            return false;
+        }
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D texture = Main.itemTexture[item.type];
+            KeyUtils.PremultiplyTexture(texture);
+            spriteBatch.Draw(texture, position, null, Color.White, 0, origin, scale, SpriteEffects.None, 0f);
             return false;
         }
     }
