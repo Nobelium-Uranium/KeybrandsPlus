@@ -21,6 +21,7 @@ namespace KeybrandsPlus.Globals
         public string ContributorName = "Unknown";
         public bool ProudRarity;
         public bool ZenithRarity;
+        public bool ShadowRarity;
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
@@ -72,6 +73,17 @@ namespace KeybrandsPlus.Globals
                     if (line.mod == "Terraria" && line.Name == "ItemName")
                     {
                         line.overrideColor = new Color(0, 250, 190);
+                    }
+                }
+            }
+            else if (ShadowRarity)
+            {
+                for (int tooltip = 0; tooltip < tooltips.Count; tooltip++)
+                {
+                    TooltipLine line = tooltips[tooltip];
+                    if (line.mod == "Terraria" && line.Name == "ItemName")
+                    {
+                        line.overrideColor = new Color(25, 25, 25);
                     }
                 }
             }
