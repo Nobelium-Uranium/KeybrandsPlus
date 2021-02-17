@@ -71,6 +71,14 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 damage = 0;
             else
                 damage -= 5000;
+            if (damage > 5000)
+            {
+                damage -= 5000;
+                damage /= 10;
+                damage += 5000;
+            }
+            if (damage > 10000)
+                damage = 10000;
             crit = false;
             return false;
         }
