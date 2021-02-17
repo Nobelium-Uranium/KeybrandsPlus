@@ -52,18 +52,6 @@ namespace KeybrandsPlus.NPCs.TownNPC
             return base.PreAI();
         }
 
-        public override void AI()
-        {
-            #region no
-            if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
-            {
-                npc.buffImmune[BuffID.Wet] = false;
-                npc.AddBuff(BuffID.Wet, 2);
-                npc.buffImmune[BuffID.Wet] = true;
-            }
-            #endregion
-        }
-
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
             Main.PlaySound(SoundID.NPCHit4, npc.Center);
@@ -134,77 +122,44 @@ namespace KeybrandsPlus.NPCs.TownNPC
                     Broke = false;
             }
             WeightedRandom<string> chat = new WeightedRandom<string>();
-            int Dryad = NPC.FindFirstNPC(NPCID.Dryad);
             int Cyborg = NPC.FindFirstNPC(NPCID.Cyborg);
-            int Angler = NPC.FindFirstNPC(NPCID.Angler);
-            if (!npc.homeless && player.name != "Cheems")
-            {
-                if (Broke)
-                {
-                    chat.Add("My services aren't free, you know. If you want to buy from me, earn some Munny first. They can be dropped from pretty much any foe.");
-                    chat.Add("Sorry " + player.name + ", I can't give credit! Come back when you're a little, mmMMMmm... richer!", 0.25);
-                }
-                else
-                {
-                    chat.Add("If you are ever in need of materials for keybrands, I will gladly oblige, if you can afford it.");
-                    chat.Add("Keybrands, ethers, materials? You want it? It's yours my friend, as long as you have enough Munny!", 0.25);
-                }
-                if (Dryad >= 0 && !Main.bloodMoon)
-                {
-                    chat.Add("Is there a practical reason " + Main.npc[Dryad].GivenName + " dresses so skimply? I get that she's one with nature and all, but that doesn't mean she should be so... revealing.");
-                }
-                if (Cyborg >= 0)
-                {
-                    chat.Add(Main.npc[Cyborg].GivenName + " is cool I guess, but my tech is far more advanced.");
-                    chat.Add(Main.npc[Cyborg].GivenName + " and I get along well, he lets me reverse engineer his tech too!", 0.5);
-                    chat.Add(Main.npc[Cyborg].GivenName + " and I get along well, he lets me reverse engineer his tech too! ...No, not in that way, gross.", 0.5);
-                }
-                if (Angler >= 0)
-                {
-                    chat.Add("I heard from " + Main.npc[Angler].GivenName + " that the shells bear secrets... not sure what that means...");
-                    chat.Add(Main.npc[Angler].GivenName + " may come off as a bit of a prick, but honestly I think he's just misunderstood.");
-                }
-                if (player.name == "Sora" || player.name == "Riku" || player.name == "Kairi" || player.name == "Roxas" || player.name == "Axel" || player.name == "Xion" || player.name == "Ventus" || player.name == "Aqua" || player.name == "Terra")
-                    chat.Add("Your name, it sounds familiar, but I can't think of why...");
-                chat.Add("May your heart be your guiding key.");
-                chat.Add("May your key be your guiding heart.", 0.5);
-                //if (Main.hardMode && !NPC.downedMechBossAny)
-                    //chat.Add("The heartless here seem to be much more composed and dangerous.");
-                //if (Main.hardMode && !Main.dayTime)
-                    //chat.Add("Hey, if you see a big red lanky heartless wielding a shield with a face... well, just leave it alone alright? It won't hurt you if you don't hurt it, and believe me when I say it'll hurt you. A LOT.", 0.75);
-                //if (NPC.downedMoonlord)
-                    //chat.Add("I believe it's time to prepare for the worst, it seems the Lord of the Celestials was the heartless' main enemy, and now they've found access to the world's heart...");
-                /*if (NPC.downedBoss2 && !Main.hardMode)
-                    chat.Add("There seems to be a new evil looming about... Make sure you've got the tools to deal with them.");
-                else if (!Main.hardMode)*/
-                    chat.Add("Hmm, so darkness has already touched this world, but I see no signs of heartless... curious...");
-                chat.Add("Huh? What's that? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for a mortal like you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.", 0.5);
-                chat.Add("For the last time, it's not a scythe! Oh, sorry... did you need something?", 0.5);
-                chat.Add("Also try Shadows of Abaddon!", 0.25);
-                chat.Add("Also try Kingdom Terrahearts!", 0.25);
-                chat.Add("Have you tried eter... eta... etr... masomode?", 0.075);
-                chat.Add("Have you tried eter... eta... etr... sempiternity mode?", 0.1);
-                chat.Add("Your meme, it's useful, I'll take it.", 0.05);
-                #region no
-                if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
-                {
-                    chat.Add("Ugh, is it hot in here or is it just me...?", 1.5);
-                    chat.Add("Orchid mantises are cool.", 0.25);
-                    chat.Add("Orchid mantises are hot.", 0.05);
-                    chat.Add("Plant mantises are hot.", 0.025);
-                    chat.Add("Plant mantis waifus are hot.", 0.01);
-                }
-                else
-                    chat.Add("Orchid mantises are cool.", 0.01);
-                #endregion
-            }
-            else if (!npc.homeless)
-                chat.Add("No.");
+            if (Broke)
+                chat.Add("Unfortunately for you, my services do not take coins. If you want to purchase my wares, earn some Munny first. They can be looted from most foes you slay.");
             else
+                chat.Add("If you are ever in need of materials for keybrands, I am willing to oblige, if you can afford them.");
+            if (Cyborg >= 0)
             {
-                chat.Add("I'm pretty sure I need a place to stay, even for me it's dangerous to be out in the open.");
-                chat.Add("Got any free real estate? That would be greatly appreciated, thanks.");
+                chat.Add("I admit that " + Main.npc[Cyborg].GivenName + "'s technology is impressive, but my own is far more exquisite.");
             }
+            if (player.name == "Sora" || player.name == "Riku" || player.name == "Kairi" || player.name == "Roxas" || player.name == "Axel" || player.name == "Xion" || player.name == "Ventus" || player.name == "Aqua" || player.name == "Terra")
+                chat.Add("Your name, it sounds familiar, but I can't think of why...");
+            chat.Add("May your heart be your guiding key.");
+            //if (Main.hardMode && !NPC.downedMechBossAny)
+            //chat.Add("Be careful, as a result of defeating that cursed horror you fought down there, the Heartless here seem to be much more composed and dangerous.");
+            //if (Main.hardMode && !Main.dayTime)
+            //chat.Add("I must warn you, if you see a large red Heartless wielding a shield, I suggest that you keep your distance. Attempt this fight knowing that it may be your last.", 0.75);
+            //if (NPC.downedMoonlord)
+            //chat.Add("So, you've defeated the Lord of the Celestials... it seems to have awakened yet another new threat, the Nobodies.");
+            /*if (NPC.downedBoss2 && !Main.hardMode)
+                chat.Add("There seems to be a new evil looming about... ensure that you have the means to deal with them.");
+            else if (!Main.hardMode)*/
+            chat.Add("It appears that darkness has already touched this world, but I see no signs of Heartless... curious...");
+            if (npc.life < npc.lifeMax)
+                chat.Add("If you wish to cause me harm, then I am sorry to disappoint you, for this is merely a replica.", 2);
+            chat.Add("Hm? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for a mortal like you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.", 0.5);
+            chat.Add("Also try Shadows of Abaddon!", 0.1);
+            chat.Add("Also try Kingdom Terrahearts!", 0.1);
+            #region no
+            if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
+            {
+                chat.Add("Orchid mantises are cool.", 0.25);
+                chat.Add("Orchid mantises are hot.", 0.05);
+                chat.Add("Plant mantises are hot.", 0.01);
+                chat.Add("Plant mantis waifus are hot.", 0.0025);
+            }
+            else
+                chat.Add("Orchid mantises are cool.", 0.01);
+            #endregion
             return chat;
         }
 
@@ -217,7 +172,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
             Player player = Main.LocalPlayer;
-            string Comment = "This message should not appear, you should definitely tell the mod developer if it does!";
+            string Comment = "This message should not appear.";
             string ExtraComment = "";
             string Affinity = "ERROR";
             if (player.GetModPlayer<Globals.KeyPlayer>().LightAlignment > player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment)
@@ -227,21 +182,21 @@ namespace KeybrandsPlus.NPCs.TownNPC
             else
                 Affinity = "duality";
             if (player.GetModPlayer<Globals.KeyPlayer>().LightAlignment == player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment && player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 50)
-                Comment = "Your heart is in perfect harmony! I commend your aptitude, though do be sure to keep your affinity aligned.";
+                Comment = "Your heart is in perfect harmony, I commend your aptitude.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 50 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment == 0)
-                Comment = "Your heart is pure, there's not a hint of darkness in you! Still, you must remain vigilant if you want to keep it that way.";
+                Comment = "Your heart is pure, there is not a hint of darkness in you.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 50 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment == 0)
-                Comment = "Your heart is pitch black with darkness... Are you even human anymore? Well, I suppose if you can keep that darkness in check, you'll be fine.";
+                Comment = "Your heart is pitch black with darkness.";
             else if ((player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment + 25 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment != 0 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 25) || player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 25 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment != 0)
-                Comment = "Your heart is pure, but not entirely. Even the smallest amount of darkness could mean terrible things...";
+                Comment = "Your heart is pure, but not entirely.";
             else if ((player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= player.GetModPlayer<Globals.KeyPlayer>().LightAlignment + 25 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment != 0 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 25) || player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 25 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment != 0)
-                Comment = "Your heart is succumbing to the darkness... Still, there is hope for you yet, as long as you don't let what little light you have in you out.";
+                Comment = "Your heart is succumbing to the darkness.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 25)
-                Comment = "Your heart is neutral. You're neither strongly afflicted by light nor darkness. I suppose using both light and darkness is a good move.";
+                Comment = "Your heart is neutral. You are neither strongly afflicted by light nor darkness..";
             else
-                Comment = "Your heart is neutral. You're neither afflicted by light nor darkness.";
+                Comment = "Your heart is neutral. You are neither afflicted by light nor darkness.";
             /*if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 100)
-                ExtraComment = " It seems that as a result of the strength of your " + Affinity + ", the heartless are getting stronger... I suggest you stay alert.";
+                ExtraComment = " It seems that as a result of the strength of your " + Affinity + ", the Heartless are getting stronger... I suggest you stay alert.";
             else*/ if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 75)
                 ExtraComment = " At this rate, your " + Affinity + " will become the mightiest of all...";
             else if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 50)
@@ -432,73 +387,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 nextSlot++;
             }
         }
-        /*
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
-        {
-            if (player != null)
-            {
-                Main.PlaySound(SoundID.NPCDeath7, player.Center);
-                for (int i = 0; i < 10; i++)
-                {
-                    int dust = Dust.NewDust(player.Center, 0, 0, DustID.AncientLight, Scale: 3f);
-                    Main.dust[dust].velocity *= 7.5f;
-                    Main.dust[dust].noGravity = true;
-                }
-                player.AddBuff(BuffType<Buffs.Stop>(), 180);
-                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 900);
-                if (player.GetModPlayer<KeyPlayer>().NeurotoxinTimer <= 0)
-                    player.GetModPlayer<KeyPlayer>().NeurotoxinTimer = Main.expertMode? 900 : 450;
-                if (player.immune || player.immuneNoBlink || player.immuneTime > 0)
-                {
-                    player.immune = false;
-                    player.immuneNoBlink = false;
-                    player.immuneTime = 0;
-                    player.statLifeMax2 = -1;
-                    player.statLife = -1;
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to cheat death."), 0, 0);
-                }
-                Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
-                Main.PlaySound(SoundID.Item60, npc.Center);
-                int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);
-                Main.projectile[Bite].hostile = true;
-                Main.projectile[Bite].friendly = false;
-                Main.projectile[Bite].magic = false;
-            }
-        }
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
-        {
-            Player player = Main.player[projectile.owner];
-            if (player != null && projectile.owner != 255)
-            {
-                Main.PlaySound(SoundID.NPCDeath7, player.Center);
-                for (int i = 0; i < 10; i++)
-                {
-                    int dust = Dust.NewDust(player.Center, 0, 0, DustID.AncientLight, Scale: 3f);
-                    Main.dust[dust].velocity *= 7.5f;
-                    Main.dust[dust].noGravity = true;
-                }
-                player.AddBuff(BuffType<Buffs.Stop>(), 180);
-                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 900);
-                if (player.GetModPlayer<KeyPlayer>().NeurotoxinTimer <= 0)
-                    player.GetModPlayer<KeyPlayer>().NeurotoxinTimer = Main.expertMode ? 900 : 450;
-                if (player.immune || player.immuneNoBlink || player.immuneTime > 0)
-                {
-                    player.immune = false;
-                    player.immuneNoBlink = false;
-                    player.immuneTime = 0;
-                    player.statLifeMax2 = -1;
-                    player.statLife = -1;
-                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " tried to cheat death."), 0, 0);
-                }
-                Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
-                Main.PlaySound(SoundID.Item60, npc.Center);
-                int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);
-                Main.projectile[Bite].hostile = true;
-                Main.projectile[Bite].friendly = false;
-                Main.projectile[Bite].magic = false;
-            }
-    }
-    */
+
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
             if (Main.hardMode)
