@@ -42,6 +42,8 @@ namespace KeybrandsPlus.Globals
         public int[] DarkTypes = { 46, 273, 675, 795, 1327 };
         public int[] NilTypes = { };
 
+        private int OldDef;
+
         public override void SetDefaults(Item item)
         {
             if (item.modItem is Keybrand)
@@ -150,8 +152,15 @@ namespace KeybrandsPlus.Globals
             if (target.GetGlobalNPC<KeyNPC>().OnlyKeybrand && IsKeybrand)
                 damage /= 10;
             if (Nil)
-                target.GetGlobalNPC<KeyNPC>().NilHit = true;
-            if (!target.GetGlobalNPC<KeyNPC>().NilHit)
+            {
+                if (target.defense > 0)
+                {
+                    OldDef = target.defense;
+                    target.defense = 0;
+                }
+                damage = (int)(damage * (1f - target.GetGlobalNPC<KeyNPC>().NilResist));
+            }
+            if (!Nil)
             {
                 if (item.melee || item.ranged)
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().PhysResist);
@@ -173,30 +182,38 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyHitPvp(Item item, Player player, Player target, ref int damage, ref bool crit)
         {
-            if (Fire)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistFire);
-            if (Blizzard)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistBlizzard);
-            if (Thunder)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistThunder);
-            if (Aero)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
-            if (Water)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
-            if (Dark)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
             if (Nil)
             {
                 damage = (int)(damage + target.GetModPlayer<KeyPlayer>().PlayerDefense * (1 + target.endurance));
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistNil);
+                damage = (int)(damage * (1f - target.GetModPlayer<KeyPlayer>().ChainResistNil));
             }
-            else if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
-                damage /= 2;
-            else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
-                damage /= 2;
+            else
+            {
+                if (Fire)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistFire);
+                if (Blizzard)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistBlizzard);
+                if (Thunder)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistThunder);
+                if (Aero)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
+                if (Water)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+                if (Dark)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
+                if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
+                    damage /= 2;
+                else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
+                    damage /= 2;
+            }
         }
         public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
         {
+            if (OldDef > 0)
+            {
+                target.defense = OldDef;
+                OldDef = 0;
+            }
             if (IsKeybrand && !player.moonLeech && player.lifeSteal > 0f && !target.boss && !target.friendly && !target.SpawnedFromStatue && target.lifeMax >= 50 && target.damage != 0 && target.type != NPCID.TargetDummy)
             {
                 if (Main.rand.NextBool(3) && damage >= target.life)

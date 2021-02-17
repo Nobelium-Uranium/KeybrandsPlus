@@ -25,8 +25,10 @@ namespace KeybrandsPlus.Globals
         public int[] AeroTypes = { 38, 206, 221, 227, 316, 317, 368, 595, 656, 657, 660, 684, 704, 712 };
         public int[] WaterTypes = { 22, 26, 27, 69, 70, 239, 264, 384, 386, 405, 408, 409, 410, 511, 512, 513, 621, 669 };
         public int[] DarkTypes = { 4, 7, 8, 25, 44, 45, 46, 114, 115, 153, 154, 157, 245, 270, 274, 290, 293, 294, 297, 299, 304, 406, 307, 468, 495, 496, 497, 542, 543, 585, 593, 659, 661 };
-        public int[] NilTypes = { };
-        
+        public int[] NilTypes = { 293, 297, 356, 447, 455, 461, 537, 591, 642, 644, 661 };
+
+        private int OldDef;
+
         public override void SetDefaults(Projectile projectile)
         {
             if (projectile.modProjectile is KeybrandProj)
@@ -60,8 +62,15 @@ namespace KeybrandsPlus.Globals
             if (target.GetGlobalNPC<KeyNPC>().MagicImmune && projectile.type == ModContent.ProjectileType<Projectiles.ChimeraBite>())
                 damage /= 2;
             if (Nil)
-                target.GetGlobalNPC<KeyNPC>().NilHit = true;
-            if (!target.GetGlobalNPC<KeyNPC>().NilHit)
+            {
+                if (target.defense > 0)
+                {
+                    OldDef = target.defense;
+                    target.defense = 0;
+                }
+                damage = (int)(damage * (1f - target.GetGlobalNPC<KeyNPC>().NilResist));
+            }
+            else
             {
                 if (projectile.melee || projectile.ranged)
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().PhysResist);
@@ -81,53 +90,67 @@ namespace KeybrandsPlus.Globals
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().DarkResist);
             }
         }
+        public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
+        {
+            if (OldDef > 0)
+            {
+                target.defense = OldDef;
+                OldDef = 0;
+            }
+        }
         public override void ModifyHitPlayer(Projectile projectile, Player target, ref int damage, ref bool crit)
         {
-            if (Fire)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistFire);
-            if (Blizzard)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistBlizzard);
-            if (Thunder)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistThunder);
-            if (Aero)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
-            if (Water)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
-            if (Dark)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
             if (Nil)
             {
                 damage = (int)(damage + target.GetModPlayer<KeyPlayer>().PlayerDefense * (1 + target.endurance));
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistNil);
+                damage = (int)(damage * (1f - target.GetModPlayer<KeyPlayer>().ChainResistNil));
             }
-            else if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
-                damage /= 2;
-            else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
-                damage /= 2;
+            else
+            {
+                if (Fire)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistFire);
+                if (Blizzard)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistBlizzard);
+                if (Thunder)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistThunder);
+                if (Aero)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
+                if (Water)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+                if (Dark)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
+                if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
+                    damage /= 2;
+                else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
+                    damage /= 2;
+            }
         }
         public override void ModifyHitPvp(Projectile projectile, Player target, ref int damage, ref bool crit)
         {
-            if (Fire)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistFire);
-            if (Blizzard)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistBlizzard);
-            if (Thunder)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistThunder);
-            if (Aero)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
-            if (Water)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
-            if (Dark)
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
             if (Nil)
             {
                 damage = (int)(damage + target.GetModPlayer<KeyPlayer>().PlayerDefense * (1 + target.endurance));
-                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistNil);
+                damage = (int)(damage * (1f - target.GetModPlayer<KeyPlayer>().ChainResistNil));
             }
-            else if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
-                damage /= 2;
-            else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
-                damage /= 2;
+            else
+            {
+                if (Fire)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistFire);
+                if (Blizzard)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistBlizzard);
+                if (Thunder)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistThunder);
+                if (Aero)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
+                if (Water)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+                if (Dark)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
+                if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
+                    damage /= 2;
+                else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
+                    damage /= 2;
+            }
         }
     }
 }

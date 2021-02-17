@@ -20,8 +20,6 @@ namespace KeybrandsPlus.Globals
         public bool EternalBlaze;
         public bool EternalBlazeImmune;
         public int BlazeStack;
-        private int LockOnFrame;
-        private int LockOnFrameCounter;
         public bool PhysImmune;
         public float PhysResist;
         public bool MagicImmune;
@@ -66,8 +64,7 @@ namespace KeybrandsPlus.Globals
         private float OldWaterRes;
         private float OldDarkRes;
         private float OldNilResist;
-
-        public bool NilHit;
+        
         
         public override void SetDefaults(NPC npc)
         {
@@ -175,20 +172,6 @@ namespace KeybrandsPlus.Globals
             {
                 BlazeStack = 1;
             }
-        }
-        public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-            if (NilHit)
-            {
-                NilHit = false;
-                if (defense > 0)
-                    defense = 0;
-                PhysResist = 0;
-                MagicResist = 0;
-                damage -= damage * NilResist;
-                return false;
-            }
-            return base.StrikeNPC(npc, ref damage, defense, ref knockback, hitDirection, ref crit);
         }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {

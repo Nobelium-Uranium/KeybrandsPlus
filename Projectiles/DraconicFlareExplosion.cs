@@ -1,4 +1,5 @@
-﻿using KeybrandsPlus.Helpers;
+﻿using KeybrandsPlus.Globals;
+using KeybrandsPlus.Helpers;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +30,8 @@ namespace KeybrandsPlus.Projectiles
         {
             if (projectile.timeLeft == 10)
             {
+                projectile.GetGlobalProjectile<KeyProjectile>().Dark = false;
+                projectile.GetGlobalProjectile<KeyProjectile>().Nil = false;
                 projectile.damage = (int)(projectile.damage * 1.5f);
                 Main.PlaySound(SoundID.Item62, projectile.position);
                 projectile.Size = new Vector2(300);

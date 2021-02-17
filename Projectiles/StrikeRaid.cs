@@ -35,6 +35,8 @@ namespace KeybrandsPlus.Projectiles
             projectile.ranged = true;
             projectile.penetrate = -1;
             projectile.extraUpdates += 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
             ReturnTimer = 90;
         }
         public override void AI()
@@ -66,13 +68,8 @@ namespace KeybrandsPlus.Projectiles
             if (projectile.ai[0] == 0)
                 Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.3f);
             projectile.rotation += 0.3f * projectile.direction;
-            if (projectile.velocity.LengthSquared() < 2)
-            {
-                if (SpinTimer >= 30)
-                    CanReturnNormally = true;
-                else
-                    SpinTimer++;
-            }
+            if (projectile.velocity.LengthSquared() < 1)
+                CanReturnNormally = true;
             if (CanReturnNormally || Main.player[projectile.owner].dead)
             {
                 Returning = false;
@@ -92,6 +89,8 @@ namespace KeybrandsPlus.Projectiles
                     AdjustMagnitude(ref projectile.velocity, 20f);
                     Returning = true;
                 }
+                else
+                    projectile.velocity *= 0.9f;
                 ReturnTimer -= 1;
                 if (distanceTo < 50f)
                     projectile.Kill();
@@ -132,6 +131,10 @@ namespace KeybrandsPlus.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
+            if (projectile.ai[0] == 1 && DamageDealt >= 2500)
+                return false;
+            else if (DamageDealt >= 750)
+                return false;
             return !Main.player[projectile.owner].dead && !target.friendly;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -152,21 +155,15 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 5;
+            target.StrikeNPC(damage / 3, 0, 0, crit ? Main.rand.NextBool(5) : false, true);
             DamageDealt += damage;
-            if (projectile.ai[0] == 1 && DamageDealt < 2500)
-                SpinTimer = 0;
-            else if (DamageDealt < 750)
-                SpinTimer = 0;
-            if (!Returning && projectile.velocity.LengthSquared() > 2.5f)
-                projectile.velocity = Vector2.Normalize(projectile.velocity) * 2.5f;
             projectile.damage -= (int)(InitialDamage * 0.05f);
             Vector2 point = projectile.Center;
             Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
-            for (int i = 0; i < Main.rand.Next(2, 5); i++)
+            for (int i = 0; i < Main.rand.Next(4, 7); i++)
             {
                 int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
-                Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.75f);
+                Main.dust[dust].velocity += Vector2.Normalize(projectile.velocity) * Main.rand.NextFloat(1.25f, 1.75f);
             }
             projectile.netUpdate = true;
         }

@@ -1,4 +1,5 @@
-﻿using KeybrandsPlus.Helpers;
+﻿using KeybrandsPlus.Globals;
+using KeybrandsPlus.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -36,6 +37,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.localNPCHitCooldown = -1;
             projectile.ignoreWater = true;
             ExtraUpdateCounter = 50;
+            projectile.GetGlobalProjectile<KeyProjectile>().Nil = true;
         }
         public override Color? GetAlpha(Color lightColor)
         {

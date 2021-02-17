@@ -810,7 +810,7 @@ namespace KeybrandsPlus.Globals
                 }
                 Vector2 point = itemRectangle.Center.ToVector2();
                 Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
-                if (item.type == ItemType<Items.Weapons.Keybrand>() || item.type == ItemType<Items.Weapons.KeybrandD>() || item.type == ItemType<Items.Weapons.TrueKeybrand>() || item.type == ItemType<Items.Weapons.TrueKeybrandD>())
+                if (item.type == ItemType<Items.Weapons.EdgeOfUltima>() || item.type == ItemType<Items.Weapons.Keybrand>() || item.type == ItemType<Items.Weapons.KeybrandD>() || item.type == ItemType<Items.Weapons.TrueKeybrand>() || item.type == ItemType<Items.Weapons.TrueKeybrandD>())
                     for (int i = 0; i < Main.rand.Next(2, 5); i++)
                     {
                         int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1.25f));

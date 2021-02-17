@@ -18,7 +18,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             Tooltip.SetDefault("-10 Light Alignment\n" +
                 "-10 Dark Alignment\n" +
                 "Alt Attack: Chimera's Bite\n" +
-                "MP Cost: 5\n" +
+                "MP Cost: 15\n" +
                 "Creates a magic blade beam that make enemies bleed healing droplets\n" +
                 "The blade beam can hit most Heartless that are normally immune to magic\n" +
                 "Abilities: MP Hasteza, Damage Control, Leaf Bracer\n" +
@@ -44,6 +44,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.autoReuse = true;
             item.useTurn = true;
             item.shootSpeed = 1f;
+            item.GetGlobalItem<KeyItem>().Nil = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 3;
             item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
             item.GetGlobalItem<KeyRarity>().DeveloperName = "ChemAtDark";
@@ -60,6 +61,8 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                     item.damage = 395;
                 else
                     item.damage = 225;
+                item.useTime = 10;
+                item.useAnimation = 10;
                 item.crit = 13;
                 item.magic = false;
                 item.useTurn = true;
@@ -71,9 +74,11 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             else
             {
                 if (KeybrandsPlus.SoALoaded)
-                    item.damage = 760;
+                    item.damage = 830;
                 else
-                    item.damage = 435;
+                    item.damage = 475;
+                item.useTime = 18;
+                item.useAnimation = 18;
                 item.crit = 3;
                 item.magic = true;
                 item.useTurn = false;
