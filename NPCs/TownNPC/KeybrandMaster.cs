@@ -21,9 +21,9 @@ namespace KeybrandsPlus.NPCs.TownNPC
             Main.npcFrameCount[npc.type] = 23;
             NPCID.Sets.ExtraFramesCount[npc.type] = 9;
             NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 100;
+            NPCID.Sets.DangerDetectRange[npc.type] = 80;
             NPCID.Sets.AttackType[npc.type] = 3;
-            NPCID.Sets.AttackTime[npc.type] = 20;
+            NPCID.Sets.AttackTime[npc.type] = 10;
             NPCID.Sets.AttackAverageChance[npc.type] = 10;
         }
 
@@ -406,13 +406,13 @@ namespace KeybrandsPlus.NPCs.TownNPC
             {
                 damage = 50;
             }
-            knockback = 5f;
+            knockback = 3f;
         }
 
         public override void TownNPCAttackCooldown(ref int cooldown, ref int randExtraCooldown)
         {
-            cooldown = 15;
-            randExtraCooldown = 15;
+            cooldown = 7;
+            randExtraCooldown = 7;
         }
 
         public override void DrawTownAttackSwing(ref Texture2D item, ref int itemSize, ref float scale, ref Vector2 offset)
