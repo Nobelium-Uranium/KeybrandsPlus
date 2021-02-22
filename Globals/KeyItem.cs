@@ -87,6 +87,11 @@ namespace KeybrandsPlus.Globals
             if (IsKeybrand && !ExemptFromLimit && InHotbar)
                 player.GetModPlayer<KeyPlayer>().HeldKeybrands += 1 + LimitPenalty;
         }
+        public override void HoldItem(Item item, Player player)
+        {
+            if (IsKeybrand)
+                player.GetModPlayer<KeyPlayer>().KeybrandSelected = true;
+        }
         public override void Update(Item item, ref float gravity, ref float maxFallSpeed)
         {
             if (item.type == ItemID.Keybrand)
@@ -162,7 +167,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
-            if (target.GetGlobalNPC<KeyNPC>().OnlyKeybrand && IsKeybrand)
+            if (target.GetGlobalNPC<KeyNPC>().OnlyKeybrand && !IsKeybrand)
                 damage /= 10;
             if (Nil)
             {

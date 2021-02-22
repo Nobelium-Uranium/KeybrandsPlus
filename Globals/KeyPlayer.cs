@@ -35,6 +35,7 @@ namespace KeybrandsPlus.Globals
         private bool FixedDirection;
         private int FixedDir;
 
+        public bool KeybrandSelected;
         public int HeldKeybrands;
         public bool KeybrandLimitReached;
 
@@ -159,6 +160,7 @@ namespace KeybrandsPlus.Globals
 
             statOldLife = 0;
 
+            KeybrandSelected = false;
             HeldKeybrands = 0;
 
             LuckySevens = false;
@@ -863,7 +865,7 @@ namespace KeybrandsPlus.Globals
             }
         }
 
-        private void ItemCheck_GetMeleeHitbox(Item sItem, Rectangle heldItemFrame, out bool dontAttack, out Rectangle itemRectangle)
+        public void ItemCheck_GetMeleeHitbox(Item sItem, Rectangle heldItemFrame, out bool dontAttack, out Rectangle itemRectangle)
         {
             dontAttack = false;
             itemRectangle = new Rectangle((int)player.itemLocation.X, (int)player.itemLocation.Y, 32, 32);

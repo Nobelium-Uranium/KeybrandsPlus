@@ -1,6 +1,8 @@
 ﻿using KeybrandsPlus.Globals;
+using KeybrandsPlus.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -73,8 +75,10 @@ namespace KeybrandsPlus.NPCs.Other
             ItemType<Items.Synthesis.Soothing.SoothingCrystal>(),
             ItemType<Items.Synthesis.Wellspring.WellspringCrystal>()
         };
+        private int MaxMunny;
         #endregion
 
+        private bool SafeToUnlock;
         private bool Unlocked;
 
         public override void SetStaticDefaults()
@@ -93,7 +97,7 @@ namespace KeybrandsPlus.NPCs.Other
             npc.lifeMax = 1;
             npc.knockBackResist = 0f;
             npc.rarity = 1;
-            npc.takenDamageMultiplier = 0;
+            npc.behindTiles = true;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -110,13 +114,25 @@ namespace KeybrandsPlus.NPCs.Other
         {
             return false;
         }
-
         
         public override bool PreAI()
         {
-            if (npc.life < 1)
-                npc.life = 1;
+            if (npc.alpha >= 255)
+                npc.active = false;
             return base.PreAI();
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.player.ZoneDirtLayerHeight)
+            {
+                return SpawnCondition.Underground.Chance * 0.025f;
+            }
+            else if (spawnInfo.player.ZoneRockLayerHeight)
+            {
+                return SpawnCondition.Cavern.Chance * 0.05f;
+            }
+            return 0;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -124,21 +140,133 @@ namespace KeybrandsPlus.NPCs.Other
             //TODO loot flash
         }
 
+        public override void FindFrame(int frameHeight)
+        {
+            if (npc.localAI[0] >= 10)
+                npc.frame.Y = 2 * frameHeight;
+            else if (npc.localAI[0] >= 5)
+                npc.frame.Y = 1 * frameHeight;
+            else
+                npc.frame.Y = 0;
+        }
+
         public override void AI()
         {
-            npc.active = false;
-            npc.target = npc.FindClosestPlayer();
-            Player player = Main.player[npc.target];
+            //npc.active = false;
+            SafeToUnlock = true;
+            for (int k = 0; k < 200; k++)
+            {
+                if (Main.npc[k].active && !Main.npc[k].friendly && Main.npc[k].lifeMax > 5)
+                {
+                    if (Main.npc[k].Distance(npc.Center) < 300f)
+                        SafeToUnlock = false;
+                }
+                Player player = Main.player[k];
+                if (player.active && !player.dead)
+                {
+                    Rectangle itemRect = player.GetModPlayer<KeyPlayer>().itemRectangle;
+                    itemRect.Inflate(itemRect.Width / 2, itemRect.Height / 2);
+                    if (!Unlocked && SafeToUnlock && player.itemAnimation > 0 && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand && itemRect.Intersects(npc.getRect()) && Collision.CanHit(player.GetModPlayer<KeyPlayer>().itemRectangle.Center.ToVector2(), 0, 0, npc.Center, 0, 0))
+                    {
+                        Unlocked = true;
+                        npc.netUpdate = true;
+                    }
+                }
+            }
             if (Unlocked)
                 npc.localAI[0]++;
-            else if (player.Hitbox.Intersects(npc.Hitbox))
-                Unlocked = true;
             if (npc.localAI[0] == 1)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ChestOpen").WithVolume(0.8f));
-                
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ChestOpen").WithVolume(0.25f), npc.Center);
             }
-            //TODO chest open logic
+            else if (npc.localAI[0] == 10)
+            {
+                npc.rarity = 0;
+                #region Munny
+                if (NPC.downedMoonlord)
+                    MaxMunny = 500;
+                else if (NPC.downedPlantBoss)
+                    MaxMunny = 300;
+                else if (Main.hardMode)
+                    MaxMunny = 150;
+                else
+                    MaxMunny = 75;
+                int DropAmount = 1;
+                if (KeyUtils.RandPercent(.05f))
+                {
+                    DropAmount = Main.rand.Next(MaxMunny / 2, MaxMunny + 1);
+                }
+                else if (KeyUtils.RandPercent(.25f))
+                {
+                    DropAmount = Main.rand.Next(MaxMunny / 4, MaxMunny / 2 + 1);
+                }
+                else if (KeyUtils.RandPercent(.5f))
+                {
+                    DropAmount = Main.rand.Next(MaxMunny / 10, MaxMunny / 4 + 1);
+                }
+                else
+                {
+                    DropAmount = Main.rand.Next(1, MaxMunny / 10 + 1);
+                }
+                if (KeyUtils.RandPercent(.1f))
+                {
+                    if (KeyUtils.RandPercent(.05f))
+                    {
+                        DropAmount += Main.rand.Next(MaxMunny / 2, MaxMunny + 1);
+                    }
+                    else if (KeyUtils.RandPercent(.25f))
+                    {
+                        DropAmount += Main.rand.Next(MaxMunny / 4, MaxMunny / 2 + 1);
+                    }
+                    else if (KeyUtils.RandPercent(.5f))
+                    {
+                        DropAmount += Main.rand.Next(MaxMunny / 10, MaxMunny / 4 + 1);
+                    }
+                    else
+                    {
+                        DropAmount += Main.rand.Next(1, MaxMunny / 10 + 1);
+                    }
+                }
+                if (DropAmount > (int)((float)MaxMunny * 1.5f))
+                    DropAmount = (int)((float)MaxMunny * 1.5f);
+                Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), DropAmount);
+                #endregion
+                #region Synthesis Materials
+                if (KeyUtils.RandPercent(NPC.downedMoonlord ? .1f : .01f))
+                {
+                    Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
+                }
+                #endregion
+                #region Other Materials
+                if (NPC.downedPlantBoss || (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3))
+                {
+                    if (KeyUtils.RandPercent(.1f))
+                    {
+                        Item.NewItem(npc.getRect(), ItemType<Items.Materials.BrokenHeroKeybrand>());
+                    }
+                    if (KeyUtils.RandPercent(.25f))
+                    {
+                        Item.NewItem(npc.getRect(), ItemType<Items.Materials.WarriorFragment>(), Main.rand.Next(3, 8));
+                    }
+                    if (KeyUtils.RandPercent(.25f))
+                    {
+                        Item.NewItem(npc.getRect(), ItemType<Items.Materials.GuardianFragment>(), Main.rand.Next(3, 8));
+                    }
+                    if (KeyUtils.RandPercent(.25f))
+                    {
+                        Item.NewItem(npc.getRect(), ItemType<Items.Materials.MysticFragment>(), Main.rand.Next(3, 8));
+                    }
+                }
+                else if (KeyUtils.RandPercent(.1f))
+                {
+                    Item.NewItem(npc.getRect(), ItemType<Items.Materials.KeybrandMold>());
+                }
+                #endregion
+            }
+            else if (npc.localAI[0] > 30)
+            {
+                npc.alpha += 5;
+            }
         }
     }
 }

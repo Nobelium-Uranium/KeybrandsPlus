@@ -17,7 +17,7 @@ namespace KeybrandsPlus.Items.Other
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("MP Prize");
-            Tooltip.SetDefault("If you somehow got this in your inventory, it's a bug\nPlease let the mod developer know about this\n...Unless you got it via HERO's Mod, Cheat Sheet or the such, you cheater");
+            Tooltip.SetDefault("You aren't supposed to have this in your inventory");
         }
         public override void SetDefaults()
         {

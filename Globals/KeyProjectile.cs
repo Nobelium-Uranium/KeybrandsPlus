@@ -57,7 +57,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target.GetGlobalNPC<KeyNPC>().OnlyKeybrand && IsKeybrandProj)
+            if (target.GetGlobalNPC<KeyNPC>().OnlyKeybrand && !IsKeybrandProj)
                 damage /= 10;
             if (target.GetGlobalNPC<KeyNPC>().MagicImmune && projectile.type == ModContent.ProjectileType<Projectiles.ChimeraBite>())
                 damage /= 2;
