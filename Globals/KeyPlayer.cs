@@ -487,7 +487,7 @@ namespace KeybrandsPlus.Globals
                         currentDelta--;
                     }
                     else
-                        deltaDecayTimer += 1 * (maxDelta / 200);
+                        deltaDecayTimer += 1 * (maxDelta / 100);
                 }
                 else
                     deltaDecayDelay++;
@@ -503,7 +503,7 @@ namespace KeybrandsPlus.Globals
             {
                 if (currentDelta >= maxDelta)
                 {
-                    int RestoreMP = Main.rand.Next(1, 6);
+                    int RestoreMP = Main.rand.Next(3, 11);
                     if (Main.myPlayer == player.whoAmI)
                         CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
                     currentMP += RestoreMP;
@@ -697,7 +697,20 @@ namespace KeybrandsPlus.Globals
         {
             if (KeybrandsPlus.QuickEther.JustPressed && !EtherSickness && currentMP < maxMP)
             {
-                if (player.HasItem(ItemType<Items.Consumables.MP.TurboEther>()) && rechargeMP && !TurboExhaustion)
+                if (player.HasItem(ItemType<Unused.PGI>()))
+                {
+                    Main.PlaySound(SoundID.Item84);
+                    if (Main.myPlayer == player.whoAmI)
+                        CombatText.NewText(player.getRect(), Color.DodgerBlue, maxMP);
+                    if (rechargeMP)
+                    {
+                        rechargeMP = false;
+                        rechargeMPToastTimer = 60;
+                        currentDelta = 0;
+                    }
+                    currentMP = maxMP;
+                }
+                else if (player.HasItem(ItemType<Items.Consumables.MP.TurboEther>()) && rechargeMP && !TurboExhaustion)
                 {
                     foreach (Item item in player.inventory)
                         if (item.type == ItemType<Items.Consumables.MP.TurboEther>())
@@ -706,7 +719,8 @@ namespace KeybrandsPlus.Globals
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
                             Main.PlaySound(SoundID.Item84);
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, player.GetModPlayer<KeyPlayer>().maxMP);
+                            if (Main.myPlayer == player.whoAmI)
+                                CombatText.NewText(player.getRect(), Color.DodgerBlue, maxMP);
                             rechargeMP = false;
                             rechargeMPToastTimer = 60;
                             currentMP = maxMP;
@@ -725,7 +739,8 @@ namespace KeybrandsPlus.Globals
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
                             Main.PlaySound(SoundID.Item3);
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 150);
+                            if (Main.myPlayer == player.whoAmI)
+                                CombatText.NewText(player.getRect(), Color.DodgerBlue, 150);
                             if (rechargeMP)
                                 rechargeMPTimer = (int)(rechargeMPTimer * .25f);
                             else
@@ -745,7 +760,8 @@ namespace KeybrandsPlus.Globals
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
                             Main.PlaySound(SoundID.Item3);
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 75);
+                            if (Main.myPlayer == player.whoAmI)
+                                CombatText.NewText(player.getRect(), Color.DodgerBlue, 75);
                             if (rechargeMP)
                                 rechargeMPTimer = (int)(rechargeMPTimer * .5f);
                             else
@@ -765,7 +781,8 @@ namespace KeybrandsPlus.Globals
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
                             Main.PlaySound(SoundID.Item3);
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 25);
+                            if (Main.myPlayer == player.whoAmI)
+                                CombatText.NewText(player.getRect(), Color.DodgerBlue, 25);
                             if (rechargeMP)
                                 rechargeMPTimer = (int)(rechargeMPTimer * .75f);
                             else
@@ -795,7 +812,7 @@ namespace KeybrandsPlus.Globals
         {
             if (VitalBlow && target.life >= (float)target.lifeMax * .9f)
                 damage *= 2;
-            if (rechargeMP && rechargeMPTimer > maxRechargeMPTimer / 2 && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand)
+            if (rechargeMP && rechargeMPTimer > maxRechargeMPTimer / 4 && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand)
                 damage = (int)(damage * 1.25f);
         }
 
@@ -806,9 +823,9 @@ namespace KeybrandsPlus.Globals
                 if (!target.friendly && !target.SpawnedFromStatue && target.lifeMax > 5 && target.type != NPCID.TargetDummy)
                 {
                     if (rechargeMP)
-                        currentDelta += (int)(damage * .75f);
+                        currentDelta += damage / 2;
                     else
-                        currentDelta += damage;
+                        currentDelta += (int)(damage * .75f);
                     deltaDecayDelay = 0;
                 }
                 Vector2 point = itemRectangle.Center.ToVector2();
@@ -839,7 +856,7 @@ namespace KeybrandsPlus.Globals
             if (proj.GetGlobalProjectile<KeyProjectile>().IsKeybrandProj && !target.friendly && !target.SpawnedFromStatue && target.lifeMax > 5 && target.type != NPCID.TargetDummy)
             {
                 if (rechargeMP)
-                    currentDelta += (int)(damage * .25f);
+                    currentDelta += damage / 5;
                 else
                     currentDelta += damage / 3;
                 deltaDecayDelay = 0;
