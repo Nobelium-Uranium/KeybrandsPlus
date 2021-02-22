@@ -48,9 +48,12 @@ namespace KeybrandsPlus.Items.Other
         }
         public override bool OnPickup(Player player)
         {
-            Main.PlaySound(SoundID.Item111.WithVolume(0.5f), player.Center);
             player.statLife += 1;
-            CombatText.NewText(player.getRect(), CombatText.HealLife, 1, dot: true);
+            if (Main.myPlayer == player.whoAmI)
+            {
+                CombatText.NewText(player.getRect(), CombatText.HealLife, 1, dot: true);
+                Main.PlaySound(SoundID.Item111.WithVolume(0.5f), player.Center);
+            }
             return false;
         }
     }

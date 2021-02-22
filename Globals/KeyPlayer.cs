@@ -407,12 +407,14 @@ namespace KeybrandsPlus.Globals
                     int Munny;
                     if (amount > 9999)
                     {
-                        CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped 9999 Munny, " + (amount - 9999) + " was lost", true);
+                        if (Main.myPlayer == player.whoAmI)
+                            CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped 9999 Munny, " + (amount - 9999) + " was lost", true);
                         Munny = Item.NewItem(player.getRect(), ItemType<Munny>(), 9999);
                     }
                     else
                     {
-                        CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped " + amount + " Munny", true);
+                        if (Main.myPlayer == player.whoAmI)
+                            CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped " + amount + " Munny", true);
                         Munny = Item.NewItem(player.getRect(), ItemType<Munny>(), amount);
                     }
                     Main.item[Munny].GetGlobalItem<KeyItem>().PlayerDropped = true;

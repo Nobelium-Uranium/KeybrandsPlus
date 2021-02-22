@@ -59,15 +59,18 @@ namespace KeybrandsPlus.Items.Other
         }
         public override bool OnPickup(Player player)
         {
-            Main.PlaySound(SoundID.Item30.WithVolume(.25f), player.Center);
+            if (Main.myPlayer == player.whoAmI)
+                Main.PlaySound(SoundID.Item30.WithVolume(.25f), player.Center);
             if (!player.GetModPlayer<Globals.KeyPlayer>().rechargeMP)
             {
-                CombatText.NewText(player.getRect(), Color.DodgerBlue, item.stack);
+                if (Main.myPlayer == player.whoAmI)
+                    CombatText.NewText(player.getRect(), Color.DodgerBlue, item.stack);
                 player.GetModPlayer<Globals.KeyPlayer>().currentMP += item.stack;
             }
             else
             {
-                CombatText.NewText(player.getRect(), Color.DodgerBlue, item.stack / 250f * 100 + "%");
+                if (Main.myPlayer == player.whoAmI)
+                    CombatText.NewText(player.getRect(), Color.DodgerBlue, item.stack / 250f * 100 + "%");
                 player.GetModPlayer<Globals.KeyPlayer>().rechargeMPTimer -= (int)(player.GetModPlayer<Globals.KeyPlayer>().rechargeMPTimer * (item.stack / 250f));
             }
             if (player.GetModPlayer<Globals.KeyPlayer>().currentMP > player.GetModPlayer<Globals.KeyPlayer>().maxMP)

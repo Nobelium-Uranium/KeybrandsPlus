@@ -10,6 +10,8 @@ namespace KeybrandsPlus.Items.Currency
     {
         public override bool CloneNewInstances => true;
         private bool PickupTimer;
+        private int PickupSoundStage;
+        private bool PickupSound;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Munny");
@@ -25,10 +27,21 @@ namespace KeybrandsPlus.Items.Currency
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
+            PickupSoundStage = 0;
+            PickupSound = false;
             if (!PickupTimer)
             {
                 PickupTimer = true;
             }
+        }
+        public override void PostUpdate()
+        {
+            if (PickupSoundStage > 0)
+            {
+                PickupSound = true;
+            }
+            else
+                PickupSoundStage++;
         }
         public override void GrabRange(Player player, ref int grabRange)
         {
@@ -75,7 +88,7 @@ namespace KeybrandsPlus.Items.Currency
         }
         public override bool OnPickup(Player player)
         {
-            if (ItemSpace(player))
+            if (PickupSound)
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MunnyPickup").WithVolume(0.8f), player.Center);
             return true;
         }
