@@ -112,25 +112,25 @@ namespace KeybrandsPlus.Projectiles
                                 p.statLife += (int)(30 * Boost);
                                 if (p.statLife > p.statLifeMax2)
                                     p.statLife = p.statLifeMax2;
-                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(25 * Boost), dot: true);
+                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(30 * Boost), dot: true);
                                 break;
                             case 1:
                                 p.statLife += (int)(60 * Boost);
                                 if (p.statLife > p.statLifeMax2)
                                     p.statLife = p.statLifeMax2;
-                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(50 * Boost), dot: true);
+                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(60 * Boost), dot: true);
                                 break;
                             case 2:
                                 p.statLife += (int)(90 * Boost);
                                 if (p.statLife > p.statLifeMax2)
                                     p.statLife = p.statLifeMax2;
-                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(75 * Boost), dot: true);
+                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(90 * Boost), dot: true);
                                 break;
                             case 3:
                                 p.statLife += (int)(120 * Boost);
                                 if (p.statLife > p.statLifeMax2)
                                     p.statLife = p.statLifeMax2;
-                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(100 * Boost), dot: true);
+                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(120 * Boost), dot: true);
                                 break;
                         }
                     }
