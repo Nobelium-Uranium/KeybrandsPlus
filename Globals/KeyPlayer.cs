@@ -710,6 +710,7 @@ namespace KeybrandsPlus.Globals
                             rechargeMP = false;
                             rechargeMPToastTimer = 60;
                             currentMP = maxMP;
+                            currentDelta = 0;
                             player.AddBuff(BuffType<TurboExhaustion>(), 1800);
                             player.AddBuff(BuffType<EtherSickness>(), 300);
                             break;

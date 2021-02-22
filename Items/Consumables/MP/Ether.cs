@@ -146,6 +146,7 @@ namespace KeybrandsPlus.Items.Consumables.MP
             player.GetModPlayer<KeyPlayer>().rechargeMP = false;
             player.GetModPlayer<KeyPlayer>().rechargeMPToastTimer = 60;
             player.GetModPlayer<KeyPlayer>().currentMP = player.GetModPlayer<KeyPlayer>().maxMP;
+            player.GetModPlayer<KeyPlayer>().currentDelta = 0;
             player.AddBuff(ModContent.BuffType<Buffs.TurboExhaustion>(), 1800);
             player.AddBuff(ModContent.BuffType<Buffs.EtherSickness>(), 300);
             return true;
