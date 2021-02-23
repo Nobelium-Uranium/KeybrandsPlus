@@ -33,7 +33,10 @@ Version History:
 -1.0.17-
 Added a new element, Nil, which ignores all defense and resistances
 Nil attacks are rare, but their damage can be devastating
+Added Treasure Chests, an uncommon sight in the underground caves, hit them with a keybrand to get some loot, as long as there are no foes nearby
+Also added a placeable Treasure Chest to go along with it, they are unique in the fact that they can only be opened when holding a keybrand
 The Keybrand Master is a bit more serious this time around
+This should hopefully be the last update on the road to 1.1.0, but as always let the devs know if things go wrong
 
 -1.0.16-
 Chimera's Bite has more initial velocity as it felt too difficult to aim at times
