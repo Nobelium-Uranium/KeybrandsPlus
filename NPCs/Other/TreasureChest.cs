@@ -165,7 +165,7 @@ namespace KeybrandsPlus.NPCs.Other
                 if (player.active && !player.dead)
                 {
                     Rectangle itemRect = player.GetModPlayer<KeyPlayer>().itemRectangle;
-                    itemRect.Inflate(itemRect.Width / 2, itemRect.Height / 2);
+                    itemRect.Inflate(itemRect.Width / 2, 0);
                     if (!Unlocked && SafeToUnlock && player.itemAnimation > 0 && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand && itemRect.Intersects(npc.getRect()) && Collision.CanHit(player.GetModPlayer<KeyPlayer>().itemRectangle.Center.ToVector2(), 0, 0, npc.Center, 0, 0))
                     {
                         Unlocked = true;
