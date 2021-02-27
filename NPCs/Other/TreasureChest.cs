@@ -161,6 +161,9 @@ namespace KeybrandsPlus.NPCs.Other
                     if (Main.npc[k].Distance(npc.Center) < 300f)
                         SafeToUnlock = false;
                 }
+            }
+            for (int k = 0; k < 200; k++)
+            {
                 Player player = Main.player[k];
                 if (player.active && !player.dead)
                 {
