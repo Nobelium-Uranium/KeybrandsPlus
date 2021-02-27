@@ -1,5 +1,6 @@
 using System;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -57,6 +58,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                         int index = Dust.NewDust(player.position, player.width, player.height, 16, -player.velocity.X / 2, -player.velocity.Y / 2);
                         Main.dust[index].noGravity = true;
                         Main.dust[index].scale = 1.5f;
+                        Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                     }
                     player.maxFallSpeed /= 7.5f;
                 }
@@ -70,6 +72,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                             int index = Dust.NewDust(player.position, player.width, player.height, 16, -player.velocity.X / 3, -player.velocity.Y / 3);
                             Main.dust[index].noGravity = true;
                             Main.dust[index].scale = 0.75f;
+                            Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                         }
                         player.maxFallSpeed *= 3f;
                     }
@@ -77,6 +80,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                     {
                         int index = Dust.NewDust(player.position, player.width, player.height, 16, -player.velocity.X / 3, -player.velocity.Y / 3);
                         Main.dust[index].noGravity = true;
+                        Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                     }
                 }
             }
