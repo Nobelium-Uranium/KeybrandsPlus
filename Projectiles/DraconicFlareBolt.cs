@@ -96,8 +96,6 @@ namespace KeybrandsPlus.Projectiles
             }
             else
                 projectile.velocity *= .96f;
-            if (projectile.timeLeft == 1)
-                projectile.damage = (int)(projectile.damage * 1.25f);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -121,7 +119,7 @@ namespace KeybrandsPlus.Projectiles
             if (Primed)
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<DraconicFlareExplosion>(), projectile.damage, projectile.knockBack / 2, projectile.owner);
             else
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<DraconicFlareExplosion>(), projectile.damage / 3, projectile.knockBack / 2, projectile.owner);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<DraconicFlareExplosion>(), (int)(projectile.damage * .75f), projectile.knockBack / 2, projectile.owner);
         }
     }
 }

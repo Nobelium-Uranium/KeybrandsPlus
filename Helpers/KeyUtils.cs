@@ -19,6 +19,15 @@ namespace KeybrandsPlus.Helpers
             texture.SetData(buffer);
         }
 
+        /// <summary>
+        /// Simple maths really
+        /// </summary>
+        /// <returns></returns>
+        public static Vector2 VectorTo(Vector2 target, Vector2 destination)
+        {
+            return destination - target;
+        }
+
         public static Dust NewDustConverge(out int dustIndex, Vector2 center, Vector2 size, float distance, int type, int alpha = 0, Color color = default, float scale = 1f, bool fixedScale = true)
         {
             int index = Dust.NewDust(center, (int)size.X, (int)size.Y, type, 0, 0, alpha, color, scale);

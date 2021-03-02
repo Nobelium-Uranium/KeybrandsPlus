@@ -169,7 +169,7 @@ namespace KeybrandsPlus.NPCs.Other
                 {
                     Rectangle itemRect = player.GetModPlayer<KeyPlayer>().itemRectangle;
                     itemRect.Inflate(itemRect.Width / 2, 0);
-                    if (!Unlocked && SafeToUnlock && player.itemAnimation > 0 && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand && itemRect.Intersects(npc.getRect()) && Collision.CanHit(player.GetModPlayer<KeyPlayer>().itemRectangle.Center.ToVector2(), 0, 0, npc.Center, 0, 0))
+                    if (!Unlocked && SafeToUnlock && player.altFunctionUse != 2 && player.itemAnimation > 0 && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand && itemRect.Intersects(npc.getRect()) && Collision.CanHit(player.GetModPlayer<KeyPlayer>().itemRectangle.Center.ToVector2(), 0, 0, npc.Center, 0, 0))
                     {
                         Unlocked = true;
                         npc.netUpdate = true;
