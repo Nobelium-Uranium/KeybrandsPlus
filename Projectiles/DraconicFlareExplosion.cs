@@ -37,9 +37,7 @@ namespace KeybrandsPlus.Projectiles
                 projectile.position -= new Vector2(50);
                 for (int i = 0; i < 30; i++)
                 {
-                    int debris = Projectile.NewProjectile(projectile.Center, new Vector2(0, 6.5f).RotatedBy(MathHelper.ToRadians(12) * i).RotatedByRandom(MathHelper.ToRadians(2.5f)) * Main.rand.NextFloat(.95f, 1.05f), ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
-                    Main.projectile[debris].scale *= 1.25f;
-                    Main.projectile[debris].Size *= 1.25f;
+                    Projectile.NewProjectile(projectile.Center, new Vector2(0, 6.5f).RotatedBy(MathHelper.ToRadians(12) * i).RotatedByRandom(MathHelper.ToRadians(2.5f)) * Main.rand.NextFloat(.95f, 1.05f), ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
                 }
                 for (int k = 0; k < 50; k++)
                 {
@@ -49,24 +47,17 @@ namespace KeybrandsPlus.Projectiles
             }
             else if (projectile.timeLeft > 10)
             {
+                KeyUtils.NewDustCircular(out int Flame, projectile.Center, Vector2.Zero, ModContent.DustType<Dusts.DraconicFlame>(), Main.rand.NextFloat(2.5f, 5f));
+                Main.dust[Flame].scale *= .75f;
+                if (Main.rand.NextBool())
+                    Main.dust[Flame].velocity *= 1.5f;
                 for (int k = 0; k < Main.rand.Next(5, 10); k++)
                 {
                     if (!Main.rand.NextBool(3))
-                        KeyUtils.NewDustConverge(out int Flame, projectile.Center, Vector2.Zero, 150, ModContent.DustType<Dusts.DraconicFlame>(), scale: 2f);
+                        KeyUtils.NewDustConverge(out Flame, projectile.Center, Vector2.Zero, 150, ModContent.DustType<Dusts.DraconicFlame>(), scale: 2f);
                     else
                         Dust.NewDust(projectile.Center + Main.rand.NextVector2CircularEdge(150, 150), 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
                 }
-                float RandX = Main.rand.NextFloat(1.5f, 3.5f);
-                if (Main.rand.NextBool())
-                    RandX *= -1;
-                RandX *= Main.rand.NextFloat(.5f, 1.5f);
-                float RandY = Main.rand.NextFloat(1.5f, 3.5f);
-                if (Main.rand.NextBool())
-                    RandY *= -1;
-                RandY *= Main.rand.NextFloat(.5f, 1.5f);
-                Vector2 RandVelocity = new Vector2(RandX, RandY).RotatedByRandom(30);
-                if (Main.rand.NextBool(3))
-                    Projectile.NewProjectile(projectile.Center, RandVelocity, ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 3, projectile.knockBack / 2, projectile.owner);
             }
         }
         public override bool? CanHitNPC(NPC target)

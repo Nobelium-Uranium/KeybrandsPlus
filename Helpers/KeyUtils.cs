@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Linq;
 using Terraria;
 
 namespace KeybrandsPlus.Helpers
@@ -17,6 +16,20 @@ namespace KeybrandsPlus.Helpers
                 buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
             }
             texture.SetData(buffer);
+        }
+        
+        /// <summary>
+        /// See ExampleMod's Wisp projectile on how to use
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="max"></param>
+        public static void AdjustMagnitude(ref Vector2 vector, float max)
+        {
+            float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            if (magnitude > max)
+            {
+                vector *= max / magnitude;
+            }
         }
 
         /// <summary>
@@ -65,6 +78,28 @@ namespace KeybrandsPlus.Helpers
             return Main.dust[index];
         }
 
+        public static bool HasItemSpace(Player player, Item item = null)
+        {
+            bool Condition = false;
+            for (int num = 0; num < player.inventory.Length; num++)
+            {
+                if (player.inventory[num].IsAir)
+                {
+                    Condition = true;
+                    break;
+                }
+                if (item != null)
+                {
+                    int itemType = item.type;
+                    if (player.inventory[num].type == item.type && item.stack < player.inventory[num].maxStack)
+                    {
+                        Condition = true;
+                        break;
+                    }
+                }
+            }
+            return Condition;
+        }
 
         /// <summary>
         /// Gets the specified item's slot ID.
