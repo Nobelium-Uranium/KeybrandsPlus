@@ -17,6 +17,7 @@ namespace KeybrandsPlus.Globals
         public bool ChimeraBleed;
         private int SuperbleedTimer;
         public bool DragonRot;
+        public bool DragonAura;
         public bool EternalBlaze;
         public bool EternalBlazeImmune;
         public int BlazeStack;
@@ -110,6 +111,7 @@ namespace KeybrandsPlus.Globals
             NilResist = OldNilResist;
             ChimeraBleed = false;
             DragonRot = false;
+            DragonAura = false;
             EternalBlaze = false;
             LockedOn = false;
         }
@@ -141,22 +143,10 @@ namespace KeybrandsPlus.Globals
                 if (SuperbleedTimer >= 30)
                 {
                     SuperbleedTimer = 0;
-                    int Damage = Main.DamageVar(50);
+                    int Damage = Main.DamageVar(75);
                     if (KeybrandsPlus.SoALoaded)
-                        Damage = Main.DamageVar(250);
+                        Damage = Main.DamageVar(300);
                     npc.StrikeNPC(Damage, 0, 0);
-                    if (KeybrandsPlus.SoALoaded)
-                        Damage /= 15;
-                    else
-                        Damage /= 3;
-                    if (Main.player[npc.lastInteraction].lifeSteal > 0f && !npc.friendly && npc.lifeMax > 5 && npc.type != NPCID.TargetDummy)
-                    {
-                        for (int i = 0; i < Main.rand.Next(Damage); i++)
-                        {
-                            int blood = Item.NewItem(npc.getRect(), ItemType<Items.Other.Blood>());
-                            Main.item[blood].velocity *= 1.25f;
-                        }
-                    }
                 }
             }
             else
@@ -184,15 +174,39 @@ namespace KeybrandsPlus.Globals
             if (DragonRot)
             {
                 if (KeybrandsPlus.SoALoaded)
-                    npc.lifeRegen -= 750;
+                    npc.lifeRegen -= 900;
                 else
                     npc.lifeRegen -= 300;
-                if (damage < 30)
+                if (KeybrandsPlus.SoALoaded ? damage < 100 : damage < 50)
                 {
                     if (KeybrandsPlus.SoALoaded)
-                        damage = 175;
+                        damage = 150;
                     else
                         damage = 50;
+                }
+            }
+            else if (DragonAura)
+            {
+                if (KeybrandsPlus.SoALoaded)
+                    npc.lifeRegen -= 450;
+                else
+                    npc.lifeRegen -= 150;
+                if (KeybrandsPlus.SoALoaded ? damage < 75 : damage < 25)
+                {
+                    if (KeybrandsPlus.SoALoaded)
+                        damage = 75;
+                    else
+                        damage = 25;
+                }
+            }
+        }
+        public override void HitEffect(NPC npc, int hitDirection, double damage)
+        {
+            if ((DragonRot || DragonAura) && damage >= npc.life)
+            {
+                for (int i = 0; i < Main.rand.Next(DragonAura ? 1 : 3, DragonAura ? 4 : 6); i++)
+                {
+                    Projectile.NewProjectile(npc.Center, new Vector2(0, 5f).RotatedByRandom(MathHelper.ToRadians(360)), ProjectileType<Projectiles.DraconicFireball>(), 50, 0, npc.lastInteraction);
                 }
             }
         }
@@ -238,51 +252,12 @@ namespace KeybrandsPlus.Globals
             else if (target.GetModPlayer<KeyPlayer>().DamageControl && target.statLife <= target.statLifeMax2 / 5)
                 damage /= 2;
         }
-        /*public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
-        {
-            LockOnFrameCounter += 1;
-            if (LockOnFrameCounter >= 4)
-            {
-                LockOnFrame += 1;
-                if (LockOnFrame >= 6)
-                    LockOnFrame = 0;
-                LockOnFrameCounter = 0;
-            }
-            if (LockedOn)
-            {
-                Texture2D t = mod.GetTexture("Textures/LockOn0");
-                Vector2 drawOrigin = new Vector2(t.Width / 2, t.Height / 2);
-                Vector2 drawPos = npc.Center - Main.screenPosition;
-                switch (LockOnFrame)
-                {
-                    case 1:
-                        t = mod.GetTexture("Textures/LockOn1");
-                        break;
-                    case 2:
-                        t = mod.GetTexture("Textures/LockOn2");
-                        break;
-                    case 3:
-                        t = mod.GetTexture("Textures/LockOn3");
-                        break;
-                    case 4:
-                        t = mod.GetTexture("Textures/LockOn4");
-                        break;
-                    case 5:
-                        t = mod.GetTexture("Textures/LockOn5");
-                        break;
-                    default:
-                        t = mod.GetTexture("Textures/LockOn0");
-                        break;
-                }
-                spriteBatch.Draw(t, drawPos, null, Color.White, 0, drawOrigin, 1f, SpriteEffects.None, 0);
-            }
-        }*/
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
             if (ChimeraBleed)
             {
                 int Blood = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood);
-                Main.dust[Blood].position -= new Vector2(4, 4);
+                Main.dust[Blood].position -= new Vector2(4);
                 Main.dust[Blood].velocity = Vector2.Zero;
             }
             if (EternalBlaze)
@@ -301,7 +276,7 @@ namespace KeybrandsPlus.Globals
             }
             if (DragonRot)
             {
-                drawColor = new Color(144, 15, 141);
+                drawColor = new Color(252, 26, 247);
                 if (!Main.rand.NextBool(4))
                 {
                     int dust = Dust.NewDust(npc.position, npc.width + 4, npc.height + 4, DustType<Dusts.DraconicFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f);
@@ -310,6 +285,10 @@ namespace KeybrandsPlus.Globals
                     Main.dust[dust].velocity.Y -= 0.5f;
                     Main.dust[dust].velocity *= 0.5f;
                 }
+            }
+            else if (DragonAura)
+            {
+                drawColor = new Color(144, 15, 141);
             }
         }
         public override void NPCLoot(NPC npc)

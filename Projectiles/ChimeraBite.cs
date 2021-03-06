@@ -13,7 +13,6 @@ namespace KeybrandsPlus.Projectiles
 {
     class ChimeraBite : KeybrandProj
     {
-        private NPC LastHitNPC;
         private int ExtraUpdateCounter;
         public override void SetStaticDefaults()
         {
@@ -34,7 +33,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.penetrate = -1;
             drawOffsetX = -24;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            projectile.localNPCHitCooldown = 50;
             projectile.ignoreWater = true;
             ExtraUpdateCounter = 50;
             projectile.GetGlobalProjectile<KeyProjectile>().Nil = true;
@@ -78,19 +77,12 @@ namespace KeybrandsPlus.Projectiles
             }
             Lighting.AddLight(projectile.Center, Color.DodgerBlue.ToVector3());
         }
-        public override bool? CanHitNPC(NPC target)
-        {
-            return target != LastHitNPC && !target.friendly && projectile.friendly && !projectile.hostile;
-        }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Player player = Main.player[projectile.owner];
-            if (!target.friendly && target.lifeMax > 5 && target.type != NPCID.TargetDummy)
-            {
-                LastHitNPC = target;
-            }
             if (crit)
             {
+                damage = (int)(damage * 1.25f);
                 int num276 = Main.rand.Next(15, 25);
                 int num4;
                 for (int num277 = 0; num277 < num276; num277 = num4 + 1)
@@ -107,12 +99,12 @@ namespace KeybrandsPlus.Projectiles
                     num4 = num277;
                 }
                 target.AddBuff(BuffType<Buffs.ChimeraBleed>(), 600);
-                projectile.damage += 4;
+                projectile.damage = (int)(projectile.damage * .9f);
             }
             else
             {
                 target.AddBuff(BuffType<Buffs.ChimeraBleed>(), 180);
-                projectile.damage += 2;
+                projectile.damage = (int)(projectile.damage * .75f);
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

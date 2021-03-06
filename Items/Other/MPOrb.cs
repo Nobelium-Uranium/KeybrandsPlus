@@ -60,7 +60,7 @@ namespace KeybrandsPlus.Items.Other
         public override bool OnPickup(Player player)
         {
             if (Main.myPlayer == player.whoAmI)
-                Main.PlaySound(SoundID.Item30.WithVolume(.25f), player.Center);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MPOrb").WithVolume(0.8f), player.Center);
             if (!player.GetModPlayer<Globals.KeyPlayer>().rechargeMP)
             {
                 if (Main.myPlayer == player.whoAmI)

@@ -30,6 +30,15 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.18-
+Crown Charm's cooldown now always lasts for 15 seconds, no matter what mode it is, it's also now once more an expert exclusive item
+Buffed Chimera, maybe a little too much
+Draconic Flare is better against crowds but kinda sucks against single targets, the damage output is worth it though
+MP prizes have a new sound when picked up
+Chests have a new sound when opened, they also now properly cannot be opened when enemies are nearby
+A bunch more things I can't remember but probably aren't noticable on your end
+Not quite 1.1.0, but I just wanted to add a few more things until then
+
 -1.0.17-
 Added a new element, Nil, which ignores all defense and resistances
 Nil attacks are rare, but their damage can be devastating

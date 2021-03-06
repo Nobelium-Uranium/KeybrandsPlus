@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using KeybrandsPlus.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 
 namespace KeybrandsPlus.Globals

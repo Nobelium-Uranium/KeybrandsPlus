@@ -180,7 +180,7 @@ namespace KeybrandsPlus.NPCs.Other
                 npc.localAI[0]++;
             if (npc.localAI[0] == 1)
             {
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ChestOpen").WithVolume(0.25f), npc.Center);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ChestOpen").WithVolume(0.5f), npc.Center);
             }
             else if (npc.localAI[0] == 10)
             {

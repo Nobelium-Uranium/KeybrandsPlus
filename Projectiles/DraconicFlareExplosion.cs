@@ -23,21 +23,31 @@ namespace KeybrandsPlus.Projectiles
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 70;
-            projectile.GetGlobalProjectile<Globals.KeyProjectile>().Dark = true;
+            projectile.timeLeft = 100;
         }
         public override void AI()
         {
             if (projectile.timeLeft == 10)
             {
-                projectile.GetGlobalProjectile<KeyProjectile>().Dark = false;
-                projectile.GetGlobalProjectile<KeyProjectile>().Nil = false;
+                for (int k = 0; k < Main.maxNPCs; k++)
+                {
+                    NPC i = Main.npc[k];
+                    if (i.active && !i.boss && !i.dontTakeDamage && !i.friendly && Collision.CanHit(i.Center, 0, 0, projectile.Center, 0, 0))
+                    {
+                        if (Vector2.Distance(i.Center, projectile.Center) < 200f)
+                        {
+                            i.immune[projectile.owner] = 0;
+                            i.AddBuff(ModContent.BuffType<Buffs.DragonRot>(), 1800);
+                        }
+                    }
+                }
                 Main.PlaySound(SoundID.Item62, projectile.position);
                 projectile.Size = new Vector2(400);
                 projectile.position -= new Vector2(50);
-                for (int i = 0; i < 30; i++)
+                float RandRotate = Main.rand.NextFloat(0, 9);
+                for (int i = 0; i < 40; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center, new Vector2(0, 6.5f).RotatedBy(MathHelper.ToRadians(12) * i).RotatedByRandom(MathHelper.ToRadians(2.5f)) * Main.rand.NextFloat(.95f, 1.05f), ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, new Vector2(0, 10f).RotatedBy(MathHelper.ToRadians(9) * i).RotatedBy(MathHelper.ToRadians(RandRotate)), ModContent.ProjectileType<DraconicFireball>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
                 }
                 for (int k = 0; k < 50; k++)
                 {
@@ -56,13 +66,31 @@ namespace KeybrandsPlus.Projectiles
                     if (!Main.rand.NextBool(3))
                         KeyUtils.NewDustConverge(out Flame, projectile.Center, Vector2.Zero, 150, ModContent.DustType<Dusts.DraconicFlame>(), scale: 2f);
                     else
-                        Dust.NewDust(projectile.Center + Main.rand.NextVector2CircularEdge(150, 150), 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
+                        KeyUtils.NewDustConverge(out int Debris, projectile.Center, Vector2.Zero, Main.rand.NextFloat(150f, 300f), ModContent.DustType<Dusts.DraconicFlame>(), scale: Main.rand.NextFloat(1.5f, 2.5f));
+                }
+                for (int k = 0; k < Main.maxNPCs; k++)
+                {
+                    NPC i = Main.npc[k];
+                    if (i.active && !i.boss && !i.dontTakeDamage && !i.friendly && Collision.CanHit(i.Center, 0, 0, projectile.Center, 0, 0))
+                    {
+                        if (Vector2.Distance(i.Center, projectile.Center) < 300f && i.knockBackResist > 0)
+                        {
+                            Vector2 vTo = KeyUtils.VectorTo(i.Center, projectile.Center);
+                            KeyUtils.AdjustMagnitude(ref vTo, 30f * (i.knockBackResist < .5f ? .5f : i.knockBackResist));
+                            i.velocity = (10 * i.velocity + vTo) / 11f;
+                            KeyUtils.AdjustMagnitude(ref i.velocity, 30f * (i.knockBackResist < .5f ? .5f : i.knockBackResist));
+                        }
+                        if (Vector2.Distance(i.Center, projectile.Center) < 150f)
+                        {
+                            i.AddBuff(ModContent.BuffType<Buffs.DragonRot>(), 10);
+                        }
+                    }
                 }
             }
         }
         public override bool? CanHitNPC(NPC target)
         {
-            return Collision.CanHit(projectile.Center, 0, 0, target.Center, 0, 0) && Vector2.Distance(target.Center, projectile.Center) < projectile.width / 2 && target.active && !target.dontTakeDamage && !target.friendly && target.lifeMax > 5;
+            return false;
         }
         public override bool CanHitPvp(Player target)
         {
@@ -76,13 +104,7 @@ namespace KeybrandsPlus.Projectiles
         {
             if (!target.boss)
                 target.velocity = Vector2.Normalize(KeyUtils.VectorTo(target.Center, projectile.Center)) * 10 * (target.knockBackResist < 0 ? 0 : target.knockBackResist);
-            if (projectile.timeLeft <= 10)
-                target.immune[projectile.owner] = 0;
-            else
-            {
-                damage /= 2;
-                target.immune[projectile.owner] /= 4;
-            }
+            target.immune[projectile.owner] = 0;
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {

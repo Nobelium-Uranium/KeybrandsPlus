@@ -17,6 +17,12 @@ namespace KeybrandsPlus.Globals
 {
     class KeyPlayer : ModPlayer
     {
+        public int StoredUUIDX;
+        public int StoredUUIDY;
+        public int StoredUUIDZ;
+        public Vector3 UUID;
+        public string Name;
+
         #region Glowmasks
         public bool HideGlowmask;
         public bool AvaliHelmet;
@@ -148,6 +154,15 @@ namespace KeybrandsPlus.Globals
 
         public override void ResetEffects()
         {
+            if (StoredUUIDX <= 0)
+                StoredUUIDX = Main.rand.Next(1, 256);
+            if (StoredUUIDY <= 0)
+                StoredUUIDY = Main.rand.Next(1, 256);
+            if (StoredUUIDZ <= 0)
+                StoredUUIDZ = Main.rand.Next(1, 256);
+            UUID = new Vector3(StoredUUIDX, StoredUUIDY, StoredUUIDZ);
+            Name = player.name; 
+
             maxMP = 100 + (25 * ChargedCrystals);
             maxDelta = 2 * maxMP;
 
@@ -250,6 +265,10 @@ namespace KeybrandsPlus.Globals
         {
             ModPacket packet = mod.GetPacket();
             packet.Write(ChargedCrystals);
+            packet.Write(StoredUUIDX);
+            packet.Write(StoredUUIDY);
+            packet.Write(StoredUUIDZ);
+            packet.Write(Name);
             packet.Send(toWho, fromWho);
         }
 
@@ -258,12 +277,20 @@ namespace KeybrandsPlus.Globals
             return new TagCompound
             {
                 { "ChargedCrystals", ChargedCrystals },
+                { "StoredUUIDX", StoredUUIDX },
+                { "StoredUUIDY", StoredUUIDY },
+                { "StoredUUIDZ", StoredUUIDZ },
+                { "Name", Name },
             };
         }
 
         public override void Load(TagCompound tag)
         {
             ChargedCrystals = tag.GetInt("ChargedCrystals");
+            StoredUUIDX = tag.GetInt("StoredUUIDX");
+            StoredUUIDY = tag.GetInt("StoredUUIDY");
+            StoredUUIDZ = tag.GetInt("StoredUUIDZ");
+            Name = tag.GetString("Name");
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
@@ -368,7 +395,7 @@ namespace KeybrandsPlus.Globals
                 player.ClearBuff(BuffID.Frozen);
                 player.ClearBuff(BuffID.Stoned);
                 player.ClearBuff(BuffID.Webbed);
-                player.AddBuff(BuffType<SecondChanceCooldown>(), Main.expertMode ? 1200 : 600);
+                player.AddBuff(BuffType<SecondChanceCooldown>(), 900);
                 player.ClearBuff(BuffType<SecondChance>());
                 return false;
             }
@@ -828,6 +855,13 @@ namespace KeybrandsPlus.Globals
                         currentDelta += damage / 2;
                     else
                         currentDelta += (int)(damage * .75f);
+                    if (player.HeldItem.type == ItemType<Items.Weapons.Developer.Chimera>())
+                    {
+                        if (rechargeMP)
+                            currentDelta += damage / 2;
+                        else
+                            currentDelta += (int)(damage * .75f);
+                    }
                     deltaDecayDelay = 0;
                 }
                 Vector2 point = itemRectangle.Center.ToVector2();

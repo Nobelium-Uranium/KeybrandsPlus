@@ -1,28 +1,25 @@
 ﻿using Terraria;
 using Terraria.ID;
 using KeybrandsPlus.Globals;
-using Terraria.ModLoader;
-using System;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons.Developer
 {
     class Chimera : Helpers.Keybrand
     {
-        private int LifestealCooldown;
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("-10 Light Alignment\n" +
                 "-10 Dark Alignment\n" +
                 "Alt Attack: Chimera's Bite\n" +
-                "MP Cost: 15\n" +
-                "Creates a magic blade beam that make enemies bleed healing droplets\n" +
+                "MP Cost: 25\n" +
+                "Creates a piercing magic blade beam that inflicts a powerful bleeding debuff\n" +
                 "The blade beam can hit most Heartless that are normally immune to magic\n" +
+                "More effective against targets that are far away\n" +
                 "Abilities: MP Hasteza, Damage Control, Leaf Bracer\n" +
-                "Direct melee hits cause the enemy to drop healing blood\n" +
+                "Direct melee hits fill twice as much Delta than usual\n" +
                 "Can only be used after Moon Lord is defeated\n" +
                 "'Bound to the Stars'");
         }
@@ -45,7 +42,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.useTurn = true;
             item.shootSpeed = 1f;
             item.GetGlobalItem<KeyItem>().Nil = true;
-            item.GetGlobalItem<KeyItem>().LimitPenalty = 3;
+            item.GetGlobalItem<KeyItem>().LimitPenalty = 4;
             item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
             item.GetGlobalItem<KeyRarity>().DeveloperName = "ChemAtDark";
         }
@@ -86,22 +83,10 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 item.noMelee = true;
                 item.UseSound = SoundID.Item60;
                 item.knockBack = 0f;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP -= 15;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP -= 25;
                 return (NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure") && !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
             return NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure";
-        }
-        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-        {
-            if (!target.friendly && target.type != NPCID.TargetDummy && target.lifeMax > 5 && LifestealCooldown <= 0)
-            {
-                for (int i = 0; i < Main.rand.Next(5, 21); i++)
-                {
-                    int blood = Item.NewItem(target.getRect(), ItemType<Items.Other.Blood>());
-                    Main.item[blood].velocity *= 1.5f;
-                }
-                LifestealCooldown = 15;
-            }
         }
         public override void HoldItem(Player player)
         {
@@ -111,8 +96,6 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 player.GetModPlayer<KeyPlayer>().DamageControl = true;
                 player.GetModPlayer<KeyPlayer>().LeafBracer = true;
             }
-            if (LifestealCooldown > 0)
-                LifestealCooldown -= 1;
         }
         public override void UpdateInventory(Player player)
         {

@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using KeybrandsPlus.Helpers;
 using KeybrandsPlus.Globals;
+using System.Collections.Generic;
 
 namespace KeybrandsPlus.Unused
 {
@@ -24,12 +25,10 @@ namespace KeybrandsPlus.Unused
         }
         public override bool UseItem(Player player)
         {
-            if (player.GetModPlayer<KeyPlayer>().rechargeMP)
+            if (player.itemAnimation == item.useAnimation - 1)
             {
-                player.GetModPlayer<KeyPlayer>().rechargeMP = false;
-                player.GetModPlayer<KeyPlayer>().rechargeMPToastTimer = 60;
+                player.GetModPlayer<KeyPlayer>().StoredUUIDX = player.GetModPlayer<KeyPlayer>().StoredUUIDY = player.GetModPlayer<KeyPlayer>().StoredUUIDZ = 0;
             }
-            player.GetModPlayer<KeyPlayer>().currentMP = player.GetModPlayer<KeyPlayer>().maxMP;
             return true;
         }
         public override void UpdateInventory(Player player)
@@ -51,6 +50,11 @@ namespace KeybrandsPlus.Unused
                 player.GetModPlayer<KeyPlayer>().ChargedCrystals = 0;
                 Main.NewText("Max MP reduced to 100");
             }
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            Player player = Main.LocalPlayer;
+            tooltips.Add(new TooltipLine(mod, "UUID", "UUID: " + player.GetModPlayer<KeyPlayer>().StoredUUIDX + ", " + player.GetModPlayer<KeyPlayer>().StoredUUIDY + ", " + player.GetModPlayer<KeyPlayer>().StoredUUIDZ));
         }
     }
 }

@@ -16,6 +16,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "MP Cost: All\n" +
                 "Creates a healing field at the cursor's postion\n" +
                 "The range and heal rate depends on your Cure efficiency\n" +
+                "Can heal players who are on the same team as you are\n" +
                 "Ability: Alive 'n' Kicking\n" +
                 "'Hakuna Matata!'");
             Item.staff[item.type] = true;

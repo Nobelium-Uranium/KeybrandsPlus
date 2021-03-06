@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using KeybrandsPlus.Globals;
 using KeybrandsPlus.Buffs;
-using Terraria.Utilities;
 using Terraria.ID;
 
 namespace KeybrandsPlus.Items.Accessories.Special
@@ -14,10 +13,10 @@ namespace KeybrandsPlus.Items.Accessories.Special
             DisplayName.SetDefault("Crown Charm");
             Tooltip.SetDefault("+20 Light Alignment\n" +
                 "-10 Dark Alignment\n" +
-                "Allows you to survive any fatal blow with 1 life remaining\n" +
+                "Taking a fatal hit will instead bring you down to 1HP\n" +
                 "This also grants extended invulnerability and cures most debuffs\n" +
-                "Only triggers when above 1 life\n" +
-                "This effect has a 10 second cooldown which is doubled in Expert mode\n" +
+                "The effect only triggers when you aren't already at 1HP\n" +
+                "15 second cooldown\n" +
                 "Will not protect against instances of extreme blood loss");
         }
         public override void SetDefaults()
@@ -27,6 +26,7 @@ namespace KeybrandsPlus.Items.Accessories.Special
             item.rare = ItemRarityID.Green;
             item.maxStack = 1;
             item.accessory = true;
+            item.expert = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -35,12 +35,6 @@ namespace KeybrandsPlus.Items.Accessories.Special
             player.GetModPlayer<KeyPlayer>().CrownCharm = true;
             if (!player.GetModPlayer<KeyPlayer>().SCCooldown && player.statLife > 1)
                 player.AddBuff(ModContent.BuffType<SecondChance>(), 2);
-        }
-        public override bool? PrefixChance(int pre, UnifiedRandom rand)
-        {
-            if (pre == -1)
-                return false;
-            return base.PrefixChance(pre, rand);
         }
     }
 }

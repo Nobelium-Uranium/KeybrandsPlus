@@ -15,7 +15,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "+5 Dark Alignment\n" +
                 "Alt Attack: Water\n" +
                 "MP Cost: 7\n" +
-                "Shoots a stream of water that splashes on contact\n" +
+                "Creates a stream of water that splashes on contact\n" +
                 "Ability: MP Haste\n" +
                 "'Icing on the cake'");
             Item.staff[item.type] = true;

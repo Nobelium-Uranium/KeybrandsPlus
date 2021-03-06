@@ -13,8 +13,9 @@ namespace KeybrandsPlus.Items.Weapons.Other
             Tooltip.SetDefault("+50 Dark Alignment\n" +
                 "Alt Attack: Draconic Flare\n" +
                 "MP Cost: 36\n" +
-                "Fires a lingering flare bolt that explodes into debris when enemies are near\n" +
-                "You can only have up to 3 flare bolts active at a time\n" +
+                "Fires a lingering flare bolt that erupts when enemies are near\n" +
+                "The resulting eruption draws enemies in before exploding into debris\n" +
+                "You may only have up to 3 flare bolts active at a time\n" +
                 "Abilities: Dark Affinity, MP Rage, Critical MP Hasteza\n" +
                 "Dark Affinity boosts MP recharge speed when under the effects of a damaging debuff\n" +
                 "The rate is dependant on your Dark Alignment\n" +
