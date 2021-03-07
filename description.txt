@@ -31,7 +31,7 @@ Contributors:
 
 Version History:
 -1.0.18-
-Crown Charm's cooldown now always lasts for 15 seconds, no matter what mode it is, it's also now once more an expert exclusive item
+Crown Charm's cooldown now always lasts for 15 seconds, no matter what mode it is, it's also now once more an expert exclusive item, not that it matters right now since it's unobtainable
 Buffed Chimera, maybe a little too much
 Draconic Flare is better against crowds but kinda sucks against single targets, the damage output is worth it though
 MP prizes have a new sound when picked up
