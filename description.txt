@@ -31,6 +31,8 @@ Contributors:
 
 Version History:
 -1.0.18-
+Added a config option to hide the MP bar when you're not holding a keybrand, enabled by default
+Also added a config option for very slow MP regen, disabled by default, mostly as a joke I admit
 Crown Charm's cooldown now always lasts for 15 seconds, no matter what mode it is, it's also now once more an expert exclusive item, not that it matters right now since it's unobtainable
 Buffed Chimera, maybe a little too much
 Draconic Flare is better against crowds but kinda sucks against single targets, the damage output is worth it though

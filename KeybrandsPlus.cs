@@ -170,7 +170,7 @@ namespace KeybrandsPlus
             Player player = Main.LocalPlayer;
             KeyPlayer keyPlayer = player.GetModPlayer<KeyPlayer>();
 
-            if (keyPlayer.showMP && !player.dead && !Main.playerInventory)
+            if ((ModContent.GetInstance<KeyClientConfig>().AlwaysShowMP || (player.HeldItem.modItem is Keybrand && player.HeldItem.modItem.AltFunctionUse(player)) || player.HeldItem.type == ModContent.ItemType<Items.Other.Cure.CureSpell>() || player.HeldItem.type == ModContent.ItemType<Items.Other.Cure.CuraSpell>() || player.HeldItem.type == ModContent.ItemType<Items.Other.Cure.CuragaSpell>()) && !player.dead && !Main.playerInventory)
             {
                 int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Ruler"));
                 LegacyGameInterfaceLayer mpBar = new LegacyGameInterfaceLayer("KeybrandsPlus: MP Gauge",

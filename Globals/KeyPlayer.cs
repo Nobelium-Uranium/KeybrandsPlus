@@ -21,7 +21,6 @@ namespace KeybrandsPlus.Globals
         public int StoredUUIDY;
         public int StoredUUIDZ;
         public Vector3 UUID;
-        public string Name;
 
         #region Glowmasks
         public bool HideGlowmask;
@@ -161,7 +160,6 @@ namespace KeybrandsPlus.Globals
             if (StoredUUIDZ <= 0)
                 StoredUUIDZ = Main.rand.Next(1, 256);
             UUID = new Vector3(StoredUUIDX, StoredUUIDY, StoredUUIDZ);
-            Name = player.name; 
 
             maxMP = 100 + (25 * ChargedCrystals);
             maxDelta = 2 * maxMP;
@@ -268,7 +266,6 @@ namespace KeybrandsPlus.Globals
             packet.Write(StoredUUIDX);
             packet.Write(StoredUUIDY);
             packet.Write(StoredUUIDZ);
-            packet.Write(Name);
             packet.Send(toWho, fromWho);
         }
 
@@ -280,7 +277,6 @@ namespace KeybrandsPlus.Globals
                 { "StoredUUIDX", StoredUUIDX },
                 { "StoredUUIDY", StoredUUIDY },
                 { "StoredUUIDZ", StoredUUIDZ },
-                { "Name", Name },
             };
         }
 
@@ -290,7 +286,6 @@ namespace KeybrandsPlus.Globals
             StoredUUIDX = tag.GetInt("StoredUUIDX");
             StoredUUIDY = tag.GetInt("StoredUUIDY");
             StoredUUIDZ = tag.GetInt("StoredUUIDZ");
-            Name = tag.GetString("Name");
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
@@ -530,6 +525,8 @@ namespace KeybrandsPlus.Globals
                 currentDelta = 0;
             if (!rechargeMP)
             {
+                if (ModContent.GetInstance<KeyServerConfig>().MPRegen && currentMP < maxMP && Main.GameUpdateCount % 600 == 0)
+                    currentMP++;
                 if (currentDelta >= maxDelta)
                 {
                     int RestoreMP = Main.rand.Next(3, 11);
