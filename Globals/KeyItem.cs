@@ -23,6 +23,7 @@ namespace KeybrandsPlus.Globals
         public bool NoWarning;
         public bool NoKeybrandMaster;
 
+        public bool IsSpecial;
         public bool IsBelt;
         public bool IsChain;
         public bool IsRing;
@@ -121,8 +122,16 @@ namespace KeybrandsPlus.Globals
             if (item.type == ItemType<Items.Currency.Munny>())
                 Lighting.AddLight(item.Center, Color.Gold.ToVector3() * 0.2f * Scale);
         }
+        public override bool CanEquipAccessory(Item item, Player player, int slot)
+        {
+            if ((IsBelt && player.GetModPlayer<KeyPlayer>().BeltEquipped) || (IsBelt && player.GetModPlayer<KeyPlayer>().SpecialEquipped && player.GetModPlayer<KeyPlayer>().ChainEquipped && player.GetModPlayer<KeyPlayer>().RingEquipped) || (IsChain && player.GetModPlayer<KeyPlayer>().ChainEquipped) || (IsChain && player.GetModPlayer<KeyPlayer>().SpecialEquipped && player.GetModPlayer<KeyPlayer>().BeltEquipped && player.GetModPlayer<KeyPlayer>().RingEquipped) || (IsRing && player.GetModPlayer<KeyPlayer>().RingEquipped) || (IsRing && player.GetModPlayer<KeyPlayer>().SpecialEquipped && player.GetModPlayer<KeyPlayer>().BeltEquipped && player.GetModPlayer<KeyPlayer>().ChainEquipped) || (IsSpecial && player.GetModPlayer<KeyPlayer>().SpecialEquipped) || (IsSpecial && player.GetModPlayer<KeyPlayer>().BeltEquipped && player.GetModPlayer<KeyPlayer>().ChainEquipped && player.GetModPlayer<KeyPlayer>().RingEquipped))
+                return false;
+            return base.CanEquipAccessory(item, player, slot);
+        }
         public override void UpdateEquip(Item item, Player player)
         {
+            if (IsSpecial)
+                player.GetModPlayer<KeyPlayer>().SpecialEquipped = true;
             if (IsBelt)
                 player.GetModPlayer<KeyPlayer>().BeltEquipped = true;
             if (IsChain)
@@ -245,7 +254,7 @@ namespace KeybrandsPlus.Globals
             if (IsKeybrand)
             {
                 if (item.type == ItemType<Items.Weapons.Developer.Chimera>())
-                    mult += (player.GetModPlayer<KeyPlayer>().KeybrandMelee + player.GetModPlayer<KeyPlayer>().KeybrandRanged + player.GetModPlayer<KeyPlayer>().KeybrandMagic) / 3;
+                    mult += player.GetModPlayer<KeyPlayer>().KeybrandMelee + player.GetModPlayer<KeyPlayer>().KeybrandRanged + player.GetModPlayer<KeyPlayer>().KeybrandMagic;
                 else if (item.melee)
                     mult += player.GetModPlayer<KeyPlayer>().KeybrandMelee;
                 else if (item.ranged)
@@ -292,47 +301,50 @@ namespace KeybrandsPlus.Globals
                         tooltips.Add(new TooltipLine(mod, "NoPenalty", "However, this keybrand is exempt from this limit") { overrideColor = Color.Goldenrod });
                 }
             }
-            if (IsBelt || IsChain || IsRing)
+            if (IsSpecial)
             {
                 index = tooltips.FindIndex(tt => tt.mod.Equals("Terraria") && tt.Name.Equals("ItemName"));
                 if (index != -1)
                 {
+                    string SubArmorType = "";
                     if (IsBelt && IsChain && IsRing)
-                    {
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Regalia-") { overrideColor = Color.Goldenrod });
-                        index++;
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorInfo", "Takes up all Sub-Armor slots") { overrideColor = Color.White });
-                    }
+                        SubArmorType = " Regalia";
                     else if (IsChain && IsRing)
-                    {
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Amulet-") { overrideColor = Color.Goldenrod });
-                        index++;
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorInfo", "Counts as a Chain and Ring") { overrideColor = Color.White });
-                    }
+                        SubArmorType = " Amulet";
                     else if (IsBelt && IsRing)
-                    {
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Band-") { overrideColor = Color.Goldenrod });
-                        index++;
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorInfo", "Counts as a Belt and Ring") { overrideColor = Color.White });
-                    }
+                        SubArmorType = " Band";
                     else if (IsBelt && IsChain)
-                    {
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Ribbon-") { overrideColor = Color.Goldenrod });
-                        index++;
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorInfo", "Counts as a Belt and Chain") { overrideColor = Color.White });
-                    }
+                        SubArmorType = " Ribbon";
                     else if (IsRing)
-                    {
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Ring-") { overrideColor = Color.Goldenrod });
-                    }
+                        SubArmorType = " Ring";
                     else if (IsChain)
-                    {
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Chain-") { overrideColor = Color.Goldenrod });
-                    }
+                        SubArmorType = " Chain";
                     else if (IsBelt)
-                    {
-                        tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Belt-") { overrideColor = Color.Goldenrod });
-                    }
+                        SubArmorType = " Belt";
+                    tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Special" + SubArmorType + "-") { overrideColor = Color.Goldenrod });
+                }
+            }
+            else if (IsBelt || IsChain || IsRing)
+            {
+                index = tooltips.FindIndex(tt => tt.mod.Equals("Terraria") && tt.Name.Equals("ItemName"));
+                if (index != -1)
+                {
+                    string SubArmorType = "???";
+                    if (IsBelt && IsChain && IsRing)
+                        SubArmorType = "Regalia";
+                    else if (IsChain && IsRing)
+                        SubArmorType = "Amulet";
+                    else if (IsBelt && IsRing)
+                        SubArmorType = "Band";
+                    else if (IsBelt && IsChain)
+                        SubArmorType = "Ribbon";
+                    else if (IsRing)
+                        SubArmorType = "Ring";
+                    else if (IsChain)
+                        SubArmorType = "Chain";
+                    else if (IsBelt)
+                        SubArmorType = "Belt";
+                    tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-" + SubArmorType + "-") { overrideColor = Color.Goldenrod });
                 }
             }
         }

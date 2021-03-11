@@ -11,7 +11,10 @@ namespace KeybrandsPlus.Items.Accessories.Special
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crown Charm");
-            Tooltip.SetDefault("+20 Light Alignment\n" +
+            Tooltip.SetDefault("When equipped:\n" +
+                "10% increased Nil resistance\n" +
+                "5% decreased damage with keybrands\n" +
+                "+20 Light Alignment\n" +
                 "-10 Dark Alignment\n" +
                 "Taking a fatal hit will instead bring you down to 1HP\n" +
                 "This also grants extended invulnerability and cures most debuffs\n" +
@@ -27,9 +30,13 @@ namespace KeybrandsPlus.Items.Accessories.Special
             item.maxStack = 1;
             item.accessory = true;
             item.expert = true;
+            item.GetGlobalItem<KeyItem>().IsSpecial = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.GetModPlayer<KeyPlayer>().ChainResistNil += .1f;
+            player.GetModPlayer<KeyPlayer>().RingAttackPhysical -= .05f;
+            player.GetModPlayer<KeyPlayer>().RingAttackMagic -= .05f;
             player.GetModPlayer<KeyPlayer>().LightAlignment += 20;
             player.GetModPlayer<KeyPlayer>().DarkAlignment -= 10;
             player.GetModPlayer<KeyPlayer>().CrownCharm = true;

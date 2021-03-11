@@ -101,6 +101,7 @@ namespace KeybrandsPlus.Globals
         public bool TreasureMagnetPlus;
         public bool TreasureMagnet;
         //Equipment
+        public bool SpecialEquipped;
         public bool BeltEquipped;
         public bool ChainEquipped;
         public bool RingEquipped;
@@ -232,6 +233,7 @@ namespace KeybrandsPlus.Globals
             MasterTreasureMagnet = false;
             TreasureMagnetPlus = false;
             TreasureMagnet = false;
+            SpecialEquipped = false;
             BeltEquipped = false;
             ChainEquipped = false;
             RingEquipped = false;
