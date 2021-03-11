@@ -305,24 +305,7 @@ namespace KeybrandsPlus.Globals
             {
                 index = tooltips.FindIndex(tt => tt.mod.Equals("Terraria") && tt.Name.Equals("ItemName"));
                 if (index != -1)
-                {
-                    string SubArmorType = "";
-                    if (IsBelt && IsChain && IsRing)
-                        SubArmorType = " Regalia";
-                    else if (IsChain && IsRing)
-                        SubArmorType = " Amulet";
-                    else if (IsBelt && IsRing)
-                        SubArmorType = " Band";
-                    else if (IsBelt && IsChain)
-                        SubArmorType = " Ribbon";
-                    else if (IsRing)
-                        SubArmorType = " Ring";
-                    else if (IsChain)
-                        SubArmorType = " Chain";
-                    else if (IsBelt)
-                        SubArmorType = " Belt";
-                    tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Special" + SubArmorType + "-") { overrideColor = Color.Goldenrod });
-                }
+                    tooltips.Insert(index + 1, new TooltipLine(mod, "SubArmorType", "-Special-") { overrideColor = Color.Goldenrod });
             }
             else if (IsBelt || IsChain || IsRing)
             {
