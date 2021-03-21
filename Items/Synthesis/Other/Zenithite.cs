@@ -13,7 +13,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zenithite");
-            Tooltip.SetDefault("A very rare and valuable ore");
+            Tooltip.SetDefault("A rare and valuable ore");
             ItemID.Sets.ItemNoGravity[item.type] = true;
         }
         public override void SetDefaults()
@@ -84,6 +84,42 @@ namespace KeybrandsPlus.Items.Synthesis.Other
         public override void GrabRange(Player player, ref int grabRange)
         {
             grabRange *= 2;
+        }
+    }
+    class Zanithite : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Zanithite");
+            Tooltip.SetDefault("Although it looks like the legendary ore, it's unfortunately a useless copycat\n" +
+                "All things considered though, it's still incredibly rare, so consider it a trophy");
+            ItemID.Sets.ItemNoGravity[item.type] = true;
+        }
+        public override void SetDefaults()
+        {
+            item.width = 24;
+            item.height = 24;
+            item.rare = ItemRarityID.Cyan;
+        }
+        public override void Update(ref float gravity, ref float maxFallSpeed)
+        {
+            item.velocity *= .96f;
+        }
+        public override void PostUpdate()
+        {
+            Lighting.AddLight(item.Center, Color.MediumSpringGreen.ToVector3() * .5f);
+        }
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            int center = Dust.NewDust(item.Center - new Vector2(4, 12), 0, 0, 111);
+            Main.dust[center].velocity = Vector2.Zero;
+            if (Math.Abs(item.velocity.Length()) > 1f)
+                Main.dust[center].scale *= .75f;
+            if (Main.rand.NextBool(13))
+            {
+                KeyUtils.NewDustCircular(out int dust, item.Center - new Vector2(4, 12), Vector2.Zero, 111, Main.rand.NextFloat(.5f, 1.25f), perfect: true);
+            }
+            return base.PreDrawInWorld(spriteBatch, lightColor, alphaColor, ref rotation, ref scale, whoAmI);
         }
     }
 }

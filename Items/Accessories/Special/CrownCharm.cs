@@ -12,10 +12,10 @@ namespace KeybrandsPlus.Items.Accessories.Special
         {
             DisplayName.SetDefault("Crown Charm");
             Tooltip.SetDefault("When equipped:\n" +
-                "10% increased Nil resistance\n" +
-                "5% decreased damage with keybrands\n" +
                 "+20 Light Alignment\n" +
                 "-10 Dark Alignment\n" +
+                "10% increased Nil resistance\n" +
+                "5% decreased damage with keybrands\n" +
                 "Taking a fatal hit will instead bring you down to 1HP\n" +
                 "This also grants extended invulnerability and cures most debuffs\n" +
                 "The effect only triggers when you aren't already at 1HP\n" +

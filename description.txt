@@ -30,6 +30,16 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.19-
+Crown Charm is now considered special Sub-Armor, this will be significant later on
+Crown Charm also now provides 10% Nil resistance at the expense of 5% reduced damage with keybrands
+There can now only be one Draconic Flare active, but firing another will cause the previous to detonate
+In addition, Draconic Flare is considerably more expensive to cast
+Mirage Asthral Erosion and Draconic Aura no longer causes target dummies to explode into Draconic Debris randomly
+Added a very specific easter egg to the Treasure Chest
+Some more things I decided to add last minute
+I swear this is the last update before 1.1.0, barring any hotfixes
+
 -1.0.18-
 Added a config option to hide the MP bar when you're not holding a keybrand, enabled by default
 Also added a config option for very slow MP regen, disabled by default, mostly as a joke I admit

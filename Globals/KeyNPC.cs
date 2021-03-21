@@ -202,7 +202,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void HitEffect(NPC npc, int hitDirection, double damage)
         {
-            if ((DragonRot || DragonAura) && damage >= npc.life)
+            if ((DragonRot || DragonAura) && damage >= npc.life && !npc.immortal && npc.type != NPCID.TargetDummy)
             {
                 for (int i = 0; i < Main.rand.Next(DragonAura ? 1 : 3, DragonAura ? 4 : 6); i++)
                 {

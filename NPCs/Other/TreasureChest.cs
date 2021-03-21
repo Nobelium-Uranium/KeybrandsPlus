@@ -14,6 +14,36 @@ namespace KeybrandsPlus.NPCs.Other
 {
     public class TreasureChest : ModNPC
     {
+        #region Explosives
+        private int[] Explosives = {
+            ProjectileID.Grenade,
+            ProjectileID.StickyGrenade,
+            ProjectileID.PartyGirlGrenade,
+            ProjectileID.BouncyGrenade,
+            ProjectileID.Bomb,
+            ProjectileID.StickyBomb,
+            ProjectileID.BouncyBomb,
+            ProjectileID.BombFish,
+            ProjectileID.Dynamite,
+            ProjectileID.StickyDynamite,
+            ProjectileID.BouncyDynamite,
+            ProjectileID.RocketI,
+            ProjectileID.RocketII,
+            ProjectileID.RocketIII,
+            ProjectileID.RocketIV,
+            ProjectileID.RocketSnowmanI,
+            ProjectileID.RocketSnowmanII,
+            ProjectileID.RocketSnowmanIII,
+            ProjectileID.RocketSnowmanIV,
+            ProjectileID.GrenadeI,
+            ProjectileID.GrenadeII,
+            ProjectileID.GrenadeIII,
+            ProjectileID.GrenadeIV,
+            ProjectileID.ExplosiveBunny,
+            ProjectileID.Explosives
+        };
+        #endregion
+
         #region Treasure Pools
         private int[] ShardPool = {
             ItemType<Items.Synthesis.Brave.BraveShard>(),
@@ -91,11 +121,12 @@ namespace KeybrandsPlus.NPCs.Other
         {
             npc.Size = new Vector2(32, 30);
             npc.friendly = true;
-            npc.dontTakeDamage = true;
+            npc.dontTakeDamageFromHostiles = true;
             npc.damage = 0;
             npc.defense = 0;
             npc.lifeMax = 1;
             npc.knockBackResist = 0f;
+            npc.HitSound = SoundID.NPCHit4;
             npc.rarity = 1;
             npc.behindTiles = true;
         }
@@ -112,6 +143,11 @@ namespace KeybrandsPlus.NPCs.Other
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
+            foreach (int i in Explosives)
+            {
+                if (projectile.type == i && projectile.damage > 0)
+                    return true;
+            }
             return false;
         }
         
@@ -148,6 +184,11 @@ namespace KeybrandsPlus.NPCs.Other
                 npc.frame.Y = 1 * frameHeight;
             else
                 npc.frame.Y = 0;
+        }
+
+        public override void NPCLoot()
+        {
+            Item.NewItem(npc.getRect(), ItemType<Items.Other.Junk>()); //Next time use a key
         }
 
         public override void AI()
@@ -237,7 +278,10 @@ namespace KeybrandsPlus.NPCs.Other
                 #region Synthesis Materials
                 if (KeyUtils.RandPercent(NPC.downedMoonlord ? .1f : .01f))
                 {
-                    Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
+                    if (KeyUtils.RandPercent(.01f))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zanithite>());
+                    else
+                        Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
                 }
                 #endregion
                 #region Other Materials

@@ -12,10 +12,10 @@ namespace KeybrandsPlus.Items.Weapons.Other
         {
             Tooltip.SetDefault("+50 Dark Alignment\n" +
                 "Alt Attack: Draconic Flare\n" +
-                "MP Cost: 36\n" +
+                "MP Cost: " + (KeybrandsPlus.SoALoaded ? 72 : 36) + "\n" +
                 "Fires a lingering flare bolt that erupts when enemies are near\n" +
                 "The resulting eruption draws enemies in before exploding into debris\n" +
-                "You may only have up to 3 flare bolts active at a time\n" +
+                "There can only be 1 flare active at a time, firing another will detonate the previous\n" +
                 "Abilities: Dark Affinity, MP Rage, Critical MP Hasteza\n" +
                 "Dark Affinity boosts MP recharge speed when under the effects of a damaging debuff\n" +
                 "The rate is dependant on your Dark Alignment\n" +
@@ -80,8 +80,8 @@ namespace KeybrandsPlus.Items.Weapons.Other
                 item.shoot = ModContent.ProjectileType<Projectiles.DraconicFlareBolt>();
                 item.noMelee = true;
                 item.UseSound = SoundID.Item73;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DraconicFlareBolt>()] < 3) player.GetModPlayer<KeyPlayer>().currentMP -= 36;
-                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DraconicFlareBolt>()] < 3;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DraconicFlareBolt>()] < 3) player.GetModPlayer<KeyPlayer>().currentMP -= KeybrandsPlus.SoALoaded ? 72 : 36;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.DraconicFlareBolt>()] < 2;
             }
             return base.CanUseItem(player);
         }
