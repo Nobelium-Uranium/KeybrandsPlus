@@ -14,11 +14,11 @@ namespace KeybrandsPlus.Globals
             {
                 if (Main.hardMode)
                 {
-                    if (NPC.downedMoonlord && KeyUtils.RandPercent(.05f))
+                    if (NPC.downedMoonlord && KeyUtils.RandPercent(KeyUtils.AnyBosses() ? .01f : .05f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(.01f))
+                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(KeyUtils.AnyBosses() ? .00125f : .01f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                    else if (KeyUtils.RandPercent(.00125f))
+                    else if (KeyUtils.RandPercent(KeyUtils.AnyBosses() ? .00025f : .00125f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
                 }/*
             #region Blazing

@@ -7,6 +7,20 @@ namespace KeybrandsPlus.Helpers
 {
     public static class KeyUtils
     {
+        public static bool AnyBosses()
+        {
+            bool condition = false;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                if (Main.npc[i].active && Main.npc[i].boss && !Main.npc[i].friendly && Main.npc[i].lifeMax > 5)
+                {
+                    condition = true;
+                    break;
+                }
+            }
+            return condition;
+        }
+
         public static void PremultiplyTexture(Texture2D texture)
         {
             Color[] buffer = new Color[texture.Width * texture.Height];
