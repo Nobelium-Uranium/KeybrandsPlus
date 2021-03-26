@@ -160,13 +160,16 @@ namespace KeybrandsPlus.NPCs.Other
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.ZoneDirtLayerHeight)
+            if (!KeyUtils.AnyBosses())
             {
-                return SpawnCondition.Underground.Chance * 0.025f;
-            }
-            else if (spawnInfo.player.ZoneRockLayerHeight)
-            {
-                return SpawnCondition.Cavern.Chance * 0.05f;
+                if (spawnInfo.player.ZoneDirtLayerHeight)
+                {
+                    return SpawnCondition.Underground.Chance * 0.025f;
+                }
+                else if (spawnInfo.player.ZoneRockLayerHeight)
+                {
+                    return SpawnCondition.Cavern.Chance * 0.05f;
+                }
             }
             return 0;
         }
@@ -193,7 +196,8 @@ namespace KeybrandsPlus.NPCs.Other
 
         public override void AI()
         {
-            //npc.active = false;
+            if (KeyUtils.AnyBosses())
+                npc.active = false;
             SafeToUnlock = true;
             for (int k = 0; k < 200; k++)
             {
