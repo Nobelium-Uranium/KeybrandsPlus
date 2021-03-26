@@ -10,13 +10,13 @@ namespace KeybrandsPlus.Globals
     {
         public override void NPCLoot(NPC npc)
         { // npc.type == NPCID.
-            if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax > 5 && npc.type != NPCID.TargetDummy && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail)
+            if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax > 5 && npc.type != NPCID.TargetDummy && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail && npc.type != NPCID.SkeletronHand && npc.type != NPCID.PrimeCannon && npc.type != NPCID.PrimeLaser && npc.type != NPCID.PrimeSaw && npc.type != NPCID.PrimeVice)
             {
                 if (Main.hardMode)
                 {
                     if (NPC.downedMoonlord && KeyUtils.RandPercent(KeyUtils.AnyBosses() ? .01f : .05f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(KeyUtils.AnyBosses() ? .00125f : .01f))
+                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(KeyUtils.AnyBosses() ? .002f : .01f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
                     else if (KeyUtils.RandPercent(KeyUtils.AnyBosses() ? .00025f : .00125f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
