@@ -293,6 +293,8 @@ namespace KeybrandsPlus.Globals
         }
         public override void NPCLoot(NPC npc)
         {
+            if (npc.type == NPCID.Plantera && KeyUtils.RandPercent(.001f))
+                Item.NewItem(npc.getRect(), ItemType<Items.Accessories.Wings.BlossomWings>());
             if (Main.hardMode && Main.rand.NextBool(3))
             {
                 if (npc.type == NPCID.GoblinWarrior || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.CursedHammer || npc.type == NPCID.EnchantedSword || npc.type == NPCID.CrimsonAxe || npc.type == NPCID.Werewolf || npc.type == NPCID.PossessedArmor || npc.type == NPCID.UndeadViking || npc.type == NPCID.ArmoredViking || npc.type == NPCID.PirateCorsair || npc.type == NPCID.RustyArmoredBonesAxe || npc.type == NPCID.RustyArmoredBonesFlail || npc.type == NPCID.RustyArmoredBonesSword || npc.type == NPCID.RustyArmoredBonesSwordNoArmor || npc.type == NPCID.BlueArmoredBones || npc.type == NPCID.BlueArmoredBonesMace || npc.type == NPCID.BlueArmoredBonesNoPants || npc.type == NPCID.BlueArmoredBonesSword || npc.type == NPCID.HellArmoredBones || npc.type == NPCID.HellArmoredBonesMace || npc.type == NPCID.HellArmoredBonesSpikeShield || npc.type == NPCID.HellArmoredBonesSword || npc.type == NPCID.GigaZapper || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarDrakomireRider || npc.type == NPCID.SolarSpearman || npc.type == NPCID.SolarSroller || npc.type == NPCID.SolarCorite || npc.type == NPCID.SolarSolenian || npc.type == NPCID.GreekSkeleton || npc.type == NPCID.DesertBeast)
