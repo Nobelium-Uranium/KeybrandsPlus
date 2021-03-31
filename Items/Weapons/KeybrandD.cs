@@ -50,6 +50,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             if (player.altFunctionUse != 2)
             {
+                item.damage = 55;
                 item.melee = true;
                 item.ranged = false;
                 item.noMelee = false;
@@ -62,6 +63,7 @@ namespace KeybrandsPlus.Items.Weapons
             }
             else
             {
+                item.damage = 48;
                 item.melee = false;
                 item.ranged = true;
                 item.useTime = 10;
