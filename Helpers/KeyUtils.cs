@@ -50,9 +50,9 @@ namespace KeybrandsPlus.Helpers
         /// Simple maths really
         /// </summary>
         /// <returns></returns>
-        public static Vector2 VectorTo(Vector2 target, Vector2 destination)
+        public static Vector2 VectorTo(Vector2 source, Vector2 target)
         {
-            return destination - target;
+            return target - source;
         }
 
         public static Dust NewDustConverge(out int dustIndex, Vector2 center, Vector2 size, float distance, int type, int alpha = 0, Color color = default, float scale = 1f, bool fixedScale = true)
