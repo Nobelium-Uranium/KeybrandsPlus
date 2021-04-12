@@ -4,6 +4,7 @@ using KeybrandsPlus.Globals;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using KeybrandsPlus.Helpers;
+using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Items.Weapons.Developer
 {
@@ -87,6 +88,16 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 return (NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure") && !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
             return NPC.downedMoonlord || player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure";
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                int ProjAmount = Main.rand.Next(3, 8);
+                for (int i = 0; i < ProjAmount; i++)
+                    Projectile.NewProjectile(position, Vector2.Normalize(new Vector2(speedX, speedY)) * 15, ModContent.ProjectileType<Projectiles.ChimeraTooth>(), damage / 4, 0, player.whoAmI, Main.rand.Next(0, 3), 30);
+            }
+            return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
         public override void HoldItem(Player player)
         {

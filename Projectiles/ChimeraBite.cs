@@ -36,7 +36,6 @@ namespace KeybrandsPlus.Projectiles
             projectile.localNPCHitCooldown = 50;
             projectile.ignoreWater = true;
             ExtraUpdateCounter = 50;
-            projectile.GetGlobalProjectile<KeyProjectile>().Nil = true;
         }
         public override Color? GetAlpha(Color lightColor)
         {
