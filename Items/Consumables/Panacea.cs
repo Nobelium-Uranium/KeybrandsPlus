@@ -59,5 +59,23 @@ namespace KeybrandsPlus.Items.Consumables
             player.AddBuff(ModContent.BuffType<Buffs.PanaceaCD>(), 1800);
             return true;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.AddIngredient(ItemID.RestorationPotion);
+            r.AddIngredient(ItemID.VilePowder, 10);
+            r.AddIngredient(ItemID.RottenChunk, 3);
+            r.AddTile(TileID.Bottles);
+            r.SetResult(this);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.AddIngredient(ItemID.RestorationPotion);
+            r.AddIngredient(ItemID.ViciousPowder, 10);
+            r.AddIngredient(ItemID.Vertebrae, 3);
+            r.AddTile(TileID.Bottles);
+            r.SetResult(this);
+            r.AddRecipe();
+        }
     }
 }
