@@ -293,6 +293,17 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
+            if (NPC.downedBoss3)
+            {
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.ZenithStim>());
+                shop.item[nextSlot].shopCustomPrice = new int?(40);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.DivinityPotion>());
+                shop.item[nextSlot].shopCustomPrice = new int?(40);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
+            }
             if (NPC.downedBoss2)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.TreasureMagnet>());

@@ -30,6 +30,9 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.20-
+Keybrand Master now sells the Zenith Stim and Divinity Potion as intended
+
 -1.0.19-
 Crown Charm is now considered special Sub-Armor, this will be significant later on
 Crown Charm also now provides 10% Nil resistance at the expense of 5% reduced damage with keybrands
