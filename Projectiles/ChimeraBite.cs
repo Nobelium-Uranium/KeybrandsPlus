@@ -17,7 +17,7 @@ namespace KeybrandsPlus.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Chimera's Bite");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 250;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 100;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
         public override void SetDefaults()
@@ -35,7 +35,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 50;
             projectile.ignoreWater = true;
-            ExtraUpdateCounter = 50;
+            projectile.extraUpdates = 1;
         }
         public override Color? GetAlpha(Color lightColor)
         {
@@ -43,7 +43,7 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void AI()
         {
-            ExtraUpdateCounter ++;
+            ExtraUpdateCounter++;
             if (ExtraUpdateCounter >= 10)
             {
                 ExtraUpdateCounter = 0;

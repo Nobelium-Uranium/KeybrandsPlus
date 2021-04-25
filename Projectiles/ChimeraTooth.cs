@@ -26,8 +26,9 @@ namespace KeybrandsPlus.Projectiles
         {
             Type = -1;
             Spread = -1;
-            projectile.Size = new Vector2(16);
+            projectile.Size = new Vector2(16 * projectile.scale);
             projectile.alpha = 255;
+            projectile.magic = true;
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.tileCollide = false;
@@ -72,6 +73,14 @@ namespace KeybrandsPlus.Projectiles
             }
             if (projectile.localAI[0] >= 30 + Deviance)
             {
+                if (projectile.localAI[0] == 30 + Deviance)
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        NewDustCircular(out int Pulse, projectile.Center, Vector2.Zero, DustID.AncientLight, 10, color: Color.White * ((255f - projectile.alpha) / 255f));
+                        Main.dust[Pulse].noGravity = true;
+                    }
+                }
                 if (projectile.timeLeft > 600)
                     projectile.timeLeft = 600;
                 if (projectile.velocity.Length() < 25f)

@@ -18,7 +18,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 "MP Cost: 25\n" +
                 "Creates a piercing magic blade beam that inflicts a powerful bleeding debuff\n" +
                 "The blade beam can hit most Heartless that are normally immune to magic\n" +
-                "More effective against targets that are far away\n" +
+                "Also throws a fan of knives that ignore defense at critical moments\n" +
                 "Abilities: MP Hasteza, Damage Control, Leaf Bracer\n" +
                 "Direct melee hits fill twice as much Delta than usual\n" +
                 "Can only be used after Moon Lord is defeated\n" +
@@ -41,7 +41,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.UseSound = SoundID.Item116;
             item.autoReuse = true;
             item.useTurn = true;
-            item.shootSpeed = 1f;
+            item.shootSpeed = 2.5f;
             item.GetGlobalItem<KeyItem>().Nil = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 4;
             item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
@@ -75,8 +75,8 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                     item.damage = 830;
                 else
                     item.damage = 475;
-                item.useTime = 18;
-                item.useAnimation = 18;
+                item.useTime = 14;
+                item.useAnimation = 14;
                 item.crit = 3;
                 item.magic = true;
                 item.useTurn = false;
@@ -91,11 +91,11 @@ namespace KeybrandsPlus.Items.Weapons.Developer
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse == 2)
+            if (player.altFunctionUse == 2 && player.statLife <= player.statLifeMax2 / 5)
             {
-                int ProjAmount = Main.rand.Next(3, 8);
+                int ProjAmount = Main.rand.Next(7, 14);
                 for (int i = 0; i < ProjAmount; i++)
-                    Projectile.NewProjectile(position, Vector2.Normalize(new Vector2(speedX, speedY)) * 15, ModContent.ProjectileType<Projectiles.ChimeraTooth>(), damage / 4, 0, player.whoAmI, Main.rand.Next(0, 3), 30);
+                    Projectile.NewProjectile(position, Vector2.Normalize(new Vector2(speedX, speedY)) * 15, ModContent.ProjectileType<Projectiles.ChimeraTooth>(), damage / 4, 0, player.whoAmI, Main.rand.Next(0, 3), 45);
             }
             return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }
