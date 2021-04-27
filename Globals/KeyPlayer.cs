@@ -531,7 +531,7 @@ namespace KeybrandsPlus.Globals
                     currentMP++;
                 if (currentDelta >= maxDelta)
                 {
-                    int RestoreMP = (int)(Main.rand.Next(3, 5) * (1f + (ChargedCrystals / 2f)));
+                    int RestoreMP = (int)(Main.rand.NextFloat(3f, 7f) * (1f + (ChargedCrystals / 2f)));
                     if (Main.myPlayer == player.whoAmI)
                         CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
                     currentMP += RestoreMP;
