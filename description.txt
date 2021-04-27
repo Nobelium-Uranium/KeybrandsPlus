@@ -34,6 +34,7 @@ Version History:
 Slightly reduced the cost of some keybrands' physical alt attacks by about 25-33%
 Flame Liberator's alt attack now properly consumes the displayed 4MP instead of improperly consuming 7MP on use
 Nerfed Strike Raid's effectiveness against the Destroyer
+The amount of MP restored when filling the Delta gauge now scales with max MP, this may be adjusted in upcoming updates
 
 -1.0.20-
 Keybrand Master now sells the Zenith Stim and Divinity Potion as intended
