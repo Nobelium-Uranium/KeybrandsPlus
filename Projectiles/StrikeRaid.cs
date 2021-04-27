@@ -18,7 +18,7 @@ namespace KeybrandsPlus.Projectiles
         private bool CanReturnNormally;
         private bool Returning;
         private int DamageDealt;
-        private NPC LastHit;
+        private int LastHitType;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strike Raid");
@@ -150,9 +150,7 @@ namespace KeybrandsPlus.Projectiles
                 else
                     damage = (int)(damage * 1.5f);
             }
-            if ((LastHit.type == NPCID.TheDestroyer || LastHit.type == NPCID.TheDestroyerBody || LastHit.type == NPCID.TheDestroyerTail) && (target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail))
-                damage /= 2;
-            if (target == LastHit)
+            if ((LastHitType == NPCID.TheDestroyer || LastHitType == NPCID.TheDestroyerBody || LastHitType == NPCID.TheDestroyerTail) && (target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail))
                 damage = (int)(damage * .75f);
             if (Returning)
                 damage = (int)(damage * 1.5f);
@@ -169,7 +167,7 @@ namespace KeybrandsPlus.Projectiles
                 int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
                 Main.dust[dust].velocity += Vector2.Normalize(projectile.velocity) * Main.rand.NextFloat(1.25f, 1.75f);
             }
-            LastHit = target;
+            LastHitType = target.type;
             projectile.netUpdate = true;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
