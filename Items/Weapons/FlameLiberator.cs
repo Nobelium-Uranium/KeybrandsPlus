@@ -65,7 +65,7 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item116;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1) player.GetModPlayer<KeyPlayer>().currentMP -= 7;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1) player.GetModPlayer<KeyPlayer>().currentMP -= 4;
                 return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1;
             }
             return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1;

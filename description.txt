@@ -30,6 +30,11 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.21-
+Slightly reduced the cost of some keybrands' physical alt attacks by about 25-33%
+Flame Liberator's alt attack now properly consumes the displayed 4MP instead of improperly consuming 7MP on use
+Strike Raid has reduced effectiveness against the Destroyer, and once again inflicts reduced damage to its most recent targets
+
 -1.0.20-
 Keybrand Master now sells the Zenith Stim and Divinity Potion as intended
 
