@@ -309,6 +309,7 @@ namespace KeybrandsPlus.NPCs.Other
                     Item.NewItem(npc.getRect(), ItemType<Items.Materials.KeybrandMold>());
                 }
                 #endregion
+                npc.netUpdate = true;
             }
             else if (npc.localAI[0] > 30)
             {
