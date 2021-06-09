@@ -30,6 +30,10 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.22-
+Hopefully fixed Treasure chests not giving anything when opened in multiplayer even though items visually drop for the client
+Made keybrand crafting materials less rare from Treasure Chests, but conversely made Treasure Chests more rare
+
 -1.0.21-
 Slightly reduced the cost of some keybrands' physical alt attacks by about 25-33%
 Flame Liberator's alt attack now properly consumes the displayed 4MP instead of improperly consuming 7MP on use

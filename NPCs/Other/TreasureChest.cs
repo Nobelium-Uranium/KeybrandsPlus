@@ -162,11 +162,11 @@ namespace KeybrandsPlus.NPCs.Other
         {
             if (spawnInfo.player.ZoneDirtLayerHeight)
             {
-                return SpawnCondition.Underground.Chance * 0.025f;
+                return SpawnCondition.Underground.Chance * 0.01f;
             }
             else if (spawnInfo.player.ZoneRockLayerHeight)
             {
-                return SpawnCondition.Cavern.Chance * 0.05f;
+                return SpawnCondition.Cavern.Chance * 0.025f;
             }
             return 0;
         }
@@ -273,43 +273,44 @@ namespace KeybrandsPlus.NPCs.Other
                 }
                 if (DropAmount > (int)((float)MaxMunny * 1.5f))
                     DropAmount = (int)((float)MaxMunny * 1.5f);
-                Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), DropAmount);
+                KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Currency.Munny>(), DropAmount);
                 #endregion
                 #region Synthesis Materials
                 if (KeyUtils.RandPercent(NPC.downedMoonlord ? .1f : .01f))
                 {
                     if (KeyUtils.RandPercent(.01f))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zanithite>());
+                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zanithite>());
                     else
-                        Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
+                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
                 }
                 #endregion
                 #region Other Materials
                 if (NPC.downedPlantBoss || (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3))
                 {
-                    if (KeyUtils.RandPercent(.1f))
+                    if (KeyUtils.RandPercent(.15f))
                     {
-                        Item.NewItem(npc.getRect(), ItemType<Items.Materials.BrokenHeroKeybrand>());
+                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.BrokenHeroKeybrand>());
                     }
-                    if (KeyUtils.RandPercent(.25f))
+                    if (KeyUtils.RandPercent(.3f))
                     {
-                        Item.NewItem(npc.getRect(), ItemType<Items.Materials.WarriorFragment>(), Main.rand.Next(3, 8));
+                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.WarriorFragment>(), Main.rand.Next(3, 8));
                     }
-                    if (KeyUtils.RandPercent(.25f))
+                    if (KeyUtils.RandPercent(.3f))
                     {
-                        Item.NewItem(npc.getRect(), ItemType<Items.Materials.GuardianFragment>(), Main.rand.Next(3, 8));
+                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.GuardianFragment>(), Main.rand.Next(3, 8));
                     }
-                    if (KeyUtils.RandPercent(.25f))
+                    if (KeyUtils.RandPercent(.3f))
                     {
-                        Item.NewItem(npc.getRect(), ItemType<Items.Materials.MysticFragment>(), Main.rand.Next(3, 8));
+                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.MysticFragment>(), Main.rand.Next(3, 8));
                     }
                 }
-                else if (KeyUtils.RandPercent(.1f))
+                else if (KeyUtils.RandPercent(.15f))
                 {
-                    Item.NewItem(npc.getRect(), ItemType<Items.Materials.KeybrandMold>());
+                    KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.KeybrandMold>());
                 }
                 #endregion
                 npc.netUpdate = true;
+                
             }
             else if (npc.localAI[0] > 30)
             {

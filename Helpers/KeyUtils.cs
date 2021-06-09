@@ -2,11 +2,34 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 
 namespace KeybrandsPlus.Helpers
 {
     public static class KeyUtils
     {
+        /// <summary>
+        /// Spawn an item and manually send a net message, use like Item.NewItem.
+        /// Should only be used if a hook doesn't manually sync across clients.
+        /// </summary>
+        public static void NewSyncedItem(Vector2 pos, int type, int stack = 1)
+        {
+            int item = Item.NewItem(pos, type, stack, false);
+            if (Main.netMode == 1 && item >= 0)
+                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
+        }
+
+        /// <summary>
+        /// Spawn an item and manually send a net message, use like Item.NewItem.
+        /// Should only be used if a hook doesn't manually sync across clients.
+        /// </summary>
+        public static void NewSyncedItem(Rectangle rect, int type, int stack = 1)
+        {
+            int item = Item.NewItem(rect, type, stack, false);
+            if (Main.netMode == 1 && item >= 0)
+                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
+        }
+
         public static void PremultiplyTexture(Texture2D texture)
         {
             Color[] buffer = new Color[texture.Width * texture.Height];
@@ -141,11 +164,15 @@ namespace KeybrandsPlus.Helpers
         }
         
         /// <summary>
-        /// I find this easier to use than Main.rand.nextFloat
+        /// I find this easier to use than Main.rand.nextFloat. Range is between 0f and 1f.
         /// </summary>
         public static bool RandPercent(float percent)
         {
-            if (Main.rand.NextFloat(1f) <= percent)
+            if (percent <= 0f) //Skip calculation altogether if value is less than or equal to its minimum amount
+                return false;
+            else if (percent >= 1f) //Skip calculation altogether if value is more than or equal to its maximum amount
+                return true;
+            else if (Main.rand.NextFloat(1f) <= percent) //Otherwise calculate as normal
                 return true;
             return false;
         }
