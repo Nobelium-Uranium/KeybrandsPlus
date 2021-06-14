@@ -47,6 +47,7 @@ namespace KeybrandsPlus.Items.Weapons
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.damage = 20;
+                item.knockBack = 6;
                 item.shoot = 0;
                 item.noMelee = false;
                 item.UseSound = SoundID.Item1;
@@ -59,6 +60,7 @@ namespace KeybrandsPlus.Items.Weapons
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.damage = 18;
+                item.knockBack = 1f;
                 item.shoot = ProjectileID.Spark;
                 item.noMelee = true;
                 item.UseSound = SoundID.Item20;

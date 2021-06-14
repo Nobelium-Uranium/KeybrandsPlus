@@ -31,7 +31,7 @@ Contributors:
 
 Version History:
 -1.0.23-
-Greatly reduced the knockback of Abyssal Tide's alt attack, because apparently I forgot to do so
+Significantly reduced the knockback of a few keybrands' alt attacks, because apparently I forgot to do so, this is more of a buff than a nerf surprisingly
 
 -1.0.22-
 Hopefully fixed Treasure chests not giving anything when opened in multiplayer even though items visually drop for the client
