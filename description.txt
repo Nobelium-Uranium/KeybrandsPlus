@@ -30,6 +30,9 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.23-
+Greatly reduced the knockback of Abyssal Tide's alt attack, because apparently I forgot to do so
+
 -1.0.22-
 Hopefully fixed Treasure chests not giving anything when opened in multiplayer even though items visually drop for the client
 Made keybrand crafting materials less rare from Treasure Chests, but conversely made Treasure Chests more rare

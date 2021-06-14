@@ -42,6 +42,7 @@ namespace KeybrandsPlus.Items.Weapons
             if (player.altFunctionUse != 2)
             {
                 item.damage = 29;
+                item.knockBack = 6.2f;
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.melee = true;
                 item.magic = false;
@@ -52,6 +53,7 @@ namespace KeybrandsPlus.Items.Weapons
             else
             {
                 item.damage = 14;
+                item.knockBack = 1f;
                 item.useStyle = ItemUseStyleID.HoldingOut;
                 item.melee = false;
                 item.magic = true;
