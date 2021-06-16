@@ -15,7 +15,7 @@ namespace KeybrandsPlus.Items.Weapons.Other
                 "MP Cost: " + (KeybrandsPlus.SoALoaded ? 72 : 36) + "\n" +
                 "Fires a lingering flare bolt that erupts when enemies are near\n" +
                 "The resulting eruption draws enemies in before exploding into debris\n" +
-                "There can only be 1 flare active at a time, firing another will detonate the previous\n" +
+                "There can only be 1 flare active at a time, firing another will detonate the previous with reduced damage\n" +
                 "Abilities: Dark Affinity, MP Rage, Critical MP Hasteza\n" +
                 "Dark Affinity boosts MP recharge speed when under the effects of a damaging debuff\n" +
                 "The rate is dependant on your Dark Alignment\n" +
