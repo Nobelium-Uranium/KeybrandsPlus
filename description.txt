@@ -30,6 +30,9 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.24-
+Draconic Flare inflicts halved damage if detonated manually
+
 -1.0.23-
 Significantly reduced the knockback of a few keybrands' alt attacks, because apparently I forgot to do so, this is more of a buff than a nerf surprisingly
 
@@ -54,7 +57,6 @@ In addition, Draconic Flare is considerably more expensive to cast
 Mirage Asthral Erosion and Draconic Aura no longer causes target dummies to explode into Draconic Debris randomly
 Added a very specific easter egg to the Treasure Chest
 Some more things I decided to add last minute
-I swear this is the last update before 1.1.0, barring any hotfixes
 
 -1.0.18-
 Added a config option to hide the MP bar when you're not holding a keybrand, enabled by default
@@ -65,7 +67,6 @@ Draconic Flare is better against crowds but kinda sucks against single targets, 
 MP prizes have a new sound when picked up
 Chests have a new sound when opened, they also now properly cannot be opened when enemies are nearby
 A bunch more things I can't remember but probably aren't noticable on your end
-Not quite 1.1.0, but I just wanted to add a few more things until then
 
 -1.0.17-
 Added a new element, Nil, which ignores all defense and resistances

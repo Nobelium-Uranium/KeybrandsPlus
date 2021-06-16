@@ -33,7 +33,10 @@ namespace KeybrandsPlus.Projectiles
         {
             Player Owner = Main.player[projectile.owner];
             if (Owner.ownedProjectileCounts[projectile.type] > 1 && projectile.timeLeft <= 900)
+            {
+                projectile.damage /= 2;
                 projectile.Kill();
+            }
             if (projectile.timeLeft > 810)
             {
                 int Flame = Dust.NewDust(projectile.Center + projectile.velocity, 0, 0, ModContent.DustType<Dusts.DraconicFlame>());
