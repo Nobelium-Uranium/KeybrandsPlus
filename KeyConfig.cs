@@ -23,7 +23,7 @@ namespace KeybrandsPlus
         public override ConfigScope Mode => ConfigScope.ServerSide;
 
         [Label("MP Regeneration")]
-        [Tooltip("Enables slow but passive regeneration of the MP gauge\nAdded as a joke, disabled by default\n(Please don't use this)")]
+        [Tooltip("Enables slow but passive regeneration of the MP gauge\nAdded as a joke, disabled by default")]
         [DefaultValue(false)]
         public bool MPRegen { get; set; }
     }

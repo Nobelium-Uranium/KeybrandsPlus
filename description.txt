@@ -30,6 +30,9 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.26-
+Made the optional natural MP regen faster, though you're still better off using Ethers
+
 -1.0.25-
 Cure and its variants fills the owner player's Delta by the heal amount whenever it heals a player other than the owner
 This stacks with each player, although it's reduced by 25%, multiplicative, for each additional player healed
