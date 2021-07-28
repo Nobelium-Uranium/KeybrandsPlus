@@ -30,6 +30,11 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.25-
+Cure and its variants fills the owner player's Delta by the heal amount whenever it heals a player other than the owner
+This stacks with each player, although it's reduced by 25%, multiplicative, for each additional player healed
+The Delta bonus is reduced for each time the healing field pulses
+
 -1.0.24-
 Draconic Flare inflicts halved damage if detonated manually
 

@@ -12,12 +12,16 @@ namespace KeybrandsPlus.Projectiles
         private float Boost;
         private int CureLevel;
         private int CureTimer;
+        private int HealAmount;
+        private int PulseAmount;
+        private float DeltaBonus;
         public override void SetDefaults()
         {
             projectile.Size = new Vector2(0, 0);
             projectile.friendly = true;
             projectile.damage = 0;
             projectile.ignoreWater = true;
+            DeltaBonus = 1f;
         }
         public override bool CanDamage()
         {
@@ -96,6 +100,21 @@ namespace KeybrandsPlus.Projectiles
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 5f * (1 + (float)CureLevel / 2) * Boost;
                 }
+                switch (CureLevel)
+                {
+                    default:
+                        HealAmount = (int)(30 * Boost);
+                        break;
+                    case 1:
+                        HealAmount = (int)(60 * Boost);
+                        break;
+                    case 2:
+                        HealAmount = (int)(90 * Boost);
+                        break;
+                    case 3:
+                        HealAmount = (int)(120 * Boost);
+                        break;
+                }
                 for (int k = 0; k < 200; k++)
                 {
                     Player p = Main.player[k];
@@ -106,32 +125,16 @@ namespace KeybrandsPlus.Projectiles
                             KeyUtils.NewDustConverge(out int dust, p.Center, Vector2.Zero, 75, 163, scale: .75f, fixedScale: false);
                             Main.dust[dust].position += p.velocity;
                         }
-                        switch (CureLevel)
+                        p.statLife += HealAmount;
+                        if (p.statLife > p.statLifeMax2)
+                            p.statLife = p.statLifeMax2;
+                        CombatText.NewText(p.getRect(), CombatText.HealLife, HealAmount, dot: true);
+                        if (p != owner)
                         {
-                            default:
-                                p.statLife += (int)(30 * Boost);
-                                if (p.statLife > p.statLifeMax2)
-                                    p.statLife = p.statLifeMax2;
-                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(30 * Boost), dot: true);
-                                break;
-                            case 1:
-                                p.statLife += (int)(60 * Boost);
-                                if (p.statLife > p.statLifeMax2)
-                                    p.statLife = p.statLifeMax2;
-                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(60 * Boost), dot: true);
-                                break;
-                            case 2:
-                                p.statLife += (int)(90 * Boost);
-                                if (p.statLife > p.statLifeMax2)
-                                    p.statLife = p.statLifeMax2;
-                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(90 * Boost), dot: true);
-                                break;
-                            case 3:
-                                p.statLife += (int)(120 * Boost);
-                                if (p.statLife > p.statLifeMax2)
-                                    p.statLife = p.statLifeMax2;
-                                CombatText.NewText(p.getRect(), CombatText.HealLife, (int)(120 * Boost), dot: true);
-                                break;
+                            owner.GetModPlayer<Globals.KeyPlayer>().currentDelta += (int)(HealAmount * DeltaBonus * (1 - PulseAmount / 10));
+                            DeltaBonus *= .75f;
+                            if (DeltaBonus < .25f)
+                                DeltaBonus = .25f;
                         }
                     }
                     NPC n = Main.npc[k];
@@ -142,35 +145,14 @@ namespace KeybrandsPlus.Projectiles
                             KeyUtils.NewDustConverge(out int dust, n.Center, Vector2.Zero, 75, 163, scale: .75f, fixedScale: false);
                             Main.dust[dust].position += n.velocity;
                         }
-                        switch (CureLevel)
-                        {
-                            default:
-                                n.life += (int)(30 * Boost);
-                                if (n.life > n.lifeMax)
-                                    n.life = n.lifeMax;
-                                CombatText.NewText(n.getRect(), CombatText.HealLife, (int)(30 * Boost), dot: true);
-                                break;
-                            case 1:
-                                n.life += (int)(60 * Boost);
-                                if (n.life > n.lifeMax)
-                                    n.life = n.lifeMax;
-                                CombatText.NewText(n.getRect(), CombatText.HealLife, (int)(60 * Boost), dot: true);
-                                break;
-                            case 2:
-                                n.life += (int)(90 * Boost);
-                                if (n.life > n.lifeMax)
-                                    n.life = n.lifeMax;
-                                CombatText.NewText(n.getRect(), CombatText.HealLife, (int)(90 * Boost), dot: true);
-                                break;
-                            case 3:
-                                n.life += (int)(120 * Boost);
-                                if (n.life > n.lifeMax)
-                                    n.life = n.lifeMax;
-                                CombatText.NewText(n.getRect(), CombatText.HealLife, (int)(120 * Boost), dot: true);
-                                break;
-                        }
+                        n.life += HealAmount;
+                        if (n.life > n.lifeMax)
+                            n.life = n.lifeMax;
+                        CombatText.NewText(n.getRect(), CombatText.HealLife, HealAmount, dot: true);
                     }
                 }
+                PulseAmount++;
+                DeltaBonus = 1;
             }
             if (CureTimer >= 150)
                 projectile.Kill();
