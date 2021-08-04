@@ -556,7 +556,7 @@ namespace KeybrandsPlus.Globals
                 if (currentDelta >= maxDelta)
                 {
                     if (Main.myPlayer == player.whoAmI)
-                        CombatText.NewText(player.getRect(), Color.DodgerBlue, "-1s");
+                        CombatText.NewText(player.getRect(), Color.DodgerBlue, "5%");
                     rechargeMPTimer -= 60;
                     currentDelta = 0;
                 }

@@ -308,59 +308,46 @@ namespace KeybrandsPlus.Globals
                 if (NPC.downedMoonlord)
                 {
                     if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 11));
-                    if (Main.player[npc.lastInteraction].active && !Main.player[npc.lastInteraction].dead && Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().currentMP < Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().maxMP)
-                    {
-                        if (Main.rand.NextBool(5))
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(20, 76));
-                        else if (Main.rand.NextBool())
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 21));
-                        else
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>());
-                    }
+                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 16));
+                    else if (Main.rand.NextBool())
+                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
+                    if (Main.rand.NextBool(5))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(20, 76));
+                    else if (Main.rand.NextBool())
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 21));
                 }
                 else if (NPC.downedPlantBoss)
                 {
                     if (Main.rand.NextBool(4))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 6));
-                    if (Main.player[npc.lastInteraction].active && !Main.player[npc.lastInteraction].dead && Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().currentMP < Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().maxMP)
-                    {
-                        if (Main.rand.NextBool(5))
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(10, 51));
-                        else if (Main.rand.NextBool())
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
-                        else
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>());
-                    }
+                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 11));
+                    else if (Main.rand.NextBool())
+                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
+                    if (Main.rand.NextBool(5))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(10, 51));
+                    else if (Main.rand.NextBool())
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
                 }
                 else if (Main.hardMode)
                 {
-                    if (Main.rand.NextBool(8))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 4));
-                    if (Main.player[npc.lastInteraction].active && !Main.player[npc.lastInteraction].dead && Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().currentMP < Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().maxMP)
-                    {
-                        if (Main.rand.NextBool(5))
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 26));
-                        else if (Main.rand.NextBool())
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
-                        else
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>());
-                    }
+                    if (Main.rand.NextBool(6))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 8));
+                    else if (Main.rand.NextBool())
+                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
+                    if (Main.rand.NextBool(5))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 26));
+                    else if (Main.rand.NextBool())
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
                 }
                 else
                 {
-                    if (Main.rand.NextBool(16))
+                    if (Main.rand.NextBool(8))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 6));
+                    else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
-                    if (Main.player[npc.lastInteraction].active && !Main.player[npc.lastInteraction].dead && Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().currentMP < Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().maxMP)
-                    {
-                        if (Main.rand.NextBool(5))
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
-                        else if (Main.rand.NextBool())
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 4));
-                        else
-                            Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>());
-                    }
-
+                    if (Main.rand.NextBool(5))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
+                    else if (Main.rand.NextBool())
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 4));
                 }
             
         }

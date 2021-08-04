@@ -30,6 +30,10 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.28-
+Fixed MP Prizes not dropping in multiplayer??
+Increased the drop rate of Munny and lowered the price of the Uncharged Crystal
+
 -1.0.27-
 Hopefully fixed a syncing issue with Eternal Flames
 Strike Raid should spend less time being useless when not in line of sight of its owner

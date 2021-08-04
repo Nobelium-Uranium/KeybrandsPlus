@@ -326,7 +326,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 nextSlot++;
             }
             shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.UnchargedCrystal>());
-            shop.item[nextSlot].shopCustomPrice = new int?(500);
+            shop.item[nextSlot].shopCustomPrice = new int?(150);
             shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.KeybrandMold>());
