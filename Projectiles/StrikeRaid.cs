@@ -19,6 +19,8 @@ namespace KeybrandsPlus.Projectiles
         private bool Returning;
         private int DamageDealt;
         private int LastHitType;
+
+        Vector2 lastPos;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strike Raid");
@@ -37,13 +39,13 @@ namespace KeybrandsPlus.Projectiles
             projectile.extraUpdates += 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-            ReturnTimer = 90;
+            ReturnTimer = 30;
         }
         public override void AI()
         {
             if (projectile.ai[0] == 1)
             {
-                int type = DustID.Fire;
+                int type;
                 switch (Main.rand.Next(3))
                 {
                     case 1:
@@ -101,6 +103,18 @@ namespace KeybrandsPlus.Projectiles
             if (projectile.alpha < 0)
             {
                 projectile.alpha = 0;
+            }
+            if (Main.GameUpdateCount % 2 == 0)
+                lastPos = projectile.position;
+            else
+            {
+                Vector2 vectorDistance = projectile.Center - lastPos;
+                float syncTo = (float)Math.Sqrt(vectorDistance.X * vectorDistance.X + vectorDistance.Y * vectorDistance.Y);
+                if (syncTo > 25f)
+                {
+                    lastPos = projectile.position;
+                    projectile.netUpdate = true;
+                }
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -182,6 +196,7 @@ namespace KeybrandsPlus.Projectiles
             {
                 projectile.velocity.Y = -oldVelocity.Y;
             }
+            projectile.netUpdate = true;
             return false;
         }
     }

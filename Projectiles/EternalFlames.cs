@@ -17,6 +17,7 @@ namespace KeybrandsPlus.Projectiles
         private bool Returning;
         private float Penalty;
 
+        Vector2 lastPos;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
@@ -62,8 +63,16 @@ namespace KeybrandsPlus.Projectiles
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
             Main.PlaySound(SoundID.Dig, projectile.Center);
-            projectile.velocity = -projectile.oldVelocity;
+            if (projectile.velocity.X != oldVelocity.X)
+            {
+                projectile.velocity.X = -oldVelocity.X;
+            }
+            if (projectile.velocity.Y != oldVelocity.Y)
+            {
+                projectile.velocity.Y = -oldVelocity.Y;
+            }
             GlobalTimer = 0;
+            projectile.netUpdate = true;
             return false;
         }
 
@@ -112,6 +121,18 @@ namespace KeybrandsPlus.Projectiles
                         if (distanceTo <= 30f)
                             projectile.Kill();
                     }
+                }
+            }
+            if (Main.GameUpdateCount % 2 == 0)
+                lastPos = projectile.position;
+            else
+            {
+                Vector2 vectorDistance = projectile.Center - lastPos;
+                float syncTo = (float)Math.Sqrt(vectorDistance.X * vectorDistance.X + vectorDistance.Y * vectorDistance.Y);
+                if (syncTo > 25f)
+                {
+                    lastPos = projectile.position;
+                    projectile.netUpdate = true;
                 }
             }
         }
