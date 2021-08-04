@@ -26,10 +26,10 @@ namespace KeybrandsPlus.Items.Accessories.Special
         {
             item.width = 15;
             item.height = 12;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Cyan;
             item.maxStack = 1;
             item.accessory = true;
-            item.expert = true;
+            //item.expert = true;
             item.GetGlobalItem<KeyItem>().IsSpecial = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)

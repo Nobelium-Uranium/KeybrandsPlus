@@ -30,6 +30,9 @@ Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
 
 Version History:
+-1.0.29-
+Treasure Chests now have an extremely rare chance (0.5%) to drop the Crown Charm, for now this is the only way to obtain it
+
 -1.0.28-
 Fixed MP Prizes not dropping in multiplayer??
 Increased the drop rate of Munny and lowered the price of the Uncharged Crystal
