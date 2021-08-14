@@ -16,17 +16,15 @@ namespace KeybrandsPlus.Items.Accessories.Special
                 "-10 Dark Alignment\n" +
                 "10% increased Nil resistance\n" +
                 "5% decreased damage with keybrands\n" +
-                "Taking a fatal hit will instead bring you down to 1HP\n" +
+                "While you are above 1HP, taking a fatal hit will instead bring you down to 1HP\n" +
                 "This also grants extended invulnerability and cures most debuffs\n" +
-                "The effect only triggers when you aren't already at 1HP\n" +
-                "15 second cooldown\n" +
-                "Will not protect against instances of extreme blood loss");
+                "15 second cooldown");
         }
         public override void SetDefaults()
         {
             item.width = 15;
             item.height = 12;
-            item.rare = ItemRarityID.Cyan;
+            item.rare = ItemRarityID.Green;
             item.maxStack = 1;
             item.accessory = true;
             //item.expert = true;

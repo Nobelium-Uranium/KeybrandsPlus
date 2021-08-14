@@ -140,6 +140,7 @@ namespace KeybrandsPlus.Globals
         public int ChargedCrystals;
         public bool showMP = true;
         public bool rechargeMP = true;
+        public bool regenMP;
         public int maxMP = 100;
         public int currentMP;
         public int maxDelta = 200;
@@ -164,6 +165,7 @@ namespace KeybrandsPlus.Globals
 
             maxMP = 100 + (25 * ChargedCrystals);
             maxDelta = 2 * maxMP;
+            regenMP = false;
 
             #region Glowmasks
             HideGlowmask = false;
@@ -527,7 +529,7 @@ namespace KeybrandsPlus.Globals
                 currentDelta = 0;
             if (!rechargeMP)
             {
-                if (ModContent.GetInstance<KeyServerConfig>().MPRegen && currentMP < maxMP && Main.GameUpdateCount % 300 == 0)
+                if (currentMP < maxMP || regenMP || (GetInstance<KeyServerConfig>().MPRegen && Main.GameUpdateCount % 300 == 0))
                     currentMP++;
                 if (currentDelta >= maxDelta)
                 {
@@ -758,7 +760,7 @@ namespace KeybrandsPlus.Globals
                             break;
                         }
                 }
-                else if (player.HasItem(ItemType<Items.Consumables.MP.MegaEther>()))
+                else if (player.HasItem(ItemType<Items.Consumables.MP.MegaEther>()) && (maxMP - currentMP > 75 || !player.HasItem(ItemType<Items.Consumables.MP.HiEther>()) || rechargeMP))
                 {
                     foreach (Item item in player.inventory)
                         if (item.type == ItemType<Items.Consumables.MP.MegaEther>())
@@ -779,7 +781,7 @@ namespace KeybrandsPlus.Globals
                             break;
                         }
                 }
-                else if (player.HasItem(ItemType<Items.Consumables.MP.HiEther>()))
+                else if (player.HasItem(ItemType<Items.Consumables.MP.HiEther>()) && (maxMP - currentMP > 25 || !player.HasItem(ItemType<Items.Consumables.MP.Ether>()) || rechargeMP))
                 {
                     foreach (Item item in player.inventory)
                         if (item.type == ItemType<Items.Consumables.MP.HiEther>())

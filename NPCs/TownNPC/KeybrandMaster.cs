@@ -129,7 +129,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 chat.Add("If you are ever in need of materials for keybrands, I am willing to oblige, if you can afford them.");
             if (Cyborg >= 0)
             {
-                chat.Add("I admit that " + Main.npc[Cyborg].GivenName + "'s technology is impressive, but my own is far more exquisite.");
+                chat.Add("I admit that " + Main.npc[Cyborg].GivenName + "'s technology is impressive, but my own is far more sophisticated.");
             }
             if (player.name == "Sora" || player.name == "Riku" || player.name == "Kairi" || player.name == "Roxas" || player.name == "Axel" || player.name == "Xion" || player.name == "Ventus" || player.name == "Aqua" || player.name == "Terra")
                 chat.Add("Your name, it sounds familiar, but I can't think of why...");
@@ -145,8 +145,8 @@ namespace KeybrandsPlus.NPCs.TownNPC
             else if (!Main.hardMode)*/
             chat.Add("It appears that darkness has already touched this world, but I see no signs of Heartless... curious...");
             if (npc.life < npc.lifeMax)
-                chat.Add("If you wish to cause me harm, then I am sorry to disappoint you, for this is merely a replica.", 2);
-            chat.Add("Hm? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for a mortal like you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.", 0.5);
+                chat.Add("You wanted to challenge me? Sorry, but I can't do that at the moment. This is just a replica, besides.", 2);
+            chat.Add("Hm? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.", 0.5);
             chat.Add("Also try Shadows of Abaddon!", 0.1);
             chat.Add("Also try Kingdom Terrahearts!", 0.1);
             #region no
@@ -172,9 +172,9 @@ namespace KeybrandsPlus.NPCs.TownNPC
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
             Player player = Main.LocalPlayer;
-            string Comment = "This message should not appear.";
+            string Comment = "This message should not appear. Please report this to the mod developers.";
             string ExtraComment = "";
-            string Affinity = "ERROR";
+            string Affinity = "undefined";
             if (player.GetModPlayer<Globals.KeyPlayer>().LightAlignment > player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment)
                 Affinity = "light";
             else if (player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment > player.GetModPlayer<Globals.KeyPlayer>().LightAlignment)
@@ -186,9 +186,9 @@ namespace KeybrandsPlus.NPCs.TownNPC
             else if (player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 50 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment == 0)
                 Comment = "Your heart is pure, there is not a hint of darkness in you.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 50 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment == 0)
-                Comment = "Your heart is pitch black with darkness.";
+                Comment = "Your heart is pitch black with darkness, the light shuns you.";
             else if ((player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment + 25 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment != 0 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 25) || player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 25 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment != 0)
-                Comment = "Your heart is pure, but not entirely.";
+                Comment = "Your heart is pure, but there is still some darkness.";
             else if ((player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= player.GetModPlayer<Globals.KeyPlayer>().LightAlignment + 25 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment != 0 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 25) || player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 25 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment != 0)
                 Comment = "Your heart is succumbing to the darkness.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 25)
@@ -271,18 +271,18 @@ namespace KeybrandsPlus.NPCs.TownNPC
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.MegaEther>());
-                shop.item[nextSlot].shopCustomPrice = new int?(90);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.TurboEther>());
-                shop.item[nextSlot].shopCustomPrice = new int?(125);
+                shop.item[nextSlot].shopCustomPrice = new int?(100);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
-            if (NPC.downedMoonlord)
+            shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.TurboEther>());
+            shop.item[nextSlot].shopCustomPrice = new int?(200);
+            shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+            nextSlot++;
+            if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.Elixir>());
-                shop.item[nextSlot].shopCustomPrice = new int?(250);
+                shop.item[nextSlot].shopCustomPrice = new int?(350);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
@@ -314,14 +314,14 @@ namespace KeybrandsPlus.NPCs.TownNPC
             if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.TreasureMagnetPlus>());
-                shop.item[nextSlot].shopCustomPrice = new int?(250);
+                shop.item[nextSlot].shopCustomPrice = new int?(300);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MasterTreasureMagnet>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1000);
+                shop.item[nextSlot].shopCustomPrice = new int?(500);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
@@ -336,7 +336,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
             if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.BrokenHeroKeybrand>());
-                shop.item[nextSlot].shopCustomPrice = new int?(175);
+                shop.item[nextSlot].shopCustomPrice = new int?(125);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
@@ -358,7 +358,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.ZenithFragment>());
-                shop.item[nextSlot].shopCustomPrice = new int?(120);
+                shop.item[nextSlot].shopCustomPrice = new int?(200);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;/*
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.UltimaBlueprint>());
@@ -388,12 +388,12 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 shop.item[nextSlot].shopCustomPrice = new int?(3000);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Other.FullbrightDye>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1000);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Developer.Chimera>());
                 shop.item[nextSlot].shopCustomPrice = new int?(5000);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Other.FullbrightDye>());
+                shop.item[nextSlot].shopCustomPrice = new int?(200);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }

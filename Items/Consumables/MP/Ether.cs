@@ -121,8 +121,8 @@ namespace KeybrandsPlus.Items.Consumables.MP
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Turbo-Ether");
-            Tooltip.SetDefault("Fully recharges the MP gauge\n" +
-                "Can only be used during MP Charge\n" +
+            Tooltip.SetDefault("Fully recharges the MP gauge during MP Charge\n" +
+                "Outside of MP Charge, can be directly used to briefly provide MP regeneration\n" +
                 "30 second cooldown");
         }
         public override void SetDefaults()
@@ -138,17 +138,22 @@ namespace KeybrandsPlus.Items.Consumables.MP
         }
         public override bool CanUseItem(Player player)
         {
-            return player.GetModPlayer<KeyPlayer>().rechargeMP && !player.GetModPlayer<KeyPlayer>().TurboExhaustion && !player.GetModPlayer<KeyPlayer>().EtherSickness;
+            return !player.GetModPlayer<KeyPlayer>().TurboExhaustion && !player.GetModPlayer<KeyPlayer>().EtherSickness;
         }
         public override bool UseItem(Player player)
         {
-            CombatText.NewText(player.getRect(), Color.DodgerBlue, player.GetModPlayer<KeyPlayer>().maxMP);
-            player.GetModPlayer<KeyPlayer>().rechargeMP = false;
-            player.GetModPlayer<KeyPlayer>().rechargeMPToastTimer = 60;
-            player.GetModPlayer<KeyPlayer>().currentMP = player.GetModPlayer<KeyPlayer>().maxMP;
-            player.GetModPlayer<KeyPlayer>().currentDelta = 0;
             player.AddBuff(ModContent.BuffType<Buffs.TurboExhaustion>(), 1800);
             player.AddBuff(ModContent.BuffType<Buffs.EtherSickness>(), 300);
+            if (player.GetModPlayer<KeyPlayer>().rechargeMP)
+            {
+                CombatText.NewText(player.getRect(), Color.DodgerBlue, player.GetModPlayer<KeyPlayer>().maxMP);
+                player.GetModPlayer<KeyPlayer>().rechargeMP = false;
+                player.GetModPlayer<KeyPlayer>().rechargeMPToastTimer = 60;
+                player.GetModPlayer<KeyPlayer>().currentMP = player.GetModPlayer<KeyPlayer>().maxMP;
+                player.GetModPlayer<KeyPlayer>().currentDelta = 0;
+            }
+            else
+                player.AddBuff(ModContent.BuffType<Buffs.MPRegeneration>(), player.GetModPlayer<KeyPlayer>().maxMP / 2);
             return true;
         }
     }
