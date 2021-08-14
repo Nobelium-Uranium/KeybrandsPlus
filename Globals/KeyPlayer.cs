@@ -529,7 +529,7 @@ namespace KeybrandsPlus.Globals
                 currentDelta = 0;
             if (!rechargeMP)
             {
-                if (currentMP < maxMP || regenMP || (GetInstance<KeyServerConfig>().MPRegen && Main.GameUpdateCount % 300 == 0))
+                if (currentMP < maxMP && (regenMP || (GetInstance<KeyServerConfig>().MPRegen && Main.GameUpdateCount % 300 == 0)))
                     currentMP++;
                 if (currentDelta >= maxDelta)
                 {
