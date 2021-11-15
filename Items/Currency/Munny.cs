@@ -30,9 +30,7 @@ namespace KeybrandsPlus.Items.Currency
             PickupSoundStage = 0;
             PickupSound = false;
             if (!PickupTimer)
-            {
                 PickupTimer = true;
-            }
         }
         public override void PostUpdate()
         {
@@ -45,7 +43,7 @@ namespace KeybrandsPlus.Items.Currency
         }
         public override void GrabRange(Player player, ref int grabRange)
         {
-            if (!item.GetGlobalItem<KeyItem>().PlayerDropped)
+            if (!item.GetGlobalItem<KeyItem>().PlayerDropped && Main.myPlayer == player.whoAmI)
             {
                 if (player.GetModPlayer<KeyPlayer>().MasterTreasureMagnet)
                     grabRange *= 30;
@@ -57,7 +55,7 @@ namespace KeybrandsPlus.Items.Currency
         }
         public override bool GrabStyle(Player player)
         {
-            if (!item.GetGlobalItem<KeyItem>().PlayerDropped)
+            if (!item.GetGlobalItem<KeyItem>().PlayerDropped && Main.myPlayer == player.whoAmI)
             {
                 Vector2 vectorItemToPlayer = player.Center - item.Center;
                 Vector2 movement = vectorItemToPlayer.SafeNormalize(default);

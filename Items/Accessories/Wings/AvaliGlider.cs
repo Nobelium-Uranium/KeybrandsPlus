@@ -17,10 +17,10 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Modified Aero Glider");
-            Tooltip.SetDefault("Grants enhanced gliding capabilities, increasing horizontal mobility, and negates fall damage\n" +
-                "Cannot benefit from accessories or other items that increase flight duration\n" +
+            Tooltip.SetDefault("Hold JUMP to glide with high speed, overrides other forms of flight\n" +
+                "Negates fall damage\n" +
                 "'A portable device worn on the back that can create wings of hard light, meant for gliding'\n" +
-                "'The design was originally of the Avali, but it was modified to boast increased performance'");
+                "'Originally designed by a race beyond the stars, it was modified to boast increased performance'");
         }
         public override void SetDefaults()
         {

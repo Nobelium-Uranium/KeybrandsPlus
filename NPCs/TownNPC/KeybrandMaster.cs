@@ -149,6 +149,10 @@ namespace KeybrandsPlus.NPCs.TownNPC
             chat.Add("Hm? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.", 0.5);
             chat.Add("Also try Shadows of Abaddon!", 0.1);
             chat.Add("Also try Kingdom Terrahearts!", 0.1);
+            if ((System.DateTime.Now.Month == 9 && System.DateTime.Now.Day == 10) || (System.DateTime.Now.Month == 1 && System.DateTime.Now.Day == 31) || (System.DateTime.Now.Month == 4 && System.DateTime.Now.Day == 12))
+            {
+                chat.Add("Today is a momentous day.");
+            }
             #region no
             if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
             {

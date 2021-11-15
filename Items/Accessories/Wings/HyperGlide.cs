@@ -14,7 +14,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         private int SlowfallTime;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Grants enhanced gliding capabilities\nVastly increases horizontal mobility and negates fall damage while gliding\nCannot benefit from accessories or other items that increase flight duration");
+            Tooltip.SetDefault("Hold JUMP to glide with extreme speed, overrides other forms of flight\nNegates fall damage while active");
         }
         public override void SetDefaults()
         {

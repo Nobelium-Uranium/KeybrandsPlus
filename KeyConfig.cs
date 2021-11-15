@@ -32,7 +32,7 @@ namespace KeybrandsPlus
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
         [Label("Always Show MP Gauge")]
-        [Tooltip("Determines whether or not the MP gauge should be shown when not holding a keybrand\nIt will still appear when you're holding a keybrand if disabled, but will be hidden otherwise\nEnabled by default")]
+        [Tooltip("Determines whether or not the MP gauge should be shown when not holding a keybrand\nIt will still appear when you're holding a keybrand if this is disabled, but will be hidden otherwise\nEnabled by default")]
         [DefaultValue(true)]
         public bool AlwaysShowMP { get; set; }
     }

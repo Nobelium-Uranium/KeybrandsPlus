@@ -48,9 +48,12 @@ namespace KeybrandsPlus.Items.Other
         }
         public override bool GrabStyle(Player player)
         {
-            Vector2 vectorItemToPlayer = player.Center - item.Center;
-            Vector2 movement = vectorItemToPlayer.SafeNormalize(default) * 10f;
-            item.velocity = movement;
+            if (Main.myPlayer == player.whoAmI)
+            {
+                Vector2 vectorItemToPlayer = player.Center - item.Center;
+                Vector2 movement = vectorItemToPlayer.SafeNormalize(default) * 10f;
+                item.velocity = movement;
+            }
             return true;
         }
         public override bool ItemSpace(Player player)
