@@ -28,8 +28,12 @@ Developers:
 
 Contributors:
  Licflagg, Q, LuftRaptor - Ideas and support
+ Teesi - Resprites for some keybrands
 
 Version History:
+-1.0.32-
+Resprited Circle of Life, Flame Liberator, Keybrand of Heart, and the tiered prehm keybrands, courtesy of Teesi
+
 -1.0.31-
 Some changes to Glide's tooltips to make its usage clearer
 
