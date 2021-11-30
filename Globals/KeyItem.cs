@@ -124,8 +124,8 @@ namespace KeybrandsPlus.Globals
         }
         public override bool CanEquipAccessory(Item item, Player player, int slot)
         {
-            /*if ((IsBelt && player.GetModPlayer<KeyPlayer>().BeltEquipped) || (IsBelt && player.GetModPlayer<KeyPlayer>().SpecialEquipped && player.GetModPlayer<KeyPlayer>().ChainEquipped && player.GetModPlayer<KeyPlayer>().RingEquipped) || (IsChain && player.GetModPlayer<KeyPlayer>().ChainEquipped) || (IsChain && player.GetModPlayer<KeyPlayer>().SpecialEquipped && player.GetModPlayer<KeyPlayer>().BeltEquipped && player.GetModPlayer<KeyPlayer>().RingEquipped) || (IsRing && player.GetModPlayer<KeyPlayer>().RingEquipped) || (IsRing && player.GetModPlayer<KeyPlayer>().SpecialEquipped && player.GetModPlayer<KeyPlayer>().BeltEquipped && player.GetModPlayer<KeyPlayer>().ChainEquipped) || (IsSpecial && player.GetModPlayer<KeyPlayer>().SpecialEquipped) || (IsSpecial && player.GetModPlayer<KeyPlayer>().BeltEquipped && player.GetModPlayer<KeyPlayer>().ChainEquipped && player.GetModPlayer<KeyPlayer>().RingEquipped))
-                return false;*/
+            if ((IsSpecial && player.GetModPlayer<KeyPlayer>().SpecialEquipped) || (IsBelt && player.GetModPlayer<KeyPlayer>().BeltEquipped) || (IsChain && player.GetModPlayer<KeyPlayer>().ChainEquipped) || (IsRing && player.GetModPlayer<KeyPlayer>().RingEquipped))
+                return false;
             return base.CanEquipAccessory(item, player, slot);
         }
         public override void UpdateEquip(Item item, Player player)
@@ -251,6 +251,8 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
+            if (player.GetModPlayer<KeyPlayer>().BlossomWings && (Fire || Blizzard || Thunder || Aero || Water || Dark))
+                add += .2f;
             if (IsKeybrand)
             {
                 if (item.type == ItemType<Items.Weapons.Developer.Chimera>())

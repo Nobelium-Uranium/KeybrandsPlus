@@ -12,7 +12,10 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternal Blossom Wings");
-            Tooltip.SetDefault("Allows for very long lasting flight\nJust don't get hit\n'Plucked from an otherworldly plant'");
+            Tooltip.SetDefault("20% increased elemental damage and resistance\n" +
+                "Allows for very long lasting flight\n" +
+                "Just don't get hit\n" +
+                "'Plucked from an otherworldly plant'");
         }
 
         public override void SetDefaults()
@@ -21,8 +24,8 @@ namespace KeybrandsPlus.Items.Accessories.Wings
             item.height = 20;
             item.rare = ItemRarityID.Cyan;
             item.accessory = true;
-            item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
-            item.GetGlobalItem<KeyRarity>().DeveloperName = "ChemAtDark";
+            item.GetGlobalItem<KeyRarity>().ProudRarity = true;
+            item.GetGlobalItem<KeyItem>().IsSpecial = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -49,6 +52,12 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         public override void UpdateEquip(Player player)
         {
             player.GetModPlayer<KeyPlayer>().BlossomWings = true;
+            player.GetModPlayer<KeyPlayer>().ChainResistFire += .2f;
+            player.GetModPlayer<KeyPlayer>().ChainResistBlizzard += .2f;
+            player.GetModPlayer<KeyPlayer>().ChainResistThunder += .2f;
+            player.GetModPlayer<KeyPlayer>().ChainResistAero += .2f;
+            player.GetModPlayer<KeyPlayer>().ChainResistWater += .2f;
+            player.GetModPlayer<KeyPlayer>().ChainResistDark += .2f;
         }
     }
 }
