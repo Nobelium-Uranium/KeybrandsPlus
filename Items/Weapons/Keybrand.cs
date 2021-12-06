@@ -36,6 +36,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.rare = 8;
             item.value = 138000;
             item.melee = true;
+            item.GetGlobalItem<KeyItem>().Light = true;
         }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {

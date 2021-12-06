@@ -39,6 +39,7 @@ namespace KeybrandsPlus.Globals
         public bool Thunder;
         public bool Aero;
         public bool Water;
+        public bool Light;
         public bool Dark;
         public bool Nil;
         public int[] FireTypes = { 121, 1826, 3823, 3827 };
@@ -46,6 +47,7 @@ namespace KeybrandsPlus.Globals
         public int[] ThunderTypes = { 198, 199, 200, 201, 202, 203, 2880, 3764, 3765, 3766, 3767, 3768, 3769 };
         public int[] AeroTypes = { 190, 1827, 2608, 3258 };
         public int[] WaterTypes = { 155 };
+        public int[] LightTypes = { 368, 674, 723, 757, 989, 2880, 3063 };
         public int[] DarkTypes = { 46, 273, 675, 795, 1327 };
         public int[] NilTypes = { };
 
@@ -77,6 +79,9 @@ namespace KeybrandsPlus.Globals
             foreach (int i in WaterTypes)
                 if (item.type == i)
                     Water = true;
+            foreach (int i in LightTypes)
+                if (item.type == i)
+                    Light = true;
             foreach (int i in DarkTypes)
                 if (item.type == i)
                     Dark = true;
@@ -205,6 +210,8 @@ namespace KeybrandsPlus.Globals
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().AeroResist);
                 if (Water)
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().WaterResist);
+                if (Light)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().LightResist);
                 if (Dark)
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().DarkResist);
             }
@@ -228,6 +235,8 @@ namespace KeybrandsPlus.Globals
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
                 if (Water)
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+                if (Light)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistLight);
                 if (Dark)
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
                 if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
@@ -251,7 +260,7 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-            if (player.GetModPlayer<KeyPlayer>().BlossomWings && (Fire || Blizzard || Thunder || Aero || Water || Dark))
+            if (player.GetModPlayer<KeyPlayer>().BlossomWings && (Fire || Blizzard || Thunder || Aero || Water || Light || Dark))
                 add += .2f;
             if (IsKeybrand)
             {

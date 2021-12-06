@@ -57,6 +57,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
             player.GetModPlayer<KeyPlayer>().ChainResistThunder += .2f;
             player.GetModPlayer<KeyPlayer>().ChainResistAero += .2f;
             player.GetModPlayer<KeyPlayer>().ChainResistWater += .2f;
+            player.GetModPlayer<KeyPlayer>().ChainResistLight += .2f;
             player.GetModPlayer<KeyPlayer>().ChainResistDark += .2f;
         }
     }

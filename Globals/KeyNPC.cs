@@ -38,6 +38,7 @@ namespace KeybrandsPlus.Globals
         public bool Thunder;
         public bool Aero;
         public bool Water;
+        public bool Light;
         public bool Dark;
         public bool Nil;
         public int[] FireTypes = { 23, 24, 25, 59, 60, 72, 151, 277, 278, 279, 280, 285, 286 };
@@ -45,6 +46,7 @@ namespace KeybrandsPlus.Globals
         public int[] ThunderTypes = { 250, 387, 388, 389, 392, 393, 394, 395, 467, 482, 483, 520 };
         public int[] AeroTypes = { 48, 205, 222, 370, 477, 479, 491, 541, 546, 551 };
         public int[] WaterTypes = { 32, 33, 58, 63, 64, 65, 67, 103, 157, 223, 224, 225, 371, 372, 373, 461 };
+        public int[] LightTypes = { 75, 80, 84, 120, 137, 138, 171, 172, 244, 454, 455, 456, 457, 458, 459, 522, 527, 528 };
         public int[] DarkTypes = { 6, 7, 8, 9, 13, 14, 15, 29, 30, 34, 35, 36, 47, 57, 62, 66, 79, 81, 82, 83, 85, 94, 98, 99, 100, 101, 112, 113, 114, 115, 116, 117, 118, 119, 121, 140, 156, 158, 159, 168, 170, 173, 174, 179, 180, 181, 182, 183, 196, 239, 240, 241, 242, 253, 266, 267, 268, 281, 282, 283, 284, 288, 289, 305, 306,307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 325, 326, 327, 328, 329, 330, 464, 465, 470, 371, 472, 473, 474, 523, 525, 526, 529, 533, 534 };
         public int[] NilTypes = { };
 
@@ -53,6 +55,7 @@ namespace KeybrandsPlus.Globals
         public float ThunderResist;
         public float AeroResist;
         public float WaterResist;
+        public float LightResist;
         public float DarkResist;
         public float NilResist;
 
@@ -63,6 +66,7 @@ namespace KeybrandsPlus.Globals
         private float OldThunderRes;
         private float OldAeroRes;
         private float OldWaterRes;
+        private float OldLightRes;
         private float OldDarkRes;
         private float OldNilResist;
         
@@ -90,6 +94,9 @@ namespace KeybrandsPlus.Globals
             foreach (int i in WaterTypes)
                 if (npc.type == i)
                     Water = true;
+            foreach (int i in LightTypes)
+                if (npc.type == i)
+                    Light = true;
             foreach (int i in DarkTypes)
                 if (npc.type == i)
                     Dark = true;
@@ -107,6 +114,7 @@ namespace KeybrandsPlus.Globals
             ThunderResist = OldThunderRes;
             AeroResist = OldAeroRes;
             WaterResist = OldWaterRes;
+            LightResist = OldLightRes;
             DarkResist = OldDarkRes;
             NilResist = OldNilResist;
             ChimeraBleed = false;
@@ -127,6 +135,7 @@ namespace KeybrandsPlus.Globals
                 OldThunderRes = ThunderResist;
                 OldAeroRes = AeroResist;
                 OldWaterRes = WaterResist;
+                OldLightRes = LightResist;
                 OldDarkRes = DarkResist;
                 OldNilResist = NilResist;
             }
@@ -212,9 +221,17 @@ namespace KeybrandsPlus.Globals
         }
         public override bool? CanBeHitByItem(NPC npc, Player player, Item item)
         {
-            if ((!item.GetGlobalItem<KeyItem>().Nil || NilResist >= 1f) && (((PhysImmune || PhysResist >= 1f) && (item.melee || item.ranged)) || ((MagicImmune || MagicResist >= 1f) && (item.magic || item.summon))))
+            if ((!item.GetGlobalItem<KeyItem>().Nil || NilResist >= 1f) && 
+                (((PhysImmune || PhysResist >= 1f) && (item.melee || item.ranged)) || 
+                ((MagicImmune || MagicResist >= 1f) && (item.magic || item.summon))))
                 return false;
-            if ((item.GetGlobalItem<KeyItem>().Fire && FireResist >= 1f) || (item.GetGlobalItem<KeyItem>().Blizzard && BlizzardResist >= 1f) || (item.GetGlobalItem<KeyItem>().Thunder && ThunderResist >= 1f) || (item.GetGlobalItem<KeyItem>().Aero && AeroResist >= 1f) || (item.GetGlobalItem<KeyItem>().Water && WaterResist >= 1f) || (item.GetGlobalItem<KeyItem>().Dark && DarkResist >= 1f))
+            if ((item.GetGlobalItem<KeyItem>().Fire && FireResist >= 1f) || 
+                (item.GetGlobalItem<KeyItem>().Blizzard && BlizzardResist >= 1f) || 
+                (item.GetGlobalItem<KeyItem>().Thunder && ThunderResist >= 1f) || 
+                (item.GetGlobalItem<KeyItem>().Aero && AeroResist >= 1f) || 
+                (item.GetGlobalItem<KeyItem>().Water && WaterResist >= 1f) || 
+                (item.GetGlobalItem<KeyItem>().Light && LightResist >= 1f) || 
+                (item.GetGlobalItem<KeyItem>().Dark && DarkResist >= 1f))
                 return false;
             return base.CanBeHitByItem(npc, player, item);
         }
@@ -222,9 +239,17 @@ namespace KeybrandsPlus.Globals
         {
             if (projectile.type == ProjectileType<Projectiles.ChimeraBite>() && ChimeraImmune)
                 return false;
-            if (((PhysImmune || PhysResist >= 1f) && (projectile.melee || projectile.ranged)) || ((MagicImmune || MagicResist >= 1f) && (projectile.magic || projectile.minion || projectile.sentry) && projectile.type != ProjectileType<Projectiles.ChimeraBite>()))
+            if (((PhysImmune || PhysResist >= 1f) && (projectile.melee || projectile.ranged)) || 
+                ((MagicImmune || MagicResist >= 1f) && (projectile.magic || projectile.minion || projectile.sentry) && 
+                projectile.type != ProjectileType<Projectiles.ChimeraBite>()))
                 return false;
-            if ((projectile.GetGlobalProjectile<KeyProjectile>().Fire && FireResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Blizzard && BlizzardResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Thunder && ThunderResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Aero && AeroResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Water && WaterResist >= 1f) || (projectile.GetGlobalProjectile<KeyProjectile>().Dark && DarkResist >= 1f))
+            if ((projectile.GetGlobalProjectile<KeyProjectile>().Fire && FireResist >= 1f) || 
+                (projectile.GetGlobalProjectile<KeyProjectile>().Blizzard && BlizzardResist >= 1f) || 
+                (projectile.GetGlobalProjectile<KeyProjectile>().Thunder && ThunderResist >= 1f) || 
+                (projectile.GetGlobalProjectile<KeyProjectile>().Aero && AeroResist >= 1f) || 
+                (projectile.GetGlobalProjectile<KeyProjectile>().Water && WaterResist >= 1f) ||
+                (projectile.GetGlobalProjectile<KeyProjectile>().Light && LightResist >= 1f) ||
+                (projectile.GetGlobalProjectile<KeyProjectile>().Dark && DarkResist >= 1f))
                 return false;
             return base.CanBeHitByProjectile(npc, projectile);
         }
@@ -240,6 +265,8 @@ namespace KeybrandsPlus.Globals
                 damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
             if (Water)
                 damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+            if (Light)
+                damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistLight);
             if (Dark)
                 damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
             if (Nil)

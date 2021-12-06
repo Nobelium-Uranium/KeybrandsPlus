@@ -17,6 +17,7 @@ namespace KeybrandsPlus.Globals
         public bool Thunder;
         public bool Aero;
         public bool Water;
+        public bool Light;
         public bool Dark;
         public bool Nil;
         public int[] FireTypes = { 2, 15, 19, 34, 35, 41, 82, 85, 163, 187, 188, 258, 291, 292, 295, 296, 310, 321, 325, 326, 327, 328, 329, 376, 400, 401, 402, 424, 425, 426, 467, 485, 553, 611, 612, 636, 654, 664, 666, 668, 686, 687, 694, 695, 696, 706, 711 };
@@ -24,8 +25,9 @@ namespace KeybrandsPlus.Globals
         public int[] ThunderTypes = { 254, 255, 435, 437, 442, 443, 450, 466, 580 };
         public int[] AeroTypes = { 38, 206, 221, 227, 316, 317, 368, 595, 656, 657, 660, 684, 704, 712 };
         public int[] WaterTypes = { 22, 26, 27, 69, 70, 239, 264, 384, 386, 405, 408, 409, 410, 511, 512, 513, 621, 669 };
+        public int[] LightTypes = { 16, 79, 105, 106, 107, 116, 129, 132, 156, 173, 300, 301, 357, 451, 502, 595, 632, 644, 660 };
         public int[] DarkTypes = { 4, 7, 8, 25, 44, 45, 46, 114, 115, 153, 154, 157, 245, 270, 274, 290, 294, 299, 304, 406, 307, 468, 495, 496, 497, 542, 543, 585, 593, 659, 661 };
-        public int[] NilTypes = { 293, 297, 356, 447, 455, 461, 537, 591, 642, 644 };
+        public int[] NilTypes = { 12, 293, 297, 356, 447, 455, 461, 537, 591, 642, 644 };
 
         private int OldDef;
 
@@ -48,6 +50,9 @@ namespace KeybrandsPlus.Globals
             foreach (int i in WaterTypes)
                 if (projectile.type == i)
                     Water = true;
+            foreach (int i in LightTypes)
+                if (projectile.type == i)
+                    Light = true;
             foreach (int i in DarkTypes)
                 if (projectile.type == i)
                     Dark = true;
@@ -86,6 +91,8 @@ namespace KeybrandsPlus.Globals
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().AeroResist);
                 if (Water)
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().WaterResist);
+                if (Light)
+                    damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().LightResist);
                 if (Dark)
                     damage -= (int)(damage * target.GetGlobalNPC<KeyNPC>().DarkResist);
             }
@@ -117,6 +124,8 @@ namespace KeybrandsPlus.Globals
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
                 if (Water)
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+                if (Light)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistLight);
                 if (Dark)
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
                 if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)
@@ -144,6 +153,8 @@ namespace KeybrandsPlus.Globals
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistAero);
                 if (Water)
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistWater);
+                if (Light)
+                    damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistLight);
                 if (Dark)
                     damage -= (int)(damage * target.GetModPlayer<KeyPlayer>().ChainResistDark);
                 if (target.GetModPlayer<KeyPlayer>().DamageControlPlus && target.statLife <= target.statLifeMax2 / 2)

@@ -113,6 +113,7 @@ namespace KeybrandsPlus.Globals
         public float ChainResistThunder;
         public float ChainResistAero;
         public float ChainResistWater;
+        public float ChainResistLight;
         public float ChainResistDark;
         public float ChainResistNil;
         //Ring
@@ -245,6 +246,7 @@ namespace KeybrandsPlus.Globals
             ChainResistThunder = 0;
             ChainResistAero = 0;
             ChainResistWater = 0;
+            ChainResistLight = 0;
             ChainResistDark = 0;
             ChainResistNil = 0;
             RingAttackPhysical = 0;
@@ -682,7 +684,7 @@ namespace KeybrandsPlus.Globals
                                 DeathText = player.name + " was completely drained of blood.";
                                 break;
                             case 2:
-                                DeathText = player.name + "'s body became a mere husk.";
+                                DeathText = player.name + "'s body became a lifeless husk.";
                                 break;
                             default:
                                 DeathText = player.name + " couldn't find the IV bag.";
@@ -867,7 +869,11 @@ namespace KeybrandsPlus.Globals
                 }
                 Vector2 point = itemRectangle.Center.ToVector2();
                 Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
-                if (item.type == ItemType<Items.Weapons.EdgeOfUltima>() || item.type == ItemType<Items.Weapons.Keybrand>() || item.type == ItemType<Items.Weapons.KeybrandD>() || item.type == ItemType<Items.Weapons.TrueKeybrand>() || item.type == ItemType<Items.Weapons.TrueKeybrandD>())
+                if (item.type == ItemType<Items.Weapons.EdgeOfUltima>() || 
+                    item.type == ItemType<Items.Weapons.Keybrand>() || 
+                    item.type == ItemType<Items.Weapons.KeybrandD>() || 
+                    item.type == ItemType<Items.Weapons.TrueKeybrand>() || 
+                    item.type == ItemType<Items.Weapons.TrueKeybrandD>())
                     for (int i = 0; i < Main.rand.Next(2, 5); i++)
                     {
                         int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1.25f));
@@ -992,6 +998,7 @@ namespace KeybrandsPlus.Globals
                 ChainResistThunder -= .4f;
                 ChainResistAero -= .4f;
                 ChainResistWater -= .4f;
+                ChainResistLight -= .4f;
                 ChainResistDark -= .4f;
             }
             if (Divinity)
@@ -1053,6 +1060,7 @@ namespace KeybrandsPlus.Globals
             }
         }
         #region PlayerLayer stuff
+        // tbh this stuff could be optimized, gotta better learn how rendering works before I tackle that tho, this is just copy-pasted stuff lol
         public static readonly PlayerLayer WeaponGlow = new PlayerLayer("KeybrandsPlus", "WeaponGlow", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;

@@ -18,7 +18,6 @@ namespace KeybrandsPlus.Items.Weapons
                 "Consumes 100 Munny to throw a coin that can inflict massive damage\n" +
                 "Ability: Munny Converter\n" +
                 "Boosts damage by 7 for every 77 Munny you have in your inventory\n" +
-                "In addition, lose all Munny in inventory on death with no chance of getting it back when held\n" +
                 "'Don't spend all of your Munny in one place, kupo!'");
         }
         public override void SetDefaults()
@@ -37,6 +36,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.useTurn = true;
             item.shootSpeed = 50f;
             item.value = 500000000;
+            item.GetGlobalItem<KeyItem>().Light = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 4;
         }
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)

@@ -37,6 +37,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.autoReuse = true;
             item.useTurn = true;
             item.shootSpeed = 25f;
+            item.GetGlobalItem<KeyItem>().Light = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 1;
         }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
