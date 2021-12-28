@@ -32,6 +32,8 @@ Contributors:
 
 Version History:
 -1.0.32-
+Kingdom Key D no longer requires 10 of all 3 mech boss souls, it can now be crafted using any combination of 2 mech boss' souls
+Broken Hero Keybrand can be obtained from any Solar Eclipse enemy, though at a much lower rate than from Mothrons
 Crown Charm no longer grants extended invincibility, but now has a much shorter cooldown
 Added a new element type, Light (why this wasn't in the mod before, I'm afraid I do not know, honestly it should have been in from the start)
 Resprited Circle of Life, Flame Liberator, Keybrand of Heart, and the tiered prehm keybrands, courtesy of Teesi

@@ -289,23 +289,26 @@ namespace KeybrandsPlus.NPCs.Other
                 }
                 #endregion
                 #region Other Materials
-                if (NPC.downedPlantBoss || (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3))
+                if (NPC.downedPlantBoss || ((NPC.downedMechBoss1 && NPC.downedMechBoss2) || (NPC.downedMechBoss2 && NPC.downedMechBoss3) || (NPC.downedMechBoss1 && NPC.downedMechBoss3)))
                 {
                     if (KeyUtils.RandPercent(.15f))
                     {
                         KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.BrokenHeroKeybrand>());
                     }
-                    if (KeyUtils.RandPercent(.3f))
+                    if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
                     {
-                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.WarriorFragment>(), Main.rand.Next(3, 8));
-                    }
-                    if (KeyUtils.RandPercent(.3f))
-                    {
-                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.GuardianFragment>(), Main.rand.Next(3, 8));
-                    }
-                    if (KeyUtils.RandPercent(.3f))
-                    {
-                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.MysticFragment>(), Main.rand.Next(3, 8));
+                        if (KeyUtils.RandPercent(.3f))
+                        {
+                            KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.WarriorFragment>(), Main.rand.Next(3, 8));
+                        }
+                        if (KeyUtils.RandPercent(.3f))
+                        {
+                            KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.GuardianFragment>(), Main.rand.Next(3, 8));
+                        }
+                        if (KeyUtils.RandPercent(.3f))
+                        {
+                            KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Materials.MysticFragment>(), Main.rand.Next(3, 8));
+                        }
                     }
                 }
                 else if (KeyUtils.RandPercent(.15f))

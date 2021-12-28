@@ -103,6 +103,23 @@ namespace KeybrandsPlus.Items.Weapons
             r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
             r.AddIngredient(ItemID.SoulofFright, 10);
             r.AddIngredient(ItemID.SoulofMight, 10);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(this);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<KeybrandD>());
+            r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
+            r.AddIngredient(ItemID.SoulofFright, 10);
+            r.AddIngredient(ItemID.SoulofSight, 10);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(this);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<KeybrandD>());
+            r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
+            r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofSight, 10);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(this);
