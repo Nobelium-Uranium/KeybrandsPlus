@@ -17,8 +17,7 @@ namespace KeybrandsPlus.Items.Accessories.Special
                 "10% increased Nil resistance\n" +
                 "5% decreased damage with keybrands\n" +
                 "While you are above 1HP, taking a fatal hit will instead bring you down to 1HP\n" +
-                "This also grants extended invulnerability and cures most debuffs\n" +
-                "15 second cooldown");
+                "This also cures most debuffs and has a brief cooldown");
         }
         public override void SetDefaults()
         {

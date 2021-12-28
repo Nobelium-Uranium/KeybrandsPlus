@@ -365,11 +365,10 @@ namespace KeybrandsPlus.Globals
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (SecondChance && !SCCooldown && statOldLife > 1)
+            if (SecondChance && !SCCooldown && statOldLife > 1 && damage < player.statLifeMax2 * 1.5f)
             {
                 Main.PlaySound(SoundID.Item67, player.position);
                 player.statLife = 1;
-                LeafBracerTimer = 180;
                 player.ClearBuff(BuffID.Bleeding);
                 player.ClearBuff(BuffID.Poisoned);
                 player.ClearBuff(BuffID.OnFire);
@@ -396,7 +395,7 @@ namespace KeybrandsPlus.Globals
                 player.ClearBuff(BuffID.Frozen);
                 player.ClearBuff(BuffID.Stoned);
                 player.ClearBuff(BuffID.Webbed);
-                player.AddBuff(BuffType<SecondChanceCooldown>(), 900);
+                player.AddBuff(BuffType<SecondChanceCooldown>(), 120);
                 player.ClearBuff(BuffType<SecondChance>());
                 return false;
             }
@@ -978,8 +977,6 @@ namespace KeybrandsPlus.Globals
 
         public override void PostUpdateBuffs()
         {
-            if (SCCooldown)
-                player.lifeSteal = 0;
             if (Stop)
             {
                 int dust = Dust.NewDust(player.Center, 0, 0, DustID.AncientLight, Scale: 2f);

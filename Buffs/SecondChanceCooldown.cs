@@ -9,7 +9,7 @@ namespace KeybrandsPlus.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Last Chance");
-            Description.SetDefault("Lifesteal is disabled");
+            Description.SetDefault("You are vulnerable");
             Main.debuff[Type] = true;
             canBeCleared = false;
         }

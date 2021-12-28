@@ -32,6 +32,7 @@ Contributors:
 
 Version History:
 -1.0.32-
+Crown Charm no longer grants extended invincibility, but now has a much shorter cooldown
 Added a new element type, Light (why this wasn't in the mod before, I'm afraid I do not know, honestly it should have been in from the start)
 Resprited Circle of Life, Flame Liberator, Keybrand of Heart, and the tiered prehm keybrands, courtesy of Teesi
 
