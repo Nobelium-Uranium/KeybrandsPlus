@@ -298,6 +298,11 @@ namespace KeybrandsPlus.Globals
         {
             if (!mediumcoreDeath)
             {
+                StoredUUIDX = Main.rand.Next(1, 256);
+                StoredUUIDY = Main.rand.Next(1, 256);
+                StoredUUIDZ = Main.rand.Next(1, 256);
+                UUID = new Vector3(StoredUUIDX, StoredUUIDY, StoredUUIDZ);
+
                 Item item = new Item();
                 item.SetDefaults(ItemType<Items.Weapons.WoodenKeybrand>());
                 items.Add(item);
