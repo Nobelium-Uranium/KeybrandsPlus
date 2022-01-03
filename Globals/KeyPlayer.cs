@@ -22,6 +22,8 @@ namespace KeybrandsPlus.Globals
         public int StoredUUIDZ;
         public Vector3 UUID;
 
+        public bool CheatMode;
+
         #region Glowmasks
         public bool HideGlowmask;
         public bool AvaliHelmet;

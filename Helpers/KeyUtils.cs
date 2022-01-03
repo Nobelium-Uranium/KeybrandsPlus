@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Helpers
 {
@@ -257,6 +258,61 @@ namespace KeybrandsPlus.Helpers
                 }
             }
             return (t - from) / (to - from);
+        }
+    }
+
+    public class CheatModeCommand : ModCommand
+    {
+        public override CommandType Type => CommandType.Chat;
+
+        public override string Command => "kplus_cheatmode";
+
+        public override string Description => "Do you know the rules?";
+
+        public override string Usage => "This command is obfuscated.";
+
+        public override void Action(CommandCaller caller, string input, string[] args)
+        {
+            if (int.Parse(args[0]) == Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDX + Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDY * Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDZ)
+            {
+                caller.Reply("You clever little sneak!");
+                if (!Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode)
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode = true;
+                else
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode = false;
+            }
+            else
+                caller.Reply("Insufficient arguments.", Color.Red);
+        }
+    }
+
+    public class SetUUIDCommand : ModCommand
+    {
+        public override CommandType Type => CommandType.Chat;
+
+        public override string Command => "kplus_setuuid";
+
+        public override string Description => "Debug command. Changes your UUID to something else. Requires Cheat Mode to be enabled.";
+
+        public override string Usage => "/kplus_setuuid x y z (All arguments must range from 0 to 255)";
+
+        public override void Action(CommandCaller caller, string input, string[] args)
+        {
+            if (Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode)
+            {
+                if (int.Parse(args[0]) < 255 && int.Parse(args[0]) > 0 && int.Parse(args[1]) < 255 && int.Parse(args[1]) > 0 && int.Parse(args[2]) < 255 && int.Parse(args[2]) > 0)
+                {
+                    caller.Reply("Changed UUID successfully.");
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDX = int.Parse(args[0]);
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDY = int.Parse(args[1]);
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDZ = int.Parse(args[2]);
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().UUID = new Vector3(int.Parse(args[0]), int.Parse(args[1]), int.Parse(args[2]));
+                }
+                else
+                    caller.Reply("One or more integers are invalid.", Color.Red);
+            }
+            else
+                caller.Reply("Insufficient arguments.", Color.Red);
         }
     }
 }
