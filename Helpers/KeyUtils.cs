@@ -312,7 +312,7 @@ namespace KeybrandsPlus.Helpers
                     caller.Reply("One or more integers are invalid.", Color.Red);
             }
             else
-                caller.Reply("Insufficient arguments.", Color.Red);
+                caller.Reply("Insufficient permissions.", Color.Red);
         }
     }
 }
