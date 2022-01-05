@@ -226,7 +226,7 @@ namespace KeybrandsPlus.NPCs.Other
             else if (npc.localAI[0] == 10)
             {
                 npc.rarity = 0;
-                if (KeyUtils.RandPercent(.005f))
+                if (KeyUtils.RandPercent(.01f))
                 {
                     KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Accessories.Special.CrownCharm>());
                 }
