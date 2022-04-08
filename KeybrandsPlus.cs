@@ -40,7 +40,7 @@ namespace KeybrandsPlus
             if (!Main.dedServ)
             {
                 GameShaders.Armor.BindShader(ModContent.ItemType<Items.Other.FullbrightDye>(), new ArmorShaderData(new Ref<Effect>(GetEffect("Effects/Fullbright")), "FullbrightShader"));
-                MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Items.Currency.Munny>(), 9999L));
+                MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Items.Currency.Munny>(), 1000000L));
             }
         }
         public override void Unload()
@@ -102,6 +102,24 @@ namespace KeybrandsPlus
                     ItemID.PlatinumShortsword
                 });
             RecipeGroup.RegisterGroup("K+:Shortsword", g);
+            g = new RecipeGroup(() => "Dull Lockblade", new int[]
+                {
+                    ModContent.ItemType<Items.Weapons.LockbladeT1>(),
+                    ModContent.ItemType<Items.Weapons.LockbladeT1Alt>(),
+                });
+            RecipeGroup.RegisterGroup("K+:T1Lockblade", g);
+            g = new RecipeGroup(() => "Reinforced Lockblade", new int[]
+                {
+                    ModContent.ItemType<Items.Weapons.LockbladeT2>(),
+                    ModContent.ItemType<Items.Weapons.LockbladeT2Alt>(),
+                });
+            RecipeGroup.RegisterGroup("K+:T2Lockblade", g);
+            g = new RecipeGroup(() => "Refined Lockblade", new int[]
+                {
+                    ModContent.ItemType<Items.Weapons.LockbladeT3>(),
+                    ModContent.ItemType<Items.Weapons.LockbladeT3Alt>(),
+                });
+            RecipeGroup.RegisterGroup("K+:T3Lockblade", g);
             g = new RecipeGroup(() => "Copper/Tin Bar", new int[]
                 {
                     ItemID.CopperBar,

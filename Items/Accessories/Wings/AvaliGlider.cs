@@ -12,6 +12,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
     [AutoloadEquip(EquipType.Wings)]
     public class AvaliGlider : ModItem
     {
+        private int flyStart;
         private bool Gliding;
         private int SlowfallTime;
         public override void SetStaticDefaults()
@@ -34,22 +35,73 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         }
         public override void UpdateEquip(Player player)
         {
+            player.GetModPlayer<KeyPlayer>().AvaliWings = true;
             player.wingTime *= 0;
             player.wingTimeMax *= 0;
         }
         public override bool WingUpdate(Player player, bool inUse)
         {
-            player.wingFrameCounter++;
-            if (player.wingFrameCounter > 75)
-                player.wingFrameCounter = 0;
-            if (player.wingFrameCounter > 50 && player.wingFrameCounter <= 55)
-                player.wingFrame = 1;
-            else if (player.wingFrameCounter > 60 && player.wingFrameCounter <= 65)
-                player.wingFrame = 2;
-            else if (player.wingFrameCounter > 70 && player.wingFrameCounter <= 75)
-                player.wingFrame = 3;
+            if (player.GetModPlayer<KeyPlayer>().Flying)
+            {
+                if (flyStart < 2)
+                {
+                    flyStart++;
+                }
+                else if (flyStart > 2)
+                {
+                    flyStart = 2;
+                }
+            }
             else
-                player.wingFrame = 0;
+            {
+                if (flyStart > 0)
+                {
+                    flyStart--;
+                }
+                else if (flyStart < 0)
+                {
+                    flyStart = 0;
+                }
+            }
+            if (flyStart == 1)
+            {
+                player.wingFrameCounter = 0;
+            }
+            player.wingFrameCounter++;
+            if (player.controlJump && player.velocity.Y != 0 && !player.GetModPlayer<KeyPlayer>().AvaliWings)
+            {
+                if (player.wingTime > 0)
+                {
+                    player.wingFrameCounter++;
+                }
+                if (player.wingFrameCounter > 48)
+                    player.wingFrameCounter = 0;
+                if (player.wingFrameCounter > 0 && player.wingFrameCounter <= 6)
+                    player.wingFrame = 1;
+                else if ((player.wingFrameCounter > 12 && player.wingFrameCounter <= 18) || (player.wingFrameCounter > 36 && player.wingFrameCounter <= 42))
+                    player.wingFrame = 2;
+                else if (player.wingFrameCounter > 24 && player.wingFrameCounter <= 30)
+                    player.wingFrame = 3;
+                else
+                    player.wingFrame = 0;
+                if (!player.GetModPlayer<KeyPlayer>().AvaliWings && player.wingTimeMax > 0 && player.controlJump && player.velocity.Y != 0 && player.wingFrame == 3)
+                {
+                    Main.PlaySound(SoundID.Item15.WithVolume(0.25f), player.position);
+                }
+            }
+            else
+            {
+                if (player.wingFrameCounter > 75)
+                    player.wingFrameCounter = 0;
+                if (player.wingFrameCounter > 50 && player.wingFrameCounter <= 55)
+                    player.wingFrame = 1;
+                else if (player.wingFrameCounter > 60 && player.wingFrameCounter <= 65)
+                    player.wingFrame = 2;
+                else if (player.wingFrameCounter > 70 && player.wingFrameCounter <= 75)
+                    player.wingFrame = 3;
+                else
+                    player.wingFrame = 0;
+            }
             return true;
         }
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)

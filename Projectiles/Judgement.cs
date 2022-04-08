@@ -12,10 +12,10 @@ namespace KeybrandsPlus.Projectiles
 {
     class Judgement : KeybrandProj
     {
+        private NPC currTarget;
         private NPC LastHit;
-        private int CheckTimer;
-        private Vector2 DistCheck;
-        private bool DidntMoveMuch;
+        private NPC LastHitTarget;
+        private int hitCd;
         private int GlobalTimer;
         public override void SetStaticDefaults()
         {
@@ -41,48 +41,77 @@ namespace KeybrandsPlus.Projectiles
         public override void AI()
         {
             projectile.rotation += 0.3f * projectile.direction;
-            if (projectile.localAI[0] == 0f)
+            if (projectile.localAI[0]++ == 10)
             {
-                DistCheck = projectile.position;
-                AdjustMagnitude(ref projectile.velocity, 20f);
-                projectile.localAI[0] = 1f;
+                LastHitTarget = null;
+                projectile.localAI[0] = 0;
             }
+            if (hitCd > 0)
+                hitCd--;
+            else if (hitCd < 0)
+                hitCd = 0;
             Vector2 move = Vector2.Zero;
             if (GlobalTimer++ < 900 && !Main.player[projectile.owner].dead)
             {
-                if (++CheckTimer >= 15)
-                {
-                    if (!DidntMoveMuch)
-                        DistCheck = projectile.position;
-                    Vector2 lastMove = DistCheck - projectile.Center;
-                    float oldDistance = (float)Math.Sqrt(lastMove.X * lastMove.X + lastMove.Y * lastMove.Y);
-                    if (oldDistance < 50f)
-                        DidntMoveMuch = true;
-                    else
-                        DidntMoveMuch = false;
-                    CheckTimer = 0;
-                }
                 Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.3f);
-                if (Main.myPlayer == projectile.owner)
+
+                for (int k = 0; k < Main.maxNPCs; k++)
                 {
-                    Vector2 newMove = Main.MouseWorld - projectile.Center;
-                    float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
-                    Vector2 vectorToPlayer = Main.player[projectile.owner].Center - projectile.Center;
-                    float playerDistance = (float)Math.Sqrt(vectorToPlayer.X * vectorToPlayer.X + vectorToPlayer.Y * vectorToPlayer.Y);
-                    move = newMove;
-                    if (distanceTo > 75f)
+                    NPC n = Main.npc[k];
+                    Vector2 vectorToNPC = n.Center - projectile.Center;
+                    float distanceTo = (float)Math.Sqrt(vectorToNPC.X * vectorToNPC.X + vectorToNPC.Y * vectorToNPC.Y);
+                    if (n.active && n != LastHitTarget && (LastHit == null ? distanceTo < 200f : distanceTo < 300f) && !n.friendly && n.lifeMax > 5 && !n.dontTakeDamage && currTarget == null)
                     {
-                        AdjustMagnitude(ref move, 50f);
-                        projectile.velocity = (10 * projectile.velocity + move) / 11f;
-                        projectile.velocity += new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f));
-                        AdjustMagnitude(ref projectile.velocity, 50f);
+                        currTarget = n;
+                    }
+                    if (currTarget != null)
+                    {
+                        if (!currTarget.active || currTarget == LastHitTarget)
+                        {
+                            currTarget = null;
+                            projectile.tileCollide = true;
+                        }
+                        else
+                        {
+                            Vector2 newMove = currTarget.Center - projectile.Center;
+                            move = newMove;
+                            if (hitCd == 0)
+                            {
+                                projectile.tileCollide = false;
+                                AdjustMagnitude(ref move, 20f);
+                                projectile.velocity = (10 * projectile.velocity + move) / 11f;
+                                projectile.velocity += new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f));
+                                AdjustMagnitude(ref projectile.velocity, 20f);
+                            }
+                            else
+                            {
+                                projectile.tileCollide = true;
+                                AdjustMagnitude(ref projectile.velocity, 15f);
+                            }
+                        }
                     }
                     else
-                        AdjustMagnitude(ref projectile.velocity, 25f);
-                    if (playerDistance > 1000f)
-                        GlobalTimer += 14;
-                    projectile.netUpdate = true;
+                    {
+                        AdjustMagnitude(ref projectile.velocity, 15f);
+                    }
                 }
+                if (Main.myPlayer == projectile.owner)
+                {
+                    Vector2 vectorToPlayer = Main.player[projectile.owner].Center - projectile.Center;
+                    float playerDistance = (float)Math.Sqrt(vectorToPlayer.X * vectorToPlayer.X + vectorToPlayer.Y * vectorToPlayer.Y);
+                    if (playerDistance > 1000f)
+                    {
+                        if (currTarget != null)
+                            GlobalTimer += 2;
+                        else
+                            GlobalTimer += 19;
+                    }
+                    else if (currTarget == null && hitCd == 0)
+                    {
+                        GlobalTimer += 9;
+                    }
+                }
+                projectile.netUpdate = true;
             }
             else
             {
@@ -94,6 +123,7 @@ namespace KeybrandsPlus.Projectiles
                 AdjustMagnitude(ref projectile.velocity, 100f);
                 if (distanceTo < 50f)
                     projectile.Kill();
+                projectile.netUpdate = true;
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -128,11 +158,12 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target == LastHit)
-                damage = (int)(damage * 0.8f);
-            if (DidntMoveMuch)
-                damage = (int)(damage * 0.8f);
+            if (target != LastHit)
+                damage = (int)(damage * 1.25f);
             LastHit = target;
+            LastHitTarget = target;
+            projectile.localAI[0] = 0;
+            hitCd = Main.rand.Next(7, 13);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

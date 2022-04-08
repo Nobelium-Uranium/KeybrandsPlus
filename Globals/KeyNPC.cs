@@ -338,10 +338,10 @@ namespace KeybrandsPlus.Globals
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 16));
                     else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
-                    if (Main.rand.NextBool(5))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(20, 76));
-                    else if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 21));
+                    if (Main.rand.NextBool(8))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(10, 76));
+                    else if (Main.rand.NextBool(3))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 11));
                 }
                 else if (NPC.downedPlantBoss)
                 {
@@ -349,10 +349,10 @@ namespace KeybrandsPlus.Globals
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 11));
                     else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
-                    if (Main.rand.NextBool(5))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(10, 51));
-                    else if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
+                    if (Main.rand.NextBool(7))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 51));
+                    else if (Main.rand.NextBool(3))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 6));
                 }
                 else if (Main.hardMode)
                 {
@@ -360,10 +360,10 @@ namespace KeybrandsPlus.Globals
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>(), Main.rand.Next(1, 8));
                     else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
-                    if (Main.rand.NextBool(5))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(5, 26));
-                    else if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 6));
+                    if (Main.rand.NextBool(6))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 26));
+                    else if (Main.rand.NextBool(3))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 4));
                 }
                 else
                 {
@@ -372,9 +372,9 @@ namespace KeybrandsPlus.Globals
                     else if (Main.rand.NextBool())
                         Item.NewItem(npc.getRect(), ItemType<Items.Currency.Munny>());
                     if (Main.rand.NextBool(5))
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(3, 11));
-                    else if (Main.rand.NextBool())
-                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 4));
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), Main.rand.Next(1, 11));
+                    else if (Main.rand.NextBool(3))
+                        Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), 1);
                 }
             
         }

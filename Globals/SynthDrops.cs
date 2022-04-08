@@ -14,9 +14,9 @@ namespace KeybrandsPlus.Globals
             {
                 if (Main.hardMode)
                 {
-                    if (NPC.downedMoonlord && KeyUtils.RandPercent(.05f))
+                    if (NPC.downedMoonlord && KeyUtils.RandPercent(.01f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(.01f))
+                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(.005f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
                     else if (KeyUtils.RandPercent(.00125f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());

@@ -13,8 +13,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         {
             DisplayName.SetDefault("Eternal Blossom Wings");
             Tooltip.SetDefault("20% increased elemental damage and resistance\n" +
-                "Allows for very long lasting flight\n" +
-                "Just don't get hit\n" +
+                "Extremely agile and allows for very long lasting flight\n" +
                 "'Plucked from an otherworldly plant'");
         }
 
@@ -31,22 +30,58 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.wingTimeMax = 3600;
+            if (player.controlDown)
+                player.maxFallSpeed *= 2f;
+            else if (player.controlUp)
+                player.maxFallSpeed /= 2f;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising,
             ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = .75f;
-            ascentWhenRising = .15f;
-            maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 2.5f;
-            constantAscend = .125f;
+            if (player.controlDown)
+            {
+                maxAscentMultiplier = 1f;
+                ascentWhenRising = 0f;
+                maxCanAscendMultiplier = 1f;
+                constantAscend = 0f;
+                ascentWhenFalling = 1.25f;
+            }
+            else if (player.controlUp)
+            {
+                maxAscentMultiplier = 3f;
+                ascentWhenRising = .30f;
+                maxCanAscendMultiplier = 2f;
+                constantAscend = .25f;
+                ascentWhenFalling = 1f;
+            }
+            else
+            {
+                maxAscentMultiplier = 2.5f;
+                ascentWhenRising = .15f;
+                maxCanAscendMultiplier = 1f;
+                constantAscend = .125f;
+                ascentWhenFalling = .5f;
+            }
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 7f;
-            acceleration *= 1.5f;
+            if (player.controlUp)
+            {
+                speed = 7.5f;
+                acceleration *= 5f;
+            }
+            else if (player.controlDown)
+            {
+                speed = 20f;
+                acceleration *= 10f;
+            }
+            else
+            {
+                speed = 10f;
+                acceleration *= 7.5f;
+            }
         }
 
         public override void UpdateEquip(Player player)

@@ -16,7 +16,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "Direct melee hits inflict up to 150% more damage to injured foes\n" +
                 "MP Cost: 20\n" +
                 "Alt Attack: Judgement\n" +
-                "Throws a ethereal keybrand that follows the cursor\n" +
+                "Throws an ethereal keybrand that homes into enemies\n" +
                 "Ability: Damage Control\n" +
                 "'A weapon from the realm of light'");
         }
@@ -88,7 +88,7 @@ namespace KeybrandsPlus.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<LockbladeT3>());
+            r.AddRecipeGroup("K+:T3Lockblade");
             r.AddIngredient(ModContent.ItemType<Materials.RustedKeybrand>());
             r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 5);
             r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 5);

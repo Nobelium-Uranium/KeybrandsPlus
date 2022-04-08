@@ -16,8 +16,9 @@ namespace KeybrandsPlus.Items.Other
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("MP Prize");
+            DisplayName.SetDefault("MP Orb");
             Tooltip.SetDefault("You aren't supposed to have this in your inventory");
+            ItemID.Sets.ItemNoGravity[item.type] = true;
         }
         public override void SetDefaults()
         {
@@ -44,7 +45,7 @@ namespace KeybrandsPlus.Items.Other
         }
         public override void GrabRange(Player player, ref int grabRange)
         {
-            grabRange = (int)(grabRange * 1.5f);
+            grabRange *= 3;
         }
         public override bool GrabStyle(Player player)
         {

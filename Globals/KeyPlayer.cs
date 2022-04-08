@@ -24,12 +24,15 @@ namespace KeybrandsPlus.Globals
 
         public bool CheatMode;
 
+        public bool Flying;
+
         #region Glowmasks
         public bool HideGlowmask;
         public bool AvaliHelmet;
         public bool AvaliShirt;
         public bool AvaliPants;
         #endregion
+        public bool AvaliWings;
 
         public bool NoFlight;
 
@@ -92,6 +95,7 @@ namespace KeybrandsPlus.Globals
         public float ThunderBoost;
         public float AeroBoost;
         public float WaterBoost;
+        public float LightBoost;
         public float DarkBoost;
         #endregion
 
@@ -159,16 +163,51 @@ namespace KeybrandsPlus.Globals
         public override void ResetEffects()
         {
             if (StoredUUIDX <= 0)
-                StoredUUIDX = Main.rand.Next(1, 256);
+            {
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDX = 7;
+                }
+                else
+                {
+                    StoredUUIDX = Main.rand.Next(1, 256);
+                }
+            }
             if (StoredUUIDY <= 0)
-                StoredUUIDY = Main.rand.Next(1, 256);
+            {
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDY = 5;
+                }
+                else
+                {
+                    StoredUUIDY = Main.rand.Next(1, 256);
+                }
+            }
             if (StoredUUIDZ <= 0)
-                StoredUUIDZ = Main.rand.Next(1, 256);
+            {
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDZ = 4;
+                }
+                else
+                {
+                    StoredUUIDZ = Main.rand.Next(1, 256);
+                }
+            }
+            if (!CheatMode && player.name != "Lazure" && StoredUUIDX == 7 && StoredUUIDY == 5 && StoredUUIDZ == 4)
+            {
+                StoredUUIDX = 0;
+                StoredUUIDY = 0;
+                StoredUUIDZ = 0;
+            }
             UUID = new Vector3(StoredUUIDX, StoredUUIDY, StoredUUIDZ);
 
             maxMP = 100 + (25 * ChargedCrystals);
             maxDelta = 2 * maxMP;
             regenMP = false;
+
+            Flying = false;
 
             #region Glowmasks
             HideGlowmask = false;
@@ -176,6 +215,7 @@ namespace KeybrandsPlus.Globals
             AvaliShirt = false;
             AvaliPants = false;
             #endregion  
+            AvaliWings = false;
 
             statOldLife = 0;
 
@@ -228,6 +268,7 @@ namespace KeybrandsPlus.Globals
             ThunderBoost = 0;
             AeroBoost = 0;
             WaterBoost = 0;
+            LightBoost = 0;
             DarkBoost = 0;
             #endregion
 
@@ -300,9 +341,36 @@ namespace KeybrandsPlus.Globals
         {
             if (!mediumcoreDeath)
             {
-                StoredUUIDX = Main.rand.Next(1, 256);
-                StoredUUIDY = Main.rand.Next(1, 256);
-                StoredUUIDZ = Main.rand.Next(1, 256);
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDX = 7;
+                }
+                else
+                {
+                    StoredUUIDX = Main.rand.Next(1, 256);
+                }
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDY = 7;
+                }
+                else
+                {
+                    StoredUUIDY = Main.rand.Next(1, 256);
+                }
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDZ = 7;
+                }
+                else
+                {
+                    StoredUUIDZ = Main.rand.Next(1, 256);
+                }
+                if (!CheatMode && player.name != "Lazure" && StoredUUIDX == 7 && StoredUUIDY == 5 && StoredUUIDZ == 4)
+                {
+                    StoredUUIDX = 0;
+                    StoredUUIDY = 0;
+                    StoredUUIDZ = 0;
+                }
                 UUID = new Vector3(StoredUUIDX, StoredUUIDY, StoredUUIDZ);
 
                 Item item = new Item();
@@ -889,10 +957,20 @@ namespace KeybrandsPlus.Globals
         {
             if (proj.GetGlobalProjectile<KeyProjectile>().IsKeybrandProj && !target.friendly && !target.SpawnedFromStatue && target.lifeMax > 5 && target.type != NPCID.TargetDummy)
             {
-                if (rechargeMP)
-                    currentDelta += damage / 5;
+                if (proj.type == ProjectileType<Projectiles.Judgement>() || proj.type == ProjectileType<Projectiles.DraconicFireball>())
+                {
+                    if (rechargeMP)
+                        currentDelta += damage / 15;
+                    else
+                        currentDelta += damage / 9;
+                }
                 else
-                    currentDelta += damage / 3;
+                {
+                    if (rechargeMP)
+                        currentDelta += damage / 5;
+                    else
+                        currentDelta += damage / 3;
+                }
                 deltaDecayDelay = 0;
             }
         }
@@ -965,6 +1043,18 @@ namespace KeybrandsPlus.Globals
             }
             else
                 FixedDirection = false;
+            if (player.controlJump && player.wingTimeMax > 0)
+            {
+                Flying = true;
+            }
+            if (BlossomWings && player.controlJump && player.controlDown && player.wingTime > 0)
+            {
+                if (!player.controlLeft && !player.controlRight)
+                    player.velocity.X *= 0.75f;
+                player.velocity.Y *= 0.9f;
+                if (player.velocity.Y > -2f && player.velocity.Y < 1f)
+                    player.velocity.Y = 1E-05f;
+            }
         }
 
         public override void PostUpdateBuffs()

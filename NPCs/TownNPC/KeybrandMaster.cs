@@ -196,7 +196,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
             else if ((player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= player.GetModPlayer<Globals.KeyPlayer>().LightAlignment + 25 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment != 0 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 25) || player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 25 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment != 0)
                 Comment = "Your heart is succumbing to the darkness.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 25)
-                Comment = "Your heart is neutral. You are neither strongly afflicted by light nor darkness..";
+                Comment = "Your heart is neutral. You are neither strongly afflicted by light nor darkness.";
             else
                 Comment = "Your heart is neutral. You are neither afflicted by light nor darkness.";
             /*if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 100)
@@ -369,6 +369,10 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 shop.item[nextSlot].shopCustomPrice = new int?(1000);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;*/
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Developer.Chimera>());
+                shop.item[nextSlot].shopCustomPrice = new int?(5000);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
                 if (KeybrandsPlus.SoALoaded)
                 {
                     shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Other.BleakMidnight>());
@@ -376,30 +380,45 @@ namespace KeybrandsPlus.NPCs.TownNPC
                     shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                     nextSlot++;
                 }
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliHelmet>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1500);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliShirt>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1500);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliPants>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1500);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Wings.AvaliGlider>());
-                shop.item[nextSlot].shopCustomPrice = new int?(3000);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Developer.Chimera>());
-                shop.item[nextSlot].shopCustomPrice = new int?(5000);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Other.FullbrightDye>());
-                shop.item[nextSlot].shopCustomPrice = new int?(200);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
+                if (Main.moonPhase == 1 || Main.moonPhase == 5)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliHelmet>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(1500);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                }
+                if (Main.moonPhase == 2 || Main.moonPhase == 6)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliShirt>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(1500);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                }
+                if (Main.moonPhase == 3 || Main.moonPhase == 7)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliPants>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(1500);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                }
+                if (Main.moonPhase == 0 || Main.moonPhase == 4)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Wings.AvaliGlider>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(3000);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Other.FullbrightDye>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(200);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                }
+                if (Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDX % 7 == 0 && Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDY % 5 == 0 && Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDZ % 4 == 0)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Wings.BlossomWings>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(200000);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                }
             }
         }
 

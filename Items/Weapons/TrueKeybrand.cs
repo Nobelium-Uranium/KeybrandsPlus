@@ -16,7 +16,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "Direct melee hits inflict up to 200% more damage to injured foes\n" +
                 "Alt Attack: Judgement Triad\n" +
                 "MP Cost: 30\n" +
-                "Throws 3 ethereal keybrands that follow the cursor\n" +
+                "Throws up to 3 ethereal keybrands that home into enemies\n" +
                 "Abilities: Damage Control, Leaf Bracer\n" +
                 "'Imbued with the forces of light'");
         }
@@ -72,12 +72,12 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item71;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 30;
-                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] < 3) player.GetModPlayer<KeyPlayer>().currentMP -= 30;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] < 3;
             }
-            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
+            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] < 3;
         }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        /*public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
@@ -91,7 +91,7 @@ namespace KeybrandsPlus.Items.Weapons
                 }
             }
             return false;
-        }
+        }*/
         public override void HoldItem(Player player)
         {
             if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)

@@ -14,36 +14,6 @@ namespace KeybrandsPlus.NPCs.Other
 {
     public class TreasureChest : ModNPC
     {
-        #region Explosives
-        private int[] Explosives = {
-            ProjectileID.Grenade,
-            ProjectileID.StickyGrenade,
-            ProjectileID.PartyGirlGrenade,
-            ProjectileID.BouncyGrenade,
-            ProjectileID.Bomb,
-            ProjectileID.StickyBomb,
-            ProjectileID.BouncyBomb,
-            ProjectileID.BombFish,
-            ProjectileID.Dynamite,
-            ProjectileID.StickyDynamite,
-            ProjectileID.BouncyDynamite,
-            ProjectileID.RocketI,
-            ProjectileID.RocketII,
-            ProjectileID.RocketIII,
-            ProjectileID.RocketIV,
-            ProjectileID.RocketSnowmanI,
-            ProjectileID.RocketSnowmanII,
-            ProjectileID.RocketSnowmanIII,
-            ProjectileID.RocketSnowmanIV,
-            ProjectileID.GrenadeI,
-            ProjectileID.GrenadeII,
-            ProjectileID.GrenadeIII,
-            ProjectileID.GrenadeIV,
-            ProjectileID.ExplosiveBunny,
-            ProjectileID.Explosives
-        };
-        #endregion
-
         #region Treasure Pools
         private int[] ShardPool = {
             ItemType<Items.Synthesis.Brave.BraveShard>(),
@@ -111,6 +81,8 @@ namespace KeybrandsPlus.NPCs.Other
         private bool SafeToUnlock;
         private bool Unlocked;
 
+        private float lootAlpha;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Treasure Chest");
@@ -129,6 +101,8 @@ namespace KeybrandsPlus.NPCs.Other
             npc.HitSound = SoundID.NPCHit4;
             npc.rarity = 1;
             npc.behindTiles = true;
+            lootAlpha = 255;
+            //npc.catchItem = (short)ModContent.ItemType<Items.Placeable.TreasureChest>();
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -143,11 +117,6 @@ namespace KeybrandsPlus.NPCs.Other
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            foreach (int i in Explosives)
-            {
-                if (projectile.type == i && projectile.damage > 0)
-                    return true;
-            }
             return false;
         }
         
@@ -155,6 +124,14 @@ namespace KeybrandsPlus.NPCs.Other
         {
             if (npc.alpha >= 255)
                 npc.active = false;
+            if (lootAlpha > 255)
+            {
+                lootAlpha = 255;
+            }
+            else if (lootAlpha < 0)
+            {
+                lootAlpha = 0;
+            }
             return base.PreAI();
         }
 
@@ -174,14 +151,21 @@ namespace KeybrandsPlus.NPCs.Other
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //TODO loot flash
+            Vector2 drawPos = npc.position - Main.screenPosition;
+            Color color = new Color(255, 255, 255, 0) * (1f - lootAlpha / 255);
+            spriteBatch.Draw(mod.GetTexture("Textures/Loot"), drawPos + new Vector2(0, 2), null, color, 0f, Vector2.Zero, npc.scale, SpriteEffects.None, 0f);
         }
 
         public override void FindFrame(int frameHeight)
         {
             if (npc.localAI[0] >= 10)
+            {
                 npc.frame.Y = 2 * frameHeight;
+            }
             else if (npc.localAI[0] >= 5)
+            {
                 npc.frame.Y = 1 * frameHeight;
+            }
             else
                 npc.frame.Y = 0;
         }
@@ -319,10 +303,19 @@ namespace KeybrandsPlus.NPCs.Other
                 npc.netUpdate = true;
                 
             }
-            else if (npc.localAI[0] > 30)
+            else if (npc.localAI[0] > 90)
             {
-                npc.alpha += 5;
+                npc.alpha += 10;
             }
+            if (npc.localAI[0] >= 30)
+            {
+                lootAlpha += 5;
+            }
+            else if (npc.localAI[0] >= 5)
+            {
+                lootAlpha -= 51;
+            }
+            Lighting.AddLight(npc.Center, (1f - lootAlpha / 255) / 3, (1f - lootAlpha / 255) / 3, (1f - lootAlpha / 255) / 3);
         }
     }
 }

@@ -48,16 +48,8 @@ namespace KeybrandsPlus.Items.Weapons
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<Materials.KeybrandMold>());
-            r.AddIngredient(ItemID.DemoniteBar, 18);
-            r.AddIngredient(ItemID.ShadowScale, 12);
-            r.AddTile(TileID.Anvils);
-            r.SetResult(this);
-            r.AddRecipe();
-
-            r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<Materials.KeybrandMold>());
-            r.AddIngredient(ItemID.CrimtaneBar, 18);
-            r.AddIngredient(ItemID.TissueSample, 12);
+            r.AddRecipeGroup("K+:EvilBar", 18);
+            r.AddRecipeGroup("K+:EvilSample", 12);
             r.AddTile(TileID.Anvils);
             r.SetResult(this);
             r.AddRecipe();

@@ -59,7 +59,7 @@ namespace KeybrandsPlus.Globals
                 IsKeybrand = true;
             if (item.type == ItemType<Items.Currency.Munny>())
             {
-                TimeLeft = 600;
+                TimeLeft = 900;
                 Scale = 1f;
             }
             else if (item.type == ItemType<Items.Other.Blood>())

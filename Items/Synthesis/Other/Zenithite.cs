@@ -91,8 +91,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zanithite");
-            Tooltip.SetDefault("A useless copycat of the legendary ore\n" +
-                "Nonetheless, it is extremely rare");
+            Tooltip.SetDefault("A very rare but useless copycat of the legendary ore");
             ItemID.Sets.ItemNoGravity[item.type] = true;
         }
         public override void SetDefaults()

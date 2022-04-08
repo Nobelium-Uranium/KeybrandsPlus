@@ -31,7 +31,7 @@ namespace KeybrandsPlus.Helpers
                 NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
         }
 
-        public static void PremultiplyTexture(Texture2D texture)
+        public static Texture2D PremultiplyTexture(Texture2D texture)
         {
             Color[] buffer = new Color[texture.Width * texture.Height];
             texture.GetData(buffer);
@@ -40,6 +40,7 @@ namespace KeybrandsPlus.Helpers
                 buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
             }
             texture.SetData(buffer);
+            return texture;
         }
         
         /// <summary>
@@ -300,7 +301,7 @@ namespace KeybrandsPlus.Helpers
         {
             if (Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode)
             {
-                if (int.Parse(args[0]) < 255 && int.Parse(args[0]) >= 0 && int.Parse(args[1]) < 255 && int.Parse(args[1]) >= 0 && int.Parse(args[2]) < 255 && int.Parse(args[2]) >= 0)
+                if (int.Parse(args[0]) <= 255 && int.Parse(args[0]) >= 0 && int.Parse(args[1]) <= 255 && int.Parse(args[1]) >= 0 && int.Parse(args[2]) <= 255 && int.Parse(args[2]) >= 0)
                 {
                     caller.Reply("Changed UUID successfully.");
                     Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDX = int.Parse(args[0]);
