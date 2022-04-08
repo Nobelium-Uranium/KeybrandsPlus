@@ -957,7 +957,14 @@ namespace KeybrandsPlus.Globals
         {
             if (proj.GetGlobalProjectile<KeyProjectile>().IsKeybrandProj && !target.friendly && !target.SpawnedFromStatue && target.lifeMax > 5 && target.type != NPCID.TargetDummy)
             {
-                if (proj.type == ProjectileType<Projectiles.Judgement>() || proj.type == ProjectileType<Projectiles.DraconicFireball>())
+                if (proj.type == ProjectileType<Projectiles.Judgement>())
+                {
+                    if (rechargeMP)
+                        currentDelta += damage / 25;
+                    else
+                        currentDelta += damage / 15;
+                }
+                else if (proj.type == ProjectileType<Projectiles.DraconicFireball>())
                 {
                     if (rechargeMP)
                         currentDelta += damage / 15;

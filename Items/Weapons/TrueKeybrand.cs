@@ -75,7 +75,7 @@ namespace KeybrandsPlus.Items.Weapons
                 if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] < 3) player.GetModPlayer<KeyPlayer>().currentMP -= 30;
                 return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] < 3;
             }
-            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] < 3;
+            return base.CanUseItem(player);
         }
         /*public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

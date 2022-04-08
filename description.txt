@@ -31,6 +31,11 @@ Contributors:
  Teesi - Resprites for some keybrands
 
 Version History:
+-1.0.33-
+Due to the fact that it's entirely possible to have a dungeon without an Abyssal Tide, they are now always generated in chests containing a Muramasa
+Zenithite+ is now actually obtainable, apparently I disabled them for some reason, probably because they were pretty useless
+Added Aero-Carbon Alloy, Aerosteel Plating, and Aerogel, which all can be found in chests and can be used along with a single Zenithite+ to make the Zenitherium Crucible, though its use is currently purely aesthetic
+
 -1.0.32-
 Judgement now homes into enemies it hasn't hit recently instead of being controlled with the cursor
 Judgement gives 1/3 of the usual delta granted from damage dealt, the same reduction applies to Draconic Flare's debris

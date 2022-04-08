@@ -80,7 +80,7 @@ namespace KeybrandsPlus.Tiles
                 NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
                 player.editedChestName = false;
             }
-            if (Main.netMode == NetmodeID.MultiplayerClient && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand)
+            if (Main.netMode == NetmodeID.MultiplayerClient && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand && player.HeldItem != null)
             {
                 if (left == player.chestX && top == player.chestY && player.chest >= 0)
                 {
@@ -94,7 +94,7 @@ namespace KeybrandsPlus.Tiles
                     Main.stackSplit = 600;
                 }
             }
-            else if (player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand)
+            else if (player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand && player.HeldItem != null)
             {
                 int chest = Chest.FindChest(left, top);
                 if (chest >= 0)

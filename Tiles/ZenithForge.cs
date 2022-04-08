@@ -27,14 +27,19 @@ namespace KeybrandsPlus.Tiles
             adjTiles = new int[] { TileID.AdamantiteForge };
             animationFrameHeight = 38;
         }
+        private float flicker = 0.5f;
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Main.tile[i, j];
+            if (Main.GameUpdateCount % 10 == Main.rand.Next(0, 10))
+            {
+                flicker = Main.rand.NextFloat(0.45f, 0.55f);
+            }
             if (tile.frameX >= 18 && tile.frameX < 36 && tile.frameY % 38 >= 18 && tile.frameY % 38 < 38)
             { // 0, 250, 190
                 r = 0f;
-                g = .98f * .75f;
-                b = .75f * .75f;
+                g = .98f * flicker;
+                b = .75f * flicker;
             }
         }
         public override void AnimateTile(ref int frame, ref int frameCounter)

@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Items.Placeable
@@ -24,7 +25,20 @@ namespace KeybrandsPlus.Items.Placeable
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.ZenithForge>();
             item.rare = ItemRarityID.Cyan;
+            item.value = Item.sellPrice(platinum: 1);
             item.GetGlobalItem<Globals.KeyRarity>().ZenithRarity = true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<Materials.AeroCarbonAlloy>(), 20);
+            r.AddIngredient(ModContent.ItemType<Materials.AerosteelPlating>(), 15);
+            r.AddIngredient(ModContent.ItemType<Materials.Aerogel>(), 5);
+            r.AddIngredient(ModContent.ItemType<Synthesis.Other.ZenithitePlus>());
+            r.AddTile(TileID.HeavyWorkBench);
+            r.SetResult(this);
+            r.AddRecipe();
         }
     }
 }

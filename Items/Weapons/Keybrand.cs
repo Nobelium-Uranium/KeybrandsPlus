@@ -74,7 +74,7 @@ namespace KeybrandsPlus.Items.Weapons
                 if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 20;
                 return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
             }
-            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
+            return base.CanUseItem(player);
         }
         public override void HoldItem(Player player)
         {

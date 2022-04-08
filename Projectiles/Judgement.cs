@@ -51,7 +51,7 @@ namespace KeybrandsPlus.Projectiles
             else if (hitCd < 0)
                 hitCd = 0;
             Vector2 move = Vector2.Zero;
-            if (GlobalTimer++ < 900 && !Main.player[projectile.owner].dead)
+            if (GlobalTimer++ < 1200 && !Main.player[projectile.owner].dead)
             {
                 Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.3f);
 
@@ -75,7 +75,7 @@ namespace KeybrandsPlus.Projectiles
                         {
                             Vector2 newMove = currTarget.Center - projectile.Center;
                             move = newMove;
-                            if (hitCd == 0)
+                            if (hitCd == 0 && Collision.CanHitLine(projectile.Center, 0, 0, currTarget.Center, 0, 0))
                             {
                                 projectile.tileCollide = false;
                                 AdjustMagnitude(ref move, 20f);
@@ -154,12 +154,12 @@ namespace KeybrandsPlus.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            return GlobalTimer < 900 && !Main.player[projectile.owner].dead && !target.friendly;
+            return GlobalTimer < 1200 && !Main.player[projectile.owner].dead && !target.friendly;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target != LastHit)
-                damage = (int)(damage * 1.25f);
+            if (target == LastHit)
+                damage = (int)(damage * .75f);
             LastHit = target;
             LastHitTarget = target;
             projectile.localAI[0] = 0;

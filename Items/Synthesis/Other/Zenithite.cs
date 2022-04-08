@@ -22,6 +22,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             item.height = 24;
             item.rare = ItemRarityID.Cyan;
             item.maxStack = 999;
+            item.value = Item.sellPrice(gold: 1);
             item.GetGlobalItem<Globals.KeyRarity>().ZenithRarity = true;
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)
@@ -59,6 +60,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             item.height = 32;
             item.rare = ItemRarityID.Purple;
             item.maxStack = 99;
+            item.value = Item.sellPrice(platinum: 1);
             item.GetGlobalItem<Globals.KeyRarity>().ZenithRarity = true;
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)

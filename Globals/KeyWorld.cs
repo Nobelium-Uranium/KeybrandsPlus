@@ -79,33 +79,74 @@ namespace KeybrandsPlus.Globals
             BitsByte flags = reader.ReadByte();
             downedDemonTide = flags[0];
         }
-
         public override void PostWorldGen()
         {
+            int chestCount = 0;
+            int zenithPlusCount = 0;
+            int abyssalTideCount = 0;
+            int crucibleMatCount = 0;
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
                 Chest chest = Main.chest[chestIndex];
                 if (chest != null && Main.tile[chest.x, chest.y].type == TileID.Containers)
                 {
+                    chestCount++;
+                    bool AbyssalTide = false;
                     for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
                     {
                         if (chest.item[inventoryIndex].type == 0)
                         {
                             if (Main.tile[chest.x, chest.y].frameX == 2 * 36)
                             {
-                                /*if (Main.rand.NextBool(50))
-                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Synthesis.Other.ZenithitePlus>());
-                                else*/ if (Main.rand.NextBool(5))
+                                for (int inventoryIndex2 = 0; inventoryIndex2 < 40; inventoryIndex2++)
+                                {
+                                    if (chest.item[inventoryIndex2].type == ItemID.Muramasa)
+                                        AbyssalTide = true;
+                                }
+                                if (AbyssalTide)
+                                {
                                     chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Weapons.AbyssalTide>());
+                                    abyssalTideCount++;
+                                }
+                                else if (Main.rand.NextBool(50))
+                                {
+                                    chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Synthesis.Other.ZenithitePlus>());
+                                    zenithPlusCount++;
+                                }
                             }
-                            /*else if (Main.rand.NextBool(25))
-                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Synthesis.Other.ZenithitePlus>());*/
+                            else if (Main.rand.NextBool(25))
+                            {
+                                chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Synthesis.Other.ZenithitePlus>());
+                                zenithPlusCount++;
+                            }
+                            else if (Main.rand.NextBool(5))
+                            {
+                                switch (Main.rand.Next(0, 3))
+                                {
+                                    default:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Materials.Aerogel>());
+                                        chest.item[inventoryIndex].stack = Main.rand.Next(1, 3);
+                                        break;
+                                    case 1:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Materials.AerosteelPlating>());
+                                        chest.item[inventoryIndex].stack = Main.rand.Next(3, 7);
+                                        break;
+                                    case 2:
+                                        chest.item[inventoryIndex].SetDefaults(ModContent.ItemType<Items.Materials.AeroCarbonAlloy>());
+                                        chest.item[inventoryIndex].stack = Main.rand.Next(5, 11);
+                                        break;
+                                }
+                                crucibleMatCount++;
+                            }
                             break;
                         }
                     }
-                    
                 }
             }
+            //mod.Logger.InfoFormat("Detected {0} chests...", chestCount);
+            //mod.Logger.InfoFormat("Hid {0} Zenithite+ in chests", zenithPlusCount);
+            //mod.Logger.InfoFormat("Hid {0} Abyssal Tide keybrands in dungeon chests", abyssalTideCount);
+            //mod.Logger.InfoFormat("Hid some random junk in {0} chests", crucibleMatCount);
         }
     }
 }
