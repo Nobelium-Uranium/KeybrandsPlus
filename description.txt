@@ -31,6 +31,9 @@ Contributors:
  Teesi - Resprites for some keybrands
 
 Version History:
+-1.0.35-
+Judgement has reduced damage and crit rate when hitting the same target
+
 -1.0.34-
 Fixed Judgement targeting behaving strangely if its current target is behind a wall
 Judgement should no longer get stuck on enemies that turn invincible (I.E. Moon Lord's eyes)

@@ -173,7 +173,11 @@ namespace KeybrandsPlus.Projectiles
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (target == LastHit)
-                damage = (int)(damage * .75f);
+            {
+                damage /= 2;
+                if (crit && Main.rand.NextBool())
+                    crit = false;
+            }
             LastHit = target;
             LastHitTarget = target;
             projectile.localAI[0] = 0;
