@@ -174,8 +174,8 @@ namespace KeybrandsPlus.Projectiles
         {
             if (target == LastHit)
             {
-                damage /= 2;
-                if (crit && Main.rand.NextBool())
+                damage /= 3;
+                if (crit && !Main.rand.NextBool(3))
                     crit = false;
             }
             LastHit = target;
