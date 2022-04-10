@@ -17,6 +17,7 @@ namespace KeybrandsPlus.Projectiles
         private NPC LastHitTarget;
         private int hitCd;
         private int GlobalTimer;
+        private Vector2 randOffset;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Judgement");
@@ -37,6 +38,7 @@ namespace KeybrandsPlus.Projectiles
             projectile.extraUpdates += 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+            randOffset = new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8));
         }
         public override void AI()
         {
@@ -54,7 +56,6 @@ namespace KeybrandsPlus.Projectiles
             if (GlobalTimer++ < 1200 && !Main.player[projectile.owner].dead)
             {
                 Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.3f);
-
                 for (int k = 0; k < Main.maxNPCs; k++)
                 {
                     NPC n = Main.npc[k];
@@ -66,14 +67,25 @@ namespace KeybrandsPlus.Projectiles
                     }
                     if (currTarget != null)
                     {
-                        if (!currTarget.active || currTarget == LastHitTarget)
+                        if (!Collision.CanHitLine(projectile.Center, 0, 0, currTarget.Center, 0, 0))
+                            projectile.localAI[1]++;
+                        else
+                            projectile.localAI[1] = 0;
+                        if (!currTarget.active || currTarget == LastHitTarget || currTarget.dontTakeDamage || projectile.localAI[1] >= 10)
                         {
+                            projectile.ai[0] = 0;
                             currTarget = null;
                             projectile.tileCollide = true;
+                            randOffset = new Vector2(Main.rand.NextFloat(-8, 8), Main.rand.NextFloat(-8, 8));
                         }
                         else
                         {
-                            Vector2 newMove = currTarget.Center - projectile.Center;
+                            if (projectile.ai[0]++ >= 5)
+                            {
+                                projectile.ai[0] = 0;
+                                randOffset = new Vector2(Main.rand.NextFloat(-currTarget.width * .75f, currTarget.width * .75f), Main.rand.NextFloat(-currTarget.height * .75f, currTarget.height * .75f));
+                            }
+                            Vector2 newMove = currTarget.Center + randOffset - projectile.Center;
                             move = newMove;
                             if (hitCd == 0 && Collision.CanHitLine(projectile.Center, 0, 0, currTarget.Center, 0, 0))
                             {
@@ -111,6 +123,8 @@ namespace KeybrandsPlus.Projectiles
                         GlobalTimer += 9;
                     }
                 }
+                if (projectile.velocity.LengthSquared() < 10f)
+                    projectile.velocity = Vector2.Normalize(projectile.velocity) * 10f;
                 projectile.netUpdate = true;
             }
             else
@@ -171,8 +185,12 @@ namespace KeybrandsPlus.Projectiles
             Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
             for (int i = 0; i < Main.rand.Next(4, 7); i++)
             {
-                int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
+                int dust = Dust.NewDust(positionInWorld, 0, 0, DustID.TerraBlade, Scale: Main.rand.NextFloat(.75f, 1f));
+                Main.dust[dust].velocity += projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(.25f, .75f);
+                Main.dust[dust].noGravity = true;
+                dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
                 Main.dust[dust].velocity += Vector2.Normalize(projectile.velocity) * Main.rand.NextFloat(1.25f, 1.75f);
+
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

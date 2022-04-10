@@ -171,14 +171,16 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.StrikeNPC(damage / 3, 0, 0, crit ? Main.rand.NextBool(5) : false, true);
             DamageDealt += damage;
             projectile.damage -= (int)(InitialDamage * 0.05f);
             Vector2 point = projectile.Center;
             Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
             for (int i = 0; i < Main.rand.Next(4, 7); i++)
             {
-                int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
+                int dust = Dust.NewDust(positionInWorld, 0, 0, DustID.TerraBlade, Scale: Main.rand.NextFloat(.75f, 1f));
+                Main.dust[dust].velocity += projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(.25f, .75f);
+                Main.dust[dust].noGravity = true;
+                dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
                 Main.dust[dust].velocity += Vector2.Normalize(projectile.velocity) * Main.rand.NextFloat(1.25f, 1.75f);
             }
             LastHitType = target.type;
