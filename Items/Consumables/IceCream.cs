@@ -11,7 +11,7 @@ namespace KeybrandsPlus.Items.Consumables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sea-Salt Ice Cream");
-            Tooltip.SetDefault("Minor increase to all stats");
+            Tooltip.SetDefault("Minor improvements to all stats");
         }
         public override void SetDefaults()
         {
@@ -25,11 +25,11 @@ namespace KeybrandsPlus.Items.Consumables
             item.UseSound = SoundID.Item2;
             item.buffType = BuffID.WellFed;
             item.buffTime = 162000;
-            item.value = Item.buyPrice(gold: 5);
+            item.value = Item.sellPrice(gold: 5);
         }
         public override bool UseItem(Player player)
         {
-            if (Main.rand.Next(32) == 0)
+            if (Main.rand.Next(50) == 0)
                 player.QuickSpawnItem(ModContent.ItemType<Other.WinnerStick>());
             return true;
         }

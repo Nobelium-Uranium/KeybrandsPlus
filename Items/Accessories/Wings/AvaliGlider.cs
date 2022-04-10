@@ -68,7 +68,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                 player.wingFrameCounter = 0;
             }
             player.wingFrameCounter++;
-            if (player.controlJump && player.velocity.Y != 0 && !player.GetModPlayer<KeyPlayer>().AvaliWings)
+            if (player.controlJump && player.velocity.Y != 0 && !player.GetModPlayer<KeyPlayer>().AvaliWings && player.wingsLogic != 0)
             {
                 if (player.wingTime > 0)
                 {

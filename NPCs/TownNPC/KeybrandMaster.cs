@@ -308,6 +308,10 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
+            shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.IceCream>());
+            shop.item[nextSlot].shopCustomPrice = new int?(50);
+            shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+            nextSlot++;
             if (NPC.downedBoss2)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.TreasureMagnet>());

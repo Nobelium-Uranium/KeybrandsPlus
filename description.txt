@@ -31,6 +31,10 @@ Contributors:
  Teesi - Resprites for some keybrands
 
 Version History:
+-1.0.34-
+Fixed Judgement targeting behaving strangely if its current target is behind a wall
+Judgement should no longer get stuck on enemies that turn invincible (I.E. Moon Lord's eyes)
+
 -1.0.33-
 Due to the fact that it's entirely possible to have a dungeon without an Abyssal Tide, they are now always generated in chests containing a Muramasa
 Zenithite+ is now actually obtainable, apparently I disabled them for some reason, probably because they were pretty useless
