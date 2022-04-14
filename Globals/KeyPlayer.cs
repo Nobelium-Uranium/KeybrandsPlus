@@ -26,6 +26,8 @@ namespace KeybrandsPlus.Globals
 
         public bool Flying;
 
+        public PlayerDeathReason lastDamageSource;
+
         #region Glowmasks
         public bool HideGlowmask;
         public bool AvaliHelmet;
@@ -86,6 +88,8 @@ namespace KeybrandsPlus.Globals
         public bool SecondChance;
         public bool SCCooldown;
         public bool Stop;
+
+        public bool HollowSigil;
 
         public bool Stimulated;
         public bool Divinity;
@@ -260,6 +264,8 @@ namespace KeybrandsPlus.Globals
             SCCooldown = false;
             Stop = false;
 
+            HollowSigil = false;
+
             Stimulated = false;
             Divinity = false;
 
@@ -381,6 +387,9 @@ namespace KeybrandsPlus.Globals
                 item.stack = 10;
                 items.Add(item);
                 item = new Item();
+                item.SetDefaults(ItemType<Items.Other.HollowSigil>());
+                items.Add(item);
+                item = new Item();
                 item.SetDefaults(ItemType<Items.Other.DevNull>());
                 items.Add(item);
             }
@@ -409,6 +418,7 @@ namespace KeybrandsPlus.Globals
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            lastDamageSource = damageSource;
             if (NoHitsound)
                 playSound = false;
             if (LeafBracerTimer > 0)
@@ -436,11 +446,15 @@ namespace KeybrandsPlus.Globals
                     currentMP = maxMP;
             }
             statOldLife = player.statLife;
+            if (HollowSigil && (!SecondChance || SCCooldown || damage > 500))
+            {
+                player.KillMe(lastDamageSource, damage, hitDirection, pvp);
+            }
         }
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (SecondChance && !SCCooldown && statOldLife > 1 && damage < player.statLifeMax2 * 1.5f)
+            if (SecondChance && !SCCooldown && ((HollowSigil && damage < 500) || (statOldLife > 1 && damage < player.statLifeMax2 * 1.5f)))
             {
                 Main.PlaySound(SoundID.Item67, player.position);
                 player.statLife = 1;
@@ -455,7 +469,14 @@ namespace KeybrandsPlus.Globals
                 player.ClearBuff(BuffID.Frozen);
                 player.ClearBuff(BuffID.Stoned);
                 player.ClearBuff(BuffID.Webbed);
-                player.AddBuff(BuffType<SecondChanceCooldown>(), player.longInvince ? 240 : 120);
+                if (HollowSigil)
+                {
+                    if (LeafBracerTimer < (player.longInvince ? 60 : 30))
+                        LeafBracerTimer = player.longInvince ? 60 : 30;
+                    player.AddBuff(BuffType<SecondChanceCooldown>(), 1800);
+                }
+                else
+                    player.AddBuff(BuffType<SecondChanceCooldown>(), player.longInvince ? 240 : 120);
                 player.ClearBuff(BuffType<SecondChance>());
                 return false;
             }
@@ -781,6 +802,12 @@ namespace KeybrandsPlus.Globals
             {
                 player.immune = true;
                 LeafBracerTimer -= 1;
+            }
+            if (HollowSigil)
+            {
+                player.statLifeMax2 = 1;
+                if (player.statLife > player.statLifeMax2)
+                    player.statLife = player.statLifeMax2;
             }
         }
 

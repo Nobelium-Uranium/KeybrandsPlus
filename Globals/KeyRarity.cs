@@ -83,7 +83,7 @@ namespace KeybrandsPlus.Globals
                     TooltipLine line = tooltips[tooltip];
                     if (line.mod == "Terraria" && line.Name == "ItemName")
                     {
-                        line.overrideColor = new Color(25, 25, 25);
+                        line.overrideColor = new Color(50, 50, 50);
                     }
                 }
             }

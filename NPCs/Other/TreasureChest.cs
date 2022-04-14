@@ -266,7 +266,9 @@ namespace KeybrandsPlus.NPCs.Other
                 #region Synthesis Materials
                 if (KeyUtils.RandPercent(NPC.downedMoonlord ? .1f : .01f))
                 {
-                    if (KeyUtils.RandPercent(.01f))
+                    if (Main.rand.NextBool(256))
+                        KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Synthesis.Other.ZenithitePlus>());
+                    else if (Main.rand.NextBool(128))
                         KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zanithite>());
                     else
                         KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());

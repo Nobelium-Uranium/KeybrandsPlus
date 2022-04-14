@@ -37,7 +37,7 @@ namespace KeybrandsPlus.Items.Accessories.Special
             player.GetModPlayer<KeyPlayer>().LightAlignment += 20;
             player.GetModPlayer<KeyPlayer>().DarkAlignment -= 10;
             player.GetModPlayer<KeyPlayer>().CrownCharm = true;
-            if (!player.GetModPlayer<KeyPlayer>().SCCooldown && player.statLife > 1)
+            if (!player.GetModPlayer<KeyPlayer>().SCCooldown && (player.GetModPlayer<KeyPlayer>().HollowSigil || player.statLife > 1))
                 player.AddBuff(ModContent.BuffType<SecondChance>(), 2);
         }
     }
