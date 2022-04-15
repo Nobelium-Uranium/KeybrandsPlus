@@ -366,7 +366,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.ZenithFragment>());
-                shop.item[nextSlot].shopCustomPrice = new int?(200);
+                shop.item[nextSlot].shopCustomPrice = new int?(50);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;/*
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.UltimaBlueprint>());
@@ -412,14 +412,14 @@ namespace KeybrandsPlus.NPCs.TownNPC
                     shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                     nextSlot++;
                     shop.item[nextSlot].SetDefaults(ItemType<Items.Other.FullbrightDye>());
-                    shop.item[nextSlot].shopCustomPrice = new int?(200);
+                    shop.item[nextSlot].shopCustomPrice = new int?(100);
                     shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                     nextSlot++;
                 }
                 if (Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDX % 7 == 0 && Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDY % 5 == 0 && Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDZ % 4 == 0)
                 {
                     shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Wings.BlossomWings>());
-                    shop.item[nextSlot].shopCustomPrice = new int?(200000);
+                    shop.item[nextSlot].shopCustomPrice = new int?(30000);
                     shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                     nextSlot++;
                 }

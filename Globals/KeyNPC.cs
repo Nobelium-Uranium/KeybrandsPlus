@@ -376,7 +376,8 @@ namespace KeybrandsPlus.Globals
                     else if (Main.rand.NextBool(3))
                         Item.NewItem(npc.getRect(), ItemType<Items.Other.MPOrb>(), 1);
                 }
-            
+            if (npc.type == NPCID.Plantera && npc.lastInteraction != 255 && Main.player[npc.lastInteraction].active && (Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().StoredUUIDX % 7 == 0 || Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().StoredUUIDY % 5 == 0 || Main.player[npc.lastInteraction].GetModPlayer<KeyPlayer>().StoredUUIDZ % 4 == 0) && Main.rand.NextBool(754))
+                Item.NewItem(npc.getRect(), ItemType<Items.Accessories.Wings.BlossomWings>());
         }
     }
 }

@@ -31,6 +31,12 @@ Contributors:
  Teesi - Resprites for some keybrands
 
 Version History:
+-1.0.37-
+Gave Strike Raid and Judgment afterimages and fixed up Eternal Flames' afterimages
+Reduced the damage nerf for Judgment if being used with the normal Keybrand, since it made that kinda useless in general
+Keybrand Mold no longer requires a shortsword
+Added a secret method to obtain a certain item
+
 -1.0.36-
 Added the Hollow Sigil, a challenge item obtained on character creation, or by crafting it at a demon altar
 Favoriting the Hollow Sigil will lock your maximum life to 1 point, this has a special interaction with the Crown Charm

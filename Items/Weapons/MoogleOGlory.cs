@@ -56,6 +56,7 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override bool CanUseItem(Player player)
         {
+            munny = 0;
             for (int i = 0; i < 58; i++)
             {
                 if (player.inventory[i].type == ModContent.ItemType<Currency.Munny>() && player.inventory[i].stack > 0)
@@ -69,8 +70,8 @@ namespace KeybrandsPlus.Items.Weapons
                 item.melee = true;
                 item.ranged = false;
                 item.useTurn = true;
-                item.useTime = 20;
-                item.useAnimation = 20;
+                item.useTime = 15;
+                item.useAnimation = 15;
                 item.shoot = 0;
                 item.noMelee = false;
                 item.noUseGraphic = false;
@@ -88,19 +89,20 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noUseGraphic = true;
                 if (munny >= 100)
                 {
-                    int amount = munny;
+                    int amount = 100;
                     for (int i = 0; i < 58 && amount > 0; i++)
                     {
                         if (player.inventory[i].stack > 0 && player.inventory[i].type == ModContent.ItemType<Currency.Munny>())
                         {
-                            if (player.inventory[i].stack >= 100)
+                            if (player.inventory[i].stack >= amount)
                             {
-                                player.inventory[i].stack -= 100;
+                                player.inventory[i].stack -= amount;
                                 amount = 0;
                             }
                             else
                             {
-                                return false;
+                                amount -= player.inventory[i].stack;
+                                player.inventory[i].SetDefaults(0, false);
                             }
                             if (player.inventory[i].stack <= 0)
                             {
@@ -118,7 +120,7 @@ namespace KeybrandsPlus.Items.Weapons
             if (player.altFunctionUse == 2)
             {
                 int coin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ProjectileID.GoldCoin, damage * 10, item.knockBack, player.whoAmI);
-                Main.projectile[coin].Name = "Munny Toss";
+                Main.projectile[coin].Name = "Munny";
             }
             return false;
         }
@@ -136,7 +138,7 @@ namespace KeybrandsPlus.Items.Weapons
                 target.defense = oldDefense;
                 oldDefense = 0;
             }
-            if (target.type != NPCID.TargetDummy && Main.rand.NextBool(10))
+            else if (target.type != NPCID.TargetDummy && (crit || Main.rand.NextBool(5)))
                 Item.NewItem(target.getRect(), ModContent.ItemType<Currency.Munny>());
             base.ModifyHitNPC(player, target, ref damage, ref knockBack, ref crit);
         }

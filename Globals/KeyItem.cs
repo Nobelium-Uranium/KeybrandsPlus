@@ -284,6 +284,10 @@ namespace KeybrandsPlus.Globals
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             int index;
+            if (item.type == ItemID.Keybrand)
+            {
+                tooltips.Add(new TooltipLine(mod, "Rusted", "[KeybrandsPlus] This item is replaced by the Rusted Keybrand") { overrideColor = Color.Red });
+            }
             if (IsKeybrand)
             {
                 index = tooltips.FindIndex(tt => tt.mod.Equals("Terraria") && tt.Name.Equals("ItemName"));

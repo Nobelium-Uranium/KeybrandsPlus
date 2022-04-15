@@ -23,7 +23,8 @@ namespace KeybrandsPlus.Items.Accessories.Wings
             item.height = 20;
             item.rare = ItemRarityID.Cyan;
             item.accessory = true;
-            item.GetGlobalItem<KeyRarity>().ProudRarity = true;
+            item.GetGlobalItem<KeyRarity>().ZenithRarity = true;
+            item.GetGlobalItem<KeyRarity>().SecretRarity = true;
             item.GetGlobalItem<KeyItem>().IsSpecial = true;
         }
 
@@ -67,19 +68,19 @@ namespace KeybrandsPlus.Items.Accessories.Wings
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            if (player.controlUp)
+            if (player.controlJump && player.controlUp)
             {
-                speed = 7.5f;
+                speed = 5f;
                 acceleration *= 5f;
             }
-            else if (player.controlDown)
+            else if (player.controlJump && player.controlDown)
             {
-                speed = 20f;
+                speed = 10f;
                 acceleration *= 10f;
             }
             else
             {
-                speed = 10f;
+                speed = 7.5f;
                 acceleration *= 7.5f;
             }
         }

@@ -114,9 +114,9 @@ namespace KeybrandsPlus.Projectiles
                     if (playerDistance > 1000f)
                     {
                         if (currTarget != null)
-                            GlobalTimer += 2;
+                            GlobalTimer += 9;
                         else
-                            GlobalTimer += 19;
+                            GlobalTimer += 49;
                     }
                     else if (currTarget == null && hitCd == 0)
                     {
@@ -156,6 +156,13 @@ namespace KeybrandsPlus.Projectiles
             Main.spriteBatch.Draw(texture,
                 projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY),
                 sourceRectangle, Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+                Color color = Color.White * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.oldRot[k], origin, projectile.scale, SpriteEffects.None, 0f);
+            }
             return false;
         }
         private void AdjustMagnitude(ref Vector2 vector, float max)
@@ -174,9 +181,18 @@ namespace KeybrandsPlus.Projectiles
         {
             if (target == LastHit)
             {
-                damage /= 3;
-                if (crit && !Main.rand.NextBool(3))
-                    crit = false;
+                if (projectile.ai[1] != 0)
+                {
+                    damage /= 3;
+                    if (crit && !Main.rand.NextBool(3))
+                        crit = false;
+                }
+                else
+                {
+                    damage -= damage / 3;
+                    if (crit && Main.rand.NextBool(3))
+                        crit = false;
+                }
             }
             LastHit = target;
             LastHitTarget = target;

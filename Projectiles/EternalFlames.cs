@@ -164,13 +164,12 @@ namespace KeybrandsPlus.Projectiles
             Main.spriteBatch.Draw(texture,
                 projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY),
                 sourceRectangle, drawColor, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
-            
+
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + origin / 2 + new Vector2(0f, projectile.gfxOffY);
+                Vector2 drawPos = projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
                 Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                if (k == 2 || k == 4 || k == 6 || k == 8)
-                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.oldRot[k], origin, projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }

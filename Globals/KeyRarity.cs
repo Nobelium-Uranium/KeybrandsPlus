@@ -22,6 +22,7 @@ namespace KeybrandsPlus.Globals
         public bool ProudRarity;
         public bool ZenithRarity;
         public bool ShadowRarity;
+        public bool SecretRarity;
 
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
@@ -40,7 +41,7 @@ namespace KeybrandsPlus.Globals
                 }
                 tooltips.Add(new TooltipLine(mod, "DeveloperTooltip", "Developer: " + DeveloperName) { overrideColor = Color.DodgerBlue });
             }
-            if (ContributorRarity)
+            else if (ContributorRarity)
             {
                 for (int tooltip = 0; tooltip < tooltips.Count; tooltip++)
                 {
@@ -86,6 +87,12 @@ namespace KeybrandsPlus.Globals
                         line.overrideColor = new Color(50, 50, 50);
                     }
                 }
+            }
+            if (SecretRarity)
+            {
+                TooltipLine secretLine = new TooltipLine(mod, "SecretTooltip", "Secret");
+                secretLine.overrideColor = Main.DiscoColor;
+                tooltips.Add(secretLine);
             }
         }
     }

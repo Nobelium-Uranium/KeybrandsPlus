@@ -24,7 +24,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.melee = true;
             item.width = 23;
             item.height = 25;
-            item.scale = 1;
+            item.scale = 1.075f;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -103,7 +103,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.melee = true;
             item.width = 23;
             item.height = 25;
-            item.scale = 1;
+            item.scale = 1.075f;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;

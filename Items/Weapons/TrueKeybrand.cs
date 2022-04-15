@@ -77,21 +77,16 @@ namespace KeybrandsPlus.Items.Weapons
             }
             return base.CanUseItem(player);
         }
-        /*public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-                float numberProjectiles = 3;
-                float rotation = MathHelper.ToRadians(25);
-                position += Vector2.Normalize(new Vector2(speedX, speedY)) * 25f;
-                for (int i = 0; i < numberProjectiles; i++)
-                {
-                    Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))); // Watch out for dividing by 0 if there is only 1 projectile.
-                    Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, (int)(damage * 0.75f), knockBack, player.whoAmI);
-                }
+                float rotation = MathHelper.ToRadians(15);
+                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(rotation);
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI, ai1: 1);
             }
             return false;
-        }*/
+        }
         public override void HoldItem(Player player)
         {
             if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
