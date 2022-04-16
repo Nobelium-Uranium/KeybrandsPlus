@@ -314,21 +314,21 @@ namespace KeybrandsPlus.NPCs.TownNPC
             nextSlot++;
             if (NPC.downedBoss2)
             {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.TreasureMagnet>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MunnyMagnetT1>());
                 shop.item[nextSlot].shopCustomPrice = new int?(100);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
             if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
             {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.TreasureMagnetPlus>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MunnyMagnetT2>());
                 shop.item[nextSlot].shopCustomPrice = new int?(300);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
             if (NPC.downedMoonlord)
             {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MasterTreasureMagnet>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MunnyMagnetT3>());
                 shop.item[nextSlot].shopCustomPrice = new int?(500);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;

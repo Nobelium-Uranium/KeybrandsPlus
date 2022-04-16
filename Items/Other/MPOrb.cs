@@ -1,6 +1,7 @@
 ﻿using KeybrandsPlus.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,10 +53,19 @@ namespace KeybrandsPlus.Items.Other
             if (Main.myPlayer == player.whoAmI)
             {
                 Vector2 vectorItemToPlayer = player.Center - item.Center;
-                Vector2 movement = vectorItemToPlayer.SafeNormalize(default) * 10f;
-                item.velocity = movement;
+                Vector2 movement = vectorItemToPlayer.SafeNormalize(default) * 5f;
+                item.velocity += movement;
+                AdjustMagnitude(ref item.velocity, 15f);
             }
             return true;
+        }
+        private void AdjustMagnitude(ref Vector2 vector, float max)
+        {
+            float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            if (magnitude > max)
+            {
+                vector *= max / magnitude;
+            }
         }
         public override bool ItemSpace(Player player)
         {

@@ -31,10 +31,16 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.wingTimeMax = 3600;
-            if (player.controlDown)
-                player.maxFallSpeed *= 2f;
-            else if (player.controlUp)
-                player.maxFallSpeed /= 2f;
+            if (!player.controlJump && !player.CCed)
+            {
+                if (player.controlDown)
+                    player.maxFallSpeed *= 2.5f;
+                else if (player.controlUp)
+                {
+                    player.fallStart = (int)(player.position.Y / 16f);
+                    player.maxFallSpeed /= 2.5f;
+                }
+            }
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising,
@@ -50,11 +56,11 @@ namespace KeybrandsPlus.Items.Accessories.Wings
             }
             else if (player.controlUp)
             {
-                maxAscentMultiplier = 3f;
-                ascentWhenRising = .30f;
-                maxCanAscendMultiplier = 2f;
-                constantAscend = .25f;
-                ascentWhenFalling = 1f;
+                maxAscentMultiplier = 5f;
+                ascentWhenRising = .45f;
+                maxCanAscendMultiplier = 2.5f;
+                constantAscend = .3f;
+                ascentWhenFalling = 1.5f;
             }
             else
             {
@@ -71,17 +77,17 @@ namespace KeybrandsPlus.Items.Accessories.Wings
             if (player.controlJump && player.controlUp)
             {
                 speed = 5f;
-                acceleration *= 5f;
+                acceleration *= 3.125f;
             }
             else if (player.controlJump && player.controlDown)
             {
-                speed = 10f;
-                acceleration *= 10f;
+                speed = 20f;
+                acceleration *= 12.5f;
             }
             else
             {
                 speed = 7.5f;
-                acceleration *= 7.5f;
+                acceleration *= 6.25f;
             }
         }
 

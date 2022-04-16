@@ -31,6 +31,12 @@ Contributors:
  Teesi - Resprites for some keybrands
 
 Version History:
+-1.0.38-
+Optimized Munny and MP Orb pickup logic
+Renamed Treasure Magnet to Munny Magnet to reduce confusion with the vanilla 1.4 item of the same name, this will mean that any existing Treasure Magnets will turn into unloaded items (thankfully they are fairly cheap to replace)
+Slightly shrinked Strike Raid's hitbox, this shouldn't affect the overall effectiveness of the projectile
+Changed the homepage to link to the github repository, in the readme you'll be able to find the discord invite link
+
 -1.0.37-
 Gave Strike Raid and Judgment afterimages and fixed up Eternal Flames' afterimages
 Reduced the damage nerf for Judgment if being used with the normal Keybrand, since it made that kinda useless in general

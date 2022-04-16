@@ -29,8 +29,8 @@ namespace KeybrandsPlus.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
+            projectile.width = 24;
+            projectile.height = 24;
             aiType = 20;
             projectile.alpha = 255;
             projectile.friendly = true;

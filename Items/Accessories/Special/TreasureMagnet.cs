@@ -6,10 +6,11 @@ using Microsoft.Xna.Framework;
 
 namespace KeybrandsPlus.Items.Accessories.Special
 {
-    class TreasureMagnet : ModItem
+    class MunnyMagnetT1 : ModItem
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Munny Magnet");
             Tooltip.SetDefault("Increases Munny pickup range\nDoes not attract Munny dropped by players");
         }
         public override void SetDefaults()
@@ -27,11 +28,11 @@ namespace KeybrandsPlus.Items.Accessories.Special
             player.GetModPlayer<KeyPlayer>().TreasureMagnet = true;
         }
     }
-    class TreasureMagnetPlus : ModItem
+    class MunnyMagnetT2 : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Magnet+");
+            DisplayName.SetDefault("Deluxe Munny Magnet");
             Tooltip.SetDefault("Greatly increases Munny pickup range\nDoes not attract Munny dropped by players");
         }
         public override void SetDefaults()
@@ -49,10 +50,11 @@ namespace KeybrandsPlus.Items.Accessories.Special
             player.GetModPlayer<KeyPlayer>().TreasureMagnetPlus = true;
         }
     }
-    class MasterTreasureMagnet : ModItem
+    class MunnyMagnetT3 : ModItem
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Master Munny Magnet");
             Tooltip.SetDefault("Vastly increases Munny pickup range\nDoes not attract Munny dropped by players");
         }
         public override void SetDefaults()

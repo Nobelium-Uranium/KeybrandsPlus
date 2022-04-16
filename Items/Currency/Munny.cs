@@ -1,5 +1,6 @@
 ﻿using KeybrandsPlus.Globals;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -46,11 +47,11 @@ namespace KeybrandsPlus.Items.Currency
             if (!item.GetGlobalItem<KeyItem>().PlayerDropped && Main.myPlayer == player.whoAmI)
             {
                 if (player.GetModPlayer<KeyPlayer>().MasterTreasureMagnet)
-                    grabRange *= 30;
+                    grabRange *= 24;
                 else if (player.GetModPlayer<KeyPlayer>().TreasureMagnetPlus)
-                    grabRange *= 10;
+                    grabRange *= 12;
                 else if (player.GetModPlayer<KeyPlayer>().TreasureMagnet)
-                    grabRange *= 5;
+                    grabRange *= 6;
             }
         }
         public override bool GrabStyle(Player player)
@@ -61,24 +62,35 @@ namespace KeybrandsPlus.Items.Currency
                 Vector2 movement = vectorItemToPlayer.SafeNormalize(default);
                 if (player.GetModPlayer<KeyPlayer>().MasterTreasureMagnet)
                 {
-                    movement *= 40f;
-                    item.velocity = movement;
+                    movement *= 12f;
+                    item.velocity += movement;
+                    AdjustMagnitude(ref item.velocity, 36f);
                     return true;
                 }
                 else if (player.GetModPlayer<KeyPlayer>().TreasureMagnetPlus)
                 {
-                    movement *= 20f;
-                    item.velocity = movement;
+                    movement *= 6f;
+                    item.velocity += movement;
+                    AdjustMagnitude(ref item.velocity, 18f);
                     return true;
                 }
                 else if (player.GetModPlayer<KeyPlayer>().TreasureMagnet)
                 {
-                    movement *= 10f;
-                    item.velocity = movement;
+                    movement *= 3f;
+                    item.velocity += movement;
+                    AdjustMagnitude(ref item.velocity, 9f);
                     return true;
                 }
             }
             return base.GrabStyle(player);
+        }
+        private void AdjustMagnitude(ref Vector2 vector, float max)
+        {
+            float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            if (magnitude > max)
+            {
+                vector *= max / magnitude;
+            }
         }
         public override bool CanPickup(Player player)
         {

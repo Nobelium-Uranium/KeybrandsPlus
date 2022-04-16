@@ -1,10 +1,10 @@
 displayName = Keybrands+ Re:coded
 author = Chem
-version = 1.0.37
+version = 1.0.38
 
 hideCode = true
 hideResources = true
 
 weakReferences = CalamityMod, SacredTools, Redemption
 
-homepage = https://discord.gg/MrGehVc
+homepage = https://github.com/Nobelium-Uranium/KeybrandsPlus
