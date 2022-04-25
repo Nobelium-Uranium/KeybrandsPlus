@@ -16,6 +16,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             item.Size = new Vector2(24);
             item.maxStack = 99;
             item.rare = ItemRarityID.Blue;
+            item.value = Item.sellPrice(silver: 1);
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
     }
@@ -30,6 +31,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             item.Size = new Vector2(24);
             item.maxStack = 99;
             item.rare = ItemRarityID.LightRed;
+            item.value = Item.sellPrice(silver: 10);
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
     }
@@ -44,6 +46,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             item.Size = new Vector2(24);
             item.maxStack = 99;
             item.rare = ItemRarityID.Lime;
+            item.value = Item.sellPrice(gold: 1);
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
     }
@@ -58,6 +61,7 @@ namespace KeybrandsPlus.Items.Synthesis.Other
             item.Size = new Vector2(30);
             item.maxStack = 99;
             item.rare = ItemRarityID.Cyan;
+            item.value = Item.sellPrice(gold: 10);
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
     }

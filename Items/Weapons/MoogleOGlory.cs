@@ -4,6 +4,7 @@ using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 {
@@ -14,10 +15,9 @@ namespace KeybrandsPlus.Items.Weapons
         {
             Tooltip.SetDefault("+100 Light and Dark Alignment when held\n" +
                 "Alt Attack: Munny Toss\n" +
-                "Throws 100 Munny to do damage\n" +
+                "Consumes 100 Munny to throw a coin that can inflict massive damage\n" +
                 "Ability: Munny Converter\n" +
                 "Boosts damage by 7 for every 77 Munny you have in your inventory\n" +
-                "In addition, lose all Munny in inventory on death with no chance of getting it back when held\n" +
                 "'Don't spend all of your Munny in one place, kupo!'");
         }
         public override void SetDefaults()
@@ -36,6 +36,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.useTurn = true;
             item.shootSpeed = 50f;
             item.value = 500000000;
+            item.GetGlobalItem<KeyItem>().Light = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 4;
         }
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
@@ -55,6 +56,7 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override bool CanUseItem(Player player)
         {
+            munny = 0;
             for (int i = 0; i < 58; i++)
             {
                 if (player.inventory[i].type == ModContent.ItemType<Currency.Munny>() && player.inventory[i].stack > 0)
@@ -68,8 +70,8 @@ namespace KeybrandsPlus.Items.Weapons
                 item.melee = true;
                 item.ranged = false;
                 item.useTurn = true;
-                item.useTime = 20;
-                item.useAnimation = 20;
+                item.useTime = 15;
+                item.useAnimation = 15;
                 item.shoot = 0;
                 item.noMelee = false;
                 item.noUseGraphic = false;
@@ -87,19 +89,20 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noUseGraphic = true;
                 if (munny >= 100)
                 {
-                    int amount = munny;
+                    int amount = 100;
                     for (int i = 0; i < 58 && amount > 0; i++)
                     {
                         if (player.inventory[i].stack > 0 && player.inventory[i].type == ModContent.ItemType<Currency.Munny>())
                         {
-                            if (player.inventory[i].stack >= 100)
+                            if (player.inventory[i].stack >= amount)
                             {
-                                player.inventory[i].stack -= 100;
+                                player.inventory[i].stack -= amount;
                                 amount = 0;
                             }
                             else
                             {
-                                return false;
+                                amount -= player.inventory[i].stack;
+                                player.inventory[i].SetDefaults(0, false);
                             }
                             if (player.inventory[i].stack <= 0)
                             {
@@ -116,7 +119,8 @@ namespace KeybrandsPlus.Items.Weapons
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ProjectileID.GoldCoin, damage * 10, item.knockBack, player.whoAmI);
+                int coin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ProjectileID.GoldCoin, damage * 10, item.knockBack, player.whoAmI);
+                Main.projectile[coin].Name = "Munny";
             }
             return false;
         }
@@ -134,22 +138,25 @@ namespace KeybrandsPlus.Items.Weapons
                 target.defense = oldDefense;
                 oldDefense = 0;
             }
-            if (target.type != NPCID.TargetDummy && Main.rand.NextBool(10))
+            else if (target.type != NPCID.TargetDummy && (crit || Main.rand.NextBool(5)))
                 Item.NewItem(target.getRect(), ModContent.ItemType<Currency.Munny>());
             base.ModifyHitNPC(player, target, ref damage, ref knockBack, ref crit);
         }
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<Globals.KeyPlayer>().LightAlignment += 100;
-            player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment += 100;
-            if (munny == 7777)
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
             {
-                player.endurance *= 0;
-                player.statDefense *= 0;
-                player.GetModPlayer<KeyPlayer>().LuckySevens = true;
-                Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<Dusts.Seven>());
+                player.GetModPlayer<KeyPlayer>().LightAlignment += 100;
+                player.GetModPlayer<KeyPlayer>().DarkAlignment += 100;
+                if (munny == 7777)
+                {
+                    player.endurance *= 0;
+                    player.statDefense *= 0;
+                    player.GetModPlayer<KeyPlayer>().LuckySevens = true;
+                    Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<Dusts.Seven>());
+                }
+                player.GetModPlayer<KeyPlayer>().MunnyConverter = true;
             }
-            player.GetModPlayer<KeyPlayer>().MunnyConverter = true;
         }
     }
 }

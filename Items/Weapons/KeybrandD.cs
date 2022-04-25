@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 
@@ -13,8 +14,8 @@ namespace KeybrandsPlus.Items.Weapons
             Tooltip.SetDefault("+15 Dark Alignment\n" +
                 "Direct melee hits inflict up to 100% more damage to injured foes\n" +
                 "Alt Attack: Strike Raid\n" +
-                "MP Cost: 12\n" +
-                "Throws a returning ethereal keybrand\n" +
+                "MP Cost: 6\n" +
+                "Throws returning ethereal keybrands\n" +
                 "Ability: Defender+\n" +
                 "'A weapon from the dark realm'");
         }
@@ -63,22 +64,23 @@ namespace KeybrandsPlus.Items.Weapons
             {
                 item.melee = false;
                 item.ranged = true;
-                item.useTime = 10;
-                item.useAnimation = 10;
+                item.useTime = 15;
+                item.useAnimation = 15;
                 item.knockBack = 1;
                 item.shoot = ModContent.ProjectileType<Projectiles.StrikeRaid>();
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item71;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 12;
-                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP -= 6;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
-            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
+            return base.CanUseItem(player);
         }
 
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().DefenderPlus = true;
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+                player.GetModPlayer<KeyPlayer>().DefenderPlus = true;
         }
 
         public override void UpdateInventory(Player player)

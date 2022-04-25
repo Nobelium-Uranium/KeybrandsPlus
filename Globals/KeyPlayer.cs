@@ -17,12 +17,26 @@ namespace KeybrandsPlus.Globals
 {
     class KeyPlayer : ModPlayer
     {
+        public int StoredUUIDX;
+        public int StoredUUIDY;
+        public int StoredUUIDZ;
+        public Vector3 UUID;
+
+        public bool CheatMode;
+
+        public bool Flying;
+
+        public PlayerDeathReason lastDamageSource;
+
         #region Glowmasks
         public bool HideGlowmask;
         public bool AvaliHelmet;
         public bool AvaliShirt;
         public bool AvaliPants;
         #endregion
+        public bool AvaliWings;
+
+        public bool NoFlight;
 
         public int statOldLife;
         public int PlayerDefense;
@@ -33,6 +47,7 @@ namespace KeybrandsPlus.Globals
         private bool FixedDirection;
         private int FixedDir;
 
+        public bool KeybrandSelected;
         public int HeldKeybrands;
         public bool KeybrandLimitReached;
 
@@ -74,6 +89,8 @@ namespace KeybrandsPlus.Globals
         public bool SCCooldown;
         public bool Stop;
 
+        public bool HollowSigil;
+
         public bool Stimulated;
         public bool Divinity;
 
@@ -82,6 +99,7 @@ namespace KeybrandsPlus.Globals
         public float ThunderBoost;
         public float AeroBoost;
         public float WaterBoost;
+        public float LightBoost;
         public float DarkBoost;
         #endregion
 
@@ -93,6 +111,7 @@ namespace KeybrandsPlus.Globals
         public bool TreasureMagnetPlus;
         public bool TreasureMagnet;
         //Equipment
+        public bool SpecialEquipped;
         public bool BeltEquipped;
         public bool ChainEquipped;
         public bool RingEquipped;
@@ -104,7 +123,9 @@ namespace KeybrandsPlus.Globals
         public float ChainResistThunder;
         public float ChainResistAero;
         public float ChainResistWater;
+        public float ChainResistLight;
         public float ChainResistDark;
+        public float ChainResistNil;
         //Ring
         public float RingAttackPhysical;
         public float RingAttackMagic;
@@ -130,6 +151,7 @@ namespace KeybrandsPlus.Globals
         public int ChargedCrystals;
         public bool showMP = true;
         public bool rechargeMP = true;
+        public bool regenMP;
         public int maxMP = 100;
         public int currentMP;
         public int maxDelta = 200;
@@ -137,14 +159,59 @@ namespace KeybrandsPlus.Globals
         public int deltaDecayDelay;
         public float deltaDecayTimer;
 
-        public int maxRechargeMPTimer = 1;
-        public int rechargeMPTimer = 1;
+        public float maxRechargeMPTimer = 1;
+        public float rechargeMPTimer = 1;
+        public float rechargeMPRate;
         public float rechargeMPToastTimer = 60;
 
         public override void ResetEffects()
         {
+            if (StoredUUIDX <= 0)
+            {
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDX = 7;
+                }
+                else
+                {
+                    StoredUUIDX = Main.rand.Next(1, 256);
+                }
+            }
+            if (StoredUUIDY <= 0)
+            {
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDY = 5;
+                }
+                else
+                {
+                    StoredUUIDY = Main.rand.Next(1, 256);
+                }
+            }
+            if (StoredUUIDZ <= 0)
+            {
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDZ = 4;
+                }
+                else
+                {
+                    StoredUUIDZ = Main.rand.Next(1, 256);
+                }
+            }
+            if (!CheatMode && player.name != "Lazure" && StoredUUIDX == 7 && StoredUUIDY == 5 && StoredUUIDZ == 4)
+            {
+                StoredUUIDX = 0;
+                StoredUUIDY = 0;
+                StoredUUIDZ = 0;
+            }
+            UUID = new Vector3(StoredUUIDX, StoredUUIDY, StoredUUIDZ);
+
             maxMP = 100 + (25 * ChargedCrystals);
             maxDelta = 2 * maxMP;
+            regenMP = false;
+
+            Flying = false;
 
             #region Glowmasks
             HideGlowmask = false;
@@ -152,9 +219,11 @@ namespace KeybrandsPlus.Globals
             AvaliShirt = false;
             AvaliPants = false;
             #endregion  
+            AvaliWings = false;
 
             statOldLife = 0;
 
+            KeybrandSelected = false;
             HeldKeybrands = 0;
 
             LuckySevens = false;
@@ -195,6 +264,8 @@ namespace KeybrandsPlus.Globals
             SCCooldown = false;
             Stop = false;
 
+            HollowSigil = false;
+
             Stimulated = false;
             Divinity = false;
 
@@ -203,6 +274,7 @@ namespace KeybrandsPlus.Globals
             ThunderBoost = 0;
             AeroBoost = 0;
             WaterBoost = 0;
+            LightBoost = 0;
             DarkBoost = 0;
             #endregion
 
@@ -213,6 +285,7 @@ namespace KeybrandsPlus.Globals
             MasterTreasureMagnet = false;
             TreasureMagnetPlus = false;
             TreasureMagnet = false;
+            SpecialEquipped = false;
             BeltEquipped = false;
             ChainEquipped = false;
             RingEquipped = false;
@@ -222,7 +295,9 @@ namespace KeybrandsPlus.Globals
             ChainResistThunder = 0;
             ChainResistAero = 0;
             ChainResistWater = 0;
+            ChainResistLight = 0;
             ChainResistDark = 0;
+            ChainResistNil = 0;
             RingAttackPhysical = 0;
             RingAttackMagic = 0;
             RibbonEndurance = 0;
@@ -243,6 +318,9 @@ namespace KeybrandsPlus.Globals
         {
             ModPacket packet = mod.GetPacket();
             packet.Write(ChargedCrystals);
+            packet.Write(StoredUUIDX);
+            packet.Write(StoredUUIDY);
+            packet.Write(StoredUUIDZ);
             packet.Send(toWho, fromWho);
         }
 
@@ -251,24 +329,65 @@ namespace KeybrandsPlus.Globals
             return new TagCompound
             {
                 { "ChargedCrystals", ChargedCrystals },
+                { "StoredUUIDX", StoredUUIDX },
+                { "StoredUUIDY", StoredUUIDY },
+                { "StoredUUIDZ", StoredUUIDZ },
             };
         }
 
         public override void Load(TagCompound tag)
         {
             ChargedCrystals = tag.GetInt("ChargedCrystals");
+            StoredUUIDX = tag.GetInt("StoredUUIDX");
+            StoredUUIDY = tag.GetInt("StoredUUIDY");
+            StoredUUIDZ = tag.GetInt("StoredUUIDZ");
         }
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
             if (!mediumcoreDeath)
             {
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDX = 7;
+                }
+                else
+                {
+                    StoredUUIDX = Main.rand.Next(1, 256);
+                }
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDY = 7;
+                }
+                else
+                {
+                    StoredUUIDY = Main.rand.Next(1, 256);
+                }
+                if (player.name == "Lazure")
+                {
+                    StoredUUIDZ = 7;
+                }
+                else
+                {
+                    StoredUUIDZ = Main.rand.Next(1, 256);
+                }
+                if (!CheatMode && player.name != "Lazure" && StoredUUIDX == 7 && StoredUUIDY == 5 && StoredUUIDZ == 4)
+                {
+                    StoredUUIDX = 0;
+                    StoredUUIDY = 0;
+                    StoredUUIDZ = 0;
+                }
+                UUID = new Vector3(StoredUUIDX, StoredUUIDY, StoredUUIDZ);
+
                 Item item = new Item();
                 item.SetDefaults(ItemType<Items.Weapons.WoodenKeybrand>());
                 items.Add(item);
                 item = new Item();
                 item.SetDefaults(ItemType<Items.Consumables.MP.Ether>());
                 item.stack = 10;
+                items.Add(item);
+                item = new Item();
+                item.SetDefaults(ItemType<Items.Other.HollowSigil>());
                 items.Add(item);
                 item = new Item();
                 item.SetDefaults(ItemType<Items.Other.DevNull>());
@@ -278,11 +397,18 @@ namespace KeybrandsPlus.Globals
 
         public override void PostUpdateEquips()
         {
+            if (NoFlight)
+                player.mount.Dismount(player);
             KeybrandLimitReached = HeldKeybrands > 5;
         }
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
+            if (NoFlight)
+            {
+                player.wingTime *= 0;
+                player.wingTimeMax *= 0;
+            }
             player.statDefense += BeltDefense;
             player.statDefense = (int)(player.statDefense * (1 + RibbonEndurance));
             KeybrandMelee += RingAttackPhysical;
@@ -290,48 +416,9 @@ namespace KeybrandsPlus.Globals
             KeybrandMagic += RingAttackMagic;
         }
 
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
-        {
-            if (npc.GetGlobalNPC<KeyNPC>().Fire)
-                damage -= (int)(damage * ChainResistFire);
-            if (npc.GetGlobalNPC<KeyNPC>().Blizzard)
-                damage -= (int)(damage * ChainResistBlizzard);
-            if (npc.GetGlobalNPC<KeyNPC>().Thunder)
-                damage -= (int)(damage * ChainResistThunder);
-            if (npc.GetGlobalNPC<KeyNPC>().Aero)
-                damage -= (int)(damage * ChainResistAero);
-            if (npc.GetGlobalNPC<KeyNPC>().Water)
-                damage -= (int)(damage * ChainResistWater);
-            if (npc.GetGlobalNPC<KeyNPC>().Dark)
-                damage -= (int)(damage * ChainResistDark);
-            if (DamageControlPlus && player.statLife <= player.statLifeMax2 / 2)
-                damage /= 2;
-            else if (DamageControl && player.statLife <= player.statLifeMax2 / 5)
-                damage /= 2;
-        }
-
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
-        {
-            if (proj.GetGlobalProjectile<KeyProjectile>().Fire)
-                damage -= (int)(damage * ChainResistFire);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Blizzard)
-                damage -= (int)(damage * ChainResistBlizzard);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Thunder)
-                damage -= (int)(damage * ChainResistThunder);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Aero)
-                damage -= (int)(damage * ChainResistAero);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Water)
-                damage -= (int)(damage * ChainResistWater);
-            if (proj.GetGlobalProjectile<KeyProjectile>().Dark)
-                damage -= (int)(damage * ChainResistDark);
-            if (DamageControlPlus && player.statLife <= player.statLifeMax2 / 2)
-                damage /= 2;
-            else if (DamageControl && player.statLife <= player.statLifeMax2 / 5)
-                damage /= 2;
-        }
-
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            lastDamageSource = damageSource;
             if (NoHitsound)
                 playSound = false;
             if (LeafBracerTimer > 0)
@@ -359,42 +446,37 @@ namespace KeybrandsPlus.Globals
                     currentMP = maxMP;
             }
             statOldLife = player.statLife;
+            if (HollowSigil && (!SecondChance || SCCooldown || damage > 500))
+            {
+                player.KillMe(lastDamageSource, damage, hitDirection, pvp);
+            }
         }
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (SecondChance && !SCCooldown && statOldLife > 1)
+            if (SecondChance && !SCCooldown && ((HollowSigil && damage < 500) || (statOldLife > 1 && damage < player.statLifeMax2 * 1.5f)))
             {
                 Main.PlaySound(SoundID.Item67, player.position);
                 player.statLife = 1;
-                LeafBracerTimer = 180;
                 player.ClearBuff(BuffID.Bleeding);
                 player.ClearBuff(BuffID.Poisoned);
                 player.ClearBuff(BuffID.OnFire);
                 player.ClearBuff(BuffID.Venom);
-                player.ClearBuff(BuffID.Darkness);
-                player.ClearBuff(BuffID.Blackout);
-                player.ClearBuff(BuffID.Cursed);
                 player.ClearBuff(BuffID.Frostburn);
-                player.ClearBuff(BuffID.Confused);
-                player.ClearBuff(BuffID.Slow);
-                player.ClearBuff(BuffID.Weak);
-                player.ClearBuff(BuffID.Silenced);
-                player.ClearBuff(BuffID.BrokenArmor);
                 player.ClearBuff(BuffID.CursedInferno);
-                player.ClearBuff(BuffID.Chilled);
-                player.ClearBuff(BuffID.Ichor);
                 player.ClearBuff(BuffID.ShadowFlame);
                 player.ClearBuff(BuffID.Electrified);
-                player.ClearBuff(BuffID.Rabies);
-                player.ClearBuff(BuffID.VortexDebuff);
-                player.ClearBuff(BuffID.WitheredArmor);
-                player.ClearBuff(BuffID.WitheredWeapon);
-                player.ClearBuff(BuffID.OgreSpit);
                 player.ClearBuff(BuffID.Frozen);
                 player.ClearBuff(BuffID.Stoned);
                 player.ClearBuff(BuffID.Webbed);
-                player.AddBuff(BuffType<SecondChanceCooldown>(), Main.expertMode ? 1200 : 600);
+                if (HollowSigil)
+                {
+                    if (LeafBracerTimer < (player.longInvince ? 60 : 30))
+                        LeafBracerTimer = player.longInvince ? 60 : 30;
+                    player.AddBuff(BuffType<SecondChanceCooldown>(), 1800);
+                }
+                else
+                    player.AddBuff(BuffType<SecondChanceCooldown>(), player.longInvince ? 240 : 120);
                 player.ClearBuff(BuffType<SecondChance>());
                 return false;
             }
@@ -435,12 +517,14 @@ namespace KeybrandsPlus.Globals
                     int Munny;
                     if (amount > 9999)
                     {
-                        CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped 9999 Munny, " + (amount - 9999) + " was lost", true);
+                        if (Main.myPlayer == player.whoAmI)
+                            CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped 9999 Munny, " + (amount - 9999) + " was lost", true);
                         Munny = Item.NewItem(player.getRect(), ItemType<Munny>(), 9999);
                     }
                     else
                     {
-                        CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped " + amount + " Munny", true);
+                        if (Main.myPlayer == player.whoAmI)
+                            CombatText.NewText(player.getRect(), Color.Goldenrod, "Dropped " + amount + " Munny", true);
                         Munny = Item.NewItem(player.getRect(), ItemType<Munny>(), amount);
                     }
                     Main.item[Munny].GetGlobalItem<KeyItem>().PlayerDropped = true;
@@ -480,7 +564,7 @@ namespace KeybrandsPlus.Globals
             else if (ChargedCrystals < 0)
                 ChargedCrystals = 0;
 
-            if (GliderInactive)
+            if (NoFlight || GliderInactive)
                 player.wingsLogic = 0;
 
             if (DefenderPlus && player.statLife <= player.statLifeMax2 / 2)
@@ -513,7 +597,7 @@ namespace KeybrandsPlus.Globals
                         currentDelta--;
                     }
                     else
-                        deltaDecayTimer += 1 * (maxDelta / 200);
+                        deltaDecayTimer += 1 * (maxDelta / 100);
                 }
                 else
                     deltaDecayDelay++;
@@ -527,9 +611,11 @@ namespace KeybrandsPlus.Globals
                 currentDelta = 0;
             if (!rechargeMP)
             {
+                if (currentMP < maxMP && (regenMP || (GetInstance<KeyServerConfig>().MPRegen && Main.GameUpdateCount % 300 == 0)))
+                    currentMP++;
                 if (currentDelta >= maxDelta)
                 {
-                    int RestoreMP = Main.rand.Next(1, 6);
+                    int RestoreMP = (int)(Main.rand.NextFloat(3f, 7f) * (1f + (ChargedCrystals / 2f)));
                     if (Main.myPlayer == player.whoAmI)
                         CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
                     currentMP += RestoreMP;
@@ -543,39 +629,6 @@ namespace KeybrandsPlus.Globals
                 {
                     currentMP = maxMP;
                     rechargeMPTimer = 1200;
-                    if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .3f);
-                    }
-                    else if (CritMPHastega && player.statLife <= player.statLifeMax2 / 5)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .5f);
-                    }
-                    else if (MPHasteza)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .3f);
-                    }
-                    else if (MPHastega)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .5f);
-                    }
-                    else if (MPHastera)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .7f);
-                    }
-                    else if (MPHaste)
-                    {
-                        rechargeMPTimer = (int)(rechargeMPTimer * .9f);
-                    }
-                    if (DarkAffinity && player.lifeRegen < 0)
-                    {
-                        float AlignmentFactor = DarkAlignment - LightAlignment;
-                        if (AlignmentFactor < 50)
-                            AlignmentFactor = 50;
-                        AlignmentFactor /= 100;
-
-                        rechargeMPTimer = (int)(rechargeMPTimer * (1f - AlignmentFactor));
-                    }
                     if (rechargeMPTimer < 300)
                         rechargeMPTimer = 300;
                     maxRechargeMPTimer = rechargeMPTimer;
@@ -587,12 +640,54 @@ namespace KeybrandsPlus.Globals
                 if (currentDelta >= maxDelta)
                 {
                     if (Main.myPlayer == player.whoAmI)
-                        CombatText.NewText(player.getRect(), Color.DodgerBlue, "-1s");
+                        CombatText.NewText(player.getRect(), Color.DodgerBlue, "5%");
                     rechargeMPTimer -= 60;
                     currentDelta = 0;
                 }
 
-                rechargeMPTimer--;
+                rechargeMPRate = 1;
+                if (HeldKeybrands <= 5)
+                { 
+                    if (CritMPHasteza && player.statLife <= player.statLifeMax2 / 5)
+                    {
+                        rechargeMPRate *= 1.7f;
+                    }
+                    else if (CritMPHastega && player.statLife <= player.statLifeMax2 / 5)
+                    {
+                        rechargeMPRate *= 1.5f;
+                    }
+                    else if (MPHasteza)
+                    {
+                        rechargeMPRate *= 1.7f;
+                    }
+                    else if (MPHastega)
+                    {
+                        rechargeMPRate *= 1.5f;
+                    }
+                    else if (MPHastera)
+                    {
+                        rechargeMPRate *= 1.3f;
+                    }
+                    else if (MPHaste)
+                    {
+                        rechargeMPRate *= 1.1f;
+                    }
+                    if (DarkAffinity && player.lifeRegen < 0)
+                    {
+                        float AlignmentFactor = DarkAlignment - LightAlignment;
+                        if (AlignmentFactor < 50)
+                            AlignmentFactor = 50;
+                        AlignmentFactor /= 100;
+
+                        rechargeMPRate *= 1 + AlignmentFactor;
+                    }
+                }
+                if (rechargeMPRate > 3)
+                    rechargeMPRate = 3;
+                else if (rechargeMPRate < 0)
+                    rechargeMPRate = 0;
+                rechargeMPTimer -= rechargeMPRate;
+
                 currentMP = (int)MathHelper.Lerp(maxMP, 0, 1f - rechargeMPTimer / (float)maxRechargeMPTimer);
 
                 if (rechargeMPTimer <= 0)
@@ -669,7 +764,7 @@ namespace KeybrandsPlus.Globals
                                 DeathText = player.name + " was completely drained of blood.";
                                 break;
                             case 2:
-                                DeathText = player.name + "'s body became a mere husk.";
+                                DeathText = player.name + "'s body became a lifeless husk.";
                                 break;
                             default:
                                 DeathText = player.name + " couldn't find the IV bag.";
@@ -708,13 +803,32 @@ namespace KeybrandsPlus.Globals
                 player.immune = true;
                 LeafBracerTimer -= 1;
             }
+            if (HollowSigil)
+            {
+                player.statLifeMax2 = 1;
+                if (player.statLife > player.statLifeMax2)
+                    player.statLife = player.statLifeMax2;
+            }
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (KeybrandsPlus.QuickEther.JustPressed && !EtherSickness && currentMP < maxMP)
             {
-                if (player.HasItem(ItemType<Items.Consumables.MP.TurboEther>()) && rechargeMP && !TurboExhaustion)
+                if (player.HasItem(ItemType<Unused.PGI>()))
+                {
+                    Main.PlaySound(SoundID.Item84);
+                    if (Main.myPlayer == player.whoAmI)
+                        CombatText.NewText(player.getRect(), Color.DodgerBlue, maxMP);
+                    if (rechargeMP)
+                    {
+                        rechargeMP = false;
+                        rechargeMPToastTimer = 60;
+                        currentDelta = 0;
+                    }
+                    currentMP = maxMP;
+                }
+                else if (player.HasItem(ItemType<Items.Consumables.MP.TurboEther>()) && rechargeMP && !TurboExhaustion)
                 {
                     foreach (Item item in player.inventory)
                         if (item.type == ItemType<Items.Consumables.MP.TurboEther>())
@@ -723,16 +837,18 @@ namespace KeybrandsPlus.Globals
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
                             Main.PlaySound(SoundID.Item84);
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, player.GetModPlayer<KeyPlayer>().maxMP);
+                            if (Main.myPlayer == player.whoAmI)
+                                CombatText.NewText(player.getRect(), Color.DodgerBlue, maxMP);
                             rechargeMP = false;
                             rechargeMPToastTimer = 60;
                             currentMP = maxMP;
+                            currentDelta = 0;
                             player.AddBuff(BuffType<TurboExhaustion>(), 1800);
                             player.AddBuff(BuffType<EtherSickness>(), 300);
                             break;
                         }
                 }
-                else if (player.HasItem(ItemType<Items.Consumables.MP.MegaEther>()))
+                else if (player.HasItem(ItemType<Items.Consumables.MP.MegaEther>()) && (maxMP - currentMP > 75 || !player.HasItem(ItemType<Items.Consumables.MP.HiEther>()) || rechargeMP))
                 {
                     foreach (Item item in player.inventory)
                         if (item.type == ItemType<Items.Consumables.MP.MegaEther>())
@@ -741,7 +857,8 @@ namespace KeybrandsPlus.Globals
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
                             Main.PlaySound(SoundID.Item3);
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 150);
+                            if (Main.myPlayer == player.whoAmI)
+                                CombatText.NewText(player.getRect(), Color.DodgerBlue, 150);
                             if (rechargeMP)
                                 rechargeMPTimer = (int)(rechargeMPTimer * .25f);
                             else
@@ -752,7 +869,7 @@ namespace KeybrandsPlus.Globals
                             break;
                         }
                 }
-                else if (player.HasItem(ItemType<Items.Consumables.MP.HiEther>()))
+                else if (player.HasItem(ItemType<Items.Consumables.MP.HiEther>()) && (maxMP - currentMP > 25 || !player.HasItem(ItemType<Items.Consumables.MP.Ether>()) || rechargeMP))
                 {
                     foreach (Item item in player.inventory)
                         if (item.type == ItemType<Items.Consumables.MP.HiEther>())
@@ -761,7 +878,8 @@ namespace KeybrandsPlus.Globals
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
                             Main.PlaySound(SoundID.Item3);
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 75);
+                            if (Main.myPlayer == player.whoAmI)
+                                CombatText.NewText(player.getRect(), Color.DodgerBlue, 75);
                             if (rechargeMP)
                                 rechargeMPTimer = (int)(rechargeMPTimer * .5f);
                             else
@@ -781,7 +899,8 @@ namespace KeybrandsPlus.Globals
                             if (item.stack <= 0)
                                 item.SetDefaults(0, false);
                             Main.PlaySound(SoundID.Item3);
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, 25);
+                            if (Main.myPlayer == player.whoAmI)
+                                CombatText.NewText(player.getRect(), Color.DodgerBlue, 25);
                             if (rechargeMP)
                                 rechargeMPTimer = (int)(rechargeMPTimer * .75f);
                             else
@@ -811,7 +930,7 @@ namespace KeybrandsPlus.Globals
         {
             if (VitalBlow && target.life >= (float)target.lifeMax * .9f)
                 damage *= 2;
-            if (rechargeMP && rechargeMPTimer > maxRechargeMPTimer / 2 && maxRechargeMPTimer > 600)
+            if (rechargeMP && rechargeMPTimer > maxRechargeMPTimer / 4 && player.HeldItem.GetGlobalItem<KeyItem>().IsKeybrand)
                 damage = (int)(damage * 1.25f);
         }
 
@@ -822,37 +941,25 @@ namespace KeybrandsPlus.Globals
                 if (!target.friendly && !target.SpawnedFromStatue && target.lifeMax > 5 && target.type != NPCID.TargetDummy)
                 {
                     if (rechargeMP)
-                        currentDelta += (int)(damage * .75f);
+                        currentDelta += damage / 2;
                     else
-                        currentDelta += damage;
-                    deltaDecayDelay = 0;
-                    if (currentDelta >= maxDelta)
+                        currentDelta += (int)(damage * .75f);
+                    if (player.HeldItem.type == ItemType<Items.Weapons.Developer.Chimera>())
                     {
                         if (rechargeMP)
-                        {
-                            if (currentDelta >= maxDelta)
-                            {
-                                if (Main.myPlayer == player.whoAmI)
-                                    CombatText.NewText(player.getRect(), Color.DodgerBlue, "-1s");
-                                rechargeMPTimer -= 60;
-                                currentDelta = 0;
-                            }
-                        }
+                            currentDelta += damage / 2;
                         else
-                        {
-                            int RestoreMP = Main.rand.Next(1, 6);
-                            if (Main.myPlayer == player.whoAmI)
-                                CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
-                            currentMP += RestoreMP;
-                            if (currentMP > maxMP)
-                                currentMP = maxMP;
-                        }
-                        currentDelta = 0;
+                            currentDelta += (int)(damage * .75f);
                     }
+                    deltaDecayDelay = 0;
                 }
                 Vector2 point = itemRectangle.Center.ToVector2();
                 Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
-                if (item.type == ItemType<Items.Weapons.Keybrand>() || item.type == ItemType<Items.Weapons.KeybrandD>() || item.type == ItemType<Items.Weapons.TrueKeybrand>() || item.type == ItemType<Items.Weapons.TrueKeybrandD>())
+                if (item.type == ItemType<Items.Weapons.EdgeOfUltima>() || 
+                    item.type == ItemType<Items.Weapons.Keybrand>() || 
+                    item.type == ItemType<Items.Weapons.KeybrandD>() || 
+                    item.type == ItemType<Items.Weapons.TrueKeybrand>() || 
+                    item.type == ItemType<Items.Weapons.TrueKeybrandD>())
                     for (int i = 0; i < Main.rand.Next(2, 5); i++)
                     {
                         int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1.25f));
@@ -877,37 +984,32 @@ namespace KeybrandsPlus.Globals
         {
             if (proj.GetGlobalProjectile<KeyProjectile>().IsKeybrandProj && !target.friendly && !target.SpawnedFromStatue && target.lifeMax > 5 && target.type != NPCID.TargetDummy)
             {
-                if (rechargeMP)
-                    currentDelta += (int)(damage * .25f);
-                else
-                    currentDelta += damage / 3;
-                deltaDecayDelay = 0;
-                if (currentDelta >= maxDelta)
+                if (proj.type == ProjectileType<Projectiles.Judgement>())
                 {
                     if (rechargeMP)
-                    {
-                        if (currentDelta >= maxDelta)
-                        {
-                            if (Main.myPlayer == player.whoAmI)
-                                CombatText.NewText(player.getRect(), Color.DodgerBlue, "-1s");
-                            rechargeMPTimer -= 60;
-                            currentDelta = 0;
-                        }
-                    }
+                        currentDelta += damage / 25;
                     else
-                    {
-                        int RestoreMP = Main.rand.Next(1, 6);
-                        if (Main.myPlayer == player.whoAmI)
-                            CombatText.NewText(player.getRect(), Color.DodgerBlue, RestoreMP);
-                        currentMP += RestoreMP;
-                        if (currentMP > maxMP)
-                            currentMP = maxMP;
-                    }
+                        currentDelta += damage / 15;
                 }
+                else if (proj.type == ProjectileType<Projectiles.DraconicFireball>())
+                {
+                    if (rechargeMP)
+                        currentDelta += damage / 15;
+                    else
+                        currentDelta += damage / 9;
+                }
+                else
+                {
+                    if (rechargeMP)
+                        currentDelta += damage / 5;
+                    else
+                        currentDelta += damage / 3;
+                }
+                deltaDecayDelay = 0;
             }
         }
 
-        private void ItemCheck_GetMeleeHitbox(Item sItem, Rectangle heldItemFrame, out bool dontAttack, out Rectangle itemRectangle)
+        public void ItemCheck_GetMeleeHitbox(Item sItem, Rectangle heldItemFrame, out bool dontAttack, out Rectangle itemRectangle)
         {
             dontAttack = false;
             itemRectangle = new Rectangle((int)player.itemLocation.X, (int)player.itemLocation.Y, 32, 32);
@@ -975,12 +1077,22 @@ namespace KeybrandsPlus.Globals
             }
             else
                 FixedDirection = false;
+            if (player.controlJump && player.wingTimeMax > 0)
+            {
+                Flying = true;
+            }
+            if (BlossomWings && player.controlJump && player.controlDown && player.wingTime > 0)
+            {
+                if (!player.controlLeft && !player.controlRight)
+                    player.velocity.X *= 0.75f;
+                player.velocity.Y *= 0.9f;
+                if (player.velocity.Y > -2f && player.velocity.Y < 1f)
+                    player.velocity.Y = 1E-05f;
+            }
         }
 
         public override void PostUpdateBuffs()
         {
-            if (SCCooldown)
-                player.lifeSteal = 0;
             if (Stop)
             {
                 int dust = Dust.NewDust(player.Center, 0, 0, DustID.AncientLight, Scale: 2f);
@@ -999,6 +1111,7 @@ namespace KeybrandsPlus.Globals
                 ChainResistThunder -= .4f;
                 ChainResistAero -= .4f;
                 ChainResistWater -= .4f;
+                ChainResistLight -= .4f;
                 ChainResistDark -= .4f;
             }
             if (Divinity)
@@ -1060,6 +1173,7 @@ namespace KeybrandsPlus.Globals
             }
         }
         #region PlayerLayer stuff
+        // tbh this stuff could be optimized, gotta better learn how rendering works before I tackle that tho, this is just copy-pasted stuff lol
         public static readonly PlayerLayer WeaponGlow = new PlayerLayer("KeybrandsPlus", "WeaponGlow", PlayerLayer.HeldItem, delegate (PlayerDrawInfo drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;

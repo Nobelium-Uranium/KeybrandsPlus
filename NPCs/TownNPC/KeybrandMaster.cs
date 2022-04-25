@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KeybrandsPlus.Globals;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -19,9 +21,9 @@ namespace KeybrandsPlus.NPCs.TownNPC
             Main.npcFrameCount[npc.type] = 23;
             NPCID.Sets.ExtraFramesCount[npc.type] = 9;
             NPCID.Sets.AttackFrameCount[npc.type] = 4;
-            NPCID.Sets.DangerDetectRange[npc.type] = 100;
+            NPCID.Sets.DangerDetectRange[npc.type] = 80;
             NPCID.Sets.AttackType[npc.type] = 3;
-            NPCID.Sets.AttackTime[npc.type] = 20;
+            NPCID.Sets.AttackTime[npc.type] = 10;
             NPCID.Sets.AttackAverageChance[npc.type] = 10;
         }
 
@@ -34,33 +36,43 @@ namespace KeybrandsPlus.NPCs.TownNPC
             npc.aiStyle = 7;
             npc.damage = 100;
             npc.defense = 50;
-            npc.lifeMax = 3000;
-            npc.HitSound = SoundID.NPCHit4;
+            npc.lifeMax = 25000;
             npc.DeathSound = SoundID.NPCDeath44;
             npc.knockBackResist = 0.1f;
             animationType = NPCID.Stylist;
             npc.buffImmune[BuffID.Wet] = true;
         }
 
-        public override void AI()
+        public override bool PreAI()
         {
-            #region no
-            if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
+            if (npc.life < npc.lifeMax)
+                npc.life += 25;
+            if (npc.life > npc.lifeMax)
+                npc.life = npc.lifeMax;
+            return base.PreAI();
+        }
+
+        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        {
+            Main.PlaySound(SoundID.NPCHit4, npc.Center);
+            if (damage < 5000)
+                damage = 0;
+            else
+                damage -= 5000;
+            if (damage > 5000)
             {
-                npc.buffImmune[BuffID.Wet] = false;
-                npc.AddBuff(BuffID.Wet, 2);
-                npc.buffImmune[BuffID.Wet] = true;
+                damage -= 5000;
+                damage /= 10;
+                damage += 5000;
             }
-            #endregion
+            if (damage > 10000)
+                damage = 10000;
+            crit = false;
+            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            int num = npc.life > 0 ? 1 : 5;
-            for (int k = 0; k < num; k++)
-            {
-                Dust.NewDust(npc.position, npc.width, npc.height, 226);
-            }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
@@ -85,7 +97,12 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 {
                     continue;
                 }
-                return true;
+                foreach (Item i in player.inventory)
+                {
+                    if (i.GetGlobalItem<KeyItem>().IsKeybrand && !i.GetGlobalItem<KeyItem>().NoKeybrandMaster)
+                        return true;
+                }
+                return false;
             }
             return false;
         }
@@ -98,69 +115,55 @@ namespace KeybrandsPlus.NPCs.TownNPC
         public override string GetChat()
         { // chat.Add("");
             Player player = Main.LocalPlayer;
+            bool Broke = true;
+            foreach (Item i in player.inventory)
+            {
+                if (i.type == ItemType<Items.Currency.Munny>())
+                    Broke = false;
+            }
             WeightedRandom<string> chat = new WeightedRandom<string>();
-            int Dryad = NPC.FindFirstNPC(NPCID.Dryad);
             int Cyborg = NPC.FindFirstNPC(NPCID.Cyborg);
-            int Angler = NPC.FindFirstNPC(NPCID.Angler);
-            if (!npc.homeless && player.name != "Cheems")
-            {
-                if (Dryad >= 0 && !Main.bloodMoon)
-                {
-                    chat.Add("Is there a practical reason " + Main.npc[Dryad].GivenName + " dresses so skimply? I get that she's one with nature and all, but that doesn't mean she should be so... revealing.");
-                }
-                if (Cyborg >= 0)
-                {
-                    chat.Add(Main.npc[Cyborg].GivenName + " is cool I guess, but my tech is far more advanced.");
-                    chat.Add(Main.npc[Cyborg].GivenName + " and I get along well, he lets me reverse engineer his tech too!", 0.5);
-                    chat.Add(Main.npc[Cyborg].GivenName + " and I get along well, he lets me reverse engineer his tech too! ...No, not in that way, gross.", 0.5);
-                }
-                if (Angler >= 0)
-                {
-                    chat.Add("I heard from " + Main.npc[Angler].GivenName + " that the shells bear secrets... not sure what that means...");
-                    chat.Add(Main.npc[Angler].GivenName + " may come off as a bit of a prick, but honestly I think he's just misunderstood.");
-                }
-                if (player.name == "Sora" || player.name == "Riku" || player.name == "Kairi" || player.name == "Roxas" || player.name == "Axel" || player.name == "Xion" || player.name == "Ventus" || player.name == "Aqua" || player.name == "Terra")
-                    chat.Add("Your name, it sounds familiar, but I can't think of why...");
-                chat.Add("May your heart be your guiding key.");
-                chat.Add("May your key be your guiding heart.", 0.5);
-                //if (Main.hardMode && !NPC.downedMechBossAny)
-                    //chat.Add("The heartless here seem to be much more composed and dangerous.");
-                //if (Main.hardMode && !Main.dayTime)
-                    //chat.Add("Hey, if you see a big red lanky heartless wielding a shield with a face... well, just leave it alone alright? It won't hurt you if you don't hurt it, and believe me when I say it'll hurt you. A LOT.", 0.75);
-                //if (NPC.downedMoonlord)
-                    //chat.Add("I believe it's time to prepare for the worst, it seems the Lord of the Celestials was the heartless' main enemy, and now they've found access to the world's heart...");
-                /*if (NPC.downedBoss2 && !Main.hardMode)
-                    chat.Add("There seems to be a new evil looming about... Make sure you've got the tools to deal with them.");
-                else if (!Main.hardMode)*/
-                    chat.Add("Hmm, so darkness has already touched this world, but I see no signs of heartless... curious...");
-                chat.Add("If you are ever in need of materials for keybrands, I will happily oblige, as long as you have the Munny for it.");
-                chat.Add("It is I... " + npc.GivenName + ", the seeker of light!");
-                chat.Add("For the last time, it's not a scythe! Oh, sorry... did you need something?", 0.5);
-                chat.Add("Shoutouts to Dan Yami, he's pretty cool. Hey, you should try Shadows of Abaddon sometime.", 0.25);
-                chat.Add("Shoutouts to Pronoespro, show him your support by checking out Terrahearts Kingdom. It may be small (and kinda buggy), but it reinvigorated my motivation.", 0.25);
-                chat.Add("Have you tried eter... eta... etr... masomode?", 0.075);
-                chat.Add("Have you tried eter... eta... etr... sempiternity mode?", 0.1);
-                chat.Add("Your meme, it's useful, I'll take it.", 0.05);
-                #region no
-                if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
-                {
-                    chat.Add("Ugh, is it hot in here or is it just me...?", 1.5);
-                    chat.Add("Orchid mantises are cool.", 0.25);
-                    chat.Add("Orchid mantises are hot.", 0.05);
-                    chat.Add("Plant mantises are hot.", 0.025);
-                    chat.Add("Plant mantis waifus are hot.", 0.01);
-                }
-                else
-                    chat.Add("Orchid mantises are cool.", 0.01);
-                #endregion
-            }
-            else if (!npc.homeless)
-                chat.Add("No.");
+            if (Broke)
+                chat.Add("Unfortunately for you, my services do not take coins. If you want to purchase my wares, earn some Munny first. They can be looted from most foes you slay.");
             else
+                chat.Add("If you are ever in need of materials for keybrands, I am willing to oblige, if you can afford them.");
+            if (Cyborg >= 0)
             {
-                chat.Add("I'm pretty sure I need a place to stay, even for me it's dangerous to be out in the open.");
-                chat.Add("Got any free real estate? That would be greatly appreciated, thanks.");
+                chat.Add("I admit that " + Main.npc[Cyborg].GivenName + "'s technology is impressive, but my own is far more sophisticated.");
             }
+            if (player.name == "Sora" || player.name == "Riku" || player.name == "Kairi" || player.name == "Roxas" || player.name == "Axel" || player.name == "Xion" || player.name == "Ventus" || player.name == "Aqua" || player.name == "Terra")
+                chat.Add("Your name, it sounds familiar, but I can't think of why...");
+            chat.Add("May your heart be your guiding key.");
+            //if (Main.hardMode && !NPC.downedMechBossAny)
+            //chat.Add("Be careful, as a result of defeating that cursed horror you fought down there, the Heartless here seem to be much more composed and dangerous.");
+            //if (Main.hardMode && !Main.dayTime)
+            //chat.Add("I must warn you, if you see a large red Heartless wielding a shield, I suggest that you keep your distance. Attempt this fight knowing that it may be your last.", 0.75);
+            //if (NPC.downedMoonlord)
+            //chat.Add("So, you've defeated the Lord of the Celestials... it seems to have awakened yet another new threat, the Nobodies.");
+            /*if (NPC.downedBoss2 && !Main.hardMode)
+                chat.Add("There seems to be a new evil looming about... ensure that you have the means to deal with them.");
+            else if (!Main.hardMode)*/
+            chat.Add("It appears that darkness has already touched this world, but I see no signs of Heartless... curious...");
+            if (npc.life < npc.lifeMax)
+                chat.Add("You wanted to challenge me? Sorry, but I can't do that at the moment. This is just a replica, besides.", 2);
+            chat.Add("Hm? You want the armor that I'm wearing? Unfortunately, armor plating of this caliber is too heavy and impractical for you to wear, you'd be a pile of super-compressed flesh in seconds if you tried.", 0.5);
+            chat.Add("Also try Shadows of Abaddon!", 0.1);
+            chat.Add("Also try Kingdom Terrahearts!", 0.1);
+            if ((System.DateTime.Now.Month == 9 && System.DateTime.Now.Day == 10) || (System.DateTime.Now.Month == 1 && System.DateTime.Now.Day == 31) || (System.DateTime.Now.Month == 4 && System.DateTime.Now.Day == 12))
+            {
+                chat.Add("Today is a momentous day.");
+            }
+            #region no
+            if (npc.HasBuff(BuffID.Lovestruck) && !Main.dayTime)
+            {
+                chat.Add("Orchid mantises are cool.", 0.25);
+                chat.Add("Orchid mantises are hot.", 0.05);
+                chat.Add("Plant mantises are hot.", 0.01);
+                chat.Add("Plant mantis waifus are hot.", 0.0025);
+            }
+            else
+                chat.Add("Orchid mantises are cool.", 0.01);
+            #endregion
             return chat;
         }
 
@@ -173,9 +176,9 @@ namespace KeybrandsPlus.NPCs.TownNPC
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
             Player player = Main.LocalPlayer;
-            string Comment = "This message should not appear, you should definitely tell the mod developer if it does!";
+            string Comment = "This message should not appear. Please report this to the mod developers.";
             string ExtraComment = "";
-            string Affinity = "ERROR";
+            string Affinity = "undefined";
             if (player.GetModPlayer<Globals.KeyPlayer>().LightAlignment > player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment)
                 Affinity = "light";
             else if (player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment > player.GetModPlayer<Globals.KeyPlayer>().LightAlignment)
@@ -183,21 +186,21 @@ namespace KeybrandsPlus.NPCs.TownNPC
             else
                 Affinity = "duality";
             if (player.GetModPlayer<Globals.KeyPlayer>().LightAlignment == player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment && player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 50)
-                Comment = "Your heart is in perfect harmony! I commend your aptitude, though do be sure to keep your affinity aligned.";
+                Comment = "Your heart is in perfect harmony, I commend your aptitude.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 50 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment == 0)
-                Comment = "Your heart is pure, there's not a hint of darkness in you! Still, you must remain vigilant if you want to keep it that way.";
+                Comment = "Your heart is pure, there is not a hint of darkness in you.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 50 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment == 0)
-                Comment = "Your heart is pitch black with darkness... Are you even human anymore? Well, I suppose if you can keep that darkness in check, you'll be fine.";
+                Comment = "Your heart is pitch black with darkness, the light shuns you.";
             else if ((player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment + 25 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment != 0 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 25) || player.GetModPlayer<Globals.KeyPlayer>().LightAlignment >= 25 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment != 0)
-                Comment = "Your heart is pure, but not entirely. Even the smallest amount of darkness could mean terrible things...";
+                Comment = "Your heart is pure, but there is still some darkness.";
             else if ((player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= player.GetModPlayer<Globals.KeyPlayer>().LightAlignment + 25 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment != 0 && player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 25) || player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment >= 25 && player.GetModPlayer<Globals.KeyPlayer>().LightAlignment != 0)
-                Comment = "Your heart is succumbing to the darkness... Still, there is hope for you yet, as long as you don't let what little light you have in you out.";
+                Comment = "Your heart is succumbing to the darkness.";
             else if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 25)
-                Comment = "Your heart is neutral. You're neither strongly afflicted by light nor darkness. I suppose using both light and darkness is a good move.";
+                Comment = "Your heart is neutral. You are neither strongly afflicted by light nor darkness.";
             else
-                Comment = "Your heart is neutral. You're neither afflicted by light nor darkness.";
+                Comment = "Your heart is neutral. You are neither afflicted by light nor darkness.";
             /*if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 100)
-                ExtraComment = " It seems that as a result of the strength of your " + Affinity + ", the heartless are getting stronger... I suggest you stay alert.";
+                ExtraComment = " It seems that as a result of the strength of your " + Affinity + ", the Heartless are getting stronger... I suggest you stay alert.";
             else*/ if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 75)
                 ExtraComment = " At this rate, your " + Affinity + " will become the mightiest of all...";
             else if (player.GetModPlayer<Globals.KeyPlayer>().TotalAlignment >= 50)
@@ -272,18 +275,18 @@ namespace KeybrandsPlus.NPCs.TownNPC
             if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.MegaEther>());
-                shop.item[nextSlot].shopCustomPrice = new int?(90);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.TurboEther>());
-                shop.item[nextSlot].shopCustomPrice = new int?(125);
+                shop.item[nextSlot].shopCustomPrice = new int?(100);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
-            if (NPC.downedMoonlord)
+            shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.MP.TurboEther>());
+            shop.item[nextSlot].shopCustomPrice = new int?(200);
+            shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+            nextSlot++;
+            if (NPC.downedPlantBoss)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.Elixir>());
-                shop.item[nextSlot].shopCustomPrice = new int?(250);
+                shop.item[nextSlot].shopCustomPrice = new int?(350);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
@@ -294,29 +297,44 @@ namespace KeybrandsPlus.NPCs.TownNPC
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
+            if (NPC.downedBoss3)
+            {
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.DivinityPotion>());
+                shop.item[nextSlot].shopCustomPrice = new int?(40);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.ZenithStim>());
+                shop.item[nextSlot].shopCustomPrice = new int?(40);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
+            }
+            shop.item[nextSlot].SetDefaults(ItemType<Items.Consumables.IceCream>());
+            shop.item[nextSlot].shopCustomPrice = new int?(50);
+            shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+            nextSlot++;
             if (NPC.downedBoss2)
             {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.TreasureMagnet>());
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MunnyMagnetT1>());
                 shop.item[nextSlot].shopCustomPrice = new int?(100);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
             if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
             {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.TreasureMagnetPlus>());
-                shop.item[nextSlot].shopCustomPrice = new int?(250);
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MunnyMagnetT2>());
+                shop.item[nextSlot].shopCustomPrice = new int?(300);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
             if (NPC.downedMoonlord)
             {
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MasterTreasureMagnet>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1000);
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Special.MunnyMagnetT3>());
+                shop.item[nextSlot].shopCustomPrice = new int?(500);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
             shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.UnchargedCrystal>());
-            shop.item[nextSlot].shopCustomPrice = new int?(500);
+            shop.item[nextSlot].shopCustomPrice = new int?(150);
             shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.KeybrandMold>());
@@ -326,7 +344,7 @@ namespace KeybrandsPlus.NPCs.TownNPC
             if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.BrokenHeroKeybrand>());
-                shop.item[nextSlot].shopCustomPrice = new int?(175);
+                shop.item[nextSlot].shopCustomPrice = new int?(125);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;
             }
@@ -348,13 +366,17 @@ namespace KeybrandsPlus.NPCs.TownNPC
             if (NPC.downedMoonlord)
             {
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.ZenithFragment>());
-                shop.item[nextSlot].shopCustomPrice = new int?(120);
+                shop.item[nextSlot].shopCustomPrice = new int?(50);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;/*
                 shop.item[nextSlot].SetDefaults(ItemType<Items.Materials.UltimaBlueprint>());
                 shop.item[nextSlot].shopCustomPrice = new int?(1000);
                 shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                 nextSlot++;*/
+                shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Developer.Chimera>());
+                shop.item[nextSlot].shopCustomPrice = new int?(5000);
+                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                nextSlot++;
                 if (KeybrandsPlus.SoALoaded)
                 {
                     shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Other.BleakMidnight>());
@@ -362,110 +384,45 @@ namespace KeybrandsPlus.NPCs.TownNPC
                     shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
                     nextSlot++;
                 }
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliHelmet>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1500);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliShirt>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1500);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliPants>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1500);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Wings.AvaliGlider>());
-                shop.item[nextSlot].shopCustomPrice = new int?(3000);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Other.FullbrightDye>());
-                shop.item[nextSlot].shopCustomPrice = new int?(1000);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ItemType<Items.Weapons.Developer.Chimera>());
-                shop.item[nextSlot].shopCustomPrice = new int?(5000);
-                shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
-                nextSlot++;
-            }
-        }
-
-        public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
-        {
-            damage = 1;
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (projectile.friendly)
-                damage = 1;
-        }
-
-        public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
-        {
-            if (npc.lastInteraction != 255)
-            {
-                switch (Main.rand.Next(3))
+                if (Main.moonPhase == 1 || Main.moonPhase == 5)
                 {
-                    case 1:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "Cease at once!", true);
-                        break;
-                    case 2:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "That's not very nice!", true);
-                        break;
-                    default:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "You monster!", true);
-                        break;
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliHelmet>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(1500);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
                 }
-                Main.PlaySound(SoundID.NPCDeath7, player.Center);
-                for (int i = 0; i < 10; i++)
+                if (Main.moonPhase == 2 || Main.moonPhase == 6)
                 {
-                    int dust = Dust.NewDust(player.Center, 0, 0, DustID.AncientLight, Scale: 3f);
-                    Main.dust[dust].velocity *= 7.5f;
-                    Main.dust[dust].noGravity = true;
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliShirt>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(1500);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
                 }
-                player.AddBuff(BuffType<Buffs.Stop>(), 180);
-                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 900);
-                Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
-                Main.PlaySound(SoundID.Item60, npc.Center);
-                int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);
-                Main.projectile[Bite].hostile = true;
-                Main.projectile[Bite].friendly = false;
-                Main.projectile[Bite].magic = false;
-            }
-        }
-
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
-        {
-            if (projectile.friendly && npc.lastInteraction != 255)
-            {
-                Player player = Main.player[npc.lastInteraction];
-                switch (Main.rand.Next(3))
+                if (Main.moonPhase == 3 || Main.moonPhase == 7)
                 {
-                    case 1:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "Cease at once!", true);
-                        break;
-                    case 2:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "That's not very nice!", true);
-                        break;
-                    default:
-                        CombatText.NewText(npc.getRect(), Color.Cyan, "You monster!", true);
-                        break;
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Armor.Developer.AvaliPants>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(1500);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
                 }
-                Main.PlaySound(SoundID.NPCDeath7, player.Center);
-                for (int i = 0; i < 10; i++)
+                if (Main.moonPhase == 0 || Main.moonPhase == 4)
                 {
-                    int dust = Dust.NewDust(player.Center, 0, 0, DustID.AncientLight, Scale: 3f);
-                    Main.dust[dust].velocity *= 7.5f;
-                    Main.dust[dust].noGravity = true;
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Wings.AvaliGlider>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(3000);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Other.FullbrightDye>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(100);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
                 }
-                player.AddBuff(BuffType<Buffs.Stop>(), 180);
-                player.AddBuff(BuffType<Buffs.ChimeraBleed>(), 900);
-                Vector2 vectorToPlayer = Vector2.Normalize(player.Center - npc.Center);
-                Main.PlaySound(SoundID.Item60, npc.Center);
-                int Bite = Projectile.NewProjectile(npc.Center, vectorToPlayer, ProjectileType<Projectiles.ChimeraBite>(), 50, 0);
-                Main.projectile[Bite].hostile = true;
-                Main.projectile[Bite].friendly = false;
-                Main.projectile[Bite].magic = false;
+                if (Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDX % 7 == 0 && Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDY % 5 == 0 && Main.LocalPlayer.GetModPlayer<KeyPlayer>().StoredUUIDZ % 4 == 0)
+                {
+                    shop.item[nextSlot].SetDefaults(ItemType<Items.Accessories.Wings.BlossomWings>());
+                    shop.item[nextSlot].shopCustomPrice = new int?(30000);
+                    shop.item[nextSlot].shopSpecialCurrency = KeybrandsPlus.MunnyCost;
+                    nextSlot++;
+                }
             }
         }
 
@@ -487,13 +444,13 @@ namespace KeybrandsPlus.NPCs.TownNPC
             {
                 damage = 50;
             }
-            knockback = 5f;
+            knockback = 3f;
         }
 
         public override void TownNPCAttackCooldown(ref int cooldown, ref int randExtraCooldown)
         {
-            cooldown = 15;
-            randExtraCooldown = 15;
+            cooldown = 7;
+            randExtraCooldown = 7;
         }
 
         public override void DrawTownAttackSwing(ref Texture2D item, ref int itemSize, ref float scale, ref Vector2 offset)

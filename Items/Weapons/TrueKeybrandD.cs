@@ -3,6 +3,7 @@ using Terraria.ID;
 using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 
@@ -15,8 +16,8 @@ namespace KeybrandsPlus.Items.Weapons
             Tooltip.SetDefault("+30 Dark Alignment\n" +
                 "Direct melee hits inflict up to 200% more damage to injured foes\n" +
                 "Alt Attack: Elemental Raid\n" +
-                "MP Cost: 24\n" +
-                "Throws a returning ethereal keybrand imbued with the elements\n" +
+                "MP Cost: 16\n" +
+                "Throws returning ethereal keybrands imbued with the elements\n" +
                 "Abilities: Defender+, Leaf Bracer\n" +
                 "'Imbued with the forces of darkness'");
         }
@@ -65,17 +66,17 @@ namespace KeybrandsPlus.Items.Weapons
             {
                 item.melee = false;
                 item.ranged = true;
-                item.useTime = 10;
-                item.useAnimation = 10;
+                item.useTime = 12;
+                item.useAnimation = 12;
                 item.knockBack = 1;
                 item.shoot = ModContent.ProjectileType<Projectiles.StrikeRaid>();
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item71;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 24;
-                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP) player.GetModPlayer<KeyPlayer>().currentMP -= 16;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP;
             }
-            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.StrikeRaid>()] <= 0;
+            return base.CanUseItem(player);
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -85,12 +86,15 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().DefenderPlus = true;
-            player.GetModPlayer<KeyPlayer>().LeafBracer = true;
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+            {
+                player.GetModPlayer<KeyPlayer>().DefenderPlus = true;
+                player.GetModPlayer<KeyPlayer>().LeafBracer = true;
+            }
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<Globals.KeyPlayer>().DarkAlignment += 30;
+            player.GetModPlayer<KeyPlayer>().DarkAlignment += 30;
         }
         public override void AddRecipes()
         {
@@ -98,6 +102,23 @@ namespace KeybrandsPlus.Items.Weapons
             r.AddIngredient(ModContent.ItemType<KeybrandD>());
             r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
             r.AddIngredient(ItemID.SoulofFright, 10);
+            r.AddIngredient(ItemID.SoulofMight, 10);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(this);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<KeybrandD>());
+            r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
+            r.AddIngredient(ItemID.SoulofFright, 10);
+            r.AddIngredient(ItemID.SoulofSight, 10);
+            r.AddTile(TileID.MythrilAnvil);
+            r.SetResult(this);
+            r.AddRecipe();
+
+            r = new ModRecipe(mod);
+            r.AddIngredient(ModContent.ItemType<KeybrandD>());
+            r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofSight, 10);
             r.AddTile(TileID.MythrilAnvil);

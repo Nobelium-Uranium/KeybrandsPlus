@@ -12,21 +12,25 @@ namespace KeybrandsPlus.Projectiles
 {
     class StrikeRaid : KeybrandProj
     {
-        private int SpinTimer;
         private int ReturnTimer;
         private bool SetInitDamage;
         private int InitialDamage;
         private bool CanReturnNormally;
         private bool Returning;
         private int DamageDealt;
+        private int LastHitType;
+
+        Vector2 lastPos;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Strike Raid");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 13;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
+            projectile.width = 24;
+            projectile.height = 24;
             aiType = 20;
             projectile.alpha = 255;
             projectile.friendly = true;
@@ -35,13 +39,15 @@ namespace KeybrandsPlus.Projectiles
             projectile.ranged = true;
             projectile.penetrate = -1;
             projectile.extraUpdates += 1;
-            ReturnTimer = 90;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            ReturnTimer = 30;
         }
         public override void AI()
         {
             if (projectile.ai[0] == 1)
             {
-                int type = DustID.Fire;
+                int type;
                 switch (Main.rand.Next(3))
                 {
                     case 1:
@@ -66,13 +72,8 @@ namespace KeybrandsPlus.Projectiles
             if (projectile.ai[0] == 0)
                 Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 0.3f);
             projectile.rotation += 0.3f * projectile.direction;
-            if (projectile.velocity.LengthSquared() < 2)
-            {
-                if (SpinTimer >= 30)
-                    CanReturnNormally = true;
-                else
-                    SpinTimer++;
-            }
+            if (projectile.velocity.LengthSquared() < 1)
+                CanReturnNormally = true;
             if (CanReturnNormally || Main.player[projectile.owner].dead)
             {
                 Returning = false;
@@ -92,6 +93,8 @@ namespace KeybrandsPlus.Projectiles
                     AdjustMagnitude(ref projectile.velocity, 20f);
                     Returning = true;
                 }
+                else
+                    projectile.velocity *= 0.9f;
                 ReturnTimer -= 1;
                 if (distanceTo < 50f)
                     projectile.Kill();
@@ -102,6 +105,18 @@ namespace KeybrandsPlus.Projectiles
             if (projectile.alpha < 0)
             {
                 projectile.alpha = 0;
+            }
+            if (Main.GameUpdateCount % 2 == 0)
+                lastPos = projectile.position;
+            else
+            {
+                Vector2 vectorDistance = projectile.Center - lastPos;
+                float syncTo = (float)Math.Sqrt(vectorDistance.X * vectorDistance.X + vectorDistance.Y * vectorDistance.Y);
+                if (syncTo > 25f)
+                {
+                    lastPos = projectile.position;
+                    projectile.netUpdate = true;
+                }
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -120,6 +135,13 @@ namespace KeybrandsPlus.Projectiles
             Main.spriteBatch.Draw(texture,
                 projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY),
                 sourceRectangle, Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+                Color color = Color.White * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.oldRot[k], origin, projectile.scale, SpriteEffects.None, 0f);
+            }
             return false;
         }
         private void AdjustMagnitude(ref Vector2 vector, float max)
@@ -132,6 +154,10 @@ namespace KeybrandsPlus.Projectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
+            if (projectile.ai[0] == 1 && DamageDealt >= 2500)
+                return false;
+            else if (DamageDealt >= 750)
+                return false;
             return !Main.player[projectile.owner].dead && !target.friendly;
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -147,27 +173,26 @@ namespace KeybrandsPlus.Projectiles
                 else
                     damage = (int)(damage * 1.5f);
             }
+            if ((LastHitType == NPCID.TheDestroyer || LastHitType == NPCID.TheDestroyerBody || LastHitType == NPCID.TheDestroyerTail) && (target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail))
+                damage = (int)(damage * .75f);
             if (Returning)
                 damage = (int)(damage * 1.5f);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 5;
             DamageDealt += damage;
-            if (projectile.ai[0] == 1 && DamageDealt < 2500)
-                SpinTimer = 0;
-            else if (DamageDealt < 750)
-                SpinTimer = 0;
-            if (!Returning && projectile.velocity.LengthSquared() > 2.5f)
-                projectile.velocity = Vector2.Normalize(projectile.velocity) * 2.5f;
             projectile.damage -= (int)(InitialDamage * 0.05f);
             Vector2 point = projectile.Center;
             Vector2 positionInWorld = ClosestPointInRect(target.Hitbox, point);
-            for (int i = 0; i < Main.rand.Next(2, 5); i++)
+            for (int i = 0; i < Main.rand.Next(4, 7); i++)
             {
-                int dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
-                Main.dust[dust].velocity *= Main.rand.NextFloat(1.25f, 1.75f);
+                int dust = Dust.NewDust(positionInWorld, 0, 0, DustID.TerraBlade, Scale: Main.rand.NextFloat(.75f, 1f));
+                Main.dust[dust].velocity += projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15)) * Main.rand.NextFloat(.25f, .75f);
+                Main.dust[dust].noGravity = true;
+                dust = Dust.NewDust(positionInWorld, 0, 0, DustType<Dusts.Keybrand.KeybrandHit>(), Scale: Main.rand.NextFloat(.75f, 1f));
+                Main.dust[dust].velocity += Vector2.Normalize(projectile.velocity) * Main.rand.NextFloat(1.25f, 1.75f);
             }
+            LastHitType = target.type;
             projectile.netUpdate = true;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -182,6 +207,7 @@ namespace KeybrandsPlus.Projectiles
             {
                 projectile.velocity.Y = -oldVelocity.Y;
             }
+            projectile.netUpdate = true;
             return false;
         }
     }

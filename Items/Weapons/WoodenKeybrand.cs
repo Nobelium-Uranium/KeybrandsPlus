@@ -10,7 +10,7 @@ namespace KeybrandsPlus.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("No Alt Attack\nNo Abilities\n'There's a familiar name engraved on the guard...'");
+            Tooltip.SetDefault("No Alt Attack\nNo Abilities\n'A practice sword based on the legendary Keybrand'");
         }
         public override void SetDefaults()
         {
@@ -28,6 +28,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.autoReuse = true;
             item.GetGlobalItem<KeyItem>().ExemptFromLimit = true;
             item.GetGlobalItem<KeyItem>().NoWarning = true;
+            item.GetGlobalItem<KeyItem>().NoKeybrandMaster = true;
         }
         public override bool AltFunctionUse(Player player)
         {

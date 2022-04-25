@@ -19,7 +19,6 @@ namespace KeybrandsPlus.Items.Materials
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
-            r.AddRecipeGroup("K+:Shortsword");
             r.AddRecipeGroup("K+:T2Bar", 10);
             r.AddIngredient(ItemID.ClayBlock, 10);
             r.AddTile(TileID.Furnaces);

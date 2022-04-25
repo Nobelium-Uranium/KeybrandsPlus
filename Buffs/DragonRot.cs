@@ -27,4 +27,16 @@ namespace KeybrandsPlus.Buffs
             }
         }
     }
+    class DragonAura : ModBuff
+    {
+        public override void SetDefaults()
+        {
+            DisplayName.SetDefault("Draconic Aura");
+            Description.SetDefault("Another foe's suffering becomes your own");
+        }
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+            npc.GetGlobalNPC<KeyNPC>().DragonAura = true;
+        }
+    }
 }

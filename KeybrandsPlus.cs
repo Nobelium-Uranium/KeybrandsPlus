@@ -40,7 +40,7 @@ namespace KeybrandsPlus
             if (!Main.dedServ)
             {
                 GameShaders.Armor.BindShader(ModContent.ItemType<Items.Other.FullbrightDye>(), new ArmorShaderData(new Ref<Effect>(GetEffect("Effects/Fullbright")), "FullbrightShader"));
-                MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Items.Currency.Munny>(), 9999L));
+                MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Items.Currency.Munny>(), 1000000L));
             }
         }
         public override void Unload()
@@ -102,6 +102,24 @@ namespace KeybrandsPlus
                     ItemID.PlatinumShortsword
                 });
             RecipeGroup.RegisterGroup("K+:Shortsword", g);
+            g = new RecipeGroup(() => "Dull Lockblade", new int[]
+                {
+                    ModContent.ItemType<Items.Weapons.LockbladeT1>(),
+                    ModContent.ItemType<Items.Weapons.LockbladeT1Alt>(),
+                });
+            RecipeGroup.RegisterGroup("K+:T1Lockblade", g);
+            g = new RecipeGroup(() => "Reinforced Lockblade", new int[]
+                {
+                    ModContent.ItemType<Items.Weapons.LockbladeT2>(),
+                    ModContent.ItemType<Items.Weapons.LockbladeT2Alt>(),
+                });
+            RecipeGroup.RegisterGroup("K+:T2Lockblade", g);
+            g = new RecipeGroup(() => "Refined Lockblade", new int[]
+                {
+                    ModContent.ItemType<Items.Weapons.LockbladeT3>(),
+                    ModContent.ItemType<Items.Weapons.LockbladeT3Alt>(),
+                });
+            RecipeGroup.RegisterGroup("K+:T3Lockblade", g);
             g = new RecipeGroup(() => "Copper/Tin Bar", new int[]
                 {
                     ItemID.CopperBar,
@@ -170,7 +188,7 @@ namespace KeybrandsPlus
             Player player = Main.LocalPlayer;
             KeyPlayer keyPlayer = player.GetModPlayer<KeyPlayer>();
 
-            if (keyPlayer.showMP && !player.dead && !Main.playerInventory)
+            if ((ModContent.GetInstance<KeyClientConfig>().AlwaysShowMP || (player.HeldItem.modItem is Keybrand && player.HeldItem.modItem.AltFunctionUse(player)) || player.HeldItem.type == ModContent.ItemType<Items.Other.Cure.CureSpell>() || player.HeldItem.type == ModContent.ItemType<Items.Other.Cure.CuraSpell>() || player.HeldItem.type == ModContent.ItemType<Items.Other.Cure.CuragaSpell>()) && !player.dead && !Main.playerInventory)
             {
                 int index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Ruler"));
                 LegacyGameInterfaceLayer mpBar = new LegacyGameInterfaceLayer("KeybrandsPlus: MP Gauge",
@@ -201,6 +219,7 @@ namespace KeybrandsPlus
             float toastTimer = keyPlayer.rechargeMPToastTimer;
             float rechargeTimer = keyPlayer.rechargeMPTimer;
             float maxRechargeTimer = keyPlayer.maxRechargeMPTimer;
+            float rechargeRate = keyPlayer.rechargeMPRate;
 
             float midFrame = 0;
             float fillFrame = 0;
@@ -242,6 +261,8 @@ namespace KeybrandsPlus
             {
                 spriteBatch.Draw(gaugeFill, Offset + new Vector2(i, 4f), fillRect, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
+            if (currDelta > maxDelta)
+                currDelta = maxDelta;
             Offset = new Vector2(drawPos.X - currDelta / 2, drawPos.Y);
             for (int i = 0; i < currDelta / 2; i++)
             {
@@ -253,7 +274,7 @@ namespace KeybrandsPlus
             if (mpBar.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
                 if (keyPlayer.rechargeMP)
-                    Main.spriteBatch.DrawString(Main.fontMouseText, "Recharging: " + Math.Ceiling(rechargeTimer / 60f) + "s (Delta: " + currDelta + "/" + maxDelta + ")", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    Main.spriteBatch.DrawString(Main.fontMouseText, (rechargeRate > 0 ? "Recharging: " + Math.Ceiling(rechargeTimer / rechargeRate / 60f) + "s" : "No Recharge!") + " (Delta: " + currDelta + "/" + maxDelta + ")", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
                 else
                     Main.spriteBatch.DrawString(Main.fontMouseText, currMP + "/" + maxMP + " (Delta: " + currDelta + "/" + maxDelta + ")", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
             }

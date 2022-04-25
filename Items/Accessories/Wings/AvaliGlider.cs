@@ -1,6 +1,8 @@
+using KeybrandsPlus.Globals;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -10,15 +12,16 @@ namespace KeybrandsPlus.Items.Accessories.Wings
     [AutoloadEquip(EquipType.Wings)]
     public class AvaliGlider : ModItem
     {
+        private int flyStart;
         private bool Gliding;
         private int SlowfallTime;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chem's Modified Aero Glider");
-            Tooltip.SetDefault("Grants enhanced gliding capabilities, increasing horizontal mobility, and negates fall damage\n" +
-                "Cannot benefit from accessories or other items that increase flight duration\n" +
+            DisplayName.SetDefault("Modified Aero Glider");
+            Tooltip.SetDefault("Hold JUMP to glide with high speed, overrides other forms of flight\n" +
+                "Negates fall damage\n" +
                 "'A portable device worn on the back that can create wings of hard light, meant for gliding'\n" +
-                "'The design was originally of the Avali, but it was modified to boast increased performance'");
+                "'Originally designed by a race beyond the stars, it was modified to boast increased performance'");
         }
         public override void SetDefaults()
         {
@@ -27,11 +30,79 @@ namespace KeybrandsPlus.Items.Accessories.Wings
             item.rare = ItemRarityID.Cyan;
             item.accessory = true;
             SlowfallTime = 60;
+            item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
+            item.GetGlobalItem<KeyRarity>().DeveloperName = "ChemAtDark";
         }
         public override void UpdateEquip(Player player)
         {
+            player.GetModPlayer<KeyPlayer>().AvaliWings = true;
             player.wingTime *= 0;
             player.wingTimeMax *= 0;
+        }
+        public override bool WingUpdate(Player player, bool inUse)
+        {
+            if (player.GetModPlayer<KeyPlayer>().Flying)
+            {
+                if (flyStart < 2)
+                {
+                    flyStart++;
+                }
+                else if (flyStart > 2)
+                {
+                    flyStart = 2;
+                }
+            }
+            else
+            {
+                if (flyStart > 0)
+                {
+                    flyStart--;
+                }
+                else if (flyStart < 0)
+                {
+                    flyStart = 0;
+                }
+            }
+            if (flyStart == 1)
+            {
+                player.wingFrameCounter = 0;
+            }
+            player.wingFrameCounter++;
+            if (player.controlJump && player.velocity.Y != 0 && !player.GetModPlayer<KeyPlayer>().AvaliWings && player.wingsLogic != 0)
+            {
+                if (player.wingTime > 0)
+                {
+                    player.wingFrameCounter++;
+                }
+                if (player.wingFrameCounter > 48)
+                    player.wingFrameCounter = 0;
+                if (player.wingFrameCounter > 0 && player.wingFrameCounter <= 6)
+                    player.wingFrame = 1;
+                else if ((player.wingFrameCounter > 12 && player.wingFrameCounter <= 18) || (player.wingFrameCounter > 36 && player.wingFrameCounter <= 42))
+                    player.wingFrame = 2;
+                else if (player.wingFrameCounter > 24 && player.wingFrameCounter <= 30)
+                    player.wingFrame = 3;
+                else
+                    player.wingFrame = 0;
+                if (!player.GetModPlayer<KeyPlayer>().AvaliWings && player.wingTimeMax > 0 && player.controlJump && player.velocity.Y != 0 && player.wingFrame == 3)
+                {
+                    Main.PlaySound(SoundID.Item15.WithVolume(0.25f), player.position);
+                }
+            }
+            else
+            {
+                if (player.wingFrameCounter > 75)
+                    player.wingFrameCounter = 0;
+                if (player.wingFrameCounter > 50 && player.wingFrameCounter <= 55)
+                    player.wingFrame = 1;
+                else if (player.wingFrameCounter > 60 && player.wingFrameCounter <= 65)
+                    player.wingFrame = 2;
+                else if (player.wingFrameCounter > 70 && player.wingFrameCounter <= 75)
+                    player.wingFrame = 3;
+                else
+                    player.wingFrame = 0;
+            }
+            return true;
         }
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
@@ -61,6 +132,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                         int index = Dust.NewDust(player.position, player.width, player.height, 187, -player.velocity.X / 3, -player.velocity.Y / 3, 0, Color.Cyan);
                         Main.dust[index].noGravity = true;
                         Main.dust[index].scale = 2f;
+                        Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                     }
                     player.maxFallSpeed /= 5;
                 }
@@ -73,6 +145,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                         {
                             int index = Dust.NewDust(player.position, player.width, player.height, 187, -player.velocity.X / 5, -player.velocity.Y / 5, 0, Color.Cyan);
                             Main.dust[index].noGravity = true;
+                            Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                         }
                         player.maxFallSpeed *= 3f;
                     }
@@ -80,6 +153,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                     {
                         int index = Dust.NewDust(player.position, player.width, player.height, 187, -player.velocity.X / 5, -player.velocity.Y / 5, 0, Color.Cyan);
                         Main.dust[index].noGravity = true;
+                        Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                     }
                 }
             }

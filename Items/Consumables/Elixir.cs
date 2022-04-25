@@ -11,7 +11,7 @@ namespace KeybrandsPlus.Items.Consumables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elixir");
-            Tooltip.SetDefault("Must be used directly, does not trigger Leaf Bracer\nFully restores life, mana, and MP\nGrants brief immunity to most debuffs\nBoosts life and mana regen for a short duration\n3 minute cooldown");
+            Tooltip.SetDefault("Must be used directly, does not trigger Leaf Bracer\nFully restores life, mana, and MP\nGrants brief immunity to most debuffs\nBoosts life, mana, and MP regen for a short duration\n3 minute cooldown");
         }
         public override void SetDefaults()
         {
@@ -49,7 +49,8 @@ namespace KeybrandsPlus.Items.Consumables
                 player.AddBuff(BuffID.NebulaUpLife1, 600);
             if (!player.HasBuff(BuffID.NebulaUpMana2) && !player.HasBuff(BuffID.NebulaUpMana3))
                 player.AddBuff(BuffID.NebulaUpMana1, 600);
-            player.AddBuff(ModContent.BuffType<Buffs.AilmentGuard>(), 180);
+            player.AddBuff(ModContent.BuffType<Buffs.MPRegeneration>(), player.GetModPlayer<KeyPlayer>().maxMP);
+            player.AddBuff(ModContent.BuffType<Buffs.AilmentGuard>(), 90);
             return true;
         }
     }

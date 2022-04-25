@@ -9,6 +9,7 @@ namespace KeybrandsPlus.Projectiles
 {
     class DraconicFireball : KeybrandProj
     {
+        int FallDelay;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draconic Debris");
@@ -22,16 +23,32 @@ namespace KeybrandsPlus.Projectiles
             projectile.aiStyle = 1;
             projectile.timeLeft = 600;
             projectile.extraUpdates += 1;
-            projectile.GetGlobalProjectile<Globals.KeyProjectile>().Dark = true;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.GetGlobalProjectile<Globals.KeyProjectile>().Nil = true;
         }
         public override void AI()
         {
+            if (FallDelay < 10)
+            {
+                projectile.ai[0] = 0;
+            }
+            if (FallDelay == 30)
+                projectile.penetrate = 1;
             projectile.alpha -= 10;
             if (Main.rand.NextBool())
             {
                 int Flame = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<Dusts.DraconicFlame>(), projectile.velocity.X * .25f, projectile.velocity.Y * .25f);
                 Main.dust[Flame].scale *= .75f;
             }
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC target = Main.npc[i];
+                if (!target.HasBuff(ModContent.BuffType<Buffs.DragonRot>()) && !target.dontTakeDamage && !target.friendly && Vector2.Distance(projectile.Center, target.Center) <= 30f)
+                    target.AddBuff(ModContent.BuffType<Buffs.DragonAura>(), Main.rand.Next(120, 300));
+            }
+            FallDelay++;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -41,11 +58,6 @@ namespace KeybrandsPlus.Projectiles
                 return false;
             }
             if (projectile.velocity.Y < 0)
-            {
-                projectile.velocity.Y = -oldVelocity.Y;
-                return false;
-            }
-            if (projectile.velocity.Y >= 0 && projectile.alpha > 50)
             {
                 projectile.velocity.Y = -oldVelocity.Y;
                 return false;

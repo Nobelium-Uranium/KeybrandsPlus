@@ -3,6 +3,7 @@ using Terraria.ID;
 using KeybrandsPlus.Globals;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 {
@@ -15,7 +16,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "Direct melee hits inflict up to 200% more damage to injured foes\n" +
                 "Alt Attack: Judgement Triad\n" +
                 "MP Cost: 30\n" +
-                "Throws 3 ethereal keybrands that follow the cursor\n" +
+                "Throws up to 3 ethereal keybrands that home into enemies\n" +
                 "Abilities: Damage Control, Leaf Bracer\n" +
                 "'Imbued with the forces of light'");
         }
@@ -36,6 +37,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.autoReuse = true;
             item.useTurn = true;
             item.shootSpeed = 25f;
+            item.GetGlobalItem<KeyItem>().Light = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 1;
         }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
@@ -70,30 +72,28 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item71;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 30;
-                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] < 3) player.GetModPlayer<KeyPlayer>().currentMP -= 30;
+                return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] < 3;
             }
-            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
+            return base.CanUseItem(player);
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-                float numberProjectiles = 3;
-                float rotation = MathHelper.ToRadians(25);
-                position += Vector2.Normalize(new Vector2(speedX, speedY)) * 25f;
-                for (int i = 0; i < numberProjectiles; i++)
-                {
-                    Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numberProjectiles - 1))); // Watch out for dividing by 0 if there is only 1 projectile.
-                    Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, (int)(damage * 0.75f), knockBack, player.whoAmI);
-                }
+                float rotation = MathHelper.ToRadians(15);
+                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(rotation);
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI, ai1: 1);
             }
             return false;
         }
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().DamageControl = true;
-            player.GetModPlayer<KeyPlayer>().LeafBracer = true;
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+            {
+                player.GetModPlayer<KeyPlayer>().DamageControl = true;
+                player.GetModPlayer<KeyPlayer>().LeafBracer = true;
+            }
         }
         public override void UpdateInventory(Player player)
         {

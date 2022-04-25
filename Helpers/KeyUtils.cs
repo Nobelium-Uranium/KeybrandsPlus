@@ -1,12 +1,71 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Linq;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Helpers
 {
     public static class KeyUtils
     {
+        /// <summary>
+        /// Spawn an item and manually send a net message, use like Item.NewItem.
+        /// Should only be used if a hook doesn't manually sync across clients.
+        /// </summary>
+        public static void NewSyncedItem(Vector2 pos, int type, int stack = 1)
+        {
+            int item = Item.NewItem(pos, type, stack, false);
+            if (Main.netMode == 1 && item >= 0)
+                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
+        }
+
+        /// <summary>
+        /// Spawn an item and manually send a net message, use like Item.NewItem.
+        /// Should only be used if a hook doesn't manually sync across clients.
+        /// </summary>
+        public static void NewSyncedItem(Rectangle rect, int type, int stack = 1)
+        {
+            int item = Item.NewItem(rect, type, stack, false);
+            if (Main.netMode == 1 && item >= 0)
+                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item, 1f);
+        }
+
+        public static Texture2D PremultiplyTexture(Texture2D texture)
+        {
+            Color[] buffer = new Color[texture.Width * texture.Height];
+            texture.GetData(buffer);
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
+            }
+            texture.SetData(buffer);
+            return texture;
+        }
+        
+        /// <summary>
+        /// See ExampleMod's Wisp projectile on how to use
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="max"></param>
+        public static void AdjustMagnitude(ref Vector2 vector, float max)
+        {
+            float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            if (magnitude > max)
+            {
+                vector *= max / magnitude;
+            }
+        }
+
+        /// <summary>
+        /// Simple maths really
+        /// </summary>
+        /// <returns></returns>
+        public static Vector2 VectorTo(Vector2 target, Vector2 destination)
+        {
+            return destination - target;
+        }
+
         public static Dust NewDustConverge(out int dustIndex, Vector2 center, Vector2 size, float distance, int type, int alpha = 0, Color color = default, float scale = 1f, bool fixedScale = true)
         {
             int index = Dust.NewDust(center, (int)size.X, (int)size.Y, type, 0, 0, alpha, color, scale);
@@ -44,6 +103,28 @@ namespace KeybrandsPlus.Helpers
             return Main.dust[index];
         }
 
+        public static bool HasItemSpace(Player player, Item item = null)
+        {
+            bool Condition = false;
+            for (int num = 0; num < player.inventory.Length; num++)
+            {
+                if (player.inventory[num].IsAir)
+                {
+                    Condition = true;
+                    break;
+                }
+                if (item != null)
+                {
+                    int itemType = item.type;
+                    if (player.inventory[num].type == item.type && item.stack < player.inventory[num].maxStack)
+                    {
+                        Condition = true;
+                        break;
+                    }
+                }
+            }
+            return Condition;
+        }
 
         /// <summary>
         /// Gets the specified item's slot ID.
@@ -85,11 +166,15 @@ namespace KeybrandsPlus.Helpers
         }
         
         /// <summary>
-        /// I find this easier to use than Main.rand.nextFloat
+        /// I find this easier to use than Main.rand.nextFloat. Range is between 0f and 1f.
         /// </summary>
         public static bool RandPercent(float percent)
         {
-            if (Main.rand.NextFloat(1f) <= percent)
+            if (percent <= 0f) //Skip calculation altogether if value is less than or equal to its minimum amount
+                return false;
+            else if (percent >= 1f) //Skip calculation altogether if value is more than or equal to its maximum amount
+                return true;
+            else if (Main.rand.NextFloat(1f) <= percent) //Otherwise calculate as normal
                 return true;
             return false;
         }
@@ -174,6 +259,61 @@ namespace KeybrandsPlus.Helpers
                 }
             }
             return (t - from) / (to - from);
+        }
+    }
+
+    public class CheatModeCommand : ModCommand
+    {
+        public override CommandType Type => CommandType.Chat;
+
+        public override string Command => "kplus_cheatmode";
+
+        public override string Description => "Do you know the rules?";
+
+        public override string Usage => "This command is obfuscated.";
+
+        public override void Action(CommandCaller caller, string input, string[] args)
+        {
+            if (int.Parse(args[0]) == Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDX + Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDY * Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDZ)
+            {
+                caller.Reply("You clever little sneak!");
+                if (!Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode)
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode = true;
+                else
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode = false;
+            }
+            else
+                caller.Reply("Insufficient arguments.", Color.Red);
+        }
+    }
+
+    public class SetUUIDCommand : ModCommand
+    {
+        public override CommandType Type => CommandType.Chat;
+
+        public override string Command => "kplus_setuuid";
+
+        public override string Description => "Debug command. Changes your UUID to something else. Requires Cheat Mode to be enabled.";
+
+        public override string Usage => "/kplus_setuuid x y z (All arguments must range from 0 to 255)";
+
+        public override void Action(CommandCaller caller, string input, string[] args)
+        {
+            if (Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().CheatMode)
+            {
+                if (int.Parse(args[0]) <= 255 && int.Parse(args[0]) >= 0 && int.Parse(args[1]) <= 255 && int.Parse(args[1]) >= 0 && int.Parse(args[2]) <= 255 && int.Parse(args[2]) >= 0)
+                {
+                    caller.Reply("Changed UUID successfully.");
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDX = int.Parse(args[0]);
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDY = int.Parse(args[1]);
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().StoredUUIDZ = int.Parse(args[2]);
+                    Main.LocalPlayer.GetModPlayer<Globals.KeyPlayer>().UUID = new Vector3(int.Parse(args[0]), int.Parse(args[1]), int.Parse(args[2]));
+                }
+                else
+                    caller.Reply("One or more integers are invalid.", Color.Red);
+            }
+            else
+                caller.Reply("Insufficient permissions.", Color.Red);
         }
     }
 }

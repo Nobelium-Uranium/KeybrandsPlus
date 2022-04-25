@@ -2,23 +2,23 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.5": {
-      "tModLoader.CodeAssist/0.1.1": {
+      "tModLoader.CodeAssist/0.1.2": {
         "type": "package"
       }
     }
   },
   "libraries": {
-    "tModLoader.CodeAssist/0.1.1": {
-      "sha512": "bUQ4HAiRYq8Zisms7FI9ffSf4nZHwFFZU5j8Hpc/9rFB16GOGJg2ulHV0ZDErzoAAbXBeRdO8/VbSltBwmDcpA==",
+    "tModLoader.CodeAssist/0.1.2": {
+      "sha512": "o43lkrLmnOojQxVgmhmyAhCZV7DxL3gvcCaZvL7GcG7NH6hcyzSHFTM7tntoGthmx2OmOH8BUx1hZDhNhADV8Q==",
       "type": "package",
-      "path": "tmodloader.codeassist/0.1.1",
+      "path": "tmodloader.codeassist/0.1.2",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "NugetIcon.png",
         "analyzers/dotnet/cs/tModLoader.CodeAssist.dll",
-        "tmodloader.codeassist.0.1.1.nupkg.sha512",
+        "tmodloader.codeassist.0.1.2.nupkg.sha512",
         "tmodloader.codeassist.nuspec",
         "tools/install.ps1",
         "tools/uninstall.ps1"
@@ -31,19 +31,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dan Yami\\.nuget\\packages\\": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dan Yami\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
       "projectName": "KeybrandsPlus",
-      "projectPath": "C:\\Users\\Dan Yami\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
-      "packagesPath": "C:\\Users\\Dan Yami\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dan Yami\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\obj\\",
+      "projectPath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
+      "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Dan Yami\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -74,7 +74,7 @@
             "version": "[0.1.*, )"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

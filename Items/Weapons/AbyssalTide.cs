@@ -3,6 +3,7 @@ using Terraria.ID;
 using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 {
@@ -14,7 +15,7 @@ namespace KeybrandsPlus.Items.Weapons
                 "+5 Dark Alignment\n" +
                 "Alt Attack: Water\n" +
                 "MP Cost: 7\n" +
-                "Shoots a stream of water that splashes on contact\n" +
+                "Creates a stream of water that splashes on contact\n" +
                 "Ability: MP Haste\n" +
                 "'Icing on the cake'");
             Item.staff[item.type] = true;
@@ -41,6 +42,7 @@ namespace KeybrandsPlus.Items.Weapons
             if (player.altFunctionUse != 2)
             {
                 item.damage = 29;
+                item.knockBack = 6.2f;
                 item.useStyle = ItemUseStyleID.SwingThrow;
                 item.melee = true;
                 item.magic = false;
@@ -51,6 +53,7 @@ namespace KeybrandsPlus.Items.Weapons
             else
             {
                 item.damage = 14;
+                item.knockBack = 1f;
                 item.useStyle = ItemUseStyleID.HoldingOut;
                 item.melee = false;
                 item.magic = true;
@@ -71,7 +74,8 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().MPHaste = true;
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+                player.GetModPlayer<KeyPlayer>().MPHaste = true;
         }
         public override void UpdateInventory(Player player)
         {

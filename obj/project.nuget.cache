@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "PUt4rCUALnrleZIRXvN55mWDZJEBXx2hcbAYG9q1aiiP8938GBJGBU9L1J7KTNgoe7NCad+wL1ub+fgFzsK5HA==",
+  "dgSpecHash": "pQAP4Quysw+YzLlIDAoDoBaVqiUcqTdk/DEFSpA7PppjeRXWSYWu2ZQbSk3oLZB+lesPCzJBKxg/gftH9rJnlQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Dan Yami\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
+  "projectFilePath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\KeybrandsPlus\\KeybrandsPlus.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Dan Yami\\.nuget\\packages\\tmodloader.codeassist\\0.1.1\\tmodloader.codeassist.0.1.1.nupkg.sha512"
+    "C:\\Users\\Alex\\.nuget\\packages\\tmodloader.codeassist\\0.1.2\\tmodloader.codeassist.0.1.2.nupkg.sha512"
   ],
   "logs": []
 }

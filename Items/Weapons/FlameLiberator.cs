@@ -4,6 +4,7 @@ using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 {
@@ -64,7 +65,7 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item116;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1) player.GetModPlayer<KeyPlayer>().currentMP -= 7;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1) player.GetModPlayer<KeyPlayer>().currentMP -= 4;
                 return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1;
             }
             return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.EternalFlames>()] <= 1;
@@ -74,7 +75,8 @@ namespace KeybrandsPlus.Items.Weapons
         {
             if (player.altFunctionUse == 2)
                 player.GetModPlayer<KeyPlayer>().HideGlowmask = true;
-            player.GetModPlayer<KeyPlayer>().VitalBlow = true;
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+                player.GetModPlayer<KeyPlayer>().VitalBlow = true;
         }
 
         public override void UpdateInventory(Player player)

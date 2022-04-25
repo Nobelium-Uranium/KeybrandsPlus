@@ -2,6 +2,7 @@
 using Terraria.ID;
 using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
+using KeybrandsPlus.Helpers;
 
 namespace KeybrandsPlus.Items.Weapons
 {
@@ -13,9 +14,9 @@ namespace KeybrandsPlus.Items.Weapons
         {
             Tooltip.SetDefault("+15 Light Alignment\n" +
                 "Direct melee hits inflict up to 150% more damage to injured foes\n" +
-                "MP Cost: 26\n" +
+                "MP Cost: 20\n" +
                 "Alt Attack: Judgement\n" +
-                "Throws a ethereal keybrand that follows the cursor\n" +
+                "Throws an ethereal keybrand that homes into enemies\n" +
                 "Ability: Damage Control\n" +
                 "'A weapon from the realm of light'");
         }
@@ -35,6 +36,7 @@ namespace KeybrandsPlus.Items.Weapons
             item.rare = 8;
             item.value = 138000;
             item.melee = true;
+            item.GetGlobalItem<KeyItem>().Light = true;
         }
         public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
         {
@@ -69,14 +71,15 @@ namespace KeybrandsPlus.Items.Weapons
                 item.noMelee = true;
                 item.noUseGraphic = true;
                 item.UseSound = SoundID.Item71;
-                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 26;
+                if (!player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0) player.GetModPlayer<KeyPlayer>().currentMP -= 20;
                 return !player.GetModPlayer<KeyPlayer>().rechargeMP && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
             }
-            return player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Judgement>()] <= 0;
+            return base.CanUseItem(player);
         }
         public override void HoldItem(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().DamageControl = true;
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+                player.GetModPlayer<KeyPlayer>().DamageControl = true;
         }
         public override void UpdateInventory(Player player)
         {
@@ -85,7 +88,7 @@ namespace KeybrandsPlus.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
-            r.AddIngredient(ModContent.ItemType<LockbladeT3>());
+            r.AddRecipeGroup("K+:T3Lockblade");
             r.AddIngredient(ModContent.ItemType<Materials.RustedKeybrand>());
             r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 5);
             r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 5);

@@ -16,7 +16,7 @@ namespace KeybrandsPlus.Items.Other
         {
             item.Size = new Vector2(11);
             item.maxStack = 99;
-            item.value = Item.sellPrice(gold: 20);
+            item.value = Item.sellPrice(gold: 50);
         }
     }
 }

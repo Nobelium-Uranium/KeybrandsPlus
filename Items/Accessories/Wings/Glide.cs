@@ -1,5 +1,6 @@
 using System;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,7 +13,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
         private int SlowfallTime;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Grants enhanced gliding capabilities\nIncreases horizontal mobility and negates fall damage while gliding\nCannot benefit from accessories or other items that increase flight duration");
+            Tooltip.SetDefault("Hold JUMP to glide with moderate speed, overrides other forms of flight\nNegates fall damage while active");
         }
         public override void SetDefaults()
         {
@@ -56,6 +57,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                         int index = Dust.NewDust(player.position, player.width, player.height, 16, -player.velocity.X / 2, -player.velocity.Y / 2);
                         Main.dust[index].noGravity = true;
                         Main.dust[index].scale = 1.5f;
+                        Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                     }
                     player.maxFallSpeed /= 2.5f;
                 }
@@ -69,6 +71,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                             int index = Dust.NewDust(player.position, player.width, player.height, 16, -player.velocity.X / 3, -player.velocity.Y / 3);
                             Main.dust[index].noGravity = true;
                             Main.dust[index].scale = 0.75f;
+                            Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                         }
                         player.maxFallSpeed *= 3f;
                     }
@@ -76,6 +79,7 @@ namespace KeybrandsPlus.Items.Accessories.Wings
                     {
                         int index = Dust.NewDust(player.position, player.width, player.height, 16, -player.velocity.X / 3, -player.velocity.Y / 3);
                         Main.dust[index].noGravity = true;
+                        Main.dust[index].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                     }
                 }
             }

@@ -10,7 +10,7 @@ namespace KeybrandsPlus.Items.Other
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("If you somehow got this in your inventory, it's a bug\nPlease let the mod developer know about this\n...Unless you got it via HERO's Mod, Cheat Sheet or the such, you cheater");
+            Tooltip.SetDefault("You aren't supposed to have this in your inventory");
         }
         public override void SetDefaults()
         {
@@ -48,9 +48,12 @@ namespace KeybrandsPlus.Items.Other
         }
         public override bool OnPickup(Player player)
         {
-            Main.PlaySound(SoundID.Item111.WithVolume(0.5f), player.Center);
             player.statLife += 1;
-            CombatText.NewText(player.getRect(), CombatText.HealLife, 1, dot: true);
+            if (Main.myPlayer == player.whoAmI)
+            {
+                CombatText.NewText(player.getRect(), CombatText.HealLife, 1, dot: true);
+                Main.PlaySound(SoundID.Item111.WithVolume(0.5f), player.Center);
+            }
             return false;
         }
     }

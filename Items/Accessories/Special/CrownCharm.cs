@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using KeybrandsPlus.Globals;
 using KeybrandsPlus.Buffs;
-using Terraria.Utilities;
 using Terraria.ID;
 
 namespace KeybrandsPlus.Items.Accessories.Special
@@ -12,13 +11,13 @@ namespace KeybrandsPlus.Items.Accessories.Special
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crown Charm");
-            Tooltip.SetDefault("+20 Light Alignment\n" +
+            Tooltip.SetDefault("When equipped:\n" +
+                "+20 Light Alignment\n" +
                 "-10 Dark Alignment\n" +
-                "Allows you to survive any fatal blow with 1 life remaining\n" +
-                "This also grants extended invulnerability and cures most debuffs\n" +
-                "Only triggers when above 1 life\n" +
-                "This effect has a 10 second cooldown which is doubled in Expert mode\n" +
-                "Will not protect against instances of extreme blood loss");
+                "10% increased Nil resistance\n" +
+                "5% decreased damage with keybrands\n" +
+                "While you are above 1HP, taking a fatal hit will instead bring you down to 1HP\n" +
+                "This also cures most debuffs and has a brief cooldown");
         }
         public override void SetDefaults()
         {
@@ -27,20 +26,19 @@ namespace KeybrandsPlus.Items.Accessories.Special
             item.rare = ItemRarityID.Green;
             item.maxStack = 1;
             item.accessory = true;
+            //item.expert = true;
+            item.GetGlobalItem<KeyItem>().IsSpecial = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.GetModPlayer<KeyPlayer>().ChainResistNil += .1f;
+            player.GetModPlayer<KeyPlayer>().RingAttackPhysical -= .05f;
+            player.GetModPlayer<KeyPlayer>().RingAttackMagic -= .05f;
             player.GetModPlayer<KeyPlayer>().LightAlignment += 20;
             player.GetModPlayer<KeyPlayer>().DarkAlignment -= 10;
             player.GetModPlayer<KeyPlayer>().CrownCharm = true;
-            if (!player.GetModPlayer<KeyPlayer>().SCCooldown && player.statLife > 1)
+            if (!player.GetModPlayer<KeyPlayer>().SCCooldown && (player.GetModPlayer<KeyPlayer>().HollowSigil || player.statLife > 1))
                 player.AddBuff(ModContent.BuffType<SecondChance>(), 2);
-        }
-        public override bool? PrefixChance(int pre, UnifiedRandom rand)
-        {
-            if (pre == -1)
-                return false;
-            return base.PrefixChance(pre, rand);
         }
     }
 }

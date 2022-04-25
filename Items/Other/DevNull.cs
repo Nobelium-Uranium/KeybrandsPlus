@@ -10,6 +10,8 @@ namespace KeybrandsPlus.Items.Other
             item.SetDefaults(0, false);
             if (player.name == "Chem" || player.name == "Aarazel" || player.name == "Araxlaez" || player.name == "Lazure")
             {
+                if (player.name == "Lazure")
+                    player.QuickSpawnItem(ModContent.ItemType<Accessories.Wings.BlossomWings>());
                 player.QuickSpawnItem(ModContent.ItemType<FullbrightDye>());
                 player.QuickSpawnItem(ModContent.ItemType<Accessories.Wings.AvaliGlider>());
                 player.QuickSpawnItem(ModContent.ItemType<Armor.Developer.AvaliPants>());
