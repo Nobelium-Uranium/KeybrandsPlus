@@ -4,6 +4,7 @@ using KeybrandsPlus.Globals;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using KeybrandsPlus.Helpers;
+using System.Collections.Generic;
 
 namespace KeybrandsPlus.Items.Weapons
 {
@@ -49,6 +50,8 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override bool CanUseItem(Player player)
         {
+            if (!NPC.downedPlantBoss)
+                return false;
             if (player.altFunctionUse != 2)
             {
                 item.melee = true;
@@ -89,7 +92,7 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && NPC.downedPlantBoss)
             {
                 player.GetModPlayer<KeyPlayer>().DamageControl = true;
                 player.GetModPlayer<KeyPlayer>().LeafBracer = true;
@@ -97,8 +100,16 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().LightAlignment += 30;
+            if (NPC.downedPlantBoss)
+                player.GetModPlayer<KeyPlayer>().LightAlignment += 30;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (!NPC.downedPlantBoss)
+                tooltips.Add(new TooltipLine(mod, "Cursed", "Cursed by a powerful jungle creature") { overrideColor = Color.Red });
+        }
+
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);

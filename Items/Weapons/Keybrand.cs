@@ -96,6 +96,7 @@ namespace KeybrandsPlus.Items.Weapons
             if (!NPC.downedPlantBoss)
                 tooltips.Add(new TooltipLine(mod, "Cursed", "Cursed by a powerful jungle creature") { overrideColor = Color.Red });
         }
+
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);
