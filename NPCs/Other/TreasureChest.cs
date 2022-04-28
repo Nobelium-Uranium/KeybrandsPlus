@@ -137,6 +137,14 @@ namespace KeybrandsPlus.NPCs.Other
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC k = Main.npc[i];
+                if (k.active && k.boss)
+                {
+                    return 0;
+                }
+            }
             if (spawnInfo.player.ZoneDirtLayerHeight)
             {
                 return SpawnCondition.Underground.Chance * 0.01f;
@@ -177,7 +185,6 @@ namespace KeybrandsPlus.NPCs.Other
 
         public override void AI()
         {
-            //npc.active = false;
             SafeToUnlock = true;
             for (int k = 0; k < 200; k++)
             {
@@ -264,7 +271,7 @@ namespace KeybrandsPlus.NPCs.Other
                 KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Currency.Munny>(), DropAmount);
                 #endregion
                 #region Synthesis Materials
-                if (KeyUtils.RandPercent(NPC.downedMoonlord ? .1f : .01f))
+                if (KeyUtils.RandPercent(NPC.downedMoonlord ? .05f : .005f))
                 {
                     if (Main.rand.NextBool(256))
                         KeyUtils.NewSyncedItem(npc.getRect(), ItemType<Items.Synthesis.Other.ZenithitePlus>());

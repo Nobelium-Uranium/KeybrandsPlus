@@ -3,11 +3,20 @@ using Terraria.ID;
 using KeybrandsPlus.Globals;
 using Terraria.ModLoader;
 using KeybrandsPlus.Helpers;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace KeybrandsPlus.Items.Weapons
 {
     class Keybrand : Helpers.Keybrand
     {
+        private class KeybrandRecipe : ModRecipe
+        {
+            public KeybrandRecipe(Mod mod) : base(mod) { }
+
+            public override bool RecipeAvailable() => NPC.downedPlantBoss;
+        }
+
         public override string Texture => "Terraria/Item_" + ItemID.Keybrand;
 
         public override void SetStaticDefaults()
@@ -85,14 +94,20 @@ namespace KeybrandsPlus.Items.Weapons
         {
             player.GetModPlayer<KeyPlayer>().LightAlignment += 15;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (!NPC.downedPlantBoss)
+                tooltips.Add(new TooltipLine(mod, "CantCraft", "Cannot be crafted until Plantera is defeated") { overrideColor = Color.Red });
+        }
         public override void AddRecipes()
         {
-            ModRecipe r = new ModRecipe(mod);
+            KeybrandRecipe r = new KeybrandRecipe(mod);
             r.AddRecipeGroup("K+:T3Lockblade");
             r.AddIngredient(ModContent.ItemType<Materials.RustedKeybrand>());
-            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 5);
-            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 5);
-            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 10);
+            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 10);
+            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 10);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(this);
             r.AddRecipe();

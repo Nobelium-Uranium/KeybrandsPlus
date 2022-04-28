@@ -104,11 +104,10 @@ namespace KeybrandsPlus.Items.Weapons
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<Keybrand>());
             r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
-            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 30);
-            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 30);
-            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 30);
-            r.AddRecipeGroup("K+:BossSoul", 25);
-            r.AddIngredient(ModContent.ItemType<Synthesis.Other.Zenithite>());
+            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 50);
+            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 50);
+            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 50);
+            r.AddIngredient(ModContent.ItemType<Synthesis.Other.Zenithite>(), 3);
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(this);
             r.AddRecipe();

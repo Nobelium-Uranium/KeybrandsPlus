@@ -101,6 +101,9 @@ namespace KeybrandsPlus.Items.Weapons
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<KeybrandD>());
             r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
+            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 5);
             r.AddIngredient(ItemID.SoulofFright, 10);
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddTile(TileID.MythrilAnvil);
@@ -110,6 +113,9 @@ namespace KeybrandsPlus.Items.Weapons
             r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<KeybrandD>());
             r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
+            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 5);
             r.AddIngredient(ItemID.SoulofFright, 10);
             r.AddIngredient(ItemID.SoulofSight, 10);
             r.AddTile(TileID.MythrilAnvil);
@@ -119,6 +125,9 @@ namespace KeybrandsPlus.Items.Weapons
             r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<KeybrandD>());
             r.AddIngredient(ModContent.ItemType<Materials.BrokenHeroKeybrand>());
+            r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.GuardianFragment>(), 5);
+            r.AddIngredient(ModContent.ItemType<Materials.MysticFragment>(), 5);
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofSight, 10);
             r.AddTile(TileID.MythrilAnvil);

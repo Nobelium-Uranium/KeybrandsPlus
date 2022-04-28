@@ -10,17 +10,27 @@ namespace KeybrandsPlus.Globals
     {
         public override void NPCLoot(NPC npc)
         { // npc.type == NPCID.
+            bool bossAlive = false;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC k = Main.npc[i];
+                if (k.active && k.boss)
+                {
+                    bossAlive = true;
+                }
+            }
             if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax > 5 && npc.type != NPCID.TargetDummy && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail)
             {
-                if (Main.hardMode)
+                if (Main.hardMode && (!bossAlive || Main.rand.NextBool(10)))
                 {
-                    if (NPC.downedMoonlord && KeyUtils.RandPercent(.01f))
+                    if (NPC.downedMoonlord && KeyUtils.RandPercent(.005f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(.005f))
+                    else if (NPC.downedPlantBoss && KeyUtils.RandPercent(.0025f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                    else if (KeyUtils.RandPercent(.00125f))
+                    else if (KeyUtils.RandPercent(.0001f))
                         Item.NewItem(npc.getRect(), ItemType<Items.Synthesis.Other.Zenithite>());
-                }/*
+                }
+                /*
             #region Blazing
             if (npc.type == NPCID.Hellbat || npc.type == NPCID.LavaSlime)
             {

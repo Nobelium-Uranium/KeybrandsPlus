@@ -31,6 +31,13 @@ Contributors:
  Teesi - Resprites for some keybrands
 
 Version History:
+-1.0.39-
+Keybrand can only be crafted after Plantera is defeated
+Kingdom Key requires 3 Zenithite to craft, rather than just 1
+Zenithite is a lot less common from all sources
+Zenithite now has a greatly reduced droprate from enemies when a boss is alive
+Treasure Chests no longer spawn while a boss is alive
+
 -1.0.38-
 Optimized Munny and MP Orb pickup logic
 Renamed Treasure Magnet to Munny Magnet to reduce confusion with the vanilla 1.4 item of the same name, this will mean that any existing Treasure Magnets will turn into unloaded items (thankfully they are fairly cheap to replace)
