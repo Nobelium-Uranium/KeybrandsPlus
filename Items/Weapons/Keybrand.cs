@@ -82,12 +82,13 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override void HoldItem(Player player)
         {
-            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached)
+            if (KeyUtils.InHotbar(player, item) && !player.GetModPlayer<KeyPlayer>().KeybrandLimitReached && NPC.downedPlantBoss)
                 player.GetModPlayer<KeyPlayer>().DamageControl = true;
         }
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<KeyPlayer>().LightAlignment += 15;
+            if (NPC.downedPlantBoss)
+                player.GetModPlayer<KeyPlayer>().LightAlignment += 15;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
