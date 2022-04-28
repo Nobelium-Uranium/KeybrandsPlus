@@ -17,6 +17,7 @@ namespace KeybrandsPlus.Globals
                 if (k.active && k.boss)
                 {
                     bossAlive = true;
+                    break;
                 }
             }
             if (npc.lastInteraction != 255 && !npc.boss && !npc.friendly && !npc.SpawnedFromStatue && npc.lifeMax > 5 && npc.type != NPCID.TargetDummy && npc.type != NPCID.Creeper && npc.type != NPCID.EaterofWorldsHead && npc.type != NPCID.EaterofWorldsBody && npc.type != NPCID.EaterofWorldsTail)
