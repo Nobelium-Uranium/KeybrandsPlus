@@ -10,13 +10,6 @@ namespace KeybrandsPlus.Items.Weapons
 {
     class Keybrand : Helpers.Keybrand
     {
-        private class KeybrandRecipe : ModRecipe
-        {
-            public KeybrandRecipe(Mod mod) : base(mod) { }
-
-            public override bool RecipeAvailable() => NPC.downedPlantBoss;
-        }
-
         public override string Texture => "Terraria/Item_" + ItemID.Keybrand;
 
         public override void SetStaticDefaults()
@@ -56,6 +49,8 @@ namespace KeybrandsPlus.Items.Weapons
         }
         public override bool CanUseItem(Player player)
         {
+            if (!NPC.downedPlantBoss)
+                return false;
             if (player.altFunctionUse != 2)
             {
                 item.melee = true;
@@ -98,11 +93,11 @@ namespace KeybrandsPlus.Items.Weapons
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             if (!NPC.downedPlantBoss)
-                tooltips.Add(new TooltipLine(mod, "CantCraft", "Cannot be crafted until Plantera is defeated") { overrideColor = Color.Red });
+                tooltips.Add(new TooltipLine(mod, "Cursed", "Cursed by a powerful jungle creature") { overrideColor = Color.Red });
         }
         public override void AddRecipes()
         {
-            KeybrandRecipe r = new KeybrandRecipe(mod);
+            ModRecipe r = new ModRecipe(mod);
             r.AddRecipeGroup("K+:T3Lockblade");
             r.AddIngredient(ModContent.ItemType<Materials.RustedKeybrand>());
             r.AddIngredient(ModContent.ItemType<Materials.WarriorFragment>(), 10);

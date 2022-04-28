@@ -32,7 +32,7 @@ Contributors:
 
 Version History:
 -1.0.39-
-Keybrand can only be crafted after Plantera is defeated
+Keybrand can only be used after Plantera is defeated
 Kingdom Key requires 3 Zenithite to craft, rather than just 1
 Zenithite is a lot less common from all sources
 Zenithite now has a greatly reduced droprate from enemies when a boss is alive
