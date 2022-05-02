@@ -16,8 +16,7 @@ namespace KeybrandsPlus.Items.Materials
         }
         public override void SetDefaults()
         {
-            item.width = 22;
-            item.height = 26;
+            item.Size = new Vector2(20);
             item.rare = ItemRarityID.Pink;
             item.maxStack = 999;
         }

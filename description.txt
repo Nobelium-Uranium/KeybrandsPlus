@@ -31,6 +31,10 @@ Contributors:
  Teesi - Resprites for some keybrands
 
 Version History:
+-1.0.40-
+Added Spiritualist Essence, the summon equivalent to the Warrior, Guardian, and Mystic essences, currently unobtainable but will be important later on
+Added Stardust Fragment to Zenith Essence, to accomodate for the addition, it'll also use Spiritualist Essence when it becomes obtainable
+
 -1.0.39-
 Keybrand and Kingdom Key can only be used after Plantera is defeated
 Kingdom Key requires 3 Zenithite to craft, rather than just 1

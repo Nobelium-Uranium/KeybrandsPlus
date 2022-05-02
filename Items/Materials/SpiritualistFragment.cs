@@ -5,12 +5,12 @@ using Terraria;
 
 namespace KeybrandsPlus.Items.Materials
 {
-    class MysticFragment : ModItem
+    class SpiritualistFragment : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mystic Essence");
-            Tooltip.SetDefault("A fragment of wonder and ruin\nFilled with inner strength");
+            DisplayName.SetDefault("Spiritualist Essence");
+            Tooltip.SetDefault("A fragment of promising potential\nFilled with the power to link hearts");
             ItemID.Sets.ItemIconPulse[item.type] = true;
             ItemID.Sets.ItemNoGravity[item.type] = true;
         }
@@ -23,7 +23,7 @@ namespace KeybrandsPlus.Items.Materials
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void PostUpdate()
         {
-            Lighting.AddLight(item.Center, Color.BlueViolet.ToVector3() * 0.35f * Main.essScale);
+            Lighting.AddLight(item.Center, Color.DarkOrange.ToVector3() * 0.35f * Main.essScale);
         }
     }
 }

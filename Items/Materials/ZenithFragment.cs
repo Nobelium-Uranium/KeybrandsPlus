@@ -31,6 +31,7 @@ namespace KeybrandsPlus.Items.Materials
             r.AddIngredient(ItemID.FragmentSolar);
             r.AddIngredient(ItemID.FragmentVortex);
             r.AddIngredient(ItemID.FragmentNebula);
+            r.AddIngredient(ItemID.FragmentStardust);
             r.AddIngredient(ModContent.ItemType<WarriorFragment>());
             r.AddIngredient(ModContent.ItemType<GuardianFragment>());
             r.AddIngredient(ModContent.ItemType<MysticFragment>());

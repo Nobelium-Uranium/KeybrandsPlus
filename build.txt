@@ -1,6 +1,6 @@
 displayName = Keybrands+ Re:coded
 author = Chem
-version = 1.0.39
+version = 1.0.40
 
 hideCode = true
 hideResources = true
