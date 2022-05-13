@@ -15,13 +15,13 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 "-10 Dark Alignment\n" +
                 "Alt Attack: Chimera's Bite\n" +
                 "MP Cost: 25\n" +
-                "Creates a piercing magic blade beam that inflicts a powerful bleeding debuff\n" +
+                "Creates a piercing blade beam that inflicts a powerful bleeding debuff\n" +
                 "The blade beam can hit most Heartless that are normally immune to magic\n" +
                 "More effective against targets that are far away\n" +
                 "Abilities: MP Hasteza, Damage Control, Leaf Bracer\n" +
                 "Direct melee hits fill twice as much Delta than usual\n" +
                 "Can only be used after Moon Lord is defeated\n" +
-                "'Bound to the Stars'");
+                "'A remarkably omnipotent weapon'");
         }
         public override void SetDefaults()
         {
@@ -41,6 +41,7 @@ namespace KeybrandsPlus.Items.Weapons.Developer
             item.autoReuse = true;
             item.useTurn = true;
             item.shootSpeed = 1f;
+            item.GetGlobalItem<KeyItem>().Omnipotent = true;
             item.GetGlobalItem<KeyItem>().Nil = true;
             item.GetGlobalItem<KeyItem>().LimitPenalty = 4;
             item.GetGlobalItem<KeyRarity>().DeveloperRarity = true;
@@ -61,7 +62,6 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 item.useTime = 10;
                 item.useAnimation = 10;
                 item.crit = 13;
-                item.magic = false;
                 item.useTurn = true;
                 item.shoot = 0;
                 item.noMelee = false;
@@ -77,7 +77,6 @@ namespace KeybrandsPlus.Items.Weapons.Developer
                 item.useTime = 18;
                 item.useAnimation = 18;
                 item.crit = 3;
-                item.magic = true;
                 item.useTurn = false;
                 item.shoot = ProjectileType<Projectiles.ChimeraBite>();
                 item.noMelee = true;

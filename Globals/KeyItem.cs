@@ -34,6 +34,7 @@ namespace KeybrandsPlus.Globals
         public int TimeLeft;
         public float Scale;
 
+        public bool Omnipotent;
         public bool Fire;
         public bool Blizzard;
         public bool Thunder;
@@ -260,12 +261,21 @@ namespace KeybrandsPlus.Globals
         }
         public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
         {
-            if (player.GetModPlayer<KeyPlayer>().BlossomWings && (Fire || Blizzard || Thunder || Aero || Water || Light || Dark))
+            if (player.GetModPlayer<KeyPlayer>().BlossomWings && (Omnipotent || Fire || Blizzard || Thunder || Aero || Water || Light || Dark))
                 add += .2f;
             if (IsKeybrand)
             {
-                if (item.type == ItemType<Items.Weapons.Developer.Chimera>())
-                    mult += player.GetModPlayer<KeyPlayer>().KeybrandMelee + player.GetModPlayer<KeyPlayer>().KeybrandRanged + player.GetModPlayer<KeyPlayer>().KeybrandMagic;
+                if (Omnipotent)
+                    mult += (player.GetModPlayer<KeyPlayer>().KeybrandMelee +
+                        player.GetModPlayer<KeyPlayer>().KeybrandRanged +
+                        player.GetModPlayer<KeyPlayer>().KeybrandMagic +
+                        player.GetModPlayer<KeyPlayer>().FireBoost +
+                        player.GetModPlayer<KeyPlayer>().BlizzardBoost +
+                        player.GetModPlayer<KeyPlayer>().ThunderBoost +
+                        player.GetModPlayer<KeyPlayer>().AeroBoost +
+                        player.GetModPlayer<KeyPlayer>().WaterBoost +
+                        player.GetModPlayer<KeyPlayer>().LightBoost +
+                        player.GetModPlayer<KeyPlayer>().DarkBoost) / 2;
                 else if (item.melee)
                     mult += player.GetModPlayer<KeyPlayer>().KeybrandMelee;
                 else if (item.ranged)
