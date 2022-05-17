@@ -14,7 +14,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             Tooltip.SetDefault("+5 Light Alignment\n" +
                 "-5 Dark Alignment\n" +
-                "Alt Attack: Eternal Flames\n" +
+                $"Alt Attack: Eternal Flames [i:{ItemID.RangerEmblem}]\n" +
                 "MP Cost: 4\n" +
                 "Throws up to two flaming chakrams straight ahead\n" +
                 "The chakrams inflict a stacking fire debuff\n" +

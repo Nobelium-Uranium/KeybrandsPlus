@@ -17,7 +17,7 @@ namespace KeybrandsPlus.Items.Weapons
             Tooltip.SetDefault("+15 Light Alignment\n" +
                 "Direct melee hits inflict up to 150% more damage to injured foes\n" +
                 "MP Cost: 20\n" +
-                "Alt Attack: Judgement\n" +
+                $"Alt Attack: Judgement [i:{ItemID.RangerEmblem}]\n" +
                 "Throws an ethereal keybrand that homes into enemies\n" +
                 "Ability: Damage Control\n" +
                 "'A weapon from the realm of light'");

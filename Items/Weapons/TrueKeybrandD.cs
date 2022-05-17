@@ -15,7 +15,7 @@ namespace KeybrandsPlus.Items.Weapons
             DisplayName.SetDefault("Kingdom Key D");
             Tooltip.SetDefault("+30 Dark Alignment\n" +
                 "Direct melee hits inflict up to 200% more damage to injured foes\n" +
-                "Alt Attack: Elemental Raid\n" +
+                $"Alt Attack: Elemental Raid [i:{ItemID.RangerEmblem}]\n" +
                 "MP Cost: 16\n" +
                 "Throws returning ethereal keybrands imbued with the elements\n" +
                 "Abilities: Defender+, Leaf Bracer\n" +

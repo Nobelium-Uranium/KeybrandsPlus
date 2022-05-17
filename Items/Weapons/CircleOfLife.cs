@@ -12,7 +12,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             DisplayName.SetDefault("Circle of Life");
             Tooltip.SetDefault("+10 Light Alignment\n" +
-                "Alt Action: Cure\n" +
+                $"Alt Action: Cure [i:{ModContent.ItemType<Items.Other.Cure.CureSpell>()}]\n" +
                 "MP Cost: All\n" +
                 "Creates a healing field at the cursor's postion\n" +
                 "The range and heal rate depends on your Cure efficiency\n" +

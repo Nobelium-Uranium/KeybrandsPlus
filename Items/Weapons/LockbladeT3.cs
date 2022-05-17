@@ -12,7 +12,7 @@ namespace KeybrandsPlus.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Refined Lockblade");
-            Tooltip.SetDefault("Alt Attack: Lesser Flame\n" +
+            Tooltip.SetDefault($"Alt Attack: Lesser Flame [i:{ItemID.SorcererEmblem}]\n" +
                 "MP Cost: 3\n" +
                 "Fires a weak spark, faster than Reinforced Lockblade\n" +
                 "Ability: Defender\n" +

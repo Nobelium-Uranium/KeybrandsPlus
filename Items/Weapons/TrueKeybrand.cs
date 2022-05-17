@@ -15,7 +15,7 @@ namespace KeybrandsPlus.Items.Weapons
             DisplayName.SetDefault("Kingdom Key");
             Tooltip.SetDefault("+30 Light Alignment\n" +
                 "Direct melee hits inflict up to 200% more damage to injured foes\n" +
-                "Alt Attack: Judgement Triad\n" +
+                $"Alt Attack: Judgement Triad [i:{ItemID.RangerEmblem}]\n" +
                 "MP Cost: 30\n" +
                 "Throws up to 3 ethereal keybrands that home into enemies\n" +
                 "Abilities: Damage Control, Leaf Bracer\n" +

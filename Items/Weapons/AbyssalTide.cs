@@ -13,7 +13,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             Tooltip.SetDefault("-5 Light Alignment\n" +
                 "+5 Dark Alignment\n" +
-                "Alt Attack: Water\n" +
+                $"Alt Attack: Water [i:{ItemID.SorcererEmblem}]\n" +
                 "MP Cost: 7\n" +
                 "Creates a stream of water that splashes on contact\n" +
                 "Ability: MP Haste\n" +

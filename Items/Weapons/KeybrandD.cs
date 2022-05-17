@@ -13,7 +13,7 @@ namespace KeybrandsPlus.Items.Weapons
         {
             Tooltip.SetDefault("+15 Dark Alignment\n" +
                 "Direct melee hits inflict up to 100% more damage to injured foes\n" +
-                "Alt Attack: Strike Raid\n" +
+                $"Alt Attack: Strike Raid [i:{ItemID.RangerEmblem}]\n" +
                 "MP Cost: 6\n" +
                 "Throws returning ethereal keybrands\n" +
                 "Ability: Defender+\n" +
