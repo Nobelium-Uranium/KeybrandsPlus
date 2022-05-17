@@ -37,7 +37,7 @@ namespace KeybrandsPlus.Items.Materials
             r.AddIngredient(ModContent.ItemType<MysticFragment>());
             r.AddIngredient(ModContent.ItemType<Synthesis.Other.Zenithite>());
             r.AddTile(TileID.LunarCraftingStation);
-            r.SetResult(this, 3);
+            r.SetResult(this, 2);
             r.AddRecipe();
         }
     }

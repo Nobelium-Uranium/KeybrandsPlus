@@ -453,7 +453,7 @@ namespace KeybrandsPlus.Items.Consumables.Special
         {
             ModRecipe r = new ModRecipe(mod);
             r.AddIngredient(ModContent.ItemType<Materials.UnchargedCrystal>());
-            r.AddIngredient(ModContent.ItemType<Materials.ZenithFragment>(), 25);
+            r.AddIngredient(ModContent.ItemType<Materials.ZenithFragment>(), 50);
             r.AddIngredient(ItemID.FallenStar, 5);
             r.AddIngredient(ItemID.LunarBar, 25);
             r.AddIngredient(ItemID.Amethyst);
