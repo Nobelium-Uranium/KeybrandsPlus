@@ -11,7 +11,7 @@ namespace KeybrandsPlus.Items.Weapons.Other
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("+50 Dark Alignment\n" +
-                "Alt Attack: Draconic Flare\n" +
+                $"Alt Attack: Draconic Flare [i:{ItemID.SorcererEmblem}]\n" +
                 "MP Cost: " + (KeybrandsPlus.SoALoaded ? 72 : 36) + "\n" +
                 "Fires a lingering flare bolt that erupts when enemies are near\n" +
                 "The resulting eruption draws enemies in before exploding into debris\n" +
