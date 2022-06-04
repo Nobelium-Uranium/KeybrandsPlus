@@ -10,4 +10,10 @@
   <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Globals\" />
+    <Folder Include="Common\Helpers\" />
+    <Folder Include="Common\Utilities\" />
+    <Folder Include="Content\Developer\" />
+  </ItemGroup>
 </Project>
