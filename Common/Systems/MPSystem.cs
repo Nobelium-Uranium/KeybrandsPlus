@@ -162,9 +162,6 @@ namespace KeybrandsPlus.Common.Systems
         public bool dragging;
 
         private UIImage MPBarBase;
-        private UIImage MPBarFill;
-        private UIImage DeltaBarFill;
-
 
         public override void MouseDown(UIMouseEvent evt)
         {
@@ -208,24 +205,32 @@ namespace KeybrandsPlus.Common.Systems
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible)
+            if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible || Main.playerInventory)
                 return;
             base.Draw(spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible)
+            if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible || Main.playerInventory)
                 return;
 
             int MPBarFrame = 0;
             int FillFrame = 0;
 
-            Texture2D MPBar = Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBar").Value;
+            Texture2D MPBar = Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBarEmpty").Value;
             Texture2D MPBarFill = Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBarFill").Value;
+            Texture2D MPBarSeperator = Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBarSeperator").Value;
+            Texture2D MPBarText = Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBarText").Value;
+            Texture2D DeltaBar = Request<Texture2D>("KeybrandsPlus/Assets/UI/DeltaBarEmpty").Value;
             Texture2D DeltaBarFill = Request<Texture2D>("KeybrandsPlus/Assets/UI/DeltaBarFill").Value;
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<MPPlayer>();
+
+            int MPPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, modPlayer.CurrentMP / modPlayer.MaxMP2) * 200f);
+            MPPercent = (int)MathHelper.Clamp(MPPercent, 0, 200);
+            int DeltaPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, modPlayer.CurrentDelta / modPlayer.MaxDelta2) * 200f);
+            DeltaPercent = (int)MathHelper.Clamp(DeltaPercent, 0, 200);
 
             if (modPlayer.MPCharge)
             {
@@ -234,14 +239,26 @@ namespace KeybrandsPlus.Common.Systems
                 if (Main.GameUpdateCount % 60 <= 30) FillFrame = 2;
             }
             Rectangle MPBarRect = new Rectangle(0, (int)(MPBar.Height / 2 * MPBarFrame), MPBar.Width, MPBar.Height / 2);
-            Rectangle FillRect = new Rectangle(0, (int)(MPBarFill.Height / 2 * FillFrame), MPBarFill.Width, MPBarFill.Height / 2);
+            Rectangle MPBarTextRect = new Rectangle(0, (int)(MPBarText.Height / 2 * MPBarFrame), MPBarText.Width, MPBarText.Height / 2);
+            Rectangle MPFillRect = new Rectangle(0, (int)(MPBarFill.Height / 3 * FillFrame), MPBarFill.Width, MPBarFill.Height / 3);
 
             Rectangle hitbox = MPBarBase.GetInnerDimensions().ToRectangle();
-            Vector2 drawPos = hitbox.TopLeft();
+            Vector2 drawPos = hitbox.TopLeft() + new Vector2(8, 4);
             Main.spriteBatch.Draw(MPBar, drawPos, MPBarRect, Color.White);
-            drawPos += new Vector2(8, 4);
-
-            //TODO MP Bar fill
+            for (int i = 0; i < MPPercent; i++)
+            {
+                Main.spriteBatch.Draw(MPBarFill, drawPos + new Vector2(i, 0), MPFillRect, Color.White);
+            }
+            drawPos += new Vector2(-2, -2);
+            Main.spriteBatch.Draw(MPBarSeperator, drawPos, null, Color.White);
+            drawPos += new Vector2(206, 0);
+            Main.spriteBatch.Draw(MPBarText, drawPos, MPBarTextRect, Color.White);
+            drawPos += new Vector2(-204, 18);
+            Main.spriteBatch.Draw(DeltaBar, drawPos, null, Color.White);
+            for (int i = 0; i < DeltaPercent; i++)
+            {
+                Main.spriteBatch.Draw(DeltaBarFill, drawPos + new Vector2(i, 0), null, Color.White);
+            }
 
             if (hitbox.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
