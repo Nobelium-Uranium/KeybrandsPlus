@@ -278,7 +278,7 @@ namespace KeybrandsPlus.Common.Systems
                 Top.Set(Main.mouseY - offset.Y, 0f);
                 Recalculate();
             }
-            Rectangle bounds = GetDimensions().ToRectangle();
+            Rectangle bounds = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
             if (hitbox.Left < bounds.Left || hitbox.Right > bounds.Right || hitbox.Top < bounds.Top || hitbox.Bottom > bounds.Bottom)
             {
                 Left.Pixels = Utils.Clamp(Left.Pixels, 0, bounds.Right - Width.Pixels);
