@@ -279,7 +279,7 @@ namespace KeybrandsPlus.Common.Systems
                 Recalculate();
             }
             Rectangle bounds = GetDimensions().ToRectangle();
-            if (!hitbox.Intersects(bounds))
+            if (hitbox.Left < bounds.Left || hitbox.Right > bounds.Right || hitbox.Top < bounds.Top || hitbox.Bottom > bounds.Bottom)
             {
                 Left.Pixels = Utils.Clamp(Left.Pixels, 0, bounds.Right - Width.Pixels);
                 Top.Pixels = Utils.Clamp(Top.Pixels, 0, bounds.Bottom - Height.Pixels);
