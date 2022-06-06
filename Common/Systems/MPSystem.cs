@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
@@ -11,6 +12,41 @@ using static Terraria.ModLoader.ModContent;
 
 namespace KeybrandsPlus.Common.Systems
 {
+    internal class MPSystem : ModSystem
+    {
+        private UserInterface _MPUserInterface;
+        internal MPUI MPUI;
+        public override void Load()
+        {
+            if (!Main.dedServ)
+            {
+                MPUI = new MPUI();
+                MPUI.Activate();
+                _MPUserInterface = new UserInterface();
+                _MPUserInterface.SetState(MPUI);
+            }
+        }
+        public override void UpdateUI(GameTime gameTime)
+        {
+            _MPUserInterface?.Update(gameTime);
+        }
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        {
+            int ResourceBarIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Resource Bars"));
+            if (ResourceBarIndex != -1)
+            {
+                layers.Insert(ResourceBarIndex, new LegacyGameInterfaceLayer(
+                    "KeybrandsPlus: MP Bar",
+                    delegate
+                    {
+                        _MPUserInterface.Draw(Main.spriteBatch, new GameTime());
+                        return true;
+                    },
+                    InterfaceScaleType.UI)
+                );
+            }
+        }
+    }
     public class MPPlayer : ModPlayer
     {
         public bool MPBarVisible;
@@ -33,8 +69,8 @@ namespace KeybrandsPlus.Common.Systems
         public float DeltaDecayCounter;
         public float DeltaDecayDelay;
 
-        public float MPChargeTimer = 1;
-        public float MPChargeTimerMax = 1;
+        public float MPChargeTimer = 0;
+        public float MPChargeTimerMax = 120;
         public float MPChargeRate;
 
         public static readonly Color HealMP = Color.DodgerBlue;
@@ -42,7 +78,9 @@ namespace KeybrandsPlus.Common.Systems
         public override void Initialize()
         {
             MaxMP = DefaultMaxMP;
+            MaxMP2 = MaxMP;
             MaxDelta = DefaultMaxMP;
+            MaxDelta2 = MaxDelta;
         }
 
         public override void ResetEffects()
@@ -70,7 +108,9 @@ namespace KeybrandsPlus.Common.Systems
                 CurrentMP = MaxMP2;
                 MPBarVisible = false;
             }
-            else if (!MPBarVisible)
+            else if (Main.playerInventory)
+                MPBarVisible = false;
+            else
                 MPBarVisible = true;
             #region Handle Delta
             if (CurrentDelta > 0)
@@ -102,7 +142,7 @@ namespace KeybrandsPlus.Common.Systems
                 if (CurrentDelta >= MaxDelta2)
                 {
                     int RestoreMP = 0;
-                    while (CurrentDelta >= MaxDelta2)
+                    for (int i = 0; i < (int)Math.Floor((double)(CurrentDelta / MaxDelta2)); i++)
                     {
                         RestoreMP += (int)Main.rand.NextFloat(3f, 7f) * (MaxMP2 / 100);
                         CurrentDelta -= MaxDelta2;
@@ -125,7 +165,7 @@ namespace KeybrandsPlus.Common.Systems
                 if (CurrentDelta >= MaxDelta2)
                 {
                     int RestoreMP = 0;
-                    while (CurrentDelta >= MaxDelta2)
+                    for (int i = 0; i < (int)Math.Floor((double)(CurrentDelta / MaxDelta2)); i++)
                     {
                         RestoreMP += 60;
                         CurrentDelta -= MaxDelta2;
@@ -140,7 +180,7 @@ namespace KeybrandsPlus.Common.Systems
                 else if (MPChargeRate < 0f)
                     MPChargeRate = 0f;
                 MPChargeTimer -= MPChargeRate;
-                CurrentMP = (int)MathHelper.Lerp(MaxMP2, 0, 1f - MPChargeTimer / MPChargeTimerMax);
+                CurrentMP = (int)MathHelper.Lerp(0f, (float)MaxMP2, 1f - MPChargeTimer / MPChargeTimerMax);
                 if (MPChargeTimer <= 0)
                 {
                     MPChargeTimer = 0;
@@ -156,12 +196,28 @@ namespace KeybrandsPlus.Common.Systems
         }
     }
 
-    internal class MPSystem : UIState
+    internal class MPUI : UIState
     {
         private Vector2 offset;
         public bool dragging;
 
         private UIImage MPBarBase;
+
+        public override void OnInitialize()
+        {
+            Left.Pixels = 50;
+            Top.Pixels = 200;
+            Width.Set(254, 0f);
+            Height.Set(26, 0f);
+
+            MPBarBase = new UIImage(Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBarBack"));
+            MPBarBase.Left.Set(0, 0f);
+            MPBarBase.Top.Set(0, 0f);
+            MPBarBase.Width.Set(254, 0f);
+            MPBarBase.Height.Set(26, 0f);
+
+            Append(MPBarBase);
+        }
 
         public override void MouseDown(UIMouseEvent evt)
         {
@@ -181,17 +237,6 @@ namespace KeybrandsPlus.Common.Systems
             dragging = true;
         }
 
-        public override void OnInitialize()
-        {
-            MPBarBase = new UIImage(Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBarBack"));
-            MPBarBase.Left.Set(50, 0f);
-            MPBarBase.Top.Set(200, 0f);
-            MPBarBase.Width.Set(254, 0f);
-            MPBarBase.Height.Set(26, 0f);
-
-            Append(MPBarBase);
-        }
-
         private void DragEnd(UIMouseEvent evt)
         {
             Vector2 end = evt.MousePosition;
@@ -205,15 +250,9 @@ namespace KeybrandsPlus.Common.Systems
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible || Main.playerInventory)
+            if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible)
                 return;
             base.Draw(spriteBatch);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible || Main.playerInventory)
-                return;
 
             int MPBarFrame = 0;
             int FillFrame = 0;
@@ -244,29 +283,35 @@ namespace KeybrandsPlus.Common.Systems
 
             Rectangle hitbox = MPBarBase.GetInnerDimensions().ToRectangle();
             Vector2 drawPos = hitbox.TopLeft() + new Vector2(8, 4);
-            Main.spriteBatch.Draw(MPBar, drawPos, MPBarRect, Color.White);
+            spriteBatch.Draw(MPBar, drawPos, MPBarRect, Color.White);
             for (int i = 0; i < MPPercent; i++)
             {
-                Main.spriteBatch.Draw(MPBarFill, drawPos + new Vector2(i, 0), MPFillRect, Color.White);
+                spriteBatch.Draw(MPBarFill, drawPos + new Vector2(i, 0), MPFillRect, Color.White);
             }
             drawPos += new Vector2(-2, -2);
-            Main.spriteBatch.Draw(MPBarSeperator, drawPos, null, Color.White);
+            spriteBatch.Draw(MPBarSeperator, drawPos, null, Color.White);
             drawPos += new Vector2(206, 0);
-            Main.spriteBatch.Draw(MPBarText, drawPos, MPBarTextRect, Color.White);
+            spriteBatch.Draw(MPBarText, drawPos, MPBarTextRect, Color.White);
             drawPos += new Vector2(-204, 18);
-            Main.spriteBatch.Draw(DeltaBar, drawPos, null, Color.White);
+            spriteBatch.Draw(DeltaBar, drawPos, null, Color.White);
             for (int i = 0; i < DeltaPercent; i++)
             {
-                Main.spriteBatch.Draw(DeltaBarFill, drawPos + new Vector2(i, 0), null, Color.White);
+                spriteBatch.Draw(DeltaBarFill, drawPos + new Vector2(i, 0), null, Color.White);
             }
 
             if (hitbox.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
                 if (modPlayer.MPCharge)
-                    Main.spriteBatch.DrawString(FontAssets.MouseText.Value, modPlayer.MPChargeRate > 0f ? $"MP Charge: {Math.Ceiling(modPlayer.MPChargeTimer / modPlayer.MPChargeRate / 60f)}s ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})" : $"MP Charge halted! ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    spriteBatch.DrawString(FontAssets.MouseText.Value, modPlayer.MPChargeRate > 0f ? $"MP Charge: {Math.Ceiling(modPlayer.MPChargeTimer / modPlayer.MPChargeRate / 60f)}s ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})" : $"MP Charge halted! ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
                 else
-                    Main.spriteBatch.DrawString(FontAssets.MouseText.Value, $"{modPlayer.CurrentMP}/{modPlayer.MaxMP2} ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    spriteBatch.DrawString(FontAssets.MouseText.Value, $"{modPlayer.CurrentMP}/{modPlayer.MaxMP2} ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
             }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible)
+                return;
             base.Update(gameTime);
             if (ContainsPoint(Main.MouseScreen))
             {
@@ -278,11 +323,25 @@ namespace KeybrandsPlus.Common.Systems
                 Top.Set(Main.mouseY - offset.Y, 0f);
                 Recalculate();
             }
-            Rectangle bounds = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
-            if (hitbox.Left < bounds.Left || hitbox.Right > bounds.Right || hitbox.Top < bounds.Top || hitbox.Bottom > bounds.Bottom)
+            Rectangle hitbox = MPBarBase.GetInnerDimensions().ToRectangle();
+            if (hitbox.X < 0)
             {
-                Left.Pixels = Utils.Clamp(Left.Pixels, 0, bounds.Right - Width.Pixels);
-                Top.Pixels = Utils.Clamp(Top.Pixels, 0, bounds.Bottom - Height.Pixels);
+                Left.Pixels = 0;
+                Recalculate();
+            }
+            if (hitbox.X > Main.screenWidth - hitbox.Width)
+            {
+                Left.Pixels = Main.screenWidth - hitbox.Width;
+                Recalculate();
+            }
+            if (hitbox.Y < 0)
+            {
+                Top.Pixels = 0;
+                Recalculate();
+            }
+            if (hitbox.Y > Main.screenHeight - hitbox.Height)
+            {
+                Top.Pixels = Main.screenHeight - hitbox.Height;
                 Recalculate();
             }
         }
