@@ -197,6 +197,8 @@ namespace KeybrandsPlus.Common.Systems
 
     internal class MPUI : UIState
     {
+        ClientConfig config = GetInstance<ClientConfig>();
+
         private Vector2 offset;
         public bool dragging;
 
@@ -204,8 +206,8 @@ namespace KeybrandsPlus.Common.Systems
 
         public override void OnInitialize()
         {
-            Left.Pixels = 50;
-            Top.Pixels = 200;
+            Left.Pixels = config.MPBarPosX;
+            Top.Pixels = config.MPBarPosY;
             Width.Set(252, 0f);
             Height.Set(26, 0f);
 
@@ -323,6 +325,15 @@ namespace KeybrandsPlus.Common.Systems
                 Left.Set(Main.mouseX - offset.X, 0f);
                 Top.Set(Main.mouseY - offset.Y, 0f);
                 Recalculate();
+                config.MPBarPosX = (int)Left.Pixels;
+                config.MPBarPosY = (int)Top.Pixels;
+            }
+            else
+            {
+                if ((int)Left.Pixels != config.MPBarPosX)
+                    Left.Set(config.MPBarPosX, 0f);
+                if ((int)Top.Pixels != config.MPBarPosY)
+                    Top.Set(config.MPBarPosY, 0f);
             }
             Rectangle hitbox = MPBarBase.GetInnerDimensions().ToRectangle();
             if (hitbox.X < 0)
