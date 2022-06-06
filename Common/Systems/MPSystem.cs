@@ -69,8 +69,7 @@ namespace KeybrandsPlus.Common.Systems
         public float DeltaDecayCounter;
         public float DeltaDecayDelay;
 
-        public float MPChargeTimer = 1200;
-        public float MPChargeTimerMax = 1200;
+        public float MPChargeTimer;
         public float MPChargeRate = 1f;
 
         public static readonly Color HealMP = Color.DodgerBlue;
@@ -156,7 +155,7 @@ namespace KeybrandsPlus.Common.Systems
                 else if (CurrentMP <= 0)
                 {
                     CurrentMP = 0;
-                    MPChargeTimerMax = MPChargeTimer = 1200;
+                    MPChargeTimer = 1200;
                     MPCharge = true;
                 }
             }
@@ -223,13 +222,15 @@ namespace KeybrandsPlus.Common.Systems
         public override void MouseDown(UIMouseEvent evt)
         {
             base.MouseDown(evt);
-            DragStart(evt);
+            if (!config.LockMPBar)
+                DragStart(evt);
         }
 
         public override void MouseUp(UIMouseEvent evt)
         {
             base.MouseUp(evt);
-            DragEnd(evt);
+            if (!config.LockMPBar)
+                DragEnd(evt);
         }
 
         private void DragStart(UIMouseEvent evt)
@@ -242,10 +243,8 @@ namespace KeybrandsPlus.Common.Systems
         {
             Vector2 end = evt.MousePosition;
             dragging = false;
-
             Left.Set(end.X - offset.X, 0f);
             Top.Set(end.Y - offset.Y, 0f);
-
             Recalculate();
         }
 
@@ -269,7 +268,7 @@ namespace KeybrandsPlus.Common.Systems
 
             int MPPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, modPlayer.CurrentMP / modPlayer.MaxMP2) * 200f);
             if (modPlayer.MPCharge)
-                MPPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, 1f - modPlayer.MPChargeTimer / modPlayer.MPChargeTimerMax) * 200f);
+                MPPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, 1f - modPlayer.MPChargeTimer / 1200) * 200f);
             MPPercent = (int)MathHelper.Clamp(MPPercent, 0, 200);
             int DeltaPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, modPlayer.CurrentDelta / modPlayer.MaxDelta2) * 200f);
             DeltaPercent = (int)MathHelper.Clamp(DeltaPercent, 0, 200);
@@ -316,17 +315,27 @@ namespace KeybrandsPlus.Common.Systems
             if (!Main.LocalPlayer.GetModPlayer<MPPlayer>().MPBarVisible)
                 return;
             base.Update(gameTime);
-            if (ContainsPoint(Main.MouseScreen))
+            if (!config.LockMPBar)
             {
-                Main.LocalPlayer.mouseInterface = true;
-            }
-            if (dragging)
-            {
-                Left.Set(Main.mouseX - offset.X, 0f);
-                Top.Set(Main.mouseY - offset.Y, 0f);
-                Recalculate();
-                config.MPBarPosX = (int)Left.Pixels;
-                config.MPBarPosY = (int)Top.Pixels;
+                if (ContainsPoint(Main.MouseScreen))
+                {
+                    Main.LocalPlayer.mouseInterface = true;
+                }
+                if (dragging)
+                {
+                    Left.Set(Main.mouseX - offset.X, 0f);
+                    Top.Set(Main.mouseY - offset.Y, 0f);
+                    Recalculate();
+                    config.MPBarPosX = (int)Left.Pixels;
+                    config.MPBarPosY = (int)Top.Pixels;
+                }
+                else
+                {
+                    if ((int)Left.Pixels != config.MPBarPosX)
+                        Left.Set(config.MPBarPosX, 0f);
+                    if ((int)Top.Pixels != config.MPBarPosY)
+                        Top.Set(config.MPBarPosY, 0f);
+                }
             }
             else
             {
@@ -340,21 +349,25 @@ namespace KeybrandsPlus.Common.Systems
             {
                 Left.Pixels = 0;
                 Recalculate();
+                config.MPBarPosX = (int)Left.Pixels;
             }
             if (hitbox.X > Main.screenWidth - hitbox.Width)
             {
                 Left.Pixels = Main.screenWidth - hitbox.Width;
                 Recalculate();
+                config.MPBarPosX = (int)Left.Pixels;
             }
             if (hitbox.Y < 0)
             {
                 Top.Pixels = 0;
                 Recalculate();
+                config.MPBarPosY = (int)Top.Pixels;
             }
             if (hitbox.Y > Main.screenHeight - hitbox.Height)
             {
                 Top.Pixels = Main.screenHeight - hitbox.Height;
                 Recalculate();
+                config.MPBarPosY = (int)Top.Pixels;
             }
         }
     }

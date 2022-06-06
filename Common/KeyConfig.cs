@@ -24,5 +24,11 @@ namespace KeybrandsPlus.Common
         [Range(0, 5000)]
         [DefaultValue(200)]
         public int MPBarPosY { get; set; }
+
+        [Label("Lock MP Bar Position")]
+        [Tooltip("Toggles the ability to drag the MP Bar to set its position\n" +
+            "Its position can still be modified by changing the values through this config")]
+        [DefaultValue(false)]
+        public bool LockMPBar { get; set; }
     }
 }
