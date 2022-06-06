@@ -69,9 +69,9 @@ namespace KeybrandsPlus.Common.Systems
         public float DeltaDecayCounter;
         public float DeltaDecayDelay;
 
-        public float MPChargeTimer = 0;
-        public float MPChargeTimerMax = 120;
-        public float MPChargeRate;
+        public float MPChargeTimer = 1200;
+        public float MPChargeTimerMax = 1200;
+        public float MPChargeRate = 1f;
 
         public static readonly Color HealMP = Color.DodgerBlue;
 
@@ -155,13 +155,14 @@ namespace KeybrandsPlus.Common.Systems
                     CurrentMP = MaxMP2;
                 else if (CurrentMP <= 0)
                 {
-                    CurrentMP = MaxMP2;
+                    CurrentMP = 0;
                     MPChargeTimerMax = MPChargeTimer = 1200;
                     MPCharge = true;
                 }
             }
             else
             {
+                CurrentMP = 0;
                 if (CurrentDelta >= MaxDelta2)
                 {
                     int RestoreMP = 0;
@@ -174,13 +175,11 @@ namespace KeybrandsPlus.Common.Systems
                     if (Main.myPlayer == Player.whoAmI)
                         CombatText.NewText(Player.getRect(), HealMP, $"-{RestoreMP / 60}s");
                 }
-                MPChargeRate = 1f;
                 if (MPChargeRate > 3f)
                     MPChargeRate = 3f;
                 else if (MPChargeRate < 0f)
                     MPChargeRate = 0f;
                 MPChargeTimer -= MPChargeRate;
-                CurrentMP = (int)MathHelper.Lerp(0f, (float)MaxMP2, 1f - MPChargeTimer / MPChargeTimerMax);
                 if (MPChargeTimer <= 0)
                 {
                     MPChargeTimer = 0;
@@ -267,6 +266,8 @@ namespace KeybrandsPlus.Common.Systems
             var modPlayer = Main.LocalPlayer.GetModPlayer<MPPlayer>();
 
             int MPPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, modPlayer.CurrentMP / modPlayer.MaxMP2) * 200f);
+            if (modPlayer.MPCharge)
+                MPPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, 1f - modPlayer.MPChargeTimer / modPlayer.MPChargeTimerMax) * 200f);
             MPPercent = (int)MathHelper.Clamp(MPPercent, 0, 200);
             int DeltaPercent = (int)Math.Round(MathHelper.Lerp(0f, 1f, modPlayer.CurrentDelta / modPlayer.MaxDelta2) * 200f);
             DeltaPercent = (int)MathHelper.Clamp(DeltaPercent, 0, 200);
@@ -304,7 +305,7 @@ namespace KeybrandsPlus.Common.Systems
                 if (modPlayer.MPCharge)
                     spriteBatch.DrawString(FontAssets.MouseText.Value, modPlayer.MPChargeRate > 0f ? $"MP Charge: {Math.Ceiling(modPlayer.MPChargeTimer / modPlayer.MPChargeRate / 60f)}s ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})" : $"MP Charge halted! ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
                 else
-                    spriteBatch.DrawString(FontAssets.MouseText.Value, $"{modPlayer.CurrentMP}/{modPlayer.MaxMP2} ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    spriteBatch.DrawString(FontAssets.MouseText.Value, $"MP: {modPlayer.CurrentMP}/{modPlayer.MaxMP2} ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
             }
         }
 
