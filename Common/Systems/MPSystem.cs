@@ -206,13 +206,13 @@ namespace KeybrandsPlus.Common.Systems
         {
             Left.Pixels = 50;
             Top.Pixels = 200;
-            Width.Set(254, 0f);
+            Width.Set(252, 0f);
             Height.Set(26, 0f);
 
             MPBarBase = new UIImage(Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBarBack"));
             MPBarBase.Left.Set(0, 0f);
             MPBarBase.Top.Set(0, 0f);
-            MPBarBase.Width.Set(254, 0f);
+            MPBarBase.Width.Set(252, 0f);
             MPBarBase.Height.Set(26, 0f);
 
             Append(MPBarBase);
@@ -283,15 +283,13 @@ namespace KeybrandsPlus.Common.Systems
             Rectangle MPFillRect = new Rectangle(0, (int)(MPBarFill.Height / 3 * FillFrame), MPBarFill.Width, MPBarFill.Height / 3);
 
             Rectangle hitbox = MPBarBase.GetInnerDimensions().ToRectangle();
-            Vector2 drawPos = hitbox.TopLeft() + new Vector2(8, 4);
+            Vector2 drawPos = hitbox.TopLeft() + new Vector2(6, 4);
             spriteBatch.Draw(MPBar, drawPos, MPBarRect, Color.White);
             for (int i = 0; i < MPPercent; i++)
             {
                 spriteBatch.Draw(MPBarFill, drawPos + new Vector2(i, 0), MPFillRect, Color.White);
             }
-            drawPos += new Vector2(-2, -2);
-            spriteBatch.Draw(MPBarSeperator, drawPos, null, Color.White);
-            drawPos += new Vector2(206, 0);
+            drawPos += new Vector2(204, -2);
             spriteBatch.Draw(MPBarText, drawPos, MPBarTextRect, Color.White);
             drawPos += new Vector2(-204, 18);
             spriteBatch.Draw(DeltaBar, drawPos, null, Color.White);
@@ -299,6 +297,8 @@ namespace KeybrandsPlus.Common.Systems
             {
                 spriteBatch.Draw(DeltaBarFill, drawPos + new Vector2(i, 0), null, Color.White);
             }
+            drawPos += new Vector2(-2, -18);
+            spriteBatch.Draw(MPBarSeperator, drawPos, null, Color.White);
 
             if (hitbox.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
