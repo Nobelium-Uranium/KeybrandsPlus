@@ -49,6 +49,8 @@ namespace KeybrandsPlus.Common.Systems
     }
     public class MPPlayer : ModPlayer
     {
+        private bool init;
+
         public bool MPBarVisible;
         public bool MPCharge;
         public bool MPRegen;
@@ -76,6 +78,7 @@ namespace KeybrandsPlus.Common.Systems
 
         public override void Initialize()
         {
+            init = true;
             MaxMP = DefaultMaxMP;
             MaxMP2 = MaxMP;
             MaxDelta = DefaultMaxMP;
@@ -101,6 +104,11 @@ namespace KeybrandsPlus.Common.Systems
 
         public override void PostUpdateEquips()
         {
+            if (init)
+            {
+                init = false;
+                CurrentMP = MaxMP2;
+            }
             if (Player.dead)
             {
                 MPCharge = false;
@@ -263,6 +271,7 @@ namespace KeybrandsPlus.Common.Systems
             Texture2D MPBarText = Request<Texture2D>("KeybrandsPlus/Assets/UI/MPBarText").Value;
             Texture2D DeltaBar = Request<Texture2D>("KeybrandsPlus/Assets/UI/DeltaBarEmpty").Value;
             Texture2D DeltaBarFill = Request<Texture2D>("KeybrandsPlus/Assets/UI/DeltaBarFill").Value;
+            Texture2D DeltaBarText = Request<Texture2D>("KeybrandsPlus/Assets/UI/DeltaBarText").Value;
 
             var modPlayer = Main.LocalPlayer.GetModPlayer<MPPlayer>();
 
@@ -298,15 +307,17 @@ namespace KeybrandsPlus.Common.Systems
             {
                 spriteBatch.Draw(DeltaBarFill, drawPos + new Vector2(i, 0), null, Color.White);
             }
-            drawPos += new Vector2(-2, -18);
+            drawPos += new Vector2(204, 0);
+            spriteBatch.Draw(DeltaBarText, drawPos, null, Color.White);
+            drawPos += new Vector2(-206, -18);
             spriteBatch.Draw(MPBarSeperator, drawPos, null, Color.White);
 
             if (hitbox.Contains(new Point(Main.mouseX, Main.mouseY)))
             {
                 if (modPlayer.MPCharge)
-                    spriteBatch.DrawString(FontAssets.MouseText.Value, modPlayer.MPChargeRate > 0f ? $"MP Charge: {Math.Ceiling(modPlayer.MPChargeTimer / modPlayer.MPChargeRate / 60f)}s ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})" : $"MP Charge halted! ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    spriteBatch.DrawString(FontAssets.MouseText.Value, modPlayer.MPChargeRate > 0f ? $"MP Charge: {Math.Ceiling(modPlayer.MPChargeTimer / modPlayer.MPChargeRate / 60f)} seconds remaining\nDP: {modPlayer.CurrentDelta}/{modPlayer.MaxDelta2}" : $"MP Charge: inf seconds remaining\nDP: {modPlayer.CurrentDelta}/{modPlayer.MaxDelta2}", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
                 else
-                    spriteBatch.DrawString(FontAssets.MouseText.Value, $"MP: {modPlayer.CurrentMP}/{modPlayer.MaxMP2} ({modPlayer.CurrentDelta}/{modPlayer.MaxDelta2})", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
+                    spriteBatch.DrawString(FontAssets.MouseText.Value, $"MP: {modPlayer.CurrentMP}/{modPlayer.MaxMP2}\nDP: {modPlayer.CurrentDelta}/{modPlayer.MaxDelta2}", new Vector2(Main.mouseX + 20, Main.mouseY + 8), Color.White);
             }
         }
 
