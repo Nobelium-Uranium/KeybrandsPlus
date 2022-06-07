@@ -10,17 +10,13 @@ namespace KeybrandsPlus.Common
         public static ClientConfig Instance;
 
         [Label("MP Bar Position X")]
-        [Tooltip("Sets the horizontal position of the MP Bar\n" +
-            "While this is automatically set by dragging it, make sure to manually save the config afterwards\n" +
-            "This can be done by modifying any value then setting it back, then you'll be able to save")]
+        [Tooltip("Sets the horizontal position of the MP Bar")]
         [Range(0, 5000)]
         [DefaultValue(50)]
         public int MPBarPosX { get; set; }
 
         [Label("MP Bar Position Y")]
-        [Tooltip("Sets the vertical position of the MP Bar\n" +
-            "While this is automatically set by dragging it, make sure to manually save the config afterwards\n" +
-            "This can be done by modifying any value then setting it back, then you'll be able to save")]
+        [Tooltip("Sets the vertical position of the MP Bar")]
         [Range(0, 5000)]
         [DefaultValue(200)]
         public int MPBarPosY { get; set; }

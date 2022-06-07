@@ -254,6 +254,7 @@ namespace KeybrandsPlus.Common.Systems
             Left.Set(end.X - offset.X, 0f);
             Top.Set(end.Y - offset.Y, 0f);
             Recalculate();
+            KeybrandsPlus.SaveConfig(config);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -361,24 +362,33 @@ namespace KeybrandsPlus.Common.Systems
                 Left.Pixels = 0;
                 Recalculate();
                 config.MPBarPosX = (int)Left.Pixels;
+                if (!dragging)
+                    KeybrandsPlus.SaveConfig(config);
+
             }
-            if (hitbox.X > Main.screenWidth - hitbox.Width)
+            else if (hitbox.X > Main.screenWidth - hitbox.Width)
             {
                 Left.Pixels = Main.screenWidth - hitbox.Width;
                 Recalculate();
                 config.MPBarPosX = (int)Left.Pixels;
+                if (!dragging)
+                    KeybrandsPlus.SaveConfig(config);
             }
             if (hitbox.Y < 0)
             {
                 Top.Pixels = 0;
                 Recalculate();
                 config.MPBarPosY = (int)Top.Pixels;
+                if (!dragging)
+                    KeybrandsPlus.SaveConfig(config);
             }
-            if (hitbox.Y > Main.screenHeight - hitbox.Height)
+            else if (hitbox.Y > Main.screenHeight - hitbox.Height)
             {
                 Top.Pixels = Main.screenHeight - hitbox.Height;
                 Recalculate();
                 config.MPBarPosY = (int)Top.Pixels;
+                if (!dragging)
+                    KeybrandsPlus.SaveConfig(config);
             }
         }
     }
