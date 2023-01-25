@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace KeybrandsPlus.Common.Systems
+{
+    public class SubArmorSlot : ModAccessorySlot
+    {
+        public override string FunctionalTexture => "KeybrandsPlus/Assets/UI/SubArmorIcon";
+        public override string VanityTexture => "KeybrandsPlus/Assets/UI/SubArmorVanityIcon";
+        public override bool CanAcceptItem(Item checkItem, AccessorySlotType context)
+        {
+            bool result;
+            if (context != AccessorySlotType.FunctionalSlot)
+            {
+                result = (context != AccessorySlotType.VanitySlot || (checkItem.FitsAccessoryVanitySlot));
+            }
+            else
+            {
+                result = false;
+            }
+            return false;
+        }
+        public override void OnMouseHover(AccessorySlotType context)
+        {
+            switch (context)
+            {
+                case AccessorySlotType.FunctionalSlot:
+                    Main.hoverItemName = "Sub-Armor";
+                    break;
+                case AccessorySlotType.VanitySlot:
+                    Main.hoverItemName = "Social Sub-Armor";
+                    break;
+                case AccessorySlotType.DyeSlot:
+                    Main.hoverItemName = "Dye";
+                    break;
+                default:
+                    Main.hoverItemName = "";
+                    break;
+            }
+
+        }
+    }
+}

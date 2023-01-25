@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Common\Globals\" />
     <Folder Include="Common\Helpers\" />
-    <Folder Include="Common\Systems\" />
     <Folder Include="Content\Developer\" />
   </ItemGroup>
 </Project>
