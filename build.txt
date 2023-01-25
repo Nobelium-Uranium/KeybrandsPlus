@@ -1,3 +1,3 @@
-displayName = Keybrands+ Re:coded
+displayName = Keybrands+ Re:coded [DEMO]
 author = ChemAtDark & Dan Yami
 version = 0.1

@@ -1,5 +1,7 @@
-using KeybrandsPlus.Common.Systems;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using ReLogic.Content;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -44,39 +46,70 @@ namespace KeybrandsPlus
             string json = JsonConvert.SerializeObject(config/*, serializerSettings*/);
             File.WriteAllText(path, json);
         }
-    }
-    #region commands
-    public class ConsumeMPCommand : ModCommand
-    {
-        public override CommandType Type => CommandType.Chat;
-        public override string Command => "kplus_consumemp";
-        public override string Description => "Self explanatory";
-        public override string Usage => "/kplus_consumemp amount";
-        public override void Action(CommandCaller caller, string input, string[] args)
+
+        public Rectangle GetFrame(Texture2D tex)
         {
-            if (KeybrandsPlus.SteamID == "76561198079106803" || KeybrandsPlus.SteamID == "76561198178272217")
-            {
-                caller.Reply("Soon:tm:");
-            }
-            else
-                caller.Reply("Insufficient permissions");
+            return new Rectangle(0, 0, tex.Width, tex.Height);
+        }
+        public Vector2 GetOrigin(Texture2D tex)
+        {
+            return new Vector2(tex.Width / 2f, tex.Height / 2f);
         }
     }
-    public class GainDeltaCommand : ModCommand
+    public class DearlyBelovedMenu : ModMenu
     {
-        public override CommandType Type => CommandType.Chat;
-        public override string Command => "kplus_gaindelta";
-        public override string Description => "Self explanatory";
-        public override string Usage => "/kplus_gaindelta amount";
-        public override void Action(CommandCaller caller, string input, string[] args)
+        KeybrandsPlus mod = ModContent.GetInstance<KeybrandsPlus>();
+
+        public override Asset<Texture2D> Logo => mod.Assets.Request<Texture2D>("Assets/Title/Logo");
+
+        public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
         {
-            if (KeybrandsPlus.SteamID == "76561198079106803" || KeybrandsPlus.SteamID == "76561198178272217")
-            {
-                caller.Reply("Soon:tm:");
-            }
-            else
-                caller.Reply("Insufficient permissions");
+            logoScale = 1f;
+            logoRotation = 0;
+
+            Vector2 drawPos = logoDrawCenter;
+
+            Texture2D texture = mod.Assets.Request<Texture2D>("Assets/Title/Heart").Value;
+            Rectangle frame = mod.GetFrame(texture);
+            Vector2 origin = mod.GetOrigin(texture);
+            spriteBatch.Draw(texture, drawPos, frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+
+            texture = mod.Assets.Request<Texture2D>("Assets/Title/PlusTop").Value;
+            frame = mod.GetFrame(texture);
+            origin = mod.GetOrigin(texture); //177
+            spriteBatch.Draw(texture, drawPos + new Vector2(150f, 4.5f), frame, Color.White, MathHelper.ToRadians(22.5f), origin, 1f, SpriteEffects.None, 0f);
+
+            texture = mod.Assets.Request<Texture2D>("Assets/Title/Logo").Value;
+            frame = mod.GetFrame(texture);
+            origin = mod.GetOrigin(texture);
+            spriteBatch.Draw(texture, drawPos + new Vector2(4.5f, 9f), frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+
+            texture = mod.Assets.Request<Texture2D>("Assets/Title/PlusBottom").Value;
+            frame = mod.GetFrame(texture);
+            origin = mod.GetOrigin(texture);
+            spriteBatch.Draw(texture, drawPos + new Vector2(150f, 4.5f), frame, Color.White, MathHelper.ToRadians(22.5f), origin, 1f, SpriteEffects.None, 0f);
+
+            texture = mod.Assets.Request<Texture2D>("Assets/Title/Subtitle").Value;
+            frame = mod.GetFrame(texture);
+            origin = mod.GetOrigin(texture);
+            spriteBatch.Draw(texture, drawPos + new Vector2(4.5f, 61.5f), frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
+
+            return false;
         }
+
+        public override void Update(bool isOnTitleScreen)
+        {
+            if (Main.gameMenu)
+            {
+                Main.dayTime = true;
+                Main.dayRate = 0;
+                Main.time = 27000f;
+                Main.sunModY = 0;
+            }
+        }
+
+        public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/DearlyBeloved");
+
+        public override string DisplayName => "Keybrands+";
     }
-    #endregion
 }

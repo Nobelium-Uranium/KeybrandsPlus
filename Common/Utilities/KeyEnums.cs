@@ -12,8 +12,7 @@
             Water,
             Light,
             Dark,
-            Nil,
-            Omnipotent
+            Nil
         }
     }
 }
