@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\Globals\" />
-    <Folder Include="Common\Helpers\" />
     <Folder Include="Content\Developer\" />
   </ItemGroup>
 </Project>

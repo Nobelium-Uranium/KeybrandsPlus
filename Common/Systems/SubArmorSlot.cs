@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KeybrandsPlus.Common.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,13 +18,13 @@ namespace KeybrandsPlus.Common.Systems
             bool result;
             if (context != AccessorySlotType.FunctionalSlot)
             {
-                result = (context != AccessorySlotType.VanitySlot || (checkItem.FitsAccessoryVanitySlot));
+                result = context != AccessorySlotType.VanitySlot || (checkItem.ModItem is SubArmorItem && checkItem.FitsAccessoryVanitySlot);
             }
             else
             {
-                result = false;
+                result = checkItem.ModItem is SubArmorItem;
             }
-            return false;
+            return result;
         }
         public override void OnMouseHover(AccessorySlotType context)
         {
