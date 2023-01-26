@@ -36,12 +36,8 @@ namespace KeybrandsPlus.Common.Systems
                 case AccessorySlotType.VanitySlot:
                     Main.hoverItemName = "Social Sub-Armor";
                     break;
-                case AccessorySlotType.DyeSlot:
-                    Main.hoverItemName = "Dye";
-                    break;
                 default:
-                    Main.hoverItemName = "";
-                    break;
+                    return;
             }
 
         }
