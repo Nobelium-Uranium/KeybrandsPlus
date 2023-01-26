@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Terraria.ModLoader;
 using KeybrandsPlus.Common.Systems;
 using Terraria.ModLoader.Default;
+using Microsoft.Xna.Framework;
 
 namespace KeybrandsPlus.Common.Helpers
 {
@@ -27,6 +28,26 @@ namespace KeybrandsPlus.Common.Helpers
         {
             Item.DefaultToAccessory();
             SafeSetDefaults();
+        }
+        public virtual void SafeModifyTooltips(List<TooltipLine> tooltips)
+        {
+        }
+        public sealed override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            int index = -1;
+            for (int i = 0; i < tooltips.Count; i++)
+            {
+                if (tooltips[i].Name.Equals("ItemName"))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index != -1)
+            {
+                tooltips.Insert(index + 1, new TooltipLine(Mod, "KeybrandsPlus:SubArmor", "Sub-Armor") { OverrideColor = Color.Goldenrod });
+            }
+            SafeModifyTooltips(tooltips);
         }
     }
     public class GlobalSubArmor : GlobalItem

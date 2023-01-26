@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Content.Items.Accessories.SubArmor
@@ -19,6 +20,7 @@ namespace KeybrandsPlus.Content.Items.Accessories.SubArmor
         public override void SafeSetDefaults()
         {
             Item.defense = 10;
+            Item.rare = ItemRarityID.LightRed;
             Item.canBePlacedInVanityRegardlessOfConditions = true;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
