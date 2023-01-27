@@ -41,10 +41,11 @@ namespace KeybrandsPlus.Content.Items.Currency
                     Vector2 velo;
                     if (loot)
                     {
-                        velo = Main.rand.NextVector2CircularEdge(5f, 5f);
+                        velo = Main.rand.NextVector2CircularEdge(5f, 2.5f);
                         if (velo.Y > 0f)
                             velo.Y *= -1f;
                         velo *= Main.rand.NextFloat(.75f, 1f);
+                        velo.Y -= 2.5f;
                     }
                     else
                     {

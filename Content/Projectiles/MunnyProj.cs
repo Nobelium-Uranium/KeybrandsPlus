@@ -13,6 +13,7 @@ namespace KeybrandsPlus.Content.Projectiles
 {
     public class MunnySmall : ModProjectile
     {
+        private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnySmall";
         public override void SetStaticDefaults()
         {
@@ -73,6 +74,17 @@ namespace KeybrandsPlus.Content.Projectiles
             {
                 Projectile.position.Y -= 8;
                 Projectile.velocity = Vector2.Zero;
+                stuck = true;
+            }
+            else if (stuck)
+            {
+                stuck = false;
+                Vector2 velo = Main.rand.NextVector2CircularEdge(5f, 2.5f);
+                if (velo.Y > 0f)
+                    velo.Y *= -1f;
+                velo *= Main.rand.NextFloat(.75f, 1f);
+                velo.Y -= 2.5f;
+                Projectile.velocity = velo;
             }
         }
         public override bool PreDraw(ref Color lightColor)
@@ -97,6 +109,7 @@ namespace KeybrandsPlus.Content.Projectiles
     }
     public class MunnyMed : ModProjectile
     {
+        private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyMed";
         public override void SetStaticDefaults()
         {
@@ -157,6 +170,17 @@ namespace KeybrandsPlus.Content.Projectiles
             {
                 Projectile.position.Y -= 8;
                 Projectile.velocity = Vector2.Zero;
+                stuck = true;
+            }
+            else if (stuck)
+            {
+                stuck = false;
+                Vector2 velo = Main.rand.NextVector2CircularEdge(5f, 2.5f);
+                if (velo.Y > 0f)
+                    velo.Y *= -1f;
+                velo *= Main.rand.NextFloat(.75f, 1f);
+                velo.Y -= 2.5f;
+                Projectile.velocity = velo;
             }
         }
         public override bool PreDraw(ref Color lightColor)
@@ -181,6 +205,7 @@ namespace KeybrandsPlus.Content.Projectiles
     }
     public class MunnyBig : ModProjectile
     {
+        private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyBig";
         public override void SetStaticDefaults()
         {
@@ -241,6 +266,17 @@ namespace KeybrandsPlus.Content.Projectiles
             {
                 Projectile.position.Y -= 8;
                 Projectile.velocity = Vector2.Zero;
+                stuck = true;
+            }
+            else if (stuck)
+            {
+                stuck = false;
+                Vector2 velo = Main.rand.NextVector2CircularEdge(5f, 2.5f);
+                if (velo.Y > 0f)
+                    velo.Y *= -1f;
+                velo *= Main.rand.NextFloat(.75f, 1f);
+                velo.Y -= 2.5f;
+                Projectile.velocity = velo;
             }
         }
         public override bool PreDraw(ref Color lightColor)
