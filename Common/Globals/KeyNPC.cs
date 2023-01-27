@@ -18,7 +18,7 @@ namespace KeybrandsPlus.Common.Globals
             if (npc.value >= 100)
             {
                 int munny = (int)Math.Floor(npc.value / 100);
-                if (npc.boss || NPCID.Sets.BossHeadTextures[npc.type] != -1)
+                if (npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type] || NPCID.Sets.BossHeadTextures[npc.type] != -1)
                     munny /= 2;
                 int maxMunny = (int)Math.Round(munny * 1.125f);
                 int minMunny = Utils.Clamp((int)Math.Floor(munny * .875f), 1, maxMunny);
