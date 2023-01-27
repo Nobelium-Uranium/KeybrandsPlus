@@ -107,7 +107,7 @@ namespace KeybrandsPlus.Content.Projectiles
             Projectile.Size = new Vector2(20);
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 1200;
+            Projectile.timeLeft = 1800;
         }
         public override bool? CanDamage()
         {
@@ -135,7 +135,7 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             Projectile.rotation = 0;
             Projectile.spriteDirection = 1;
-            if (Projectile.timeLeft <= 1140)
+            if (Projectile.timeLeft <= 1740)
             {
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
@@ -191,7 +191,7 @@ namespace KeybrandsPlus.Content.Projectiles
             Projectile.Size = new Vector2(22);
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 1200;
+            Projectile.timeLeft = 2400;
         }
         public override bool? CanDamage()
         {
@@ -219,7 +219,7 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             Projectile.rotation = 0;
             Projectile.spriteDirection = 1;
-            if (Projectile.timeLeft <= 1140)
+            if (Projectile.timeLeft <= 2340)
             {
                 for (int i = 0; i < Main.maxPlayers; i++)
                 {
