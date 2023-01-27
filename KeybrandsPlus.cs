@@ -1,9 +1,12 @@
+using KeybrandsPlus.Common.Helpers;
+using KeybrandsPlus.Content.Items.Currency;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using ReLogic.Content;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.UI;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
@@ -12,6 +15,8 @@ namespace KeybrandsPlus
 {
 	public class KeybrandsPlus : Mod
     {
+        internal static KeybrandsPlus Instance;
+
         internal static readonly string ModConfigPath = Path.Combine(Main.SavePath, "ModConfigs");
 
         internal static string SteamID;
@@ -19,6 +24,8 @@ namespace KeybrandsPlus
         //Dev SteamIDs for reference
         //Chem: 76561198079106803
         //Dan: 76561198178272217
+
+        public static int MunnyCost;
 
         public override void Load()
         {
@@ -31,11 +38,17 @@ namespace KeybrandsPlus
             {
                 Logger.WarnFormat("[KeybrandsPlus] Unable to grab SteamID, Steam servers are likely offline or otherwise unavailable.");
             }
+
+            if (!Main.dedServ)
+            {
+                MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Munny>(), 1000000L));
+            }
         }
 
         public override void Unload()
         {
             SteamID = null;
+            MunnyCost = 0;
         }
 
         internal static void SaveConfig(ModConfig config)
