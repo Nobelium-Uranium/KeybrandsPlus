@@ -61,7 +61,7 @@ namespace KeybrandsPlus.Content.Items.Currency
                     {
                         Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Item.Center, velo, ModContent.ProjectileType<MunnyMed>(), 0, 0f);
                         munny -= 10;
-                    }   
+                    }
                     else
                     {
                         Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Item.Center, velo, ModContent.ProjectileType<MunnySmall>(), 0, 0f);

@@ -1,13 +1,9 @@
-﻿using Terraria;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
-using KeybrandsPlus.Common.Systems;
-using Terraria.ModLoader.Default;
+﻿using KeybrandsPlus.Common.Systems;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.ModLoader.Default;
 
 namespace KeybrandsPlus.Common.Helpers
 {

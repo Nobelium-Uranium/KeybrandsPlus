@@ -1,19 +1,13 @@
-﻿using Terraria;
-using KeybrandsPlus.Assets.Sounds;
+﻿using KeybrandsPlus.Assets.Sounds;
+using KeybrandsPlus.Common.EntitySources;
+using KeybrandsPlus.Common.Helpers;
+using KeybrandsPlus.Content.Items.Currency;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using KeybrandsPlus.Common.Helpers;
-using KeybrandsPlus.Content.Items.Currency;
-using KeybrandsPlus.Common.EntitySources;
-using Terraria.DataStructures;
 
 namespace KeybrandsPlus.Content.Projectiles
 {

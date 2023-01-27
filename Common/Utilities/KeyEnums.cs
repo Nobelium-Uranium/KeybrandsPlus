@@ -3,7 +3,7 @@
     internal class KeyEnums
     {
         public enum Element
-        { 
+        {
             Mundane,
             Fire,
             Blizzard,

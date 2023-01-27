@@ -9,11 +9,10 @@ using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using Terraria.UI;
 
 namespace KeybrandsPlus
 {
-	public class KeybrandsPlus : Mod
+    public class KeybrandsPlus : Mod
     {
         internal static KeybrandsPlus Instance;
 

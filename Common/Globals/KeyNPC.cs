@@ -1,12 +1,8 @@
-﻿using Terraria.ID;
-using KeybrandsPlus.Content.Items.Currency;
+﻿using KeybrandsPlus.Content.Items.Currency;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Common.Globals
