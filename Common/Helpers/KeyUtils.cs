@@ -8,6 +8,8 @@ namespace KeybrandsPlus.Common.Helpers
     {
         public static bool HasSpaceForMunny(Player player)
         {
+            if (player.preventAllItemPickups)
+                return false;
             for (int i = 0; i < 50; i++)
             {
                 Item slot = player.inventory[i];
