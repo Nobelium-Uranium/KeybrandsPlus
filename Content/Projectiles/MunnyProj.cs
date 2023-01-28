@@ -74,7 +74,7 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, true, true, false);
+                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, 4f, true, true, false);
                 if (floating)
                 {
                     Projectile.aiStyle = 0;
@@ -197,7 +197,7 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, true, true, false);
+                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, 4f, true, true, false);
                 if (floating)
                 {
                     Projectile.aiStyle = 0;
@@ -320,7 +320,7 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, true, true, false);
+                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, 4f, true, true, false);
                 if (floating)
                 {
                     Projectile.aiStyle = 0;
