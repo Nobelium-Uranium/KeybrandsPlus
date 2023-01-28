@@ -52,23 +52,46 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             Projectile.rotation = 0;
             Projectile.spriteDirection = 1;
-            if (Projectile.timeLeft <= 1140)
+
+            if (Projectile.lavaWet)
+                Projectile.Kill();
+
+            if (!stuck)
             {
-                for (int i = 0; i < Main.maxPlayers; i++)
+                if (Projectile.timeLeft <= 1140)
                 {
-                    Player player = Main.player[i];
-                    if (!player.active)
-                        break;
-                    if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                    for (int i = 0; i < Main.maxPlayers; i++)
                     {
-                        if (Main.myPlayer == player.whoAmI)
-                            SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                        player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>());
-                        Projectile.Kill();
+                        Player player = Main.player[i];
+                        if (!player.active)
+                            break;
+                        if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                        {
+                            if (Main.myPlayer == player.whoAmI)
+                                SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                            player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>());
+                            Projectile.Kill();
+                        }
                     }
                 }
+                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, true, true, false);
+                if (floating)
+                {
+                    Projectile.aiStyle = 0;
+                    if (Projectile.honeyWet)
+                        Projectile.velocity *= .95f;
+                    else
+                        Projectile.velocity.X *= .98f;
+                }
+                else
+                {
+                    Projectile.aiStyle = ProjAIStyleID.Arrow;
+                    Projectile.velocity.X *= .99f;
+                }
             }
-            Projectile.velocity.X *= .99f;
+            else
+                Projectile.aiStyle = ProjAIStyleID.Arrow;
+
             Tile tile = Framing.GetTileSafely(Projectile.Bottom.ToTileCoordinates16());
             if (Collision.SolidCollision(Projectile.TopLeft, Projectile.width, Projectile.height) && tile.HasTile && !tile.IsActuated && !tile.IsHalfBlock && tile.Slope == SlopeType.Solid && Main.tileSolid[tile.TileType])
             {
@@ -92,15 +115,19 @@ namespace KeybrandsPlus.Content.Projectiles
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * .5f;
             float scale = Utils.Clamp(Projectile.timeLeft / 20f, 0f, 1f);
-            Main.EntitySpriteDraw(texture,
-                Projectile.Center - Main.screenPosition,
-                null, Color.White, 0f, origin, scale, SpriteEffects.None, 0
-                );
+            if (!stuck)
+            {
+                Main.EntitySpriteDraw(texture,
+                    Projectile.Center - Main.screenPosition,
+                    null, Color.White, 0f, origin, scale, SpriteEffects.None, 0
+                    );
+            }
             return false;
         }
         public override void PostDraw(Color lightColor)
         {
-            Lighting.AddLight(Projectile.Center, Color.Goldenrod.ToVector3() * .2f);
+            if (!stuck)
+                Lighting.AddLight(Projectile.Center, Color.Goldenrod.ToVector3() * .2f);
         }
         public override Color? GetAlpha(Color lightColor)
         {
@@ -148,23 +175,46 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             Projectile.rotation = 0;
             Projectile.spriteDirection = 1;
-            if (Projectile.timeLeft <= 1740)
+
+            if (Projectile.lavaWet)
+                Projectile.Kill();
+
+            if (!stuck)
             {
-                for (int i = 0; i < Main.maxPlayers; i++)
+                if (Projectile.timeLeft <= 1740)
                 {
-                    Player player = Main.player[i];
-                    if (!player.active)
-                        break;
-                    if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                    for (int i = 0; i < Main.maxPlayers; i++)
                     {
-                        if (Main.myPlayer == player.whoAmI)
-                            SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                        player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>(), 10);
-                        Projectile.Kill();
+                        Player player = Main.player[i];
+                        if (!player.active)
+                            break;
+                        if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                        {
+                            if (Main.myPlayer == player.whoAmI)
+                                SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                            player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>(), 10);
+                            Projectile.Kill();
+                        }
                     }
                 }
+                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, true, true, false);
+                if (floating)
+                {
+                    Projectile.aiStyle = 0;
+                    if (Projectile.honeyWet)
+                        Projectile.velocity *= .95f;
+                    else
+                        Projectile.velocity.X *= .98f;
+                }
+                else
+                {
+                    Projectile.aiStyle = ProjAIStyleID.Arrow;
+                    Projectile.velocity.X *= .99f;
+                }
             }
-            Projectile.velocity.X *= .99f;
+            else
+                Projectile.aiStyle = ProjAIStyleID.Arrow;
+
             Tile tile = Framing.GetTileSafely(Projectile.Bottom.ToTileCoordinates16());
             if (Collision.SolidCollision(Projectile.TopLeft, Projectile.width, Projectile.height) && tile.HasTile && !tile.IsActuated && !tile.IsHalfBlock && tile.Slope == SlopeType.Solid && Main.tileSolid[tile.TileType])
             {
@@ -188,15 +238,19 @@ namespace KeybrandsPlus.Content.Projectiles
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * .5f;
             float scale = Utils.Clamp(Projectile.timeLeft / 20f, 0f, 1f);
-            Main.EntitySpriteDraw(texture,
-                Projectile.Center - Main.screenPosition,
-                null, Color.White, 0f, origin, scale, SpriteEffects.None, 0
-                );
+            if (!stuck)
+            {
+                Main.EntitySpriteDraw(texture,
+                    Projectile.Center - Main.screenPosition,
+                    null, Color.White, 0f, origin, scale, SpriteEffects.None, 0
+                    );
+            }
             return false;
         }
         public override void PostDraw(Color lightColor)
         {
-            Lighting.AddLight(Projectile.Center, Color.Goldenrod.ToVector3() * .25f);
+            if (!stuck)
+                Lighting.AddLight(Projectile.Center, Color.Goldenrod.ToVector3() * .2f);
         }
         public override Color? GetAlpha(Color lightColor)
         {
@@ -244,23 +298,46 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             Projectile.rotation = 0;
             Projectile.spriteDirection = 1;
-            if (Projectile.timeLeft <= 2340)
+
+            if (Projectile.lavaWet)
+                Projectile.Kill();
+
+            if (!stuck)
             {
-                for (int i = 0; i < Main.maxPlayers; i++)
+                if (Projectile.timeLeft <= 2340)
                 {
-                    Player player = Main.player[i];
-                    if (!player.active)
-                        break;
-                    if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                    for (int i = 0; i < Main.maxPlayers; i++)
                     {
-                        if (Main.myPlayer == player.whoAmI)
-                            SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                        player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>(), 100);
-                        Projectile.Kill();
+                        Player player = Main.player[i];
+                        if (!player.active)
+                            break;
+                        if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                        {
+                            if (Main.myPlayer == player.whoAmI)
+                                SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                            player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>(), 100);
+                            Projectile.Kill();
+                        }
                     }
                 }
+                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, true, true, false);
+                if (floating)
+                {
+                    Projectile.aiStyle = 0;
+                    if (Projectile.honeyWet)
+                        Projectile.velocity *= .95f;
+                    else
+                        Projectile.velocity.X *= .98f;
+                }
+                else
+                {
+                    Projectile.aiStyle = ProjAIStyleID.Arrow;
+                    Projectile.velocity.X *= .99f;
+                }
             }
-            Projectile.velocity.X *= .99f;
+            else
+                Projectile.aiStyle = ProjAIStyleID.Arrow;
+
             Tile tile = Framing.GetTileSafely(Projectile.Bottom.ToTileCoordinates16());
             if (Collision.SolidCollision(Projectile.TopLeft, Projectile.width, Projectile.height) && tile.HasTile && !tile.IsActuated && !tile.IsHalfBlock && tile.Slope == SlopeType.Solid && Main.tileSolid[tile.TileType])
             {
@@ -284,15 +361,19 @@ namespace KeybrandsPlus.Content.Projectiles
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * .5f;
             float scale = Utils.Clamp(Projectile.timeLeft / 20f, 0f, 1f);
-            Main.EntitySpriteDraw(texture,
-                Projectile.Center - Main.screenPosition,
-                null, Color.White, 0f, origin, scale, SpriteEffects.None, 0
-                );
+            if (!stuck)
+            {
+                Main.EntitySpriteDraw(texture,
+                    Projectile.Center - Main.screenPosition,
+                    null, Color.White, 0f, origin, scale, SpriteEffects.None, 0
+                    );
+            }
             return false;
         }
         public override void PostDraw(Color lightColor)
         {
-            Lighting.AddLight(Projectile.Center, Color.Goldenrod.ToVector3() * .3f);
+            if (!stuck)
+                Lighting.AddLight(Projectile.Center, Color.Goldenrod.ToVector3() * .2f);
         }
         public override Color? GetAlpha(Color lightColor)
         {
