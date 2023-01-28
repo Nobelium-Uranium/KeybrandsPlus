@@ -74,12 +74,15 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, 4f, true, true, false);
+                bool floating;
+                KeyUtils.FloatOnWater(Projectile, out floating, .95f, .025f, 4f, true, false, false);
+                if (!floating)
+                    KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
                 if (floating)
                 {
                     Projectile.aiStyle = 0;
                     if (Projectile.honeyWet)
-                        Projectile.velocity *= .95f;
+                        Projectile.velocity.X *= .95f;
                     else
                         Projectile.velocity.X *= .98f;
                 }
@@ -197,12 +200,15 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, 4f, true, true, false);
+                bool floating;
+                KeyUtils.FloatOnWater(Projectile, out floating, .95f, .025f, 4f, true, false, false);
+                if (!floating)
+                    KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
                 if (floating)
                 {
                     Projectile.aiStyle = 0;
                     if (Projectile.honeyWet)
-                        Projectile.velocity *= .95f;
+                        Projectile.velocity.X *= .95f;
                     else
                         Projectile.velocity.X *= .98f;
                 }
@@ -320,12 +326,15 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                KeyUtils.FloatOnWater(Projectile, out bool floating, .95f, .05f, 4f, true, true, false);
+                bool floating;
+                KeyUtils.FloatOnWater(Projectile, out floating, .95f, .025f, 4f, true, false, false);
+                if (!floating)
+                    KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
                 if (floating)
                 {
                     Projectile.aiStyle = 0;
                     if (Projectile.honeyWet)
-                        Projectile.velocity *= .95f;
+                        Projectile.velocity.X *= .95f;
                     else
                         Projectile.velocity.X *= .98f;
                 }

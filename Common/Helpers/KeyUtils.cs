@@ -63,12 +63,7 @@ namespace KeybrandsPlus.Common.Helpers
                     if (entity.velocity.Y < -maxAcc)
                         entity.velocity.Y = -maxAcc;
                     if (entity.Center.Y + entity.velocity.Y < waterLine)
-                    {
-                        if (entity.velocity.Y > -maxAcc + maxAcc * .5f)
-                            entity.velocity.Y = waterLine - entity.Center.Y;
-                        else
-                            entity.velocity.Y *= .5f;
-                    }
+                        entity.velocity.Y = waterLine - entity.Center.Y;
                 }
             }
             else
