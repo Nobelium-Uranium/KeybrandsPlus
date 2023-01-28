@@ -13,6 +13,7 @@ namespace KeybrandsPlus.Content.Projectiles
 {
     public class MunnySmall : ModProjectile
     {
+        private bool floating;
         private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnySmall";
         public override void SetStaticDefaults()
@@ -41,7 +42,7 @@ namespace KeybrandsPlus.Content.Projectiles
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
             Projectile.velocity *= .5f;
-            if (Projectile.velocity.Length() > 1f)
+            if (Projectile.velocity.Length() > 1f && !floating && !Projectile.lavaWet)
             {
                 float volScale = Utils.Clamp(Projectile.velocity.Length() / 2.5f, .1f, 1f);
                 SoundEngine.PlaySound(KeySoundStyle.MunnyBounce.WithVolumeScale(volScale), Projectile.Center);
@@ -74,7 +75,6 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                bool floating;
                 KeyUtils.FloatOnWater(Projectile, out floating, .95f, .025f, 4f, true, false, false);
                 if (!floating)
                     KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
@@ -139,6 +139,7 @@ namespace KeybrandsPlus.Content.Projectiles
     }
     public class MunnyMed : ModProjectile
     {
+        private bool floating;
         private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyMed";
         public override void SetStaticDefaults()
@@ -167,7 +168,7 @@ namespace KeybrandsPlus.Content.Projectiles
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
             Projectile.velocity *= .5f;
-            if (Projectile.velocity.Length() > 1f)
+            if (Projectile.velocity.Length() > 1f && !floating && !Projectile.lavaWet)
             {
                 float volScale = Utils.Clamp(Projectile.velocity.Length() / 2.5f, .1f, 1f);
                 SoundEngine.PlaySound(KeySoundStyle.MunnyBounceMed.WithVolumeScale(volScale), Projectile.Center);
@@ -200,7 +201,6 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                bool floating;
                 KeyUtils.FloatOnWater(Projectile, out floating, .95f, .025f, 4f, true, false, false);
                 if (!floating)
                     KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
@@ -265,6 +265,7 @@ namespace KeybrandsPlus.Content.Projectiles
     }
     public class MunnyBig : ModProjectile
     {
+        private bool floating;
         private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyBig";
         public override void SetStaticDefaults()
@@ -293,7 +294,7 @@ namespace KeybrandsPlus.Content.Projectiles
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
             Projectile.velocity *= .5f;
-            if (Projectile.velocity.Length() > 1f)
+            if (Projectile.velocity.Length() > 1f && !floating && !Projectile.lavaWet)
             {
                 float volScale = Utils.Clamp(Projectile.velocity.Length() / 2.5f, .1f, 1f);
                 SoundEngine.PlaySound(KeySoundStyle.MunnyBounceBig.WithVolumeScale(volScale), Projectile.Center);
@@ -326,7 +327,6 @@ namespace KeybrandsPlus.Content.Projectiles
                         }
                     }
                 }
-                bool floating;
                 KeyUtils.FloatOnWater(Projectile, out floating, .95f, .025f, 4f, true, false, false);
                 if (!floating)
                     KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
