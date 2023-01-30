@@ -61,6 +61,13 @@ namespace KeybrandsPlus.Common.Globals
             long amount = 0;
             MunnyPouch pouch;
             Item[] vault;
+            if (Main.mouseItem.ModItem is MunnyPouch)
+            {
+                pouch = Main.mouseItem.ModItem as MunnyPouch;
+                amount += pouch.storedMunny;
+            }
+            else if (Main.mouseItem.type == ModContent.ItemType<Munny>())
+                amount += Main.mouseItem.stack;
             for (int i = 0; i < 50; i++)
             {
                 Item item = Player.inventory[i];
