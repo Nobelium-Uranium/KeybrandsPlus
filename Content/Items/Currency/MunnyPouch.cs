@@ -94,6 +94,11 @@ namespace KeybrandsPlus.Content.Items.Currency
             }
             return true;
         }
+        public override void UpdateInventory(Player player)
+        {
+            if (storedMunny < 0)
+                storedMunny = 0;
+        }
         public override void SaveData(TagCompound tag)
         {
             tag["StoredMunny"] = storedMunny;
