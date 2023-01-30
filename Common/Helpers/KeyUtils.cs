@@ -8,7 +8,7 @@ namespace KeybrandsPlus.Common.Helpers
 {
     public sealed class KeyUtils
     {
-        public static bool HasSpaceForMunny(Player player, int amount, out bool goingIntoVault, out int remainder)
+        public static bool HasSpaceForMunny(Player player, int amount, out bool goingIntoVault, out int remainder, bool checkVault = true)
         {
             goingIntoVault = false;
             remainder = 0;
@@ -27,7 +27,7 @@ namespace KeybrandsPlus.Common.Helpers
                         remainder = slot.stack + amount - slot.maxStack;
                     return true;
                 }
-                if (CofveveSpaceForMunny(player))
+                if (checkVault && CofveveSpaceForMunny(player))
                 {
                     goingIntoVault = true;
                     return true;

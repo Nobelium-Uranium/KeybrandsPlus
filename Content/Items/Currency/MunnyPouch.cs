@@ -59,7 +59,7 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override bool CanRightClick()
         {
-            if ((!Main.mouseItem.IsAir && Main.mouseItem.type != ModContent.ItemType<Munny>()) || (Main.mouseItem.type == ModContent.ItemType<Munny>() && Main.mouseItem.stack >= Main.mouseItem.maxStack))
+            if (Main.mouseItem.type == ModContent.ItemType<Munny>() && Main.mouseItem.stack >= Main.mouseItem.maxStack && !KeyUtils.HasSpaceForMunny(Main.LocalPlayer, 1, out _, out _))
                 return false;
             if (storedMunny > 0)
                 return true;
@@ -67,15 +67,25 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override void RightClick(Player player)
         {
-            int amount = (int)Utils.Clamp<int>(storedMunny, 0, 9999);
+            int amount = Utils.Clamp(storedMunny, 0, 9999);
             int remainder = 0;
-            if (Main.mouseItem.type == ModContent.ItemType<Munny>() && Main.mouseItem.stack + amount > Main.mouseItem.maxStack)
+            bool intoInv = false;
+            if ((Main.mouseItem.stack >= Main.mouseItem.maxStack || Main.mouseItem.type != ModContent.ItemType<Munny>()) && KeyUtils.HasSpaceForMunny(Main.LocalPlayer, amount, out _, out remainder, false))
+                intoInv = true;
+            else if ((Main.mouseItem.IsAir || Main.mouseItem.type == ModContent.ItemType<Munny>()) && Main.mouseItem.stack + amount > Main.mouseItem.maxStack)
                 remainder = Main.mouseItem.stack + amount - Main.mouseItem.maxStack;
             if (amount > 0)
             {
                 storedMunny -= amount - remainder;
-                Main.mouseItem.SetDefaults(ModContent.ItemType<Munny>());
-                Main.mouseItem.stack = amount;
+                if (intoInv)
+                {
+                    player.GetItem(player.whoAmI, new Item(ModContent.ItemType<Munny>(), amount), new GetItemSettings(false, true, false, null));
+                }
+                else
+                {
+                    Main.mouseItem.SetDefaults(ModContent.ItemType<Munny>());
+                    Main.mouseItem.stack = amount;
+                }
             }
         }
         public override bool ConsumeItem(Player player)
