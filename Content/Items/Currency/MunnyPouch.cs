@@ -35,7 +35,7 @@ namespace KeybrandsPlus.Content.Items.Currency
         public override void SetDefaults()
         {
             Item.Size = new Vector2(24);
-            Item.rare = ItemRarityID.Quest;
+            Item.rare = ItemRarityID.Blue;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
