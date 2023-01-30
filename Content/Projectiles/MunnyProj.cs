@@ -67,7 +67,7 @@ namespace KeybrandsPlus.Content.Projectiles
                 Projectile.extraUpdates = 0;
                 Projectile.ignoreWater = true;
                 Projectile.tileCollide = false;
-                Projectile.Center = owner.Center + new Vector2((float)Math.Sin((Main.GameUpdateCount + randTimeOffset) * .25f) * 64f * (Projectile.timeLeft / 60f), 0f);
+                Projectile.Center = owner.Center + new Vector2((float)Math.Sin((Main.GameUpdateCount + randTimeOffset) * .5f) * 32f * (Projectile.timeLeft / 40f), 0f);
             }
             else
             {
@@ -105,7 +105,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                         SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
                                     Item newItem = new Item(ModContent.ItemType<Munny>());
                                     player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
-                                    Projectile.timeLeft = 60;
+                                    Projectile.timeLeft = 40;
                                     randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                     Projectile.netUpdate = true;
                                 }
@@ -155,7 +155,7 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * .5f;
-            float scale = Utils.Clamp(Projectile.timeLeft / (pickup ? 60f : 20f), 0f, 1f);
+            float scale = Utils.Clamp(Projectile.timeLeft / (pickup ? 40f : 20f), 0f, 1f);
             if (!stuck)
             {
                 Main.EntitySpriteDraw(texture,
@@ -229,7 +229,7 @@ namespace KeybrandsPlus.Content.Projectiles
                 Projectile.extraUpdates = 0;
                 Projectile.ignoreWater = true;
                 Projectile.tileCollide = false;
-                Projectile.Center = owner.Center + new Vector2((float)Math.Sin((Main.GameUpdateCount + randTimeOffset) * .25f) * 64f * (Projectile.timeLeft / 60f), 0f);
+                Projectile.Center = owner.Center + new Vector2((float)Math.Sin((Main.GameUpdateCount + randTimeOffset) * .5f) * 32f * (Projectile.timeLeft / 40f), 0f);
             }
             else
             {
@@ -276,7 +276,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                         velo.Y -= 2.5f;
                                         Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Projectile.Center, velo, ModContent.ProjectileType<MunnySmall>(), 0, 0f);
                                     }
-                                    Projectile.timeLeft = 60;
+                                    Projectile.timeLeft = 40;
                                     randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                     Projectile.netUpdate = true;
                                 }
@@ -326,7 +326,7 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * .5f;
-            float scale = Utils.Clamp(Projectile.timeLeft / 20f, 0f, 1f);
+            float scale = Utils.Clamp(Projectile.timeLeft / (pickup ? 40f : 20f), 0f, 1f);
             if (!stuck)
             {
                 Main.EntitySpriteDraw(texture,
@@ -400,7 +400,7 @@ namespace KeybrandsPlus.Content.Projectiles
                 Projectile.extraUpdates = 0;
                 Projectile.ignoreWater = true;
                 Projectile.tileCollide = false;
-                Projectile.Center = owner.Center + new Vector2((float)Math.Sin((Main.GameUpdateCount + randTimeOffset) * .25f) * 64f * (Projectile.timeLeft / 60f), 0f);
+                Projectile.Center = owner.Center + new Vector2((float)Math.Sin((Main.GameUpdateCount + randTimeOffset) * .5f) * 32f * (Projectile.timeLeft / 40f), 0f);
             }
             else
             {
@@ -459,7 +459,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                         if (munny <= 0)
                                             break;
                                     }
-                                    Projectile.timeLeft = 60;
+                                    Projectile.timeLeft = 40;
                                     randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                     Projectile.netUpdate = true;
                                 }
@@ -509,7 +509,7 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = texture.Size() * .5f;
-            float scale = Utils.Clamp(Projectile.timeLeft / 20f, 0f, 1f);
+            float scale = Utils.Clamp(Projectile.timeLeft / (pickup ? 40f : 20f), 0f, 1f);
             if (!stuck)
             {
                 Main.EntitySpriteDraw(texture,
