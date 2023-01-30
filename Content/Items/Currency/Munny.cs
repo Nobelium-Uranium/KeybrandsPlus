@@ -11,7 +11,6 @@ namespace KeybrandsPlus.Content.Items.Currency
 {
     public class Munny : ModItem
     {
-        private bool pickup;
         private bool loot;
         public override void SetStaticDefaults()
         {
@@ -26,14 +25,12 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override void OnSpawn(IEntitySource source)
         {
-            if (source is ProjectileSource_MunnyPickup)
-                pickup = true;
             if (source is EntitySource_Loot)
                 loot = true;
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            if (!pickup && Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int munny = Item.stack;
                 for (int i = 0; i < Item.stack; i++)
@@ -71,14 +68,11 @@ namespace KeybrandsPlus.Content.Items.Currency
                     if (munny <= 0)
                         break;
                 }
-                Item.TurnToAir();
-                Item.position = Vector2.Zero;
-                Item.active = false;
             }
+            Item.active = false;
         }
         public override bool OnPickup(Player player)
         {
-            pickup = false;
             loot = false;
             return true;
         }

@@ -82,13 +82,14 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player, out bool intoVault))
                             {
                                 Projectile.owner = player.whoAmI;
                                 pickup = true;
                                 if (Main.myPlayer == player.whoAmI)
                                     SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                                player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>());
+                                Item newItem = new Item(ModContent.ItemType<Munny>());
+                                player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
                                 Projectile.timeLeft = 60;
                                 randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                 Projectile.netUpdate = true;
@@ -228,13 +229,14 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player, out bool intoVault))
                             {
                                 Projectile.owner = player.whoAmI;
                                 pickup = true;
                                 if (Main.myPlayer == player.whoAmI)
                                     SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                                player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>(), 10);
+                                Item newItem = new Item(ModContent.ItemType<Munny>(), 10);
+                                player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
                                 Projectile.timeLeft = 60;
                                 randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                 Projectile.netUpdate = true;
@@ -374,13 +376,14 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player))
+                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player, out bool intoVault))
                             {
                                 Projectile.owner = player.whoAmI;
                                 pickup = true;
                                 if (Main.myPlayer == player.whoAmI)
                                     SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                                player.QuickSpawnItem(new ProjectileSource_MunnyPickup(), ModContent.ItemType<Munny>(), 100);
+                                Item newItem = new Item(ModContent.ItemType<Munny>(), 100);
+                                player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
                                 Projectile.timeLeft = 60;
                                 randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                 Projectile.netUpdate = true;

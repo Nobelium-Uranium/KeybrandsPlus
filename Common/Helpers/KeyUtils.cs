@@ -8,15 +8,21 @@ namespace KeybrandsPlus.Common.Helpers
 {
     public sealed class KeyUtils
     {
-        public static bool HasSpaceForMunny(Player player)
+        public static bool HasSpaceForMunny(Player player, out bool goingIntoVault)
         {
+            goingIntoVault = false;
             if (player.preventAllItemPickups)
                 return false;
             for (int i = 0; i < 50; i++)
             {
                 Item slot = player.inventory[i];
-                if (slot.IsAir || (slot.type == ModContent.ItemType<Munny>() && slot.stack < slot.maxStack) || CofveveSpaceForMunny(player))
+                if (slot.IsAir || (slot.type == ModContent.ItemType<Munny>() && slot.stack < slot.maxStack))
                 {
+                    return true;
+                }
+                if (CofveveSpaceForMunny(player))
+                {
+                    goingIntoVault = true;
                     return true;
                 }
             }
