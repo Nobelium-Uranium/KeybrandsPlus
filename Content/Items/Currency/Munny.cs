@@ -33,7 +33,7 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            if (!pickup)
+            if (!pickup && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int munny = Item.stack;
                 for (int i = 0; i < Item.stack; i++)
