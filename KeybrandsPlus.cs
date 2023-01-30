@@ -1,4 +1,5 @@
 using KeybrandsPlus.Common.Helpers;
+using KeybrandsPlus.Common.UI;
 using KeybrandsPlus.Content.Items.Currency;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,6 +42,7 @@ namespace KeybrandsPlus
             if (!Main.dedServ)
             {
                 MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Munny>(), 1000000L));
+                MunnyUI.Load();
             }
         }
 
@@ -48,6 +50,8 @@ namespace KeybrandsPlus
         {
             SteamID = null;
             MunnyCost = 0;
+
+            MunnyUI.Unload();
         }
 
         internal static void SaveConfig(ModConfig config)

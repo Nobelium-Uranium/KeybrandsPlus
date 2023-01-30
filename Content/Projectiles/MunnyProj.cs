@@ -93,6 +93,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                     if (Main.myPlayer == player.whoAmI)
                                         SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
                                     modPlayer.MunnySavings(1);
+                                    modPlayer.AddRecentMunny(1);
                                     Projectile.timeLeft = 60;
                                     randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                     Projectile.netUpdate = true;
@@ -255,6 +256,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                     if (Main.myPlayer == player.whoAmI)
                                         SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
                                     modPlayer.MunnySavings(10);
+                                    modPlayer.AddRecentMunny(10);
                                     Projectile.timeLeft = 60;
                                     randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                     Projectile.netUpdate = true;
@@ -266,6 +268,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                     if (Main.myPlayer == player.whoAmI)
                                         SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
                                     Item newItem = new Item(ModContent.ItemType<Munny>(), 10 - remainder);
+                                    modPlayer.AddRecentMunny(10 - remainder);
                                     player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
                                     for (int j = 0; j < remainder; j++)
                                     {
@@ -426,6 +429,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                     if (Main.myPlayer == player.whoAmI)
                                         SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
                                     modPlayer.MunnySavings(100);
+                                    modPlayer.AddRecentMunny(100);
                                     Projectile.timeLeft = 60;
                                     randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                     Projectile.netUpdate = true;
@@ -437,6 +441,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                     if (Main.myPlayer == player.whoAmI)
                                         SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
                                     Item newItem = new Item(ModContent.ItemType<Munny>(), 100 - remainder);
+                                    modPlayer.AddRecentMunny(100 - remainder);
                                     player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
                                     int munny = remainder;
                                     for (int j = 0; j < remainder; j++)

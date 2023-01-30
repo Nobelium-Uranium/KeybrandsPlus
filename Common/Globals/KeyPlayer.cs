@@ -11,6 +11,25 @@ namespace KeybrandsPlus.Common.Globals
 {
     public class KeyPlayer : ModPlayer
     {
+        public long recentMunny;
+        public int recentMunnyCounter;
+
+        public override void PostUpdate()
+        {
+            if (recentMunnyCounter > 0)
+                recentMunnyCounter--;
+            else
+                recentMunny = 0;
+        }
+
+        public void AddRecentMunny(int amount)
+        {
+            if (recentMunnyCounter <= 120)
+                recentMunny = 0;
+            recentMunny += amount;
+            recentMunnyCounter = 300;
+        }
+
         public bool HasMunnyPouch(out Item pouch)
         {
             pouch = null;
@@ -35,9 +54,11 @@ namespace KeybrandsPlus.Common.Globals
             }
         }
 
-        public int CountMunny()
+
+
+        public long CountMunny()
         {
-            int amount = 0;
+            long amount = 0;
             MunnyPouch pouch;
             Item[] vault;
             for (int i = 0; i < 50; i++)
