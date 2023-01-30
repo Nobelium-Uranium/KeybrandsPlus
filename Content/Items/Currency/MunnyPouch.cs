@@ -16,7 +16,7 @@ namespace KeybrandsPlus.Content.Items.Currency
 {
     public class MunnyPouch : ModItem, IItemOverrideLeftClick
     {
-        public ulong storedMunny;
+        public int storedMunny;
 
         public override ModItem Clone(Item newEntity)
         {
@@ -67,13 +67,13 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override void RightClick(Player player)
         {
-            int amount = (int)Utils.Clamp<ulong>(storedMunny, 0, 9999);
+            int amount = (int)Utils.Clamp<int>(storedMunny, 0, 9999);
             int remainder = 0;
             if (Main.mouseItem.type == ModContent.ItemType<Munny>() && Main.mouseItem.stack + amount > Main.mouseItem.maxStack)
                 remainder = Main.mouseItem.stack + amount - Main.mouseItem.maxStack;
             if (amount > 0)
             {
-                storedMunny -= (ulong)amount - (ulong)remainder;
+                storedMunny -= amount - remainder;
                 Main.mouseItem.SetDefaults(ModContent.ItemType<Munny>());
                 Main.mouseItem.stack = amount;
             }
@@ -88,7 +88,7 @@ namespace KeybrandsPlus.Content.Items.Currency
                 return false;
             if (Main.mouseItem.type == ModContent.ItemType<Munny>())
             {
-                storedMunny += (ulong)Main.mouseItem.stack;
+                storedMunny += Main.mouseItem.stack;
                 Main.mouseItem.TurnToAir();
                 SoundEngine.PlaySound(SoundID.Grab);
             }
@@ -100,7 +100,7 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override void LoadData(TagCompound tag)
         {
-            storedMunny = tag.Get<ulong>("StoredMunny");
+            storedMunny = tag.Get<int>("StoredMunny");
         }
     }
 }
