@@ -70,7 +70,7 @@ namespace KeybrandsPlus.Content.Items.Currency
             int amount = Utils.Clamp(storedMunny, 0, 9999);
             int remainder = 0;
             bool intoInv = false;
-            if ((Main.mouseItem.stack >= Main.mouseItem.maxStack || Main.mouseItem.type != ModContent.ItemType<Munny>()) && KeyUtils.HasSpaceForMunny(Main.LocalPlayer, amount, out _, out remainder, false))
+            if ((Main.mouseItem.stack >= Main.mouseItem.maxStack || (!Main.mouseItem.IsAir && Main.mouseItem.type != ModContent.ItemType<Munny>())) && KeyUtils.HasSpaceForMunny(Main.LocalPlayer, amount, out _, out remainder, false))
                 intoInv = true;
             else if ((Main.mouseItem.IsAir || Main.mouseItem.type == ModContent.ItemType<Munny>()) && Main.mouseItem.stack + amount > Main.mouseItem.maxStack)
                 remainder = Main.mouseItem.stack + amount - Main.mouseItem.maxStack;
