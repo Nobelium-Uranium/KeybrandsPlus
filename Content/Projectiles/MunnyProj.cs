@@ -106,6 +106,7 @@ namespace KeybrandsPlus.Content.Projectiles
                                         SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
                                     Item newItem = new Item(ModContent.ItemType<Munny>());
                                     player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
+                                    modPlayer.AddRecentMunny(1);
                                     Projectile.timeLeft = 40;
                                     randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
                                     Projectile.netUpdate = true;
