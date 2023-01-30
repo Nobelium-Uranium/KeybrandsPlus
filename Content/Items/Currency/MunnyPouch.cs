@@ -59,7 +59,7 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override bool CanRightClick()
         {
-            if (Main.mouseItem.type == ModContent.ItemType<Munny>() && Main.mouseItem.stack >= Main.mouseItem.maxStack && !KeyUtils.HasSpaceForMunny(Main.LocalPlayer, 1, out _, out _))
+            if (Main.mouseItem.type == ModContent.ItemType<Munny>() && Main.mouseItem.stack >= new Item(ModContent.ItemType<Munny>()).maxStack && !KeyUtils.HasSpaceForMunny(Main.LocalPlayer, 1, out _, out _))
                 return false;
             if (storedMunny > 0)
                 return true;
@@ -70,17 +70,15 @@ namespace KeybrandsPlus.Content.Items.Currency
             int amount = Utils.Clamp(storedMunny, 0, 9999);
             int remainder = 0;
             bool intoInv = false;
-            if ((Main.mouseItem.stack >= Main.mouseItem.maxStack || (!Main.mouseItem.IsAir && Main.mouseItem.type != ModContent.ItemType<Munny>())) && KeyUtils.HasSpaceForMunny(Main.LocalPlayer, amount, out _, out remainder, false))
+            if ((Main.mouseItem.type == ModContent.ItemType<Munny>() ? Main.mouseItem.stack >= new Item(ModContent.ItemType<Munny>()).maxStack : !Main.mouseItem.IsAir) && KeyUtils.HasSpaceForMunny(Main.LocalPlayer, amount, out _, out remainder, false))
                 intoInv = true;
-            else if ((Main.mouseItem.IsAir || Main.mouseItem.type == ModContent.ItemType<Munny>()) && Main.mouseItem.stack + amount > Main.mouseItem.maxStack)
-                remainder = Main.mouseItem.stack + amount - Main.mouseItem.maxStack;
+            else if ((Main.mouseItem.IsAir || Main.mouseItem.type == ModContent.ItemType<Munny>()) && Main.mouseItem.stack + amount > new Item(ModContent.ItemType<Munny>()).maxStack)
+                remainder = Main.mouseItem.stack + amount - new Item(ModContent.ItemType<Munny>()).maxStack;
             if (amount > 0)
             {
                 storedMunny -= amount - remainder;
                 if (intoInv)
-                {
                     player.GetItem(player.whoAmI, new Item(ModContent.ItemType<Munny>(), amount), new GetItemSettings(false, true, false, null));
-                }
                 else
                 {
                     Main.mouseItem.SetDefaults(ModContent.ItemType<Munny>());
