@@ -1,5 +1,6 @@
 ﻿using KeybrandsPlus.Assets.Sounds;
 using KeybrandsPlus.Common.EntitySources;
+using KeybrandsPlus.Common.Globals;
 using KeybrandsPlus.Common.Helpers;
 using KeybrandsPlus.Content.Items.Currency;
 using Microsoft.Xna.Framework;
@@ -82,17 +83,32 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player, out bool intoVault))
+                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox))
                             {
-                                Projectile.owner = player.whoAmI;
-                                pickup = true;
-                                if (Main.myPlayer == player.whoAmI)
-                                    SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                                Item newItem = new Item(ModContent.ItemType<Munny>());
-                                player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
-                                Projectile.timeLeft = 60;
-                                randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
-                                Projectile.netUpdate = true;
+                                KeyPlayer modPlayer = player.GetModPlayer<KeyPlayer>();
+                                if (modPlayer.HasMunnyPouch(out _))
+                                {
+                                    Projectile.owner = player.whoAmI;
+                                    pickup = true;
+                                    if (Main.myPlayer == player.whoAmI)
+                                        SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                                    modPlayer.MunnySavings(1);
+                                    Projectile.timeLeft = 60;
+                                    randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
+                                    Projectile.netUpdate = true;
+                                }
+                                else if (KeyUtils.HasSpaceForMunny(player, 1, out bool intoVault, out _))
+                                {
+                                    Projectile.owner = player.whoAmI;
+                                    pickup = true;
+                                    if (Main.myPlayer == player.whoAmI)
+                                        SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                                    Item newItem = new Item(ModContent.ItemType<Munny>());
+                                    player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
+                                    Projectile.timeLeft = 60;
+                                    randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
+                                    Projectile.netUpdate = true;
+                                }
                             }
                         }
                     }
@@ -229,17 +245,41 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player, out bool intoVault))
+                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox))
                             {
-                                Projectile.owner = player.whoAmI;
-                                pickup = true;
-                                if (Main.myPlayer == player.whoAmI)
-                                    SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                                Item newItem = new Item(ModContent.ItemType<Munny>(), 10);
-                                player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
-                                Projectile.timeLeft = 60;
-                                randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
-                                Projectile.netUpdate = true;
+                                KeyPlayer modPlayer = player.GetModPlayer<KeyPlayer>();
+                                if (modPlayer.HasMunnyPouch(out _))
+                                {
+                                    Projectile.owner = player.whoAmI;
+                                    pickup = true;
+                                    if (Main.myPlayer == player.whoAmI)
+                                        SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                                    modPlayer.MunnySavings(10);
+                                    Projectile.timeLeft = 60;
+                                    randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
+                                    Projectile.netUpdate = true;
+                                }
+                                else if (KeyUtils.HasSpaceForMunny(player, 10, out bool intoVault, out int remainder))
+                                {
+                                    Projectile.owner = player.whoAmI;
+                                    pickup = true;
+                                    if (Main.myPlayer == player.whoAmI)
+                                        SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                                    Item newItem = new Item(ModContent.ItemType<Munny>(), 10 - remainder);
+                                    player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
+                                    for (int j = 0; j < remainder; j++)
+                                    {
+                                        Vector2 velo = Main.rand.NextVector2CircularEdge(5f, 2.5f);
+                                        if (velo.Y > 0f)
+                                            velo.Y *= -1f;
+                                        velo *= Main.rand.NextFloat(.75f, 1f);
+                                        velo.Y -= 2.5f;
+                                        Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Projectile.Center, velo, ModContent.ProjectileType<MunnySmall>(), 0, 0f);
+                                    }
+                                    Projectile.timeLeft = 60;
+                                    randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
+                                    Projectile.netUpdate = true;
+                                }
                             }
                         }
                     }
@@ -376,17 +416,53 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox) && KeyUtils.HasSpaceForMunny(player, out bool intoVault))
+                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox))
                             {
-                                Projectile.owner = player.whoAmI;
-                                pickup = true;
-                                if (Main.myPlayer == player.whoAmI)
-                                    SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
-                                Item newItem = new Item(ModContent.ItemType<Munny>(), 100);
-                                player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
-                                Projectile.timeLeft = 60;
-                                randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
-                                Projectile.netUpdate = true;
+                                KeyPlayer modPlayer = player.GetModPlayer<KeyPlayer>();
+                                if (modPlayer.HasMunnyPouch(out _))
+                                {
+                                    Projectile.owner = player.whoAmI;
+                                    pickup = true;
+                                    if (Main.myPlayer == player.whoAmI)
+                                        SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                                    modPlayer.MunnySavings(100);
+                                    Projectile.timeLeft = 60;
+                                    randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
+                                    Projectile.netUpdate = true;
+                                }
+                                else if (KeyUtils.HasSpaceForMunny(player, 10, out bool intoVault, out int remainder))
+                                {
+                                    Projectile.owner = player.whoAmI;
+                                    pickup = true;
+                                    if (Main.myPlayer == player.whoAmI)
+                                        SoundEngine.PlaySound(KeySoundStyle.MunnyPickup);
+                                    Item newItem = new Item(ModContent.ItemType<Munny>(), 100 - remainder);
+                                    player.GetItem(player.whoAmI, newItem, new GetItemSettings(false, true, true));
+                                    int munny = remainder;
+                                    for (int j = 0; j < remainder; j++)
+                                    {
+                                        Vector2 velo = Main.rand.NextVector2CircularEdge(5f, 2.5f);
+                                        if (velo.Y > 0f)
+                                            velo.Y *= -1f;
+                                        velo *= Main.rand.NextFloat(.75f, 1f);
+                                        velo.Y -= 2.5f;
+                                        if (munny >= 10)
+                                        {
+                                            Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Projectile.Center, velo, ModContent.ProjectileType<MunnyMed>(), 0, 0f);
+                                            munny -= 10;
+                                        }
+                                        else
+                                        {
+                                            Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Projectile.Center, velo, ModContent.ProjectileType<MunnySmall>(), 0, 0f);
+                                            munny--;
+                                        }
+                                        if (munny <= 0)
+                                            break;
+                                    }
+                                    Projectile.timeLeft = 60;
+                                    randTimeOffset = MathHelper.ToRadians(Main.rand.NextFloat(0f, 360f));
+                                    Projectile.netUpdate = true;
+                                }
                             }
                         }
                     }

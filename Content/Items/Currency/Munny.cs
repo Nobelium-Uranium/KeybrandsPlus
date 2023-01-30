@@ -15,7 +15,7 @@ namespace KeybrandsPlus.Content.Items.Currency
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Can be exchanged for various goods");
-            SacrificeTotal = 100;
+            SacrificeTotal = 1000;
         }
         public override void SetDefaults()
         {
