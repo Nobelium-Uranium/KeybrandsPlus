@@ -39,13 +39,13 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             if (Projectile.velocity.X != oldVelocity.X)
             {
-                Projectile.velocity.X = -oldVelocity.X * .1f;
+                Projectile.velocity.X = -oldVelocity.X;
             }
             if (Projectile.velocity.Y != oldVelocity.Y)
             {
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
-            Projectile.velocity *= .5f;
+            Projectile.velocity *= Main.rand.NextFloat(.45f, .5f);
             if (Projectile.velocity.Length() > 1f && !floating && !Projectile.lavaWet)
             {
                 float volScale = Utils.Clamp(Projectile.velocity.Length() / 2.5f, .1f, 1f);
@@ -203,13 +203,13 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             if (Projectile.velocity.X != oldVelocity.X)
             {
-                Projectile.velocity.X = -oldVelocity.X * .1f;
+                Projectile.velocity.X = -oldVelocity.X;
             }
             if (Projectile.velocity.Y != oldVelocity.Y)
             {
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
-            Projectile.velocity *= .5f;
+            Projectile.velocity *= Main.rand.NextFloat(.45f, .5f);
             if (Projectile.velocity.Length() > 1f && !floating && !Projectile.lavaWet)
             {
                 float volScale = Utils.Clamp(Projectile.velocity.Length() / 2.5f, .1f, 1f);
@@ -376,13 +376,13 @@ namespace KeybrandsPlus.Content.Projectiles
         {
             if (Projectile.velocity.X != oldVelocity.X)
             {
-                Projectile.velocity.X = -oldVelocity.X * .1f;
+                Projectile.velocity.X = -oldVelocity.X;
             }
             if (Projectile.velocity.Y != oldVelocity.Y)
             {
                 Projectile.velocity.Y = -oldVelocity.Y;
             }
-            Projectile.velocity *= .5f;
+            Projectile.velocity *= Main.rand.NextFloat(.45f, .5f);
             if (Projectile.velocity.Length() > 1f && !floating && !Projectile.lavaWet)
             {
                 float volScale = Utils.Clamp(Projectile.velocity.Length() / 2.5f, .1f, 1f);
