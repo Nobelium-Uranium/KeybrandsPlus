@@ -74,12 +74,13 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             });
         }
 
-        public override void AI()
+        public override bool PreAI()
         {
             if (NPC.life < NPC.lifeMax)
                 NPC.life += 25;
             if (NPC.life > NPC.lifeMax)
                 NPC.life = NPC.lifeMax;
+            return base.PreAI();
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
@@ -157,6 +158,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             int mechanic = NPC.FindFirstNPC(NPCID.Mechanic);
             int partygirl = NPC.FindFirstNPC(NPCID.PartyGirl);
             int steampunker = NPC.FindFirstNPC(NPCID.Steampunker);
+            int jerk = NPC.FindFirstNPC(NPCID.Angler);
 
             if (nurse != -1 || zoologist != -1 || dryad != -1 || stylist != -1 || mechanic != -1 || partygirl != -1 || steampunker != -1)
                 women = true;
@@ -182,7 +184,8 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
                 if (guide != -1)
                     chat.Add($"That {Main.npc[guide].GivenName}, he is quite the anomaly. His heart is full of darkness, and yet he is a true ally...");
             }
-
+            if (jerk != -1)
+                chat.Add($"{Main.npc[jerk].GivenName} keeps trying to 'prank' me by dousing me in water. His persistence is admirable, but my armor and circuitry are completely waterproofed.");
             return chat;
         }
 
@@ -198,10 +201,10 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
                 WeightedRandom<string> chat = new WeightedRandom<string>();
 
                 if (Main.hardMode)
-                    chat.Add("Munny can be obtained by slaying foes who already drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend hunting for Mimics underground.", .5f);
-                chat.Add("Munny can be obtained by slaying foes who already drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend rematching easy bosses.", Main.hardMode ? .5f : 1f);
+                    chat.Add("Munny can be obtained by slaying foes who drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend hunting for Mimics underground.", .5f);
+                chat.Add("Munny can be obtained by slaying foes who drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend rematching easy bosses.", Main.hardMode ? .5f : 1f);
                 chat.Add("If you have a pouch to store your Munny in, you can save your inventory space for more important items. Picking up Munny will automatically be placed in an available pouch.");
-                chat.Add("You can quickly deposit into a pouch by left-clicking on one while holding a stack of Munny on your cursor. It is far more convenient than dropping it on the ground first.");
+                chat.Add("You can quickly deposit into a Munny Pouch by left-clicking on one while holding a stack of Munny on your cursor. It is far more convenient than dropping it on the ground first.");
                 chat.Add("Having any item or a full stack of Munny on your cursor when withdrawing from a pouch will place the remainder Munny directly into your inventory, if you have the room for it.");
 
                 Main.npcChatText = chat;
@@ -217,7 +220,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             if (NPC.downedPlantBoss)
                 damage = 100;
             if (NPC.downedMoonlord)
-                damage = 500;
+                damage = 250;
         }
 
         public override void TownNPCAttackCooldown(ref int cooldown, ref int randExtraCooldown)
