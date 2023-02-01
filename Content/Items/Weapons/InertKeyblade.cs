@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KeybrandsPlus.Content.DamageClasses;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +23,7 @@ namespace KeybrandsPlus.Content.Items.Weapons
             Item.useTime = 30;
             Item.useAnimation = 30;
 
-            Item.DamageType = DamageClass.Generic;
+            Item.DamageType = UniversalDamageClass.Instance;
             Item.damage = 10;
             Item.knockBack = 5f;
 

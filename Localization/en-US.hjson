@@ -1,22 +1,29 @@
 Mods: {
-		KeybrandsPlus: {
-				TownNPCMood: {
-						KeybladeMaster: {
-								Content: I don't have much to say about this place.
-								NoHome: It appears that there is nowhere for me to stay.
-								LoveSpace: There's plenty of space for me to do my work, I appreciate it.
-								FarFromHome: It seems my residence is quite a ways away.
-								DislikeCrowded: It's starting to get a little crowded, wouldn't you agree?
-								HateCrowded: There's way too many people around, and I'm sure they dislike the crowding as well.
-								LikeBiome: "{BiomeName} is quite the hostile paradise, but I don't mind."
-								LoveBiome: "Ah, {BiomeName}, it reminds me of somewhere I've visited a long time ago."
-								DislikeBiome: "It's rather bleak in {BiomeName}, I'd rather live elsewhere."
-								HateBiome: "{BiomeName}'s darkness is overwhelming, what a terrible place to be."
-								LikeNPC: "{NPCName}'s tech is eerily similar to my own, what a strange coincidence. I'm interested in how it works."
-								LoveNPC: "While {NPCName}'s heart has a significant amount of darkness, I know he means well. I respect that light within him."
-								DislikeNPC: "{NPCName} may be an ally, but he reeks of darkness. I think I would rather keep my distance from him."
-								HateNPC: "{NPCName} is a complete anomaly. His heart is pure, but he comes off as extremely arrogant. I'm not a fan."
-						}
-				}
+KeybrandsPlus: {
+
+DamageClassName:
+{
+	UniversalDamageClass: "universal damage"
+}
+
+TownNPCMood: {
+	KeybladeMaster: {
+		Content: I don't have much to say about this place.
+		NoHome: It appears that there is nowhere for me to stay.
+		LoveSpace: There's plenty of space for me to do my work, I appreciate it.
+		FarFromHome: It seems my residence is quite a ways away.
+		DislikeCrowded: It's starting to get a little crowded, wouldn't you agree?
+		HateCrowded: There's much too many people around, and I'm sure they dislike the crowding as well.
+		LikeBiome: "{BiomeName} is quite the hostile paradise, but I don't mind."
+		LoveBiome: "Ah, {BiomeName}, it reminds me of somewhere I've visited a long time ago."
+		DislikeBiome: "It's rather bleak in {BiomeName}, I'd rather live elsewhere."
+		HateBiome: "{BiomeName}'s darkness is overwhelming, what a terrible place to be."
+		LikeNPC: "{NPCName}'s tech is eerily similar to my own, what a strange coincidence. I'm interested in how it works."
+		LoveNPC: "While {NPCName}'s heart has a significant amount of darkness, I know he means well. I respect that light within him."
+		DislikeNPC: "{NPCName} may be an ally, but he reeks of darkness. I think I would rather keep my distance from him."
+		HateNPC: "I'm sure {NPCName}'s a good kid, but he comes off as extremely arrogant. I'm not a fan."
+		LikeNPC_Princess: "{NPCName}'s heart is outstandingly pure, makes sense considering her role as a princess."
 		}
 }
+	
+}}
