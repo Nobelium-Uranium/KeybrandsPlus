@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Events;
 using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
@@ -146,9 +147,41 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
 
         public override string GetChat()
         {
+            bool women = false;
+
+            int guide = NPC.FindFirstNPC(NPCID.Guide);
+            int nurse = NPC.FindFirstNPC(NPCID.Nurse);
+            int zoologist = NPC.FindFirstNPC(NPCID.BestiaryGirl);
+            int dryad = NPC.FindFirstNPC(NPCID.Dryad);
+            int stylist = NPC.FindFirstNPC(NPCID.Stylist);
+            int mechanic = NPC.FindFirstNPC(NPCID.Mechanic);
+            int partygirl = NPC.FindFirstNPC(NPCID.PartyGirl);
+            int steampunker = NPC.FindFirstNPC(NPCID.Steampunker);
+
+            if (nurse != -1 || zoologist != -1 || dryad != -1 || stylist != -1 || mechanic != -1 || partygirl != -1 || steampunker != -1)
+                women = true;
+
             WeightedRandom<string> chat = new WeightedRandom<string>();
 
             chat.Add("May your heart be your guiding key.");
+            chat.Add($"My name is {NPC.GivenName}, and I am here to provide tips regarding the looming Heartless threat.");
+            chat.Add("If there's anything you'd like to know, I'm willing to oblige. My database is full of useful, factual information.");
+            if ((Main.dayTime && BirthdayParty.PartyIsUp) || (System.DateTime.Now.Month == 9 && System.DateTime.Now.Day == 10) || (System.DateTime.Now.Month == 1 && System.DateTime.Now.Day == 31) || (System.DateTime.Now.Month == 4 && System.DateTime.Now.Day == 12))
+                chat.Add("Good tidings, my friend. Today is a momentous day.", .5f);
+            if (Main.dayTime)
+            {
+            }
+            else
+            {
+                if (Main.bloodMoon)
+                {
+                    if (women)
+                        chat.Add("Some of the people here seem to be agitated, there had better not be some sort of psychic droner out there.");
+                    chat.Add("How strange, the Heartless seem to dislike the crimson shade of the moon. Ironic considering the nature of these abhorrent flesh beasts.");
+                }
+                if (guide != -1)
+                    chat.Add($"That {Main.npc[guide].GivenName}, he is quite the anomaly. His heart is full of darkness, and yet he's a true ally...");
+            }
 
             return chat;
         }
@@ -156,7 +189,6 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.51");
-            button2 = Language.GetTextValue("LegacyInterface.64");
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
@@ -165,14 +197,14 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             {
                 WeightedRandom<string> chat = new WeightedRandom<string>();
 
-                chat.Add("Munny is power!");
-                chat.Add("Woaw.");
+                if (Main.hardMode)
+                    chat.Add("Munny can be obtained by foes who already drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend hunting for Mimics underground.", .5f);
+                chat.Add("Munny can be obtained by foes who already drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend rematching easy bosses.", Main.hardMode ? .5f : 1f);
+                chat.Add("If you have a pouch to store your Munny in, you can save your inventory space for more important items. Picking up Munny will automatically be placed in an available pouch.");
+                chat.Add("You can quickly deposit into a pouch by left-clicking on one while holding a stack of Munny on your cursor. It's far more convenient than dropping it on the ground first.");
+                chat.Add("Having any item or a full stack of Munny on your cursor when withdrawing from a pouch will place the remainder Munny directly into your inventory, if you have the room for it.");
 
                 Main.npcChatText = chat;
-            }
-            else
-            {
-                Main.npcChatText = "This isn't implemented yet. I'm not sure what you were expecting, to be honest.";
             }
         }
 
