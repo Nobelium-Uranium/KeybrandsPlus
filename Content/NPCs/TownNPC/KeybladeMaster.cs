@@ -165,7 +165,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
 
             chat.Add("May your heart be your guiding key.");
             chat.Add($"My name is {NPC.GivenName}, and I am here to provide tips regarding the looming Heartless threat.");
-            chat.Add("If there's anything you'd like to know, I'm willing to oblige. My database is full of useful, factual information.");
+            chat.Add("If there is anything you would like to know, I am willing to oblige. My database is full of useful, factual information.");
             if ((Main.dayTime && BirthdayParty.PartyIsUp) || (System.DateTime.Now.Month == 9 && System.DateTime.Now.Day == 10) || (System.DateTime.Now.Month == 1 && System.DateTime.Now.Day == 31) || (System.DateTime.Now.Month == 4 && System.DateTime.Now.Day == 12))
                 chat.Add("Good tidings, my friend. Today is a momentous day.", .5f);
             if (Main.dayTime)
@@ -180,7 +180,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
                     chat.Add("How strange, the Heartless seem to dislike the crimson shade of the moon. Ironic considering the nature of these abhorrent flesh beasts.");
                 }
                 if (guide != -1)
-                    chat.Add($"That {Main.npc[guide].GivenName}, he is quite the anomaly. His heart is full of darkness, and yet he's a true ally...");
+                    chat.Add($"That {Main.npc[guide].GivenName}, he is quite the anomaly. His heart is full of darkness, and yet he is a true ally...");
             }
 
             return chat;
@@ -198,10 +198,10 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
                 WeightedRandom<string> chat = new WeightedRandom<string>();
 
                 if (Main.hardMode)
-                    chat.Add("Munny can be obtained by foes who already drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend hunting for Mimics underground.", .5f);
-                chat.Add("Munny can be obtained by foes who already drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend rematching easy bosses.", Main.hardMode ? .5f : 1f);
+                    chat.Add("Munny can be obtained by slaying foes who already drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend hunting for Mimics underground.", .5f);
+                chat.Add("Munny can be obtained by slaying foes who already drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend rematching easy bosses.", Main.hardMode ? .5f : 1f);
                 chat.Add("If you have a pouch to store your Munny in, you can save your inventory space for more important items. Picking up Munny will automatically be placed in an available pouch.");
-                chat.Add("You can quickly deposit into a pouch by left-clicking on one while holding a stack of Munny on your cursor. It's far more convenient than dropping it on the ground first.");
+                chat.Add("You can quickly deposit into a pouch by left-clicking on one while holding a stack of Munny on your cursor. It is far more convenient than dropping it on the ground first.");
                 chat.Add("Having any item or a full stack of Munny on your cursor when withdrawing from a pouch will place the remainder Munny directly into your inventory, if you have the room for it.");
 
                 Main.npcChatText = chat;
