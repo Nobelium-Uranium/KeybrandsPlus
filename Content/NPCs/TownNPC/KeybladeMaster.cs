@@ -246,6 +246,6 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
         public int RollVariation() => 0;
         public string GetNameForVariant(NPC npc) => npc.getNewNPCName();
         public Asset<Texture2D> GetTextureNPCShouldUse(NPC npc) => ModContent.Request<Texture2D>($"{nameof(KeybrandsPlus)}/Content/NPCs/TownNPC/KeybladeMaster");
-        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot($"{nameof(KeybrandsPlus)}/Content/NPCs/TownNPC/KeybladeMaster");
+        public int GetHeadTextureIndex(NPC npc) => ModContent.GetModHeadSlot($"{nameof(KeybrandsPlus)}/Content/NPCs/TownNPC/KeybladeMaster_Head");
     }
 }
