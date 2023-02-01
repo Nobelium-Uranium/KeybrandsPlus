@@ -27,7 +27,6 @@ namespace KeybrandsPlus.Content.Projectiles
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(16);
-            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 1200;
         }
@@ -83,7 +82,7 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox))
+                            if (!player.dead && (player.GetModPlayer<KeyPlayer>().MunnyMagnet ? player.Center.Distance(Projectile.Center) < 64f : player.Hitbox.Intersects(Projectile.Hitbox)))
                             {
                                 KeyPlayer modPlayer = player.GetModPlayer<KeyPlayer>();
                                 if (modPlayer.HasMunnyPouch(out _))
@@ -119,7 +118,6 @@ namespace KeybrandsPlus.Content.Projectiles
                         KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
                     if (floating)
                     {
-                        Projectile.aiStyle = 0;
                         if (Projectile.honeyWet)
                             Projectile.velocity.X *= .95f;
                         else
@@ -127,8 +125,10 @@ namespace KeybrandsPlus.Content.Projectiles
                     }
                     else
                     {
-                        Projectile.aiStyle = ProjAIStyleID.Arrow;
+                        Projectile.velocity.Y += .1f;
                         Projectile.velocity.X *= .99f;
+                        if (Projectile.velocity.Y > 16f)
+                            Projectile.velocity.Y = 16f;
                     }
                 }
                 else
@@ -191,7 +191,6 @@ namespace KeybrandsPlus.Content.Projectiles
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(20);
-            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 1800;
         }
@@ -247,7 +246,7 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox))
+                            if (!player.dead && (player.GetModPlayer<KeyPlayer>().MunnyMagnet ? player.Center.Distance(Projectile.Center) < 64f : player.Hitbox.Intersects(Projectile.Hitbox)))
                             {
                                 KeyPlayer modPlayer = player.GetModPlayer<KeyPlayer>();
                                 if (modPlayer.HasMunnyPouch(out _))
@@ -292,7 +291,6 @@ namespace KeybrandsPlus.Content.Projectiles
                         KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
                     if (floating)
                     {
-                        Projectile.aiStyle = 0;
                         if (Projectile.honeyWet)
                             Projectile.velocity.X *= .95f;
                         else
@@ -300,8 +298,10 @@ namespace KeybrandsPlus.Content.Projectiles
                     }
                     else
                     {
-                        Projectile.aiStyle = ProjAIStyleID.Arrow;
+                        Projectile.velocity.Y += .1f;
                         Projectile.velocity.X *= .99f;
+                        if (Projectile.velocity.Y > 16f)
+                            Projectile.velocity.Y = 16f;
                     }
                 }
                 else
@@ -364,7 +364,6 @@ namespace KeybrandsPlus.Content.Projectiles
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(22);
-            Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 2400;
         }
@@ -420,7 +419,7 @@ namespace KeybrandsPlus.Content.Projectiles
                             Player player = Main.player[i];
                             if (!player.active)
                                 break;
-                            if (!player.dead && player.Hitbox.Intersects(Projectile.Hitbox))
+                            if (!player.dead && (player.GetModPlayer<KeyPlayer>().MunnyMagnet ? player.Center.Distance(Projectile.Center) < 64f : player.Hitbox.Intersects(Projectile.Hitbox)))
                             {
                                 KeyPlayer modPlayer = player.GetModPlayer<KeyPlayer>();
                                 if (modPlayer.HasMunnyPouch(out _))
@@ -477,7 +476,6 @@ namespace KeybrandsPlus.Content.Projectiles
                         KeyUtils.FloatOnWater(Projectile, out floating, .5f, .0125f, 2f, false, true, false);
                     if (floating)
                     {
-                        Projectile.aiStyle = 0;
                         if (Projectile.honeyWet)
                             Projectile.velocity.X *= .95f;
                         else
@@ -485,8 +483,10 @@ namespace KeybrandsPlus.Content.Projectiles
                     }
                     else
                     {
-                        Projectile.aiStyle = ProjAIStyleID.Arrow;
+                        Projectile.velocity.Y += .1f;
                         Projectile.velocity.X *= .99f;
+                        if (Projectile.velocity.Y > 16f)
+                            Projectile.velocity.Y = 16f;
                     }
                 }
                 else

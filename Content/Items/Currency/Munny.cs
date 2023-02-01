@@ -25,7 +25,7 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override void OnSpawn(IEntitySource source)
         {
-            if (source is EntitySource_Loot)
+            if (source is EntitySource_Loot || source is EntitySource_OnHit)
                 loot = true;
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)

@@ -23,6 +23,7 @@ namespace KeybrandsPlus.Common.Helpers
         public sealed override void SetDefaults()
         {
             Item.DefaultToAccessory();
+            Item.canBePlacedInVanityRegardlessOfConditions = true;
             SafeSetDefaults();
         }
         public virtual void SafeModifyTooltips(List<TooltipLine> tooltips)

@@ -1,18 +1,33 @@
-﻿using KeybrandsPlus.Content.Items.Currency;
+﻿using KeybrandsPlus.Common.Helpers;
+using KeybrandsPlus.Content.Items.Currency;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Common.Globals
 {
     public class KeyPlayer : ModPlayer
     {
+
         public long recentMunny;
         public int recentMunnyCounter;
+
+        public bool MunnyMagnet;
+
+        public override void ResetEffects()
+        {
+            MunnyMagnet = false;
+        }
+
+        public override void UpdateDead()
+        {
+            ResetEffects();
+        }
 
         public override void PostUpdate()
         {
@@ -20,6 +35,42 @@ namespace KeybrandsPlus.Common.Globals
                 recentMunnyCounter--;
             else
                 recentMunny = 0;
+        }
+
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            if (KeyUtils.HostileTarget(target) && MunnyMagnet && crit && Main.rand.NextBool(3))
+            {
+                int amount;
+                if (damage > target.lifeMax)
+                    amount = (int)Math.Ceiling(target.lifeMax / 25f);
+                else
+                    amount = (int)Math.Ceiling(damage / 25f);
+                if (target.boss || NPCID.Sets.ShouldBeCountedAsBoss[target.type] || NPCID.Sets.BossHeadTextures[target.type] != -1)
+                    amount = (int)Math.Ceiling(amount * .75f);
+                if (amount > 0)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Item.NewItem(Player.GetSource_OnHit(target), target.getRect(), ModContent.ItemType<Munny>(), amount);
+                }
+            }
+        }
+
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        {
+            if (KeyUtils.HostileTarget(target) && MunnyMagnet && crit && Main.rand.NextBool(3))
+            {
+                int amount;
+                if (damage > target.lifeMax)
+                    amount = (int)Math.Ceiling(target.lifeMax / 10f);
+                else
+                    amount = (int)Math.Ceiling(damage / 10f);
+                if (amount > 0)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Item.NewItem(Player.GetSource_OnHit(target), target.getRect(), ModContent.ItemType<Munny>(), amount);
+                }
+            }
         }
 
         public void AddRecentMunny(int amount)
@@ -53,8 +104,6 @@ namespace KeybrandsPlus.Common.Globals
                 pouch.storedMunny += amount;
             }
         }
-
-
 
         public long CountMunny()
         {

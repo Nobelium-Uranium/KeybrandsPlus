@@ -29,7 +29,7 @@ namespace KeybrandsPlus.Common.Systems
                     Main.hoverItemName = "Sub-Armor";
                     break;
                 case AccessorySlotType.VanitySlot:
-                    Main.hoverItemName = "Social Sub-Armor";
+                    Main.hoverItemName = "Auxiliary Sub-Armor";
                     break;
                 default:
                     return;
