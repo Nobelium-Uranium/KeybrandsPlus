@@ -39,7 +39,7 @@ namespace KeybrandsPlus.Common.Globals
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-            if (KeyUtils.HostileTarget(target) && MunnyMagnet && crit && Main.rand.NextBool(3))
+            if (target.lifeMax > 5 && !target.CountsAsACritter && !target.friendly && !target.immortal && MunnyMagnet && crit && Main.rand.NextBool(3))
             {
                 int amount;
                 if (damage > target.lifeMax)
@@ -58,7 +58,7 @@ namespace KeybrandsPlus.Common.Globals
 
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
-            if (KeyUtils.HostileTarget(target) && MunnyMagnet && crit && Main.rand.NextBool(3))
+            if (target.lifeMax > 5 && !target.CountsAsACritter && !target.friendly && !target.immortal && MunnyMagnet && crit && Main.rand.NextBool(3))
             {
                 int amount;
                 if (damage > target.lifeMax)
