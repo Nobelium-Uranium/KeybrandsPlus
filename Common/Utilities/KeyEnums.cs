@@ -31,7 +31,7 @@
         }
         public enum GroundComboModifier
         {
-            Standard,
+            Default,
             Slapshot,
             SlidingDash,
             UpperSlash,
@@ -41,7 +41,7 @@
         }
         public enum AerialComboModifier
         {
-            Standard,
+            Default,
             Vortex,
             AerialSweep,
             HorizontalSlash,
@@ -50,7 +50,7 @@
         }
         public enum GroundComboFinisher
         {
-            Standard,
+            Default,
             Blitz,
             RippleDrive,
             StunImpact,
@@ -62,7 +62,7 @@
         }
         public enum AerialComboFinisher
         {
-            Standard,
+            Default,
             HurricaneBlast,
             AerialFinish,
             MagnetBurst
