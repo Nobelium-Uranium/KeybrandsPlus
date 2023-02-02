@@ -206,6 +206,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
                 chat.Add("If you have a pouch to store your Munny in, you can save your inventory space for more important items. Picking up Munny will automatically be placed in an available pouch.");
                 chat.Add("You can quickly deposit into a Munny Pouch by left-clicking on one while holding a stack of Munny on your cursor. It is far more convenient than dropping it on the ground first.");
                 chat.Add("Having any item or a full stack of Munny on your cursor when withdrawing from a pouch will place the remainder Munny directly into your inventory, if you have the room for it.");
+                chat.Add("Be on the lookout for unusual red and gold colored chests underground. They contain some Munny and a variety of useful materials. Just remember to bring a keyblade to unlock it.");
 
                 Main.npcChatText = chat;
             }
