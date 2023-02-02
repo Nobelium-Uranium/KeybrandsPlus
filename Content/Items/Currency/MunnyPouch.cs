@@ -115,5 +115,14 @@ namespace KeybrandsPlus.Content.Items.Currency
         {
             storedMunny = tag.Get<int>("StoredMunny");
         }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.Silk, 5)
+                .AddIngredient<Munny>(100)
+                .AddTile(TileID.Loom)
+                .Register();
+        }
     }
 }
