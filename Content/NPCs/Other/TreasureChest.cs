@@ -120,9 +120,12 @@ namespace KeybrandsPlus.Content.NPCs.Other
         {
             if (firstButton)
             {
+                Main.player[Main.myPlayer].SetTalkNPC(-1);
+                Main.npcChatCornerItem = 0;
                 Main.npcChatText = "";
                 NPC.ShowNameOnHover = false;
                 Unlocked = true;
+                Mod.Logger.Info("[KeybrandsPlus] Please ignore the Index OOB error, that's just a thing that happens when you try to PROPERLY close an NPC chat box. I hate it too.");
             }
         }
 
