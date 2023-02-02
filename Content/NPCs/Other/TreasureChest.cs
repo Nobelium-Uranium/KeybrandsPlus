@@ -42,7 +42,7 @@ namespace KeybrandsPlus.Content.NPCs.Other
             NPC.dontTakeDamageFromHostiles = true;
             NPC.damage = 0;
             NPC.defense = 0;
-            NPC.lifeMax = 1;
+            NPC.lifeMax = 5;
             NPC.knockBackResist = 0f;
             NPC.rarity = 1;
             NPC.behindTiles = true;
