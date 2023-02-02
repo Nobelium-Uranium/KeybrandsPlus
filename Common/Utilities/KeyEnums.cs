@@ -22,6 +22,12 @@
         }
         public enum SwingType
         {
+            Default,
+            Light,
+            Heavy
+        }
+        public enum SwingDirection
+        {
             Down,
             Up,
             Swipe,
