@@ -12,18 +12,18 @@ TownNPCMood:
 	{
 		Content: This world is quite interesting.
 		NoHome: It appears that there is nowhere for me to stay.
-		LoveSpace: There's plenty of space for my work, I appreciate it.
+		LoveSpace: There is plenty of space for my work, I appreciate it.
 		FarFromHome: It seems my residence is quite a ways away.
-		DislikeCrowded: It's starting to get a little crowded here, wouldn't you agree?
-		HateCrowded: There's much too many people around, and I'm sure they dislike the crowding as well.
-		LikeBiome: "This area is quite the hostile paradise, but I don't mind it."
-		LoveBiome: "The ocean's horizon reminds me of somewhere I've visited a long time ago..."
-		DislikeBiome: "It's rather bleak down here, I'd much rather live on the surface."
+		DislikeCrowded: It is starting to get a little crowded here, wouldn't you agree?
+		HateCrowded: There is much too many people around, and I am sure they dislike the crowding as well.
+		LikeBiome: "This area is quite the hostile paradise, but I do not mind it."
+		LoveBiome: "The ocean's horizon reminds me of somewhere I have visited a long time ago..."
+		DislikeBiome: "It is rather bleak down here, I would much rather live on the surface."
 		HateBiome: "The darkness here is overwhelming, what a terrible place to be."
-		LikeNPC: "{NPCName}'s tech is eerily similar to my own, what a strange coincidence. I'm interested in how it works."
+		LikeNPC: "{NPCName}'s tech is eerily similar to my own, what a strange coincidence. I am interested in how it works."
 		LoveNPC: "Though {NPCName}'s heart is choked with darkness, I know he means well. I respect that lingering light within him."
 		DislikeNPC: "{NPCName} may be an ally, but he reeks of darkness. I think I would rather keep my distance from him."
-		HateNPC: "I'm sure {NPCName}'s a good kid, but he comes off as extremely arrogant. I'm not a fan."
+		HateNPC: "I am sure {NPCName} is a good kid at heart, but he comes off as extremely arrogant. I'm not a fan."
 		LikeNPC_Princess: "{NPCName}'s heart is outstandingly pure, makes logical sense considering her role as a princess."
 	}
 }
