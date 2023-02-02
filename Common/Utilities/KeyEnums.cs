@@ -17,8 +17,6 @@
         public enum KeychainType
         {
             None,
-            Keybrand,
-            KeybrandD,
             KingdomKey,
             KingdomKeyD
         }
@@ -37,7 +35,7 @@
             UpperSlash,
             DodgeSlash,
             FlashStep,
-            VicinityBreak,
+            VicinityBreak
         }
         public enum AerialComboModifier
         {
