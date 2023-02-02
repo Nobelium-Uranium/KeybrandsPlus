@@ -1,5 +1,6 @@
 ﻿using KeybrandsPlus.Common.Globals;
 using KeybrandsPlus.Common.Helpers;
+using KeybrandsPlus.Content.Items.Currency;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,6 +22,20 @@ namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Utility
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<KeyPlayer>().MunnyMagnet = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe()
+                .AddIngredient(ItemID.ShadowScale, 5)
+                .AddIngredient<Munny>(10)
+                .AddTile(TileID.Anvils)
+                .Register();
+            CreateRecipe()
+                .AddIngredient(ItemID.TissueSample, 5)
+                .AddIngredient<Munny>(10)
+                .AddTile(TileID.Anvils)
+                .Register();
         }
     }
 }
