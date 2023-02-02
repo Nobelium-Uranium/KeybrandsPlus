@@ -119,8 +119,8 @@ namespace KeybrandsPlus.Content.Items.Currency
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.Silk, 5)
-                .AddIngredient<Munny>(100)
+                .AddIngredient(ItemID.Silk, 10)
+                .AddIngredient<Munny>(50)
                 .AddTile(TileID.Loom)
                 .Register();
         }
