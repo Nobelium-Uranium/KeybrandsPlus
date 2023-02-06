@@ -99,8 +99,9 @@ namespace KeybrandsPlus.Content.Items.Currency
                 storedMunny += Main.mouseItem.stack;
                 Main.mouseItem.TurnToAir();
                 SoundEngine.PlaySound(SoundID.Grab);
+                return true;
             }
-            return true;
+            return false;
         }
         public override void UpdateInventory(Player player)
         {
