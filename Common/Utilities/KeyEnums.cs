@@ -71,5 +71,14 @@
             AerialFinish,
             MagnetBurst
         }
+        public enum AmbushHeartless
+        {
+            ShadowScout, // 3 Shadows
+            ShadowSwarm, // 5 Shadows
+            ShadowTroop, // 4 Shadows, 1 Soldier
+            SoldierScout, // 3 Soldiers
+            SoldierSwarm, // 5 Soldiers
+            SoldierTroop, // 4 Soldiers, 1 Large Body
+        }
     }
 }
