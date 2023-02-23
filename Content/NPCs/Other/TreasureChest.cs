@@ -24,7 +24,7 @@ namespace KeybrandsPlus.Content.NPCs.Other
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Locked Treasure Chest");
+            DisplayName.SetDefault("Treasure Chest");
             Main.npcFrameCount[Type] = 3;
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
@@ -65,10 +65,19 @@ namespace KeybrandsPlus.Content.NPCs.Other
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            if (spawnInfo.PlayerInTown || spawnInfo.PlayerSafe || Main.invasionType != 0 || spawnInfo.Water || spawnInfo.Sky || NPC.AnyNPCs(Type))
+                return 0;
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC npc = Main.npc[i];
                 if (npc.active && npc.boss)
+                    return 0;
+            }
+            foreach (ModBiome modBiome in ModContent.GetContent<ModBiome>())
+            {
+                if (modBiome == null || modBiome.Mod == Mod)
+                    continue;
+                if (spawnInfo.Player.InModBiome(modBiome))
                     return 0;
             }
             if (spawnInfo.Player.ZoneDirtLayerHeight)
@@ -161,7 +170,7 @@ namespace KeybrandsPlus.Content.NPCs.Other
                 int DropAmount = 0;
                 for (int i = 0; i < tries; i++)
                 {
-                    int RandAmount = Main.rand.Next(MaxMunny / 10, MaxMunny + 1);
+                    int RandAmount = Main.rand.Next(MaxMunny / 50, MaxMunny / 5 + 1) * 5;
                     if (RandAmount > DropAmount)
                         DropAmount = RandAmount;
                 }
