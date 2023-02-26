@@ -24,6 +24,7 @@ namespace KeybrandsPlus.Common.Helpers
         {
             Item.DefaultToAccessory();
             Item.canBePlacedInVanityRegardlessOfConditions = true;
+            Item.value = Item.sellPrice(gold: 1);
             SafeSetDefaults();
         }
         public virtual void SafeModifyTooltips(List<TooltipLine> tooltips)

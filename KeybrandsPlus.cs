@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using ReLogic.Content;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.GameContent.UI;
@@ -24,6 +25,8 @@ namespace KeybrandsPlus
         //Dev SteamIDs for reference
         //Chem: 76561198079106803
         //Dan: 76561198178272217
+
+        public static Dictionary<int, string> keyRarities = new Dictionary<int, string>();
 
         public static int MunnyCost;
 
@@ -46,10 +49,21 @@ namespace KeybrandsPlus
             }
         }
 
+        public override void PostSetupContent()
+        {
+            foreach (ModRarity rarity in ModContent.GetContent<ModRarity>())
+            {
+                if (rarity.Mod == this)
+                    keyRarities.Add(rarity.Type, rarity.FullName);
+            }
+        }
+
         public override void Unload()
         {
             SteamID = null;
             MunnyCost = 0;
+
+            keyRarities.Clear();
 
             MunnyUI.Unload();
         }
