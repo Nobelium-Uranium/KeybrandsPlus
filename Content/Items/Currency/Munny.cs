@@ -1,4 +1,5 @@
-﻿using KeybrandsPlus.Common.EntitySources;
+﻿using KeybrandsPlus.Common.Configs;
+using KeybrandsPlus.Common.EntitySources;
 using KeybrandsPlus.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,6 +31,7 @@ namespace KeybrandsPlus.Content.Items.Currency
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
+            KeyServerConfig serverConfig = KeyServerConfig.Instance;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int munny = Item.stack;
@@ -38,6 +40,8 @@ namespace KeybrandsPlus.Content.Items.Currency
                     Vector2 velo;
                     if (loot)
                     {
+                        if (!serverConfig.MunnyDrops)
+                            break;
                         velo = Main.rand.NextVector2CircularEdge(5f, 2.5f);
                         if (velo.Y > 0f)
                             velo.Y *= -1f;

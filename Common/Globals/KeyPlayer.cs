@@ -105,63 +105,63 @@ namespace KeybrandsPlus.Common.Globals
             }
         }
 
-        public long CountMunny()
+        public long CountMunny(bool countPouches = true, bool countLoose = false)
         {
             long amount = 0;
             MunnyPouch pouch;
             Item[] vault;
-            if (Main.mouseItem.ModItem is MunnyPouch)
+            if (Main.mouseItem.ModItem is MunnyPouch && countPouches)
             {
                 pouch = Main.mouseItem.ModItem as MunnyPouch;
                 amount += pouch.storedMunny;
             }
-            else if (Main.mouseItem.type == ModContent.ItemType<Munny>())
+            else if (Main.mouseItem.type == ModContent.ItemType<Munny>() && countLoose)
                 amount += Main.mouseItem.stack;
             for (int i = 0; i < 50; i++)
             {
                 Item item = Player.inventory[i];
-                if (item.ModItem is MunnyPouch)
+                if (item.ModItem is MunnyPouch && countPouches)
                 {
                     pouch = item.ModItem as MunnyPouch;
                     amount += pouch.storedMunny;
                 }
-                else if (item.type == ModContent.ItemType<Munny>())
+                else if (item.type == ModContent.ItemType<Munny>() && countLoose)
                     amount += item.stack;
             }
             vault = Player.bank.item;
             for (int i = 0; i < vault.Length; i++)
             {
                 Item item = vault[i];
-                if (item.ModItem is MunnyPouch)
+                if (item.ModItem is MunnyPouch && countPouches)
                 {
                     pouch = item.ModItem as MunnyPouch;
                     amount += pouch.storedMunny;
                 }
-                else if (item.type == ModContent.ItemType<Munny>())
+                else if (item.type == ModContent.ItemType<Munny>() && countLoose)
                     amount += item.stack;
             }
             vault = Player.bank2.item;
             for (int i = 0; i < vault.Length; i++)
             {
                 Item item = vault[i];
-                if (item.ModItem is MunnyPouch)
+                if (item.ModItem is MunnyPouch && countPouches)
                 {
                     pouch = item.ModItem as MunnyPouch;
                     amount += pouch.storedMunny;
                 }
-                else if (item.type == ModContent.ItemType<Munny>())
+                else if (item.type == ModContent.ItemType<Munny>() && countLoose)
                     amount += item.stack;
             }
             vault = Player.bank3.item;
             for (int i = 0; i < vault.Length; i++)
             {
                 Item item = vault[i];
-                if (item.ModItem is MunnyPouch)
+                if (item.ModItem is MunnyPouch && countPouches)
                 {
                     pouch = item.ModItem as MunnyPouch;
                     amount += pouch.storedMunny;
                 }
-                else if (item.type == ModContent.ItemType<Munny>())
+                else if (item.type == ModContent.ItemType<Munny>() && countLoose)
                     amount += item.stack;
             }
             if (Player.IsVoidVaultEnabled)
@@ -170,12 +170,12 @@ namespace KeybrandsPlus.Common.Globals
                 for (int i = 0; i < vault.Length; i++)
                 {
                     Item item = vault[i];
-                    if (item.ModItem is MunnyPouch)
+                    if (item.ModItem is MunnyPouch && countPouches)
                     {
                         pouch = item.ModItem as MunnyPouch;
                         amount += pouch.storedMunny;
                     }
-                    else if (item.type == ModContent.ItemType<Munny>())
+                    else if (item.type == ModContent.ItemType<Munny>() && countLoose)
                         amount += item.stack;
                 }
             }
