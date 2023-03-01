@@ -12,23 +12,23 @@ namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Special
     {
         public override void SafeSetStaticDefaults()
         {
-            Tooltip.SetDefault("10% increased damage\n" +
-                "Increases max life and mana by 100\n" +
-                "Increases your max number of minions and sentries by 1");
+            Tooltip.SetDefault("20% increased damage\n" +
+                "Increases max life and mana by 200\n" +
+                "Increases your max number of minions and sentries by 2");
         }
         public override void SafeSetDefaults()
         {
             Item.rare = ModContent.RarityType<EffervescentRarity>();
-            Item.defense = 10;
+            Item.defense = 20;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Generic) += .1f;
-            player.statLifeMax2 += 100;
-            player.statManaMax2 += 100;
-            player.maxMinions++;
-            player.maxTurrets++;
+            player.GetDamage(DamageClass.Generic) += .2f;
+            player.statLifeMax2 += 200;
+            player.statManaMax2 += 200;
+            player.maxMinions += 2;
+            player.maxTurrets += 2;
         }
     }
 }
