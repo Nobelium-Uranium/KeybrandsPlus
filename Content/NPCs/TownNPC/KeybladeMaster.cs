@@ -168,6 +168,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             chat.Add("May your heart be your guiding key.");
             chat.Add($"My name is {NPC.GivenName}, and I am here to provide tips regarding the looming Heartless threat.");
             chat.Add("If there is anything you would like to know, I am willing to oblige. My database is full of useful, factual information.");
+            chat.Add("'Trans rights?' Well, yes, of course I support that. Expression of self is the purest form of identity, so be proud of who you are.", .1f);
             if ((Main.dayTime && BirthdayParty.PartyIsUp) || (System.DateTime.Now.Month == 9 && System.DateTime.Now.Day == 10) || (System.DateTime.Now.Month == 1 && System.DateTime.Now.Day == 31) || (System.DateTime.Now.Month == 4 && System.DateTime.Now.Day == 12))
                 chat.Add("Good tidings, my friend. Today is a momentous day.", .5f);
             if (Main.dayTime)
