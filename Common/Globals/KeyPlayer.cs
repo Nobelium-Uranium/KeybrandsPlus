@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -52,22 +53,11 @@ namespace KeybrandsPlus.Common.Globals
                 recentMunny = 0;
         }
 
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
         {
             if (Extreme)
                 damage *= 2;
-        }
-
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
-        {
-            if (Extreme)
-                damage *= 2;
-        }
-
-        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
-        {
-            if (target.GetModPlayer<KeyPlayer>().Extreme)
-                damage *= 2;
+            return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource, ref cooldownCounter);
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
