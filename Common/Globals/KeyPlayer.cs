@@ -19,14 +19,24 @@ namespace KeybrandsPlus.Common.Globals
 
         public bool MunnyMagnet;
 
+        public bool AirDash;
+        public int DashCount;
+
         public override void ResetEffects()
         {
             MunnyMagnet = false;
+            AirDash = false;
         }
 
         public override void UpdateDead()
         {
             ResetEffects();
+        }
+
+        public override void PostUpdateEquips()
+        {
+            if (Player.velocity.Y == 0 || Player.pulley || Player.sliding)
+                DashCount = 3;
         }
 
         public override void PostUpdate()

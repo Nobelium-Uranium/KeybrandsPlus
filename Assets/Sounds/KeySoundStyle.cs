@@ -13,6 +13,10 @@ namespace KeybrandsPlus.Assets.Sounds
         #endregion
         #endregion
         #region Other
+        public static readonly SoundStyle AirDash = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/AirDash")
+        {
+            Volume = .5f
+        };
         public static readonly SoundStyle MunnyBounce = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyBounce")
         {
             Volume = .25f,
