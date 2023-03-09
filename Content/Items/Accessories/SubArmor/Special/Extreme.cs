@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Utility
+namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Special
 {
     public class Extreme : SubArmorItem
     {
