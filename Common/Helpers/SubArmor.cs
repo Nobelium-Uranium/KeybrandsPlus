@@ -50,6 +50,18 @@ namespace KeybrandsPlus.Common.Helpers
             {
                 tooltips.Insert(index + 1, new TooltipLine(Mod, "KeybrandsPlus:SubArmor", "Sub-Armor") { OverrideColor = Color.Goldenrod });
             }
+            for (int i = 0; i < tooltips.Count; i++)
+            {
+                if (tooltips[i].Name.Equals("VanityLegal"))
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index != -1)
+            {
+                tooltips.RemoveAt(index);
+            }
             SafeModifyTooltips(tooltips);
         }
     }
