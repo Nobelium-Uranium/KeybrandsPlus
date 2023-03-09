@@ -22,10 +22,13 @@ namespace KeybrandsPlus.Common.Globals
         public bool AirDash;
         public int DashCount;
 
+        public bool Extreme;
+
         public override void ResetEffects()
         {
             MunnyMagnet = false;
             AirDash = false;
+            Extreme = false;
         }
 
         public override void UpdateDead()
@@ -37,6 +40,8 @@ namespace KeybrandsPlus.Common.Globals
         {
             if (Player.velocity.Y == 0 || Player.pulley || Player.sliding)
                 DashCount = 3;
+            if (Extreme)
+                Player.statDefense = 0;
         }
 
         public override void PostUpdate()
@@ -45,6 +50,24 @@ namespace KeybrandsPlus.Common.Globals
                 recentMunnyCounter--;
             else
                 recentMunny = 0;
+        }
+
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        {
+            if (Extreme)
+                damage *= 2;
+        }
+
+        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+        {
+            if (Extreme)
+                damage *= 2;
+        }
+
+        public override void ModifyHitPvp(Item item, Player target, ref int damage, ref bool crit)
+        {
+            if (target.GetModPlayer<KeyPlayer>().Extreme)
+                damage *= 2;
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)

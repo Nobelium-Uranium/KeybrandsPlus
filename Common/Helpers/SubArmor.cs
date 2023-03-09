@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Default;
+using Terraria.Utilities;
 
 namespace KeybrandsPlus.Common.Helpers
 {
@@ -26,6 +27,10 @@ namespace KeybrandsPlus.Common.Helpers
             Item.canBePlacedInVanityRegardlessOfConditions = true;
             Item.value = Item.sellPrice(gold: 1);
             SafeSetDefaults();
+        }
+        public sealed override bool? PrefixChance(int pre, UnifiedRandom rand)
+        {
+            return false;
         }
         public virtual void SafeModifyTooltips(List<TooltipLine> tooltips)
         {
