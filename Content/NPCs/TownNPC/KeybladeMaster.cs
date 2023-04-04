@@ -180,7 +180,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
                 {
                     if (women)
                         chat.Add("Some of the people here seem to be agitated, there had better not be some sort of psychic droner out there.");
-                    chat.Add("How strange, the Heartless seem to dislike the crimson shade of the moon. Ironic considering the nature of these abhorrent flesh beasts.");
+                    chat.Add("How strange, the Heartless seem to dislike the crimson shade of the moon. Ironic considering the instinctive nature of these abhorrent flesh beasts.");
                 }
                 if (guide != -1)
                     chat.Add($"That {Main.npc[guide].GivenName}, he is quite the anomaly. His heart is full of darkness, and yet he is a true ally...");
@@ -208,7 +208,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
                 chat.Add("You can quickly deposit into a Munny Pouch by left-clicking on one while holding a stack of Munny on your cursor. It is far more convenient than dropping it on the ground first.");
                 chat.Add("Having any item or a full stack of Munny on your cursor when withdrawing from a pouch will place the remainder Munny directly into your inventory, if you have the room for it.");
                 chat.Add("You need not worry about running out of space in your Munny Pouch, the magical properties of the pouch allows it to store an effectively unlimited amount of Munny.");
-                chat.Add("Be on the lookout for unusual red and gold colored chests underground. They contain some Munny and a variety of useful materials. Just remember to bring a keyblade to unlock it.");
+                chat.Add("Be on the lookout for unusual red and gold colored chests underground. They contain some Munny and a variety of useful materials. A Lifeform Analyzer is able to detect them.");
 
                 Main.npcChatText = chat;
             }

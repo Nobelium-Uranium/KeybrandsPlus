@@ -39,7 +39,7 @@ namespace KeybrandsPlus.Content.NPCs.Other
         {
             NPC.Size = new Vector2(32, 30);
             NPC.friendly = true;
-            NPC.dontTakeDamageFromHostiles = true;
+            NPC.dontTakeDamage = true;
             NPC.damage = 0;
             NPC.defense = 0;
             NPC.lifeMax = 5;
@@ -113,33 +113,29 @@ namespace KeybrandsPlus.Content.NPCs.Other
 
         public override string GetChat()
         {
-            if (Main.LocalPlayer.HasItem(ModContent.ItemType<InertKeyblade>()))
-                return "It's a locked treasure chest, what goodies could be inside?";
-            Main.npcChatCornerItem = ModContent.ItemType<InertKeyblade>();
-            return "It's a locked treasure chest, a keyblade could unlock it.";
+            return "It's a treasure chest! What goodies could be inside?";
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
-            if (Main.LocalPlayer.HasItem(ModContent.ItemType<InertKeyblade>()))
-                button = "Unlock";
+            button = "Open";
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
             if (firstButton)
             {
-                Main.player[Main.myPlayer].SetTalkNPC(-1);
                 Main.npcChatCornerItem = 0;
                 Main.npcChatText = "";
                 NPC.ShowNameOnHover = false;
                 Unlocked = true;
-                Mod.Logger.Info("[KeybrandsPlus] Please ignore the Index OOB error, that's just a thing that happens when you try to PROPERLY close an NPC chat box. I hate it too.");
             }
         }
 
         public override void AI()
         {
+            if (NPC.lavaWet)
+                NPC.active = false;
             if (Unlocked)
                 NPC.ai[0]++;
             if (NPC.ai[0] == 1)

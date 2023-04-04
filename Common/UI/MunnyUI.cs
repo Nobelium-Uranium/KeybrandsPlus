@@ -29,7 +29,7 @@ namespace KeybrandsPlus.Common.UI
             float uiScale = Main.UIScale;
             Vector2 pos = new Vector2((8 + munnyTexture.Width / 2) * uiScale, Main.screenHeight * .375f);
             spriteBatch.Draw(munnyTexture, pos, null, Color.White, 0f, munnyTexture.Size() * .5f, uiScale, SpriteEffects.None, 0);
-            string text = $"{modPlayer.CountMunny()}";
+            string text = $"{modPlayer.CountMunny(true, true)}";
             pos.Y -= munnyTexture.Height * .125f * uiScale;
             pos.X += (4 + munnyTexture.Width / 2) * uiScale;
             Utils.DrawBorderString(spriteBatch, text, pos, Color.Goldenrod, 1.25f);
