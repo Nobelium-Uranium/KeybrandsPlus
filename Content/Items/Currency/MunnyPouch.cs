@@ -107,6 +107,8 @@ namespace KeybrandsPlus.Content.Items.Currency
         {
             if (storedMunny < 0)
                 storedMunny = 0;
+            if (storedMunny > 1000000)
+                storedMunny = 1000000;
         }
         public override void SaveData(TagCompound tag)
         {
