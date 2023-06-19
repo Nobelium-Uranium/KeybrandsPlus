@@ -13,8 +13,7 @@ namespace KeybrandsPlus.Common.Configs
         public static KeyServerConfig Instance;
 
         [Label("Enable Munny Drops")]
-        [Tooltip("Toggles whether or not enemies will drop Munny. Doesn't affect the displayed drop tables in the Bestiary.\n" +
-            "Disabling this won't prevent dropping Munny from the inventory.")]
+        [Tooltip("Toggles whether or not enemies will drop Munny. Doesn't affect the displayed drop tables in the Bestiary.")]
         [DefaultValue(true)]
         public bool MunnyDrops { get; set; }
     }

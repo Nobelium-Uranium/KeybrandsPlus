@@ -1,4 +1,5 @@
-﻿using KeybrandsPlus.Content.Items.Currency;
+﻿using KeybrandsPlus.Common.Helpers;
+using KeybrandsPlus.Content.Items.Currency;
 using System;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
@@ -14,7 +15,7 @@ namespace KeybrandsPlus.Common.Globals
             if (npc.value >= 100)
             {
                 int munny = (int)Math.Floor(npc.value / 100);
-                if (npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type] || NPCID.Sets.BossHeadTextures[npc.type] != -1)
+                if (KeyUtils.ProbablyABoss(npc))
                     munny /= 2;
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Munny>(), 1, munny, munny));
             }

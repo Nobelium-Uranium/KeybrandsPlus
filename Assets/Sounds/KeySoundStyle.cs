@@ -17,26 +17,40 @@ namespace KeybrandsPlus.Assets.Sounds
         {
             Volume = .5f
         };
-        public static readonly SoundStyle MunnyBounce = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyBounce")
+        public static readonly SoundStyle MunnyBounceTiny = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyBounce")
         {
             Volume = .25f,
             PitchVariance = .1f
         };
-        public static readonly SoundStyle MunnyBounceMed = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyBounce")
+        public static readonly SoundStyle MunnyBounceSmall = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyBounce")
         {
             Volume = .25f,
             Pitch = -.075f,
             PitchVariance = .1f
         };
-        public static readonly SoundStyle MunnyBounceBig = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyBounce")
+        public static readonly SoundStyle MunnyBounceMed = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyBounce")
         {
             Volume = .25f,
             Pitch = -.15f,
             PitchVariance = .1f
         };
+        public static readonly SoundStyle MunnyBounceBig = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyBounce")
+        {
+            Volume = .25f,
+            Pitch = -.3f,
+            PitchVariance = .1f
+        };
         public static readonly SoundStyle MunnyPickup = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyPickup")
         {
             Volume = .1f
+        };
+        public static readonly SoundStyle MunnyCountUp = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyPickup")
+        {
+            Volume = .05f
+        };
+        public static readonly SoundStyle MunnyCountDown = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/MunnyCountDown")
+        {
+            Volume = .05f
         };
         #endregion
         #region Tiles

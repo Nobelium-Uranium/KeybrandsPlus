@@ -26,7 +26,7 @@ namespace KeybrandsPlus.Common.Globals
                 }
                 if (index != -1)
                 {
-                    tooltips.Insert(index + 1, new TooltipLine(Mod, "KeybrandsPlus:KeybrandReplica", "'Although it looks like a keyblade, it's merely a replica'"));
+                    tooltips.Insert(index + 1, new TooltipLine(Mod, "KeybrandsPlus:KeybrandReplica", "'A replica of a well-renowned keyblade'"));
                 }
             }
         }

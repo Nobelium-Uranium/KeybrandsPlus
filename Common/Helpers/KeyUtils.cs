@@ -1,5 +1,5 @@
-﻿using KeybrandsPlus.Content.Items.Currency;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,58 +8,26 @@ namespace KeybrandsPlus.Common.Helpers
 {
     public sealed class KeyUtils
     {
-        public static bool HasSpaceForMunny(Player player, int amount, out bool goingIntoVault, out int remainder, bool checkVault = true)
+        public static bool ProbablyABoss(NPC npc) => npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type] || NPCID.Sets.BossHeadTextures[npc.type] != -1;
+        public static Rectangle GetFrame(Texture2D tex, int currFrame = 0, bool horizontal = false)
         {
-            goingIntoVault = false;
-            remainder = 0;
-            if (player.preventAllItemPickups)
-                return false;
-            for (int i = 0; i < 50; i++)
-            {
-                Item slot = player.inventory[i];
-                if (slot.IsAir)
-                {
-                    return true;
-                }
-                else if (slot.type == ModContent.ItemType<Munny>() && slot.stack < slot.maxStack)
-                {
-                    if (slot.stack + amount > slot.maxStack)
-                        remainder = slot.stack + amount - slot.maxStack;
-                    return true;
-                }
-                if (checkVault && CofveveSpaceForMunny(player))
-                {
-                    goingIntoVault = true;
-                    return true;
-                }
-            }
-            return false;
+            if (horizontal)
+                return new Rectangle(tex.Width * currFrame, 0, tex.Width, tex.Height);
+            return new Rectangle(0, tex.Height * currFrame, tex.Width, tex.Height);
         }
-        public static bool CofveveSpaceForMunny(Player player)
-        {
-            if (!player.IsVoidVaultEnabled)
-                return false;
-            Item[] vault = player.bank4.item;
-            for (int i = 0; i < vault.Length; i++)
-            {
-                Item item = vault[i];
-                if (item.IsAir || (item.type == ModContent.ItemType<Munny>() && item.stack < item.maxStack))
-                    return true;
-            }
-            return false;
-        }
+        public static Vector2 GetOrigin(Texture2D tex) => new Vector2(tex.Width / 2f, tex.Height / 2f);
         /// <summary>
         /// Makes an entity float on liquids
         /// Despite the name of the method, this will also work with honey and lava if enabled
         /// </summary>
         /// <param name="entity">The entity that will float</param>
-        /// <param name="floating">Outputs whether or not the projectile is floating on a liquid</param>
-        /// <param name="buoyancy">Bigger numbers means the projectile is slowed less from falling into liquids</param>
-        /// <param name="acc">How quickly the projectile will float to the surface</param>
-        /// <param name="maxAcc">The max velocity a floating projectile travels upward</param>
-        /// <param name="water">Does the projectile float in water?</param>
-        /// <param name="honey">Does the projectile float in honey?</param>
-        /// <param name="lava">Does the projectile float in lava?</param>
+        /// <param name="floating">Outputs whether or not the entity is floating on a liquid</param>
+        /// <param name="buoyancy">Bigger numbers means the entity is slowed less from falling into liquids</param>
+        /// <param name="acc">How quickly the entity will float to the surface</param>
+        /// <param name="maxAcc">The max velocity a floating entity travels upward</param>
+        /// <param name="water">Does the entity float in water?</param>
+        /// <param name="honey">Does the entity float in honey?</param>
+        /// <param name="lava">Does the entity float in lava?</param>
         public static void FloatOnWater(Entity entity, out bool floating, float buoyancy = .5f, float acc = .1f, float maxAcc = 8f, bool water = true, bool honey = true, bool lava = true)
         {
             if ((water && entity.wet && !entity.honeyWet && !entity.lavaWet) || (honey && entity.honeyWet) || (lava && entity.lavaWet))

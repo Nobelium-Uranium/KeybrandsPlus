@@ -204,10 +204,6 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
                 if (Main.hardMode)
                     chat.Add("Munny can be obtained by slaying foes who drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend hunting for Mimics underground.", .5f);
                 chat.Add("Munny can be obtained by slaying foes who drop a sizeable amount of coins. Consider hunting down more valuable creatures to build up your wealth. I would recommend rematching easy bosses.", Main.hardMode ? .5f : 1f);
-                chat.Add("If you have a pouch to store your Munny in, you can save your inventory space for more important items. Picking up Munny will automatically place it in an available pouch.");
-                chat.Add("You can quickly deposit into a Munny Pouch by left-clicking on one while holding a stack of Munny on your cursor. It is far more convenient than dropping it on the ground first.");
-                chat.Add("Having any item or a full stack of Munny on your cursor when withdrawing from a pouch will place the remainder Munny directly into your inventory, if you have the room for it.");
-                chat.Add("You need not worry about running out of space in your Munny Pouch, the magical properties of the pouch allows it to store an effectively unlimited amount of Munny.");
                 chat.Add("Be on the lookout for unusual red and gold colored chests underground. They contain some Munny and a variety of useful materials. A Lifeform Analyzer is able to detect them.");
 
                 Main.npcChatText = chat;

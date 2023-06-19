@@ -11,8 +11,7 @@ namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Utility
     {
         public override void SafeSetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases pickup range for Munny\n" +
-                "Landing critical hits sometimes drops a small amount of Munny");
+            Tooltip.SetDefault("Increases pickup range for Munny");
         }
         public override void SafeSetDefaults()
         {
@@ -27,13 +26,11 @@ namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Utility
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.ShadowScale, 5)
-                .AddIngredient<Munny>(10)
+                .AddIngredient(ItemID.ShadowScale, 15)
                 .AddTile(TileID.Anvils)
                 .Register();
             CreateRecipe()
-                .AddIngredient(ItemID.TissueSample, 5)
-                .AddIngredient<Munny>(10)
+                .AddIngredient(ItemID.TissueSample, 15)
                 .AddTile(TileID.Anvils)
                 .Register();
         }

@@ -1,102 +1,92 @@
-﻿using KeybrandsPlus.Common.Helpers;
+﻿using KeybrandsPlus.Assets.Sounds;
+using KeybrandsPlus.Common.Helpers;
+using KeybrandsPlus.Common.UI;
 using KeybrandsPlus.Content.Items.Currency;
+using KeybrandsPlus.Content.Projectiles;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace KeybrandsPlus.Common.Globals
 {
     public class KeyPlayer : ModPlayer
     {
+        public int MunnySavings;
+        public int MunnyCount;
+        private int MunnyCountTimer;
 
-        public long recentMunny;
+        public int recentMunny;
         public int recentMunnyCounter;
 
         public bool MunnyMagnet;
 
-        public bool AirDash;
-        public int DashCount;
-
-        public bool Extreme;
+        public bool KupoMode;
 
         public override void ResetEffects()
         {
             MunnyMagnet = false;
-            AirDash = false;
-            Extreme = false;
         }
 
         public override void UpdateDead()
         {
             ResetEffects();
-        }
-
-        public override void PostUpdateEquips()
-        {
-            if (Player.velocity.Y == 0 || Player.pulley || Player.sliding)
-                DashCount = 3;
-            if (Extreme)
-                Player.statDefense = 0;
+            PostUpdateEvenWhileDead();
         }
 
         public override void PostUpdate()
+        {
+            PostUpdateEvenWhileDead();
+        }
+
+        public void PostUpdateEvenWhileDead()
         {
             if (recentMunnyCounter > 0)
                 recentMunnyCounter--;
             else
                 recentMunny = 0;
+            if (MunnySavings > 999999999)
+                MunnySavings = 999999999;
+            else if (MunnySavings < 0)
+                MunnySavings = 0;
+            CountMunny();
         }
 
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (Extreme)
-                damage *= 2;
-            return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource, ref cooldownCounter);
-        }
-
-        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-        {
-            if (target.lifeMax > 5 && !target.CountsAsACritter && !target.friendly && !target.immortal && MunnyMagnet && crit && Main.rand.NextBool(3))
+            if (KupoMode)
             {
-                int amount;
-                if (damage > target.lifeMax)
-                    amount = (int)Math.Ceiling(target.lifeMax / 25f);
-                else
-                    amount = (int)Math.Ceiling(damage / 25f);
-                if (target.boss || NPCID.Sets.ShouldBeCountedAsBoss[target.type] || NPCID.Sets.BossHeadTextures[target.type] != -1)
-                    amount = (int)Math.Ceiling(amount * .75f);
-                if (amount > 0)
-                {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Item.NewItem(Player.GetSource_OnHit(target), target.getRect(), ModContent.ItemType<Munny>(), amount);
-                }
+                if (Main.myPlayer == Player.whoAmI)
+                    SoundEngine.PlaySound(SoundID.Item67);
+                if (MunnySavings > 0)
+                    AddMunny(-MunnySavings / 2, true);
+                Player.statLife = Player.statLifeMax2;
+                Player.immuneTime = 180;
+                return false;
             }
+            return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
         }
 
-        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        public void AddMunny(int amount, bool instantCount = false)
         {
-            if (target.lifeMax > 5 && !target.CountsAsACritter && !target.friendly && !target.immortal && MunnyMagnet && crit && Main.rand.NextBool(3))
-            {
-                int amount;
-                if (damage > target.lifeMax)
-                    amount = (int)Math.Ceiling(target.lifeMax / 10f);
-                else
-                    amount = (int)Math.Ceiling(damage / 10f);
-                if (amount > 0)
-                {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Item.NewItem(Player.GetSource_OnHit(target), target.getRect(), ModContent.ItemType<Munny>(), amount);
-                }
-            }
+            MunnySavings += amount;
+            if (instantCount && MunnyCountTimer < 60)
+                MunnyCountTimer = 60;
+            else if (MunnyCountTimer < 60)
+                MunnyCountTimer = 0;
+            if (Math.Abs(amount) > 0)
+                SetRecentMunny(amount);
         }
 
-        public void AddRecentMunny(int amount)
+        public void SetRecentMunny(int amount)
         {
             if (recentMunnyCounter <= 120)
                 recentMunny = 0;
@@ -104,105 +94,77 @@ namespace KeybrandsPlus.Common.Globals
             recentMunnyCounter = 300;
         }
 
-        public bool HasMunnyPouch(out Item pouch)
+        public void CountMunny()
         {
-            pouch = null;
-            for (int i = 0; i < 50; i++)
+            if (MunnyCount != MunnySavings)
             {
-                Item item = Player.inventory[i];
-                if (item.ModItem is MunnyPouch)
+                if (MunnyCountTimer++ >= 60)
                 {
-                    pouch = item;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void MunnySavings(int amount)
-        {
-            if (HasMunnyPouch(out Item item))
-            {
-                MunnyPouch pouch = item.ModItem as MunnyPouch;
-                pouch.storedMunny += amount;
-            }
-        }
-
-        public long CountMunny(bool countPouches = true, bool countLoose = false)
-        {
-            long amount = 0;
-            MunnyPouch pouch;
-            Item[] vault;
-            if (Main.mouseItem.ModItem is MunnyPouch && countPouches)
-            {
-                pouch = Main.mouseItem.ModItem as MunnyPouch;
-                amount += pouch.storedMunny;
-            }
-            else if (Main.mouseItem.type == ModContent.ItemType<Munny>() && countLoose)
-                amount += Main.mouseItem.stack;
-            for (int i = 0; i < 50; i++)
-            {
-                Item item = Player.inventory[i];
-                if (item.ModItem is MunnyPouch && countPouches)
-                {
-                    pouch = item.ModItem as MunnyPouch;
-                    amount += pouch.storedMunny;
-                }
-                else if (item.type == ModContent.ItemType<Munny>() && countLoose)
-                    amount += item.stack;
-            }
-            vault = Player.bank.item;
-            for (int i = 0; i < vault.Length; i++)
-            {
-                Item item = vault[i];
-                if (item.ModItem is MunnyPouch && countPouches)
-                {
-                    pouch = item.ModItem as MunnyPouch;
-                    amount += pouch.storedMunny;
-                }
-                else if (item.type == ModContent.ItemType<Munny>() && countLoose)
-                    amount += item.stack;
-            }
-            vault = Player.bank2.item;
-            for (int i = 0; i < vault.Length; i++)
-            {
-                Item item = vault[i];
-                if (item.ModItem is MunnyPouch && countPouches)
-                {
-                    pouch = item.ModItem as MunnyPouch;
-                    amount += pouch.storedMunny;
-                }
-                else if (item.type == ModContent.ItemType<Munny>() && countLoose)
-                    amount += item.stack;
-            }
-            vault = Player.bank3.item;
-            for (int i = 0; i < vault.Length; i++)
-            {
-                Item item = vault[i];
-                if (item.ModItem is MunnyPouch && countPouches)
-                {
-                    pouch = item.ModItem as MunnyPouch;
-                    amount += pouch.storedMunny;
-                }
-                else if (item.type == ModContent.ItemType<Munny>() && countLoose)
-                    amount += item.stack;
-            }
-            if (Player.IsVoidVaultEnabled)
-            {
-                vault = Player.bank4.item;
-                for (int i = 0; i < vault.Length; i++)
-                {
-                    Item item = vault[i];
-                    if (item.ModItem is MunnyPouch && countPouches)
+                    int difference = MunnySavings - MunnyCount;
+                    if (difference > 0) // Count up
                     {
-                        pouch = item.ModItem as MunnyPouch;
-                        amount += pouch.storedMunny;
+                        if (Main.myPlayer == Player.whoAmI && MunnyCountTimer % 3 == 1)
+                            SoundEngine.PlaySound(KeySoundStyle.MunnyCountUp);
+                        MunnyCount += GetFancyNumber(Math.Abs(difference));
+                        if (MunnyCount > MunnySavings)
+                            MunnyCount = MunnySavings;
                     }
-                    else if (item.type == ModContent.ItemType<Munny>() && countLoose)
-                        amount += item.stack;
+                    else if (difference < 0) // Count down
+                    {
+                        if (Main.myPlayer == Player.whoAmI && MunnyCountTimer % 3 == 1)
+                            SoundEngine.PlaySound(KeySoundStyle.MunnyCountDown);
+                        MunnyCount -= GetFancyNumber(Math.Abs(difference));
+                        if (MunnyCount < MunnySavings)
+                            MunnyCount = MunnySavings;
+                    }
                 }
             }
-            return amount;
+            else
+                MunnyCountTimer = 0;
+        }
+
+        private static int GetFancyNumber(int value)
+        { // This is definitely not clean
+            if (value >= 100000000)
+            {
+                return 34567892;
+            }
+            else if (value >= 10000000)
+            {
+                return 3456789;
+            }
+            else if (value >= 1000000)
+            {
+                return 345678;
+            }
+            else if (value >= 100000)
+            {
+                return 34567;
+            }
+            else if (value >= 10000)
+            {
+                return 3456;
+            }
+            else if (value >= 1000)
+            {
+                return 345;
+            }
+            else if (value >= 100)
+            {
+                return 34;
+            }
+            return 3;
+        }
+
+        public override void SaveData(TagCompound tag)
+        {
+            tag["MunnySavings"] = MunnySavings;
+        }
+
+        public override void LoadData(TagCompound tag)
+        {
+            MunnySavings = tag.Get<int>("MunnySavings");
+            MunnyCount = MunnySavings;
         }
     }
 }

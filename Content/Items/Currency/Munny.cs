@@ -54,19 +54,24 @@ namespace KeybrandsPlus.Content.Items.Currency
                         velo.X *= Main.rand.NextFloat(.5f, .75f);
                     }
                     velo *= Main.rand.NextFloat(.75f, 1f);
-                    if (munny >= 100)
+                    if (munny >= 1000)
                     {
                         Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Item.Center, velo, ModContent.ProjectileType<MunnyBig>(), 0, 0f);
+                        munny -= 1000;
+                    }
+                    else if (munny >= 100)
+                    {
+                        Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Item.Center, velo, ModContent.ProjectileType<MunnyMed>(), 0, 0f);
                         munny -= 100;
                     }
                     else if (munny >= 10)
                     {
-                        Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Item.Center, velo, ModContent.ProjectileType<MunnyMed>(), 0, 0f);
+                        Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Item.Center, velo, ModContent.ProjectileType<MunnySmall>(), 0, 0f);
                         munny -= 10;
                     }
                     else
                     {
-                        Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Item.Center, velo, ModContent.ProjectileType<MunnySmall>(), 0, 0f);
+                        Projectile.NewProjectile(Terraria.Entity.GetSource_None(), Item.Center, velo, ModContent.ProjectileType<MunnyTiny>(), 0, 0f);
                         munny--;
                     }
                     if (munny <= 0)

@@ -29,8 +29,8 @@ namespace KeybrandsPlus.Content.Items.Placeable.Furniture
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.Chest)
-                .AddIngredient<Munny>(10)
+                .AddRecipeGroup("Wood", 8)
+                .AddRecipeGroup("IronBar", 2)
                 .AddTile(TileID.WorkBenches)
                 .Register();
         }

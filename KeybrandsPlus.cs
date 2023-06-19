@@ -28,8 +28,6 @@ namespace KeybrandsPlus
 
         public static Dictionary<int, string> keyRarities = new Dictionary<int, string>();
 
-        public static int MunnyCost;
-
         public override void Load()
         {
             SteamID = string.Empty;
@@ -44,7 +42,6 @@ namespace KeybrandsPlus
 
             if (!Main.dedServ)
             {
-                MunnyCost = CustomCurrencyManager.RegisterCurrency(new MunnyData(ModContent.ItemType<Munny>(), 1000000L));
                 MunnyUI.Load();
             }
         }
@@ -61,7 +58,6 @@ namespace KeybrandsPlus
         public override void Unload()
         {
             SteamID = null;
-            MunnyCost = 0;
 
             keyRarities.Clear();
 
@@ -75,15 +71,6 @@ namespace KeybrandsPlus
             string path = Path.Combine(ModConfigPath, filename);
             string json = JsonConvert.SerializeObject(config/*, serializerSettings*/);
             File.WriteAllText(path, json);
-        }
-
-        public Rectangle GetFrame(Texture2D tex)
-        {
-            return new Rectangle(0, 0, tex.Width, tex.Height);
-        }
-        public Vector2 GetOrigin(Texture2D tex)
-        {
-            return new Vector2(tex.Width / 2f, tex.Height / 2f);
         }
     }
     public class DearlyBelovedMenu : ModMenu
@@ -100,28 +87,28 @@ namespace KeybrandsPlus
             Vector2 drawPos = logoDrawCenter;
 
             Texture2D texture = mod.Assets.Request<Texture2D>("Assets/Title/Heart").Value;
-            Rectangle frame = mod.GetFrame(texture);
-            Vector2 origin = mod.GetOrigin(texture);
+            Rectangle frame = KeyUtils.GetFrame(texture);
+            Vector2 origin = KeyUtils.GetOrigin(texture);
             spriteBatch.Draw(texture, drawPos, frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
 
             texture = mod.Assets.Request<Texture2D>("Assets/Title/PlusTop").Value;
-            frame = mod.GetFrame(texture);
-            origin = mod.GetOrigin(texture); //177
+            frame = KeyUtils.GetFrame(texture);
+            origin = KeyUtils.GetOrigin(texture); //177
             spriteBatch.Draw(texture, drawPos + new Vector2(150f, 4.5f), frame, Color.White, MathHelper.ToRadians(22.5f), origin, 1f, SpriteEffects.None, 0f);
 
             texture = mod.Assets.Request<Texture2D>("Assets/Title/Logo").Value;
-            frame = mod.GetFrame(texture);
-            origin = mod.GetOrigin(texture);
+            frame = KeyUtils.GetFrame(texture);
+            origin = KeyUtils.GetOrigin(texture);
             spriteBatch.Draw(texture, drawPos + new Vector2(4.5f, 9f), frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
 
             texture = mod.Assets.Request<Texture2D>("Assets/Title/PlusBottom").Value;
-            frame = mod.GetFrame(texture);
-            origin = mod.GetOrigin(texture);
+            frame = KeyUtils.GetFrame(texture);
+            origin = KeyUtils.GetOrigin(texture);
             spriteBatch.Draw(texture, drawPos + new Vector2(150f, 4.5f), frame, Color.White, MathHelper.ToRadians(22.5f), origin, 1f, SpriteEffects.None, 0f);
 
             texture = mod.Assets.Request<Texture2D>("Assets/Title/Subtitle").Value;
-            frame = mod.GetFrame(texture);
-            origin = mod.GetOrigin(texture);
+            frame = KeyUtils.GetFrame(texture);
+            origin = KeyUtils.GetOrigin(texture);
             spriteBatch.Draw(texture, drawPos + new Vector2(4.5f, 61.5f), frame, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
 
             return false;
