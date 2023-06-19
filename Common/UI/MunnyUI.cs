@@ -40,7 +40,7 @@ namespace KeybrandsPlus.Common.UI
                     sign = "-";
                 text = $"{sign}{Math.Abs(modPlayer.recentMunny)}";
                 pos.Y -= munnyTexture.Height * .375f * uiScale;
-                Utils.DrawBorderString(spriteBatch, text, pos, Color.Goldenrod);
+                Utils.DrawBorderString(spriteBatch, text, pos, Color.Goldenrod * Utils.Clamp((float)modPlayer.recentMunnyCounter / 30, 0f, 1f));
             }
         }
     }

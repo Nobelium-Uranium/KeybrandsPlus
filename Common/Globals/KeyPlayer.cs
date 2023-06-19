@@ -88,10 +88,10 @@ namespace KeybrandsPlus.Common.Globals
 
         public void SetRecentMunny(int amount)
         {
-            if (recentMunnyCounter <= 120)
+            if (recentMunnyCounter <= 30)
                 recentMunny = 0;
             recentMunny += amount;
-            recentMunnyCounter = 300;
+            recentMunnyCounter = 210;
         }
 
         public void CountMunny()

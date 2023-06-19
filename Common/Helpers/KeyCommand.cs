@@ -36,30 +36,24 @@ namespace KeybrandsPlus.Common.Helpers
                                 modPlayer.SetRecentMunny(amount - modPlayer.MunnySavings);
                             modPlayer.MunnySavings = amount;
                         }
-                        else
-                            caller.Reply("Invalid amount");
                     }
                     else if (subcommand == "add")
                     {
                         if (int.TryParse(args[2], out int amount))
                             modPlayer.AddMunny(amount);
-                        else
-                            caller.Reply("Invalid amount");
                     }
-                    else if (subcommand == "remove")
+                    else if (subcommand == "subtract" || subcommand == "remove")
                     {
                         if (int.TryParse(args[2], out int amount))
                             modPlayer.AddMunny(-amount);
-                        else
-                            caller.Reply("Invalid amount");
                     }
-                    else if (subcommand == "rosebud")
+                    else if (subcommand == "max" || subcommand == "rosebud")
                     {
                         if (Math.Abs(999999999 - modPlayer.MunnySavings) > 0)
                             modPlayer.SetRecentMunny(999999999 - modPlayer.MunnySavings);
                         modPlayer.MunnySavings = 999999999;
                     }
-                    else if (subcommand == "reset")
+                    else if (subcommand == "min" || subcommand == "reset")
                     {
                         if (Math.Abs(-modPlayer.MunnySavings) > 0)
                             modPlayer.SetRecentMunny(-modPlayer.MunnySavings);
