@@ -74,34 +74,6 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             });
         }
 
-        public override bool PreAI()
-        {
-            if (NPC.life < NPC.lifeMax)
-                NPC.life += 25;
-            if (NPC.life > NPC.lifeMax)
-                NPC.life = NPC.lifeMax;
-            return base.PreAI();
-        }
-
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-            SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
-            if (damage < 500)
-                damage = 0;
-            else
-                damage -= 500;
-            if (damage > 500)
-            {
-                damage -= 500;
-                damage /= 10;
-                damage += 500;
-            }
-            if (damage > 1000)
-                damage = 1000;
-            crit = false;
-            return false;
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             if (Main.netMode == NetmodeID.Server)
