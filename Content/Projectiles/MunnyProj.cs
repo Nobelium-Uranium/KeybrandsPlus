@@ -22,7 +22,7 @@ namespace KeybrandsPlus.Content.Projectiles
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyTiny";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Munny");
+            // DisplayName.SetDefault("Munny");
         }
         public override void SetDefaults()
         {
@@ -169,7 +169,7 @@ namespace KeybrandsPlus.Content.Projectiles
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnySmall";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Munny");
+            // DisplayName.SetDefault("Munny");
         }
         public override void SetDefaults()
         {
@@ -316,7 +316,7 @@ namespace KeybrandsPlus.Content.Projectiles
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyMed";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Munny");
+            // DisplayName.SetDefault("Munny");
         }
         public override void SetDefaults()
         {
@@ -463,7 +463,7 @@ namespace KeybrandsPlus.Content.Projectiles
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyBig";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Munny");
+            // DisplayName.SetDefault("Munny");
         }
         public override void SetDefaults()
         {

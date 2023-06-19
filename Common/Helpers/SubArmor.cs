@@ -16,7 +16,6 @@ namespace KeybrandsPlus.Common.Helpers
         public sealed override void SetStaticDefaults()
         {
             SafeSetStaticDefaults();
-            SacrificeTotal = 1;
         }
         public virtual void SafeSetDefaults()
         {
@@ -24,7 +23,6 @@ namespace KeybrandsPlus.Common.Helpers
         public sealed override void SetDefaults()
         {
             Item.DefaultToAccessory();
-            Item.canBePlacedInVanityRegardlessOfConditions = true;
             Item.value = Item.sellPrice(gold: 1);
             SafeSetDefaults();
         }
@@ -50,7 +48,7 @@ namespace KeybrandsPlus.Common.Helpers
             {
                 tooltips.Insert(index + 1, new TooltipLine(Mod, "KeybrandsPlus:SubArmor", "Sub-Armor") { OverrideColor = Color.Goldenrod });
             }
-            index = -1;
+            /*index = -1;
             for (int i = 0; i < tooltips.Count; i++)
             {
                 if (tooltips[i].Name.Equals("VanityLegal"))
@@ -62,7 +60,7 @@ namespace KeybrandsPlus.Common.Helpers
             if (index != -1)
             {
                 tooltips.RemoveAt(index);
-            }
+            }*/
             SafeModifyTooltips(tooltips);
         }
     }

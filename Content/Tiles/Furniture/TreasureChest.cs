@@ -33,12 +33,9 @@ namespace KeybrandsPlus.Content.Tiles.Furniture
 
             DustType = DustID.t_Golden;
             AdjTiles = new int[] { TileID.Containers };
-            ChestDrop = ModContent.ItemType<Items.Placeable.Furniture.TreasureChest>();
 
-            ContainerName.SetDefault("Treasure Chest");
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Treasure Chest");
+            LocalizedText name = CreateMapEntryName();
             AddMapEntry(new Color(186, 50, 50), name, MapChestName);
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
@@ -89,7 +86,6 @@ namespace KeybrandsPlus.Content.Tiles.Furniture
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
         }
 
@@ -180,7 +176,7 @@ namespace KeybrandsPlus.Content.Tiles.Furniture
             }
             else
             {
-                string defaultName = TileLoader.ContainerName(tile.TileType);
+                string defaultName = TileLoader.DefaultContainerName(tile.TileType, tile.TileFrameX, tile.TileFrameY)/* tModPorter Note: new method takes in FrameX and FrameY */;
                 player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : defaultName;
                 if (player.cursorItemIconText == defaultName)
                 {

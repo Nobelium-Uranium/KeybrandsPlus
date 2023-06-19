@@ -13,11 +13,6 @@ namespace KeybrandsPlus.Content.Items.Currency
     public class Munny : ModItem
     {
         private bool loot;
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("Can be exchanged for various goods");
-            SacrificeTotal = 1000;
-        }
         public override void SetDefaults()
         {
             Item.Size = new Vector2(12);

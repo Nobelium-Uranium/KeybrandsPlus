@@ -22,7 +22,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Keyblade Master");
+            // DisplayName.SetDefault("Keyblade Master");
             Main.npcFrameCount[Type] = 23;
             NPCID.Sets.ExtraFramesCount[Type] = 9;
             NPCID.Sets.AttackFrameCount[Type] = 4;
@@ -74,14 +74,14 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             });
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hit)
         {
             if (Main.netMode == NetmodeID.Server)
                 return;
             if (NPC.life <= 0)
             {
                 for (int i = 0; i < 20; i++)
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 2.5f * (float)hitDirection, -2.5f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Electric, 2.5f * (float)hit.HitDirection, -2.5f);
 
                 int headGore = Mod.Find<ModGore>("MasterHead").Type;
                 int bodyGore = Mod.Find<ModGore>("MasterBody").Type;
@@ -100,7 +100,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             return false;
         }
@@ -167,7 +167,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             button = Language.GetTextValue("LegacyInterface.51");
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
@@ -200,7 +200,7 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             randExtraCooldown = 7;
         }
 
-        public override void DrawTownAttackSwing(ref Texture2D item, ref int itemSize, ref float scale, ref Vector2 offset)
+        public override void DrawTownAttackSwing(ref Texture2D item, ref Rectangle itemFrame, ref int itemSize, ref float scale, ref Vector2 offset)
         {
             item = TextureAssets.Item[ItemID.Keybrand].Value;
         }

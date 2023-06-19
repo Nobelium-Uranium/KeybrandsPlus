@@ -11,9 +11,9 @@ namespace KeybrandsPlus.Content.Items.Weapons
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("A keyblade forged with basic metals and a magic core\n" +
-                "Lacking a keychain to draw power from, it is unwieldy as a weapon");
-            SacrificeTotal = 1;
+            /* Tooltip.SetDefault("A keyblade forged with basic metals and a magic core\n" +
+                "Lacking a keychain to draw power from, it is unwieldy as a weapon"); */
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

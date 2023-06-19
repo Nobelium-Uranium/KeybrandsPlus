@@ -7,10 +7,6 @@ namespace KeybrandsPlus.Content.Items.Placeable.Furniture
 {
     public class TreasureChest : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            SacrificeTotal = 1;
-        }
         public override void SetDefaults()
         {
             Item.width = 26;

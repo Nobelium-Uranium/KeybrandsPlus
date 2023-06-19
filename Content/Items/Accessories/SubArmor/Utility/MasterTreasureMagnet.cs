@@ -10,7 +10,7 @@ namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Utility
     {
         public override void SafeSetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases pickup range for items and Munny");
+            // Tooltip.SetDefault("Increases pickup range for items and Munny");
         }
         public override void SafeSetDefaults()
         {

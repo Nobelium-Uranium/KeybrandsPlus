@@ -1,0 +1,104 @@
+Mods: {
+	KeybrandsPlus: {
+		DamageClasses.UniversalDamageClass.DisplayName: universal damage
+
+		Items: {
+			MasterTreasureMagnet: {
+				DisplayName: Master Treasure Magnet
+				Tooltip: Increases pickup range for items and Munny
+			}
+
+			MunnyMagnet: {
+				DisplayName: Munny Magnet
+				Tooltip: Increases pickup range for Munny
+			}
+
+			Munny: {
+				DisplayName: Munny
+				Tooltip: Can be exchanged for various goods
+			}
+
+			TreasureChest: {
+				DisplayName: Treasure Chest
+				Tooltip: ""
+			}
+
+			InertKeyblade: {
+				DisplayName: Inert Keyblade
+				Tooltip:
+					'''
+					A keyblade forged with basic metals and a magic core
+					Lacking a keychain to draw power from, it is unwieldy as a weapon
+					'''
+			}
+		}
+
+		NPCs: {
+			TreasureChest.DisplayName: Treasure Chest
+
+			KeybladeMaster: {
+				DisplayName: Keyblade Master
+
+				TownNPCMood: {
+					Content: This world is quite interesting.
+					NoHome: It appears that there is nowhere for me to stay.
+					FarFromHome: It seems my residence is quite a ways away.
+					LoveSpace: There is plenty of space for my work, I appreciate it.
+					DislikeCrowded: It is starting to get a little crowded here, wouldn't you agree?
+					HateCrowded: There is much too many people around, and I am sure they dislike the crowding as well.
+					LoveBiome: "{BiomeName}'s horizon reminds me of somewhere I have visited a long time ago..."
+					LikeBiome: "{BiomeName} is quite the hostile paradise, but I do not mind it."
+					DislikeBiome: It is rather bleak here in {BiomeName}, I would much rather live on the surface.
+					LoveNPC: Though {NPCName}'s heart is choked with darkness, I know he means well. I respect that lingering light within him.
+					LikeNPC: "{NPCName}'s tech is eerily similar to my own, what a strange coincidence. I am interested in how it works."
+					DislikeNPC: "{NPCName} may be an ally, but he reeks of darkness. I think I would rather keep my distance from him."
+					HateNPC: I am sure {NPCName} is a good kid at heart, but he comes off as extremely arrogant. I am not a fan.
+					LikeNPC_Princess: "{NPCName}'s heart is outstandingly pure, which makes logical sense considering her role as a princess."
+					Princess_LovesNPC: "{NPCName} is rather odd-looking for sure, but he's really not a bad guy!"
+				}
+			}
+		}
+
+		Projectiles: {
+			MunnyBig.DisplayName: Munny
+			MunnyMed.DisplayName: Munny
+			MunnySmall.DisplayName: Munny
+			MunnyTiny.DisplayName: Munny
+		}
+
+		Tiles: {
+			TreasureChest: {
+				ContainerName: Treasure Chest
+				MapEntry: Treasure Chest
+			}
+		}
+
+		Configs: {
+			KeyClientConfig: {
+				DisplayName: Client-side
+
+				DisplayTotalMunny: {
+					Label: Display total Munny
+					Tooltip:
+						'''
+						Toggles whether or not the total amount of Munny you have is displayed to the left of your screen.
+						You can safely disable this if it's intrusive.
+						'''
+				}
+			}
+
+			KeyServerConfig: {
+				DisplayName: Server-side
+
+				MunnyDrops: {
+					Label: Enable Munny Drops
+					Tooltip:
+						'''
+						Toggles whether or not enemies will drop Munny.
+						Doesn't affect the displayed drop tables in the Bestiary.
+						'''
+				}
+			}
+		}
+	}
+}

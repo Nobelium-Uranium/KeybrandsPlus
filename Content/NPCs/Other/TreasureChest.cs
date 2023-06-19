@@ -24,7 +24,7 @@ namespace KeybrandsPlus.Content.NPCs.Other
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Chest");
+            // DisplayName.SetDefault("Treasure Chest");
             Main.npcFrameCount[Type] = 3;
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
@@ -101,7 +101,7 @@ namespace KeybrandsPlus.Content.NPCs.Other
                 NPC.frame.Y = 0;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
         {
             return false;
         }
@@ -121,7 +121,7 @@ namespace KeybrandsPlus.Content.NPCs.Other
             button = "Open";
         }
 
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
             if (firstButton)
             {
