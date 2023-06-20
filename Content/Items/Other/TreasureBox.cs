@@ -87,7 +87,7 @@ namespace KeybrandsPlus.Content.Items.Other
         {
             if (score == 300) // P Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>());
-            if (score >= 280) // S Rank
+            else if (score >= 280) // S Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial2>(), 50);
             else if (score >= 250) // A Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial2>(), 5);
@@ -145,7 +145,7 @@ namespace KeybrandsPlus.Content.Items.Other
         {
             if (score == 300) // P Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 10);
-            if (score >= 280) // S Rank
+            else if (score >= 280) // S Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 5);
             else if (score >= 250) // A Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial2>(), 50);
@@ -203,7 +203,7 @@ namespace KeybrandsPlus.Content.Items.Other
         {
             if (score == 300) // P Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial4>());
-            if (score >= 280) // S Rank
+            else if (score >= 280) // S Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 50);
             else if (score >= 250) // A Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 5);
