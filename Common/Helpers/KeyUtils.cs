@@ -1,6 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using KeybrandsPlus.Assets.Sounds;
+using KeybrandsPlus.Common.Globals;
+using KeybrandsPlus.Content.Items.Materials.Special;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -69,6 +73,51 @@ namespace KeybrandsPlus.Common.Helpers
                 result -= (float)(Main.tile[x, y + 1].LiquidAmount / 16f);
             }
             return result;
+        }
+        public static int BuyPriceByRarity(int rarity)
+        {
+            int amount = 2000; // 20 Silver
+            if (rarity > 0)
+            {
+                for (int i = 0; i < rarity; i++)
+                    amount *= 2;
+            }
+            return amount;
+        }
+        public static string GetRankLetter(int score)
+        {
+            if (score == 300) // P Rank
+                return "P";
+            if (score >= 280) // S Rank
+                return "S";
+            else if (score >= 250) // A Rank
+                return "A";
+            else if (score >= 200) // B Rank
+                return "B";
+            else if (score >= 100) // C Rank
+                return "C";
+            else // D Rank
+                return "D";
+        }
+        public static void DrawItemWorldTexture(SpriteBatch spriteBatch, string path, Vector2 position, int width, int height, float rotation, float scale, Color drawColor)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(path).Value;
+            spriteBatch.Draw
+            (
+                texture,
+                new Vector2
+                (
+                    position.X - Main.screenPosition.X + width * 0.5f,
+                    position.Y - Main.screenPosition.Y + height - texture.Height * 0.5f
+                ),
+                new Rectangle(0, 0, texture.Width, texture.Height),
+                drawColor,
+                rotation,
+                texture.Size() * 0.5f,
+                scale,
+                SpriteEffects.None,
+                0f
+            );
         }
     }
 }

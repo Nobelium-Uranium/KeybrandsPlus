@@ -20,10 +20,6 @@ namespace KeybrandsPlus.Content.Projectiles
         private bool floating;
         private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyTiny";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Munny");
-        }
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(16);
@@ -167,10 +163,6 @@ namespace KeybrandsPlus.Content.Projectiles
         private bool floating;
         private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnySmall";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Munny");
-        }
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(20);
@@ -314,10 +306,6 @@ namespace KeybrandsPlus.Content.Projectiles
         private bool floating;
         private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyMed";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Munny");
-        }
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(24);
@@ -461,10 +449,6 @@ namespace KeybrandsPlus.Content.Projectiles
         private bool floating;
         private bool stuck;
         public override string Texture => $"{nameof(KeybrandsPlus)}/Assets/Textures/MunnyBig";
-        public override void SetStaticDefaults()
-        {
-            // DisplayName.SetDefault("Munny");
-        }
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(32);

@@ -25,6 +25,8 @@ namespace KeybrandsPlus.Common.Rarities
             {
                 if (RarityColors == null)
                     return Color.White;
+                if (RarityColors.Length == 1)
+                    return RarityColors[0];
                 return CycleColors(CycleRate, RarityColors);
             }
         }

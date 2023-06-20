@@ -31,6 +31,61 @@ Mods: {
 					Lacking a keychain to draw power from, it is unwieldy as a weapon
 					'''
 			}
+
+			GradeMaterial1: {
+				DisplayName: Lux Shard
+				Tooltip: A common fragment of minor potential
+			}
+
+			GradeMaterial2: {
+				DisplayName: Lux Stone
+				Tooltip: An uncommon fragment of moderate potential
+			}
+
+			GradeMaterial3: {
+				DisplayName: Lux Gem
+				Tooltip: A rare fragment of high potential
+			}
+
+			GradeMaterial4: {
+				DisplayName: Lux Crystal
+				Tooltip: A very rare fragment of ultimate potential
+			}
+
+			GradeMaterial5: {
+				DisplayName: Electrum
+				Tooltip: A legendary ore renowned for its golden splendor
+			}
+
+			TreasureBox1: {
+				DisplayName: Pristine Basic Treasure Box
+				Tooltip: <right> to open
+			}
+
+			TreasureBox1Repeat: {
+				DisplayName: Basic Treasure Box
+				Tooltip: <right> to open
+			}
+
+			TreasureBox2: {
+				DisplayName: Pristine Hardened Treasure Box
+				Tooltip: <right> to open
+			}
+
+			TreasureBox2Repeat: {
+				DisplayName: Hardened Treasure Box
+				Tooltip: <right> to open
+			}
+
+			TreasureBox3: {
+				DisplayName: Pristine Lunar Treasure Box
+				Tooltip: <right> to open
+			}
+
+			TreasureBox3Repeat: {
+				DisplayName: Lunar Treasure Box
+				Tooltip: <right> to open
+			}
 		}
 
 		NPCs: {
