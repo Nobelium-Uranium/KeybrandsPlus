@@ -33,6 +33,7 @@ namespace KeybrandsPlus.Content.NPCs.Other
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, value);
             NPCID.Sets.ActsLikeTownNPC[Type] = true;
+            NPCID.Sets.NoTownNPCHappiness[Type] = true;
         }
 
         public override void SetDefaults()
@@ -101,15 +102,9 @@ namespace KeybrandsPlus.Content.NPCs.Other
                 NPC.frame.Y = 0;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
-        {
-            return false;
-        }
+        public override bool CanTownNPCSpawn(int numTownNPCs) => false;
 
-        public override bool CanChat()
-        {
-            return !Unlocked;
-        }
+        public override bool CanChat() => !Unlocked;
 
         public override string GetChat()
         {
@@ -145,13 +140,13 @@ namespace KeybrandsPlus.Content.NPCs.Other
                 NPC.rarity = 0;
                 #region Munny
                 if (NPC.downedMoonlord)
-                    MaxMunny = 1000;
+                    MaxMunny = 4000;
                 else if (NPC.downedPlantBoss)
-                    MaxMunny = 750;
+                    MaxMunny = 2000;
                 else if (Main.hardMode)
-                    MaxMunny = 500;
+                    MaxMunny = 1000;
                 else
-                    MaxMunny = 250;
+                    MaxMunny = 500;
                 Player targetPlayer;
                 if (Main.netMode == NetmodeID.SinglePlayer)
                     targetPlayer = Main.LocalPlayer;
