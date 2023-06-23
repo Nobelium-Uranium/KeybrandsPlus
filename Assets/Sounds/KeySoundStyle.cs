@@ -52,6 +52,10 @@ namespace KeybrandsPlus.Assets.Sounds
         {
             Volume = .05f
         };
+        public static readonly SoundStyle PurchaseItem = new($"{nameof(KeybrandsPlus)}/Assets/Sounds/Other/PurchaseItem")
+        {
+            Volume = .5f
+        };
         #endregion
         #region Tiles
         #region Furniture
