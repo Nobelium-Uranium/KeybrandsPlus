@@ -86,6 +86,11 @@ Mods: {
 				DisplayName: Lunar Treasure Box
 				Tooltip: <right> to open
 			}
+
+			TreasureBox3Special: {
+				DisplayName: Radiant Treasure Box
+				Tooltip: <right> to open
+			}
 		}
 
 		NPCs: {

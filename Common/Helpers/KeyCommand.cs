@@ -124,6 +124,16 @@ namespace KeybrandsPlus.Common.Helpers
                             treasureBox.SetScore(score);
                         }
                     }
+                    else if (type.ToLower() == "radiant")
+                    {
+                        if (int.TryParse(args[2], out int score))
+                        {
+                            int itemIndex = caller.Player.QuickSpawnItem(caller.Player.GetSource_Misc("KPlusCommand"), ModContent.ItemType<TreasureBox3Special>());
+                            Item item = Main.item[itemIndex];
+                            TreasureBox treasureBox = (TreasureBox)item.ModItem;
+                            treasureBox.SetScore(score);
+                        }
+                    }
                 }
                 else if (category.ToLower() == "fun")
                 {

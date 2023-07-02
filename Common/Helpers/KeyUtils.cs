@@ -84,20 +84,75 @@ namespace KeybrandsPlus.Common.Helpers
             }
             return amount;
         }
-        public static string GetRankLetter(int score)
+        public static string GetRankLetter(int score, bool intermediate = false)
         {
             if (score == 300) // P Rank
                 return "P";
             if (score >= 280) // S Rank
-                return "S";
+            {
+                if (intermediate)
+                {
+                    if (score >= 295)
+                        return "S++";
+                    else if (score >= 290)
+                        return "S+";
+                    return "S";
+                }
+                else
+                    return "S";
+            }
             else if (score >= 250) // A Rank
-                return "A";
+            {
+                if (intermediate)
+                {
+                    if (score >= 275)
+                        return "A+";
+                    else if (score >= 265)
+                        return "A";
+                    return "A-";
+                }
+                else
+                    return "A";
+            }
             else if (score >= 200) // B Rank
-                return "B";
+            {
+                if (intermediate)
+                {
+                    if (score >= 235)
+                        return "B+";
+                    else if (score >= 225)
+                        return "B";
+                    return "B-";
+                }
+                else
+                    return "B";
+            }
             else if (score >= 100) // C Rank
-                return "C";
+            {
+                if (intermediate)
+                {
+                    if (score >= 175)
+                        return "C+";
+                    else if (score >= 150)
+                        return "C";
+                    return "C-";
+                }
+                else
+                    return "C";
+            }
             else // D Rank
-                return "D";
+            {
+                if (intermediate)
+                {
+                    if (score >= 75)
+                        return "D+";
+                    else if (score >= 50)
+                        return "D";
+                    return "D-";
+                }
+                else 
+                    return "D";
+            }
         }
         public static void DrawItemWorldTexture(SpriteBatch spriteBatch, string path, Vector2 position, int width, int height, float rotation, float scale, Color drawColor)
         {
