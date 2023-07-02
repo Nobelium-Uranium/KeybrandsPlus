@@ -154,6 +154,26 @@ namespace KeybrandsPlus.Common.Helpers
                     return "D";
             }
         }
+        public static string GetQualityName(int score)
+        {
+            if (score == 300) // P Rank
+                return "Immaculate";
+            if (score >= 280) // S Rank
+                return "Legendary";
+            else if (score >= 250) // A Rank
+                return "Exceptional";
+            else if (score >= 200) // B Rank
+                return "Average";
+            else if (score >= 100) // C Rank
+                return "Flawed";
+            else // D Rank
+            {
+                if (score > 0)
+                    return "Inferior";
+                else
+                    return "Worthless";
+            }
+        }
         public static void DrawItemWorldTexture(SpriteBatch spriteBatch, string path, Vector2 position, int width, int height, float rotation, float scale, Color drawColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(path).Value;

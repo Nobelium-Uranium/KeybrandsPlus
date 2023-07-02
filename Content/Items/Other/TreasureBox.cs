@@ -35,7 +35,7 @@ namespace KeybrandsPlus.Content.Items.Other
         public override void LoadData(TagCompound tag) => score = tag.Get<int>("TreasureBoxScore");
         public override void ModifyTooltips(List<TooltipLine> tooltips) => tooltips.Add(new TooltipLine(Mod, "KPlus: TreasureBox",
                 $"Score: {score}pts\n" +
-                $"Rank: {KeyUtils.GetRankLetter(score, true)}"));
+                $"Quality: {KeyUtils.GetQualityName(score)}"));
     }
     #region Basic
     public class TreasureBox1 : TreasureBox
