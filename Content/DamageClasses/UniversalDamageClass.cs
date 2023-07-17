@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Terraria;
-using Terraria.Localization;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Content.DamageClasses
 {

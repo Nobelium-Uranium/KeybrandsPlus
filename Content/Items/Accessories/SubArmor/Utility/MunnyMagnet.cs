@@ -1,9 +1,7 @@
 ﻿using KeybrandsPlus.Common.Globals;
 using KeybrandsPlus.Common.Helpers;
-using KeybrandsPlus.Content.Items.Currency;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Utility
 {

@@ -1,14 +1,5 @@
 ﻿using KeybrandsPlus.Assets.Sounds;
-using KeybrandsPlus.Common.Helpers;
-using KeybrandsPlus.Common.UI;
-using KeybrandsPlus.Content.Items.Currency;
-using KeybrandsPlus.Content.Projectiles;
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;

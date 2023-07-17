@@ -2,7 +2,6 @@
 using KeybrandsPlus.Common.Helpers;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Utility
 {

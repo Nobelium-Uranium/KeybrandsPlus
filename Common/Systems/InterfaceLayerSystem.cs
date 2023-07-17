@@ -1,6 +1,5 @@
 ﻿using KeybrandsPlus.Common.Configs;
 using KeybrandsPlus.Common.UI;
-using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;

@@ -1,5 +1,4 @@
 ﻿using KeybrandsPlus.Common.Configs;
-using KeybrandsPlus.Common.EntitySources;
 using KeybrandsPlus.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,10 +12,7 @@ namespace KeybrandsPlus.Content.Items.Currency
     public class Munny : ModItem
     {
         private bool loot;
-        public override void SetStaticDefaults()
-        {
-            Item.ResearchUnlockCount = 0;
-        }
+        public override void SetStaticDefaults() => Item.ResearchUnlockCount = 0;
         public override void SetDefaults()
         {
             Item.Size = new Vector2(12);

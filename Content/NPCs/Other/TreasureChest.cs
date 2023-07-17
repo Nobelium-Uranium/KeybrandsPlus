@@ -1,18 +1,11 @@
 ﻿using KeybrandsPlus.Assets.Sounds;
 using KeybrandsPlus.Content.Items.Currency;
-using KeybrandsPlus.Content.Items.Placeable.Furniture;
-using KeybrandsPlus.Content.Items.Weapons;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent.Bestiary;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
-using Terraria.Utilities;
 
 namespace KeybrandsPlus.Content.NPCs.Other
 {

@@ -2,10 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
@@ -22,7 +19,6 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
     {
         public override void SetStaticDefaults()
         {
-            // DisplayName.SetDefault("Keyblade Master");
             Main.npcFrameCount[Type] = 23;
             NPCID.Sets.ExtraFramesCount[Type] = 9;
             NPCID.Sets.AttackFrameCount[Type] = 4;
@@ -100,15 +96,9 @@ namespace KeybrandsPlus.Content.NPCs.TownNPC
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs)/* tModPorter Suggestion: Copy the implementation of NPC.SpawnAllowed_Merchant in vanilla if you to count money, and be sure to set a flag when unlocked, so you don't count every tick. */
-        {
-            return false;
-        }
+        public override bool CanTownNPCSpawn(int numTownNPCs) => false;
 
-        public override ITownNPCProfile TownNPCProfile()
-        {
-            return new KeybladeMasterProfile();
-        }
+        public override ITownNPCProfile TownNPCProfile() => new KeybladeMasterProfile();
 
         public override List<string> SetNPCNameList()
         {

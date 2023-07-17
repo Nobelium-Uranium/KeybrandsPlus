@@ -1,20 +1,14 @@
-﻿using Terraria;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
-using Terraria.ID;
-using KeybrandsPlus.Content.Items.Placeable.Furniture;
+﻿using KeybrandsPlus.Assets.Sounds;
 using Microsoft.Xna.Framework;
-using Terraria.ObjectData;
+using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.GameContent.ObjectInteractions;
-using Terraria.Audio;
+using Terraria.ID;
 using Terraria.Localization;
-using KeybrandsPlus.Assets.Sounds;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace KeybrandsPlus.Content.Tiles.Furniture
 {

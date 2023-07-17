@@ -1,6 +1,5 @@
 using KeybrandsPlus.Common.Helpers;
 using KeybrandsPlus.Common.UI;
-using KeybrandsPlus.Content.Items.Currency;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
@@ -8,7 +7,6 @@ using ReLogic.Content;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
-using Terraria.GameContent.UI;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 

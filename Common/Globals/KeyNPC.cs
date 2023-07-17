@@ -3,7 +3,6 @@ using KeybrandsPlus.Content.Items.Currency;
 using System;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Common.Globals

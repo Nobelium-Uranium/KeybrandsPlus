@@ -1,10 +1,6 @@
-﻿using KeybrandsPlus.Assets.Sounds;
-using KeybrandsPlus.Common.Globals;
-using KeybrandsPlus.Content.Items.Materials.Special;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -150,7 +146,7 @@ namespace KeybrandsPlus.Common.Helpers
                         return "D";
                     return "D-";
                 }
-                else 
+                else
                     return "D";
             }
         }

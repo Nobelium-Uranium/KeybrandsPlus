@@ -1,8 +1,6 @@
 ﻿using KeybrandsPlus.Assets.Sounds;
-using KeybrandsPlus.Common.EntitySources;
 using KeybrandsPlus.Common.Globals;
 using KeybrandsPlus.Common.Helpers;
-using KeybrandsPlus.Content.Items.Currency;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,7 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace KeybrandsPlus.Content.Projectiles
-{
+{ // Todo: Make an abstract class instead of rewriting the same code for each type
     public class MunnyTiny : ModProjectile
     {
         private bool pickup;

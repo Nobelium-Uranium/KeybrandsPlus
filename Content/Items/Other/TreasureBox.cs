@@ -4,13 +4,10 @@ using KeybrandsPlus.Common.Helpers;
 using KeybrandsPlus.Common.Rarities;
 using KeybrandsPlus.Content.Items.Materials.Special;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameInput;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 

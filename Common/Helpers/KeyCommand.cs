@@ -1,13 +1,8 @@
-﻿using Terraria;
-using KeybrandsPlus.Common.Globals;
-using System;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using KeybrandsPlus.Content.Items.Currency;
-using KeybrandsPlus.Content.Projectiles;
-using KeybrandsPlus.Common.UI;
+﻿using KeybrandsPlus.Common.Globals;
 using KeybrandsPlus.Content.Items.Other;
+using System;
+using Terraria;
+using Terraria.ModLoader;
 
 //Dev SteamIDs for reference
 //Chem: 76561198079106803
