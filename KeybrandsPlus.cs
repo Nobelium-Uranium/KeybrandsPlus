@@ -70,12 +70,66 @@ namespace KeybrandsPlus
             string json = JsonConvert.SerializeObject(config/*, serializerSettings*/);
             File.WriteAllText(path, json);
         }
+
+        public static void DrawCustomMenuBackground(SpriteBatch spriteBatch, Texture2D texture)
+        {
+            Vector2 drawOffset = Vector2.Zero;
+            float scaleX = (float)Main.screenWidth / (float)texture.Width;
+            float scaleY = (float)Main.screenHeight / (float)texture.Height;
+            float scale = scaleX;
+            if (scaleX != scaleY)
+            {
+                if (scaleY > scaleX)
+                {
+                    scale = scaleY;
+                    drawOffset.X -= ((float)texture.Width * scale - (float)Main.screenWidth) * 0.5f;
+                }
+                else
+                {
+                    drawOffset.Y -= ((float)texture.Height * scale - (float)Main.screenHeight) * 0.5f;
+                }
+            }
+            spriteBatch.Draw(texture, drawOffset, null, Color.White, 0f, Vector2.Zero, scale, 0, 0f);
+        }
+    }
+    public class BlankBackground : ModSurfaceBackgroundStyle
+    {
+        public override void ModifyFarFades(float[] fades, float transitionSpeed)
+        {
+            for (int i = 0; i < fades.Length; i++)
+            {
+                if (i == Slot)
+                {
+                    fades[i] += transitionSpeed;
+                    if (fades[i] > 1f)
+                    {
+                        fades[i] = 1f;
+                    }
+                }
+                else
+                {
+                    fades[i] -= transitionSpeed;
+                    if (fades[i] < 0f)
+                    {
+                        fades[i] = 0f;
+                    }
+                }
+            }
+        }
+        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b) => BackgroundTextureLoader.GetBackgroundSlot("KeybrandsPlus/Nothing");
+        public override int ChooseFarTexture() => BackgroundTextureLoader.GetBackgroundSlot("KeybrandsPlus/Nothing");
+        public override int ChooseMiddleTexture() => BackgroundTextureLoader.GetBackgroundSlot("KeybrandsPlus/Nothing");
+        public override bool PreDrawCloseBackground(SpriteBatch spriteBatch) => false;
     }
     public class DearlyBelovedMenu : ModMenu
     {
         KeybrandsPlus mod = ModContent.GetInstance<KeybrandsPlus>();
 
         public override Asset<Texture2D> Logo => mod.Assets.Request<Texture2D>("Assets/Title/Logo");
+
+        public override Asset<Texture2D> SunTexture => ModContent.Request<Texture2D>("KeybrandsPlus/Nothing");
+
+        public override Asset<Texture2D> MoonTexture => ModContent.Request<Texture2D>("KeybrandsPlus/Nothing");
 
         public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
         {
@@ -125,6 +179,6 @@ namespace KeybrandsPlus
 
         public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/DearlyBeloved");
 
-        public override string DisplayName => "Keybrands+";
+        public override string DisplayName => "Keybrands+ Dearly Beloved";
     }
 }
