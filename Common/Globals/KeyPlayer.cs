@@ -1,10 +1,6 @@
 ﻿using KeybrandsPlus.Assets.Sounds;
-using System;
-using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
 namespace KeybrandsPlus.Common.Globals
@@ -20,11 +16,13 @@ namespace KeybrandsPlus.Common.Globals
 
         public bool MunnyMagnet;
 
-        public bool KupoMode;
+        public bool SecondChance;
+        private bool SecondChanceSavingThrow;
 
         public override void ResetEffects()
         {
             MunnyMagnet = false;
+            SecondChanceSavingThrow = false;
         }
 
         public override void UpdateDead()
@@ -51,19 +49,22 @@ namespace KeybrandsPlus.Common.Globals
             CountMunny();
         }
 
+        public override void OnHurt(Player.HurtInfo info)
+        {
+            if (SecondChance)
+                SecondChanceSavingThrow = true;
+        }
+
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (KupoMode)
+            if (SecondChanceSavingThrow)
             {
                 if (Main.myPlayer == Player.whoAmI)
                     SoundEngine.PlaySound(SoundID.Item67);
-                if (MunnySavings > 0)
-                    AddMunny(-MunnySavings / 2, true);
-                Player.statLife = Player.statLifeMax2;
-                Player.immuneTime = 180;
+                Player.statLife = 1;
                 return false;
             }
-            return base.PreKill(damage, hitDirection, pvp, ref playSound, ref genGore, ref damageSource);
+            return true;
         }
 
         public void AddMunny(int amount, bool instantCount = false)

@@ -13,6 +13,5 @@
   <ItemGroup>
     <Folder Include="Common\ModHooks\" />
     <Folder Include="Content\Developer\" />
-    <Folder Include="Content\Items\Accessories\SubArmor\Special\" />
   </ItemGroup>
 </Project>

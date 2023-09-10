@@ -1,16 +1,10 @@
 ﻿using KeybrandsPlus.Common.Globals;
 using KeybrandsPlus.Common.Helpers;
-using Terraria;
-using Terraria.ID;
 
 namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Utility
 {
     public class MasterTreasureMagnet : SubArmorItem
     {
-        public override void SafeSetStaticDefaults()
-        {
-            // Tooltip.SetDefault("Increases pickup range for items and Munny");
-        }
         public override void SafeSetDefaults()
         {
             Item.rare = ItemRarityID.LightRed;

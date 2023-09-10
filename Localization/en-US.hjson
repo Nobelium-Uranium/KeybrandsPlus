@@ -91,6 +91,17 @@ Mods: {
 				DisplayName: Radiant Treasure Box
 				Tooltip: <right> to open
 			}
+
+			CrownCharm: {
+				DisplayName: Crown Charm
+				Tooltip:
+					'''
+					Extremely rare drop from Hardened, Lunar, and Radiant Treasure Boxes of Legendary quality or better
+					Increases length of invincibility after taking damage
+					As long as you have at least 5% life, you will retain 1HP upon taking fatal damage
+					'Your destiny protects you'
+					'''
+			}
 		}
 
 		NPCs: {

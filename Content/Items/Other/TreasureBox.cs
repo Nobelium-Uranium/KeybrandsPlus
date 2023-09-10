@@ -2,6 +2,7 @@
 using KeybrandsPlus.Common.Globals;
 using KeybrandsPlus.Common.Helpers;
 using KeybrandsPlus.Common.Rarities;
+using KeybrandsPlus.Content.Items.Accessories.SubArmor.Special;
 using KeybrandsPlus.Content.Items.Materials.Special;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -104,9 +105,17 @@ namespace KeybrandsPlus.Content.Items.Other
         public override void RightClick(Player player)
         {
             if (score == 300) // P Rank
+            {
+                if (Main.rand.NextBool(40))
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial5>());
+            }
             if (score >= 280) // S Rank
+            {
+                if (Main.rand.NextBool(200) && score < 300)
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 10);
+            }
             else if (score >= 250) // A Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>());
             else if (score >= 200) // B Rank
@@ -132,9 +141,17 @@ namespace KeybrandsPlus.Content.Items.Other
         public override void RightClick(Player player)
         {
             if (score == 300) // P Rank
+            {
+                if (Main.rand.NextBool(80))
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 10);
+            }
             else if (score >= 280) // S Rank
+            {
+                if (Main.rand.NextBool(400) && score < 300)
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 5);
+            }
             else if (score >= 250) // A Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial2>(), 50);
             else if (score >= 200) // B Rank
@@ -163,9 +180,17 @@ namespace KeybrandsPlus.Content.Items.Other
         public override void RightClick(Player player)
         {
             if (score == 300) // P Rank
+            {
+                if (Main.rand.NextBool(20))
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial5>());
+            }
             if (score >= 280) // S Rank
+            {
+                if (Main.rand.NextBool(100) && score < 300)
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial4>());
+            }
             else if (score >= 250) // A Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 10);
             else if (score >= 200) // B Rank
@@ -192,9 +217,17 @@ namespace KeybrandsPlus.Content.Items.Other
         public override void RightClick(Player player)
         {
             if (score == 300) // P Rank
+            {
+                if (Main.rand.NextBool(40))
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial4>());
+            }
             else if (score >= 280) // S Rank
+            {
+                if (Main.rand.NextBool(200) && score < 300)
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 50);
+            }
             else if (score >= 250) // A Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 5);
             else if (score >= 200) // B Rank
@@ -226,9 +259,17 @@ namespace KeybrandsPlus.Content.Items.Other
         public override void RightClick(Player player)
         {
             if (score == 300) // P Rank
+            {
+                if (Main.rand.NextBool(20))
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial5>());
+            }
             if (score >= 280) // S Rank
+            {
+                if (Main.rand.NextBool(100) && score < 300)
+                    player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<CrownCharm>());
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial4>());
+            }
             else if (score >= 250) // A Rank
                 player.QuickSpawnItem(player.GetSource_OpenItem(Type), ModContent.ItemType<GradeMaterial3>(), 10);
             else if (score >= 200) // B Rank

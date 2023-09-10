@@ -1,21 +1,23 @@
+global using Terraria;
+global using Terraria.ID;
+global using Terraria.Localization;
+global using Terraria.ModLoader;
+global using Microsoft.Xna.Framework;
+global using System;
+
 using KeybrandsPlus.Common.Helpers;
 using KeybrandsPlus.Common.UI;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using ReLogic.Content;
 using System.Collections.Generic;
 using System.IO;
-using Terraria;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace KeybrandsPlus
 {
     public class KeybrandsPlus : Mod
     {
-        internal static KeybrandsPlus Instance;
-
         internal static readonly string ModConfigPath = Path.Combine(Main.SavePath, "ModConfigs");
 
         internal static string SteamID;

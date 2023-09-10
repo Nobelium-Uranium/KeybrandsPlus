@@ -130,23 +130,6 @@ namespace KeybrandsPlus.Common.Helpers
                         }
                     }
                 }
-                else if (category.ToLower() == "fun")
-                {
-                    string subcommand = args[1];
-                    if (subcommand.ToLower() == "kupo")
-                    {
-                        if (!modPlayer.KupoMode)
-                        {
-                            modPlayer.KupoMode = true;
-                            caller.Reply("Kupo Mode On");
-                        }
-                        else
-                        {
-                            modPlayer.KupoMode = false;
-                            caller.Reply("Kupo Mode Off");
-                        }
-                    }
-                }
             }
         }
     }
