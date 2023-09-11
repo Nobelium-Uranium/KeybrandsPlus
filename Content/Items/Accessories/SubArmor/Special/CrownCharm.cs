@@ -14,8 +14,7 @@ namespace KeybrandsPlus.Content.Items.Accessories.SubArmor.Special
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.longInvince = true;
-            if (player.statLife > (int)Math.Floor((float)player.statLifeMax2 * .05))
-                player.GetModPlayer<KeyPlayer>().SecondChance = true;
+            player.GetModPlayer<KeyPlayer>().SecondChance = true;
         }
     }
 }

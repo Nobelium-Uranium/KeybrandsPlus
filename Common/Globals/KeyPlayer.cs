@@ -1,4 +1,5 @@
 ﻿using KeybrandsPlus.Assets.Sounds;
+using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ModLoader.IO;
@@ -51,7 +52,7 @@ namespace KeybrandsPlus.Common.Globals
 
         public override void OnHurt(Player.HurtInfo info)
         {
-            if (SecondChance)
+            if (SecondChance && Player.statLife > (int)Math.Floor((float)Player.statLifeMax2 * .05))
                 SecondChanceSavingThrow = true;
         }
 
