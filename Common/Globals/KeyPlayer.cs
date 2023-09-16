@@ -20,6 +20,10 @@ namespace KeybrandsPlus.Common.Globals
         public bool SecondChance;
         private bool SecondChanceSavingThrow;
 
+        public int HeartBreakAmount;
+        public int HeartBreakDelay;
+        private int HeartBreakTimer;
+
         public override void ResetEffects()
         {
             MunnyMagnet = false;
@@ -30,6 +34,10 @@ namespace KeybrandsPlus.Common.Globals
         {
             ResetEffects();
             PostUpdateEvenWhileDead();
+
+            HeartBreakAmount = 0;
+            HeartBreakDelay = 0;
+            HeartBreakTimer = 0;
         }
 
         public override void PostUpdate()
@@ -50,9 +58,50 @@ namespace KeybrandsPlus.Common.Globals
             CountMunny();
         }
 
+        public override void PostUpdateMiscEffects()
+        {
+            if (HeartBreakAmount > 0)
+            {
+                Player.statLifeMax2 -= HeartBreakAmount;
+                if (Player.statLifeMax2 <= 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Shatter, Player.Center);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Dust dust = Dust.NewDustDirect(Player.Center - new Vector2(4), 0, 0, DustID.LifeCrystal);
+                        dust.velocity *= 2f;
+                    }
+                    Player.KillMe(PlayerDeathReason.ByCustomReason(Player.name + "'s heart was broken."), 0, 0);
+                    HeartBreakAmount = 0;
+                    Player.statLife = 0;
+                    Player.statLifeMax2 = 0;
+                }
+                if (HeartBreakDelay <= 0)
+                {
+                    if (HeartBreakTimer >= 6)
+                    {
+                        HeartBreakTimer = 0;
+                        HeartBreakAmount--;
+                    }
+                    HeartBreakTimer++;
+                }
+                else
+                {
+                    HeartBreakTimer = 0;
+                    HeartBreakDelay--;
+                }
+            }
+            else
+            {
+                HeartBreakAmount = 0;
+                HeartBreakDelay = 0;
+                HeartBreakTimer = 0;
+            }
+        }
+
         public override void OnHurt(Player.HurtInfo info)
         {
-            if (SecondChance && Player.statLife > (int)Math.Floor((float)Player.statLifeMax2 * .05))
+            if (SecondChance && Player.statLife > 1)
                 SecondChanceSavingThrow = true;
         }
 
@@ -63,6 +112,8 @@ namespace KeybrandsPlus.Common.Globals
                 if (Main.myPlayer == Player.whoAmI)
                     SoundEngine.PlaySound(SoundID.Item67);
                 Player.statLife = 1;
+                HeartBreakAmount += (int)damage;
+                HeartBreakDelay = 300;
                 return false;
             }
             return true;

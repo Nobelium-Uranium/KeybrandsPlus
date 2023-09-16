@@ -98,7 +98,8 @@ Mods: {
 					'''
 					Extremely rare drop from Hardened, Lunar, and Radiant Treasure Boxes of Legendary quality or better
 					Increases length of invincibility after taking damage
-					As long as you have at least 5% life, you will retain 1HP upon taking fatal damage
+					Retains 1HP even after taking fatal damage, unless you're already down to 1HP
+					Temporarily reduces maximum life equal to damage taken after preventing death
 					'Your destiny protects you'
 					'''
 			}
